@@ -2,7 +2,8 @@
 #'
 #' This function calculates the sampling rate for each subject and trial in an eye-tracking dataset.
 #' It provides overall statistics, including the median and standard deviation of sampling rates,
-#' and also generates a histogram of median sampling rates by subject.
+#' and also generates a histogram of median sampling rates by subject, with a density plot overlayed,
+#' and a vertical line showing the overall median sampling rate and the standard deviation displayed.
 #'
 #' @param eye_data A dataframe containing eye-tracking data with columns `subject`, `trial`, and `time`.
 #' The column `time` should represent the time in milliseconds for each trial.
@@ -56,12 +57,16 @@ analyze_sampling_rate <- function(eye_data) {
   cat("\nMedian Sampling Rate by Subject:\n")
   print(samp_med)
 
-  # Plot the histogram of median sampling rates by subject
+  # Plot the histogram of median sampling rates by subject, with a density plot and a vertical line at the overall median
   histogram_plot <- ggplot(samp_med, aes(x = med_SR)) +
     geom_histogram(binwidth = 1, fill = "skyblue", color = "black", alpha = 0.7) +
-    labs(title = "Histogram of Median Sampling Rates",
+    geom_density(aes(y = ..count..), fill = "orange", alpha = 0.3) +  # Overlayed density plot
+    geom_vline(aes(xintercept = overall_med_SR), color = "red", linetype = "dashed", size = 1) +  # Vertical line for median
+    annotate("text", x = overall_med_SR, y = Inf, label = paste0("Median: ", round(overall_med_SR, 2), "\nSD: ", round(overall_sd_SR, 2)),
+             vjust = 1.5, hjust = -0.1, color = "red", size = 5, fontface = "bold") +  # Annotate with median and SD
+    labs(title = "Histogram and Density of Median Sampling Rates",
          x = "Median Sampling Rate (Hz)",
-         y = "Frequency") +
+         y = "Frequency / Density") +
     theme_minimal() +
     theme(
       plot.title = element_text(hjust = 0.5, size = 20, face = "bold"),
