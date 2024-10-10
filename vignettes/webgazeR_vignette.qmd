@@ -1,16 +1,28 @@
 ---
-title: "webgazeR"
+title: "Introduction to webgazeR"
 author: "Jason Geller"
 format:
   html: 
     toc: true
-vignette: > 
-  %\VignetteIndexEntry{webgazeR}
+vignette: >
+  %\VignetteIndexEntry{Introduction webgazeR}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+execute: 
+  warning: false
+  message: false
 ---
 
-Here I outline the basic functions of the webgazeR package.
+Here I outline the basic functions of the `webgazeR` package.
+
+``` yaml
+project:
+  render: ['*.qmd']
+```
+
+## Packages
+
+Here we will load in packages needed to run our vignette.
 
 ```{r}
 #| label: load
@@ -18,18 +30,33 @@ Here I outline the basic functions of the webgazeR package.
 options(stringsAsFactors = F)          # no automatic data transformation
 options("scipen" = 100, "digits" = 10) # suppress math annotation
 library(tidyverse) 
-library(remotes) # install github repo
 library(here) # relative paths instead of abosoulte aids in reproduce
-remotes::install_github("dmirman/gazer") # to install webgazeR
 library(tinytable) # nice tables
 library(janitor)# functions for cleaning up your column names
+library(easystats)
 ```
 
-#### Eye data
-
-When data is generated from Gorilla, each trial in your experiment is its own file. Because of this, we need to take all the individual files and merge them together. The `merge_webcam_files` function merges each trial from each participant into a single tibble or dataframe. Before running the `merge_webcam_files` function, ensure that your working directory is set to where the files are stored. This function reads in all the .xlsx files, binds them together into one dataframe, and cleans up the column names. The function then filters the data to include only rows where the type is "prediction" and the screen_index matches the specified value (in our case, screen 4, where the eye data was collected). The function renames the `spreadsheet_row` column to trial and sets both `trial` and `subject`as factors for further analysis in our pipeline. As a note, all steps should be followed in order due to the renaming of column names. If you encounter an error it might be because column names have not been changed.
+### Load webgazeR
 
 ```{r}
+#| eval: false
+
+remotes::install_github("https://github.com/jgeller112/webgazeR")
+
+```
+
+```{r}
+library(webgazeR)
+
+```
+
+## Eye data
+
+When data is generated from Gorilla, each trial in your experiment is its own file. Because of this, we need to take all the individual files and merge them together. The `merge_webcam_files` function merges each trial from each participant into a single tibble or dataframe. Before running the `merge_webcam_files` function, ensure that your working directory is set to where the files are stored. This function reads in all the .xlsx files, binds them together into one dataframe, and cleans up the column names. The function then filters the data to include only rows where the type is "prediction" and the screen_index matches the specified value (in our case, screen 4). This is where eye-tracking data was recorded. The function renames the `spreadsheet_row` column to trial and sets both `trial` and `subject`as factors for further analysis in our pipeline. As a note, all steps should be followed in order due to the renaming of column names. If you encounter an error it might be because column names have not been changed.
+
+```{r}
+#| eval: false
+#| 
 # Get the list of all files in the folder
 vwp_files  <- list.files(here::here("data", "monolinguals", "raw"), pattern = "\\.xlsx$", full.names = TRUE)
 
@@ -38,14 +65,18 @@ vwp_paths_filtered <- vwp_files[!grepl("calibration", vwp_files)]
 ```
 
 ```{r}
+#| eval: false 
 setwd(here::here("data", "monolinguals", "raw")) # set working directory to raw data folder
 
 edat <- merge_webcam_files(vwp_paths_filtered, screen_index=4) # eye tracking occured ons creen index 4
+```
 
+the `webgazeR` package includes a combined dataset for us to use
 
-setwd(here::here("data", "combined_data"))
+```{r}
 
-write.csv(edat, file="combined_eye_data_mono.csv")
+edat <- webgazeR::eyedata
+
 ```
 
 #### Behavioral Data
@@ -54,14 +85,13 @@ Gorilla produces a `.csv` file that include trial-level information (`agg_ege_da
 
 ```{r}
 # load in trial level data
-agg_eye_data <- read.csv(here::here("data","monolinguals", "data_exp_189729-v5_task-yxtu.csv"))
+agg_eye_data <- webgazeR::behav_data
 
 ```
 
 Below we describe the pre-processing done on the behavioral data file. The below code processes and transforms the `agg_eye_data` dataset into a cleaned and structured format for further analysis. First, the code renames several columns for easier access using the `janitor::clean_names` function. It filters the dataset to include only rows where `zone_type` is "response_button_image", representing the picture selected for that trial. Afterward, the function renames additional columns (`tlpic` to `TL`, `trpic` to `TR`, etc.). We also renamed `participant_private_id` to `subject`, `spreadsheet_row` to `trial`, and `reaction_time` to `RT`. This makes our columns consistent with the `edat` above for merging later on. Lastly, the \`reaction time (RT) is converted to a numeric format for further numerical analysis.
 
 ```{r}
-
 
 emstr <- agg_eye_data %>%
   
@@ -92,20 +122,6 @@ emstr <- agg_eye_data %>%
          trial=as.factor(trial))
 
 
-setwd(here::here("data", "combined_data"))
-
-write.csv(emstr, file="combined_behavioral_data_mono.csv")
-
-```
-
-## Grab the
-
-```{r}
-
-emstr <- read_csv(here::here("data", "combined_data", "combined_behavioral_data_mono.csv"))
-
-edat <- read_csv(here::here("data", "combined_data", "combined_eye_data_mono.csv"))
-
 ```
 
 ### Get audio onset time
@@ -135,12 +151,13 @@ We then merge this information with `emstr`. We see that `RT_audio` has been add
 trial_data_rt <- merge(emstr, audio_rt, by=c("subject", "trial"))
 
 head(trial_data_rt) %>%
+  head() %>%
   tt()
 ```
 
 ### Sampling Rate
 
-While most commercial eye-trackers sample at a constant rate, webcam eye-trackers do not. Below is some code to calculate the sampling rate of each participant. Ideally, you should not have a sampling rate less than 5 Hz. It has been recommended you drop those values. The below function `analyze_sample_rate` calculates calculates the sampling rate for each subject and trial in an eye-tracking dataset. It provides overall statistics, including the median and standard deviation of sampling rates in your experiment,and also generates a histogram of median sampling rates by subject.
+While most commercial eye-trackers sample at a constant rate, webcam eye-trackers do not. Below is some code to calculate the sampling rate of each participant. Ideally, you should not have a sampling rate less than 5 Hz. It has been recommended you drop those values. The below function `analyze_sample_rate` calculates calculates the sampling rate for each subject and trial in an eye-tracking dataset. It provides overall statistics, including the median and standard deviation of sampling rates in your experiment,and also generates a histogram of median sampling rates by subject with a density plot overlayed.
 
 ```{r}
 
@@ -148,20 +165,30 @@ samp_rate <- analyze_sampling_rate(edat)
 
 ```
 
-When using the above function, separate data frames are produced for subjects and trials. These can be added to the behavioral dataframe.
+In this example, we have a median sampling rate of 24.77 with a SD of 7.81.
+
+When using the above function, separate data frames are produced for subjects and trials. These can be added to the behavioral data object.
 
 ```{r}
 
 # Extract by-subject and by-trial sampling rates from the result
 subject_sampling_rate <- samp_rate$median_SR_by_subject  # Sampling rate by subject
 trial_sampling_rate <- samp_rate$SR_by_trial  # Sampling rate by trial
+trial_sampling_rate$subject<-as.factor(trial_sampling_rate$subject)
 
 # Assuming target_data is your other dataset that contains subject and trial information
 # Append the by-subject sampling rate to target_data (based on subject)
-target_data_with_subject_SR <- trial_data_acc_clean %>%
+subject_sampling_rate$subject <- as.factor(subject_sampling_rate$subject)
+
+target_data_with_subject_SR <- trial_data_rt %>%
   left_join(subject_sampling_rate, by = "subject")
 
 # Append the by-trial sampling rate to target_data (based on subject and trial)
+
+
+trial_sampling_rate$trial <- as.factor(trial_sampling_rate$trial)
+
+
 target_data_with_full_SR <- target_data_with_subject_SR %>%
   select(subject, trial, med_SR)%>%
   left_join(trial_sampling_rate, by = c("subject", "trial"))
@@ -173,7 +200,7 @@ We can add this to our behavioral data
 
 ```{r}
 
-trial_data <- left_join(trial_data_acc_clean, target_data_with_full_SR, by=c("subject", "trial"))
+trial_data <- left_join(trial_data_rt, target_data_with_full_SR, by=c("subject", "trial"))
 
 ```
 
@@ -198,7 +225,7 @@ filter_edat_label <- filter_sampling_rate(trial_data,threshold = 5,
 
 ```
 
-Here no subjects had a threshold below 5. However, 15 trials did, and they were removed.
+Here no subjects had a threshold below 5. However, 18 trials did, and they were removed.
 
 ### Out-of-bounds (outside of screen)
 
@@ -216,7 +243,7 @@ oob_data %>%
 
 In the lab, we can control every aspect of the experiment. Online we cant do this. Participants are going to be completing the experiment under a variety of conditions. This includes using different computers, with very different screen dimensions. To control for this, Gorilla outputs standardized zone coordinates. As discussed in the Gorilla documentation, the Gorilla layout engine lays everything out in a 4:3 frame and makes that frame as big as possible. The normalized coordinates are then expressed relative to this frame; for example, the coordinate 0.5, 0.5 will always be the center of the screen, regardless of the size of the participant’s screen. We used the normalized coordinates in our analysis. However, there are a few different ways to specify the four coordinates of the screen, which I think is worth highlighting.
 
-#### Quadrant Appraoch
+#### Quadrant Approach
 
 One way is to make the AOIs as big as possible and place them in the four quadrants of the screen. What we will need to first is create a dataframe with location of the AOI (e.g., TL, TR, BL, BR), x and y normalized coordinates and width and height normalized. In addition, we will get the xmin, xmanx, and ymax and ymin of the AOIs.
 
@@ -254,6 +281,11 @@ edat_1 <- edat %>%
 Next we are going to combine the eye-tracking data and behavioral data by using the `left_join` function.
 
 ```{r}
+
+edat_1$subject<-as.factor(edat_1$subject)
+edat_1$trial<-as.factor(edat_1$trial)
+
+
 
 dat <- left_join(edat_1, filter_edat, by = c("subject","trial"))
 
@@ -353,9 +385,15 @@ dat <- dat %>%
     )
   )
 
-# View the updated data frame
-print(df)
 
+```
+
+```{r}
+
+
+head(dat) %>%
+  
+  tt()
 ```
 
 In our study, we need to track not only the condition of each image shown (such as Target, Cohort, Rhyme, or Unrelated) but also where each image is located on the screen during each trial as they are randomized on each trial. To do this, we use a function named `find_location`. This function is designed to determine the location of a specific image on the screen by comparing the image with the list of possible locations.
@@ -511,50 +549,36 @@ If you open the each individual .xlsx file provided by gorilla you will see that
 We will use the function `extract_aois` to get the coordinates for each quadrant on screen. You can use the zone_names argument to get the zones you want to use.
 
 ```{r}
-# Get the list of all files in the folder
-vwp_files  <- list.files(here::here("data", "monolinguals", "raw"), pattern = "\\.xlsx$", full.names = TRUE)
+#| eval: false
+#| 
+aois <- extract_aois(vwp_paths_filtered, zone_names =  c("TL", "BR", "TR", "BL"))
 
-# Exclude files that contain "calibration" in their filename
-vwp_paths_filtered <- vwp_files[!grepl("calibration", vwp_files)]
 
-setwd(here::here("data", "monolinguals", "raw")) # set working directory to raw data folder
 ```
 
+Below is the table the `extract_aois` function will return.
+
 ```{r}
-aois <- extract_aois(vwp_paths_filtered, zone_names =  c("TL", "BR", "TR", "BL"))
+
+# Define the data
+aois <- data.frame(
+  loc = c("BL", "TL", "TR", "BR"),
+  x_normalized = c(0.03, 0.02, 0.73, 0.73),
+  y_normalized = c(0.04, 0.74, 0.75, 0.06),
+  width_normalized = c(0.26, 0.26, 0.24, 0.23),
+  height_normalized = c(0.25, 0.25, 0.24, 0.25),
+  xmin = c(0.03, 0.02, 0.73, 0.73),
+  ymin = c(0.04, 0.74, 0.75, 0.06),
+  xmax = c(0.29, 0.28, 0.97, 0.96),
+  ymax = c(0.29, 0.99, 0.99, 0.31)
+)
 
 aois %>%
   tt()
 
 ```
 
-Let's go through the same steps we went through above, but now we will use the Gorilla provided AOI coordinates.
-
-##### Clean-up eye data
-
-Here we are going to remove poor convergence scales and confidence. We will also remove coordinates that are 0 in our data.
-
-```{r}
-edat_1 <- edat %>%
- dplyr::filter(convergence <= .5, face_conf >= .5) %>%
-  # remove rows without gaze information
-  dplyr::filter(x_pred_normalised != 0,
-                y_pred_normalised != 0) 
-```
-
-#### Combining Eye and Trial-level data
-
-Next we are going to combine the eye-tracking data and behavioral data by using the `left_join` function.
-
-```{r}
-
-dat <- left_join(edat_1, filter_edat, by = c("subject","trial"))
-
-dat <- dat %>%
-  distinct() # make sure to remove duplicate rows
-```
-
-Let's verify our AOIs look how they are suppose to.
+We see the AOIs are a bit smaller now with the gorilla provided coordinates.
 
 ```{r}
 
@@ -583,96 +607,6 @@ ggplot() +
 
 
 ```
-
-Excellent!
-
-#### Matching conditions with screen locations
-
-In this experiment we have four different trial types:
-
-1.  Target, Cohort, Rhyme, Unrealted
-2.  Target, Cohort, Unrealted, Unrelated
-3.  Target, Unrelated, Unrealted, Unrelated
-4.  Target, Rhyme, Unrelated, Unrelated
-
-We will first match the pictures in the TL, TR, BL, BR columns to the correct code condition (T,C, R, U, U2, U3).
-
-```{r}
-
-# Assuming your data is in a data frame called df
-dat <- dat %>%
-  mutate(
-    Target = case_when(
-      tlcode == "T" ~ TL,
-      trcode == "T" ~ TR,
-      blcode == "T" ~ BL,
-      brcode == "T" ~ BR,
-      TRUE ~ NA_character_  # Default to NA if no match
-    ),
-    Unrelated = case_when(
-      tlcode == "U" ~ TL,
-      trcode == "U" ~ TR,
-      blcode == "U" ~ BL,
-      brcode == "U" ~ BR,
-      TRUE ~ NA_character_
-    ),
-    Unrelated2 = case_when(
-      tlcode == "U2" ~ TL,
-      trcode == "U2" ~ TR,
-      blcode == "U2" ~ BL,
-      brcode == "U2" ~ BR,
-      TRUE ~ NA_character_
-    ),
-    Unrelated3 = case_when(
-      tlcode == "U3" ~ TL,
-      trcode == "U3" ~ TR,
-      blcode == "U3" ~ BL,
-      brcode == "U3" ~ BR,
-      TRUE ~ NA_character_
-    ),
-    Rhyme = case_when(
-      tlcode == "R" ~ TL,
-      trcode == "R" ~ TR,
-      blcode == "R" ~ BL,
-      brcode == "R" ~ BR,
-      TRUE ~ NA_character_
-    ),
-    Cohort = case_when(
-      tlcode == "C" ~ TL,
-      trcode == "C" ~ TR,
-      blcode == "C" ~ BL,
-      brcode == "C" ~ BR,
-      TRUE ~ NA_character_
-    )
-  )
-
-# View the updated data frame
-print(df)
-
-```
-
-In our study, we need to track not only the condition of each image shown (such as Target, Cohort, Rhyme, or Unrelated) but also where each image is located on the screen during each trial as they are randomized on each trial. To do this, we use a function named `find_location`. This function is designed to determine the location of a specific image on the screen by comparing the image with the list of possible locations.
-
-The function `find_location` first checks if the image is NA (missing). If the image is NA, the function returns NA, meaning that there's no location to find for this image. If the image is not NA, the function creates a vector loc_names that lists the names of the possible locations. It then attempts to match the given image with the locations. If a match is found, it returns the name of the location (e.g., TL, TR, BL, or BR) where the image is located. If there is no match, the function returns NA.
-
-```{r}
-
-# Apply the function to each of the targ, cohort, rhyme, and unrelated columns
-dat_colnames <- dat %>%
-  rowwise() %>%
-  mutate(
-    targ_loc = find_location(c(TL, TR, BL, BR), Target),
-    cohort_loc = find_location(c(TL, TR, BL, BR), Cohort),
-    rhyme_loc = find_location(c(TL, TR, BL, BR), Rhyme),
-    unrelated_loc = find_location(c(TL, TR, BL, BR), Unrelated), 
-    unrealted2_loc= find_location(c(TL, TR, BL, BR), Unrelated2), 
-    unrelated3_loc=find_location(c(TL, TR, BL, BR), Unrelated3)
-  ) %>%
-  ungroup()
-
-```
-
-Here is where we are going to use our coordinate information from above. We use the `assign_aoi` that is adaopted from the `gazeR` package (Geller et al., 2020) to loop through our object `dat_colnames` and assign locations (i.e., TR, TL, BL, BR) to our normalized `x` and `y` coordinates. This function will label non-looks and off screen coordinates with NA. To make it easier to read we change the numerals assigned by the function to actual screen locations. We are going to input our dataframe we created with the Gorilla provided coordinates.
 
 ```{r}
 
@@ -782,161 +716,4 @@ ggplot(gaze_sub, aes(y = meanfix, x = bin, color = condition)) +
                      labels = seq(0, 1.0, .1))
 ```
 
-With the gorilla provided coordinates the effect seems to be a bit stronger!
-
-## Upsampling
-
-There are a host of
-
-```{r}
-
-#' Up-sample gaze coordinates (x, y)
-#'
-#' Increase the sampling frequency for x and y coordinates to 1000Hz.
-#'
-#' @section Output:
-#'
-#' Inserts additional rows into the data with missing gaze values for x and y coordinates.
-#' Adds a column, `UpSampled` to identify whether the data has been up-sampled.
-#'
-#' @section Up-sample to 1000Hz:
-#'
-#' Up-sampling occurs by inserting rows with additional time points and filling
-#' missing values for gaze coordinates. This function does not interpolate the
-#' missing up-sampled values; that will be handled later in the pipeline (e.g.,
-#' smoothing and interpolation).
-#'
-#' @param x Dataframe containing gaze data with columns `Gaze_Position.x` and `Gaze_Position.y`.
-#' @export
-#'
-gaze_upsample <- function(x) {
-  for (trial in unique(x$trial)) {
-    # Subset data for the current trial
-    x_trial <- dplyr::filter(x, trial == trial)
-    
-    # Create a time series for up-sampling with additional rows for missing times
-    time_up <- data.frame(trial = trial,
-                          time = min(x_trial$time):max(x_trial$time))  # Add 1000Hz timepoints
-    
-    # Merge with the original data to insert missing time points
-    x <- merge(x, time_up, by = c("trial", "time"), all = TRUE)
-  }
-  
-  # Ensure the correct column order for readability
-  x <- dplyr::relocate(x, subject, .before = "trial")
-  
-  # Fill missing gaze values for x and y coordinates using the "down" method
-  x <- tidyr::fill(x,
-                   -tidyselect::any_of(c("x_pred_normalised", "y_pred_normalised")),
-                   .direction = "down")
-  
-  return(x)
-}
-
-d=edat_1 %>% 
-  group_by(subject) %>%
-gaze_upsample() %>%
-  distinct()
-
-
-```
-
-### Interpolation
-
-```{r}
-
-
-#' Linearly interpolates x, y coordinates in the data
-#'
-#' @param datafile A dataframe containing x, y coordinates and related columns.
-#' @param x_col Name of the x-coordinate column (default: 'x_pred_normalized').
-#' @param y_col Name of the y-coordinate column (default: 'y_pred_normalized').
-#' @param subject Name of the column for subjects.
-#' @param trial Name of the column for trials.
-#' @param maxgap Maximum number of NAs to interpolate.
-#' @param hz Recording frequency of eye tracker.
-#' @export
-#' @import zoo
-#'
-#' @return A dataframe with interpolated x, y coordinates.
-#'
-interpolate_gaze <- function(datafile, x_col = "x_pred_normalized", y_col = "y_pred_normalized", subject, trial, maxgap = Inf, hz = NA) {
-  
-  # Convert maxgap from milliseconds to number of samples
-  if (maxgap != Inf) {
-    maxgap <- round(maxgap / (1000 / hz))
-  }
-  
-  message("Performing linear interpolation on x, y coordinates")
-  
-  # Interpolate x and y coordinates
-  xy_interp <- datafile %>%
-    dplyr::group_by({{subject}}, {{trial}}) %>%
-    dplyr::mutate(
-      # Linear interpolation for x coordinates
-      interp_x = zoo::na.approx(.data[[x_col]], maxgap = maxgap, na.rm = FALSE, rule = 2),
-      
-      # Linear interpolation for y coordinates
-      interp_y = zoo::na.approx(.data[[y_col]], maxgap = maxgap, na.rm = FALSE, rule = 2)
-    ) %>%
-    dplyr::ungroup()
-  
-  return(xy_interp)
-}
-
-```
-
-```{r}
-
-gaze_interp <- interpolate_gaze(d, x_col = "x_pred_normalised", y_col = "y_pred_normalised", subject, trial, maxgap = Inf, hz = 1000)
-
-gaze_interp <- gaze_interp %>% 
-  distinct()
-
-
-```
-
-### Smoothing
-
-```{r}
-
-#' Smooth gaze coordinates using a 300-ms-long median filter
-#'
-#' @param datafile A dataframe containing gaze coordinates (`x` and `y` columns).
-#' @param x_col Name of the x-coordinate column (default: 'x_pred_normalized').
-#' @param y_col Name of the y-coordinate column (default: 'y_pred_normalized').
-#' @param subject Name of the subject column.
-#' @param trial Name of the trial column.
-#' @param hz Recording frequency of the eye tracker in Hz (e.g., 1000 for 1000Hz).
-#' @export
-#'
-#' @return A dataframe with smoothed x, y coordinates.
-#'
-smooth_gaze_median_filter <- function(datafile, x_col = "x_pred_normalized", y_col = "y_pred_normalized", subject, trial, hz = 1000) {
-  # Calculate the window size for the 300-ms filter
-  window_size <- round(300 / (1000 / hz))  # 300 ms in samples
-
-  # Median filter function for a single vector
-  median_filter <- function(vec, window_size) {
-    stats::runmed(vec, k = window_size, endrule = "keep")
-  }
-  
-  message("Applying 300-ms-long median filter to gaze coordinates")
-  
-  # Apply the median filter to the gaze coordinates
-  smoothed_data <- datafile %>%
-    dplyr::group_by({{subject}}, {{trial}}) %>%
-    dplyr::mutate(
-      smoothed_x = median_filter(.data[[x_col]], window_size),
-      smoothed_y = median_filter(.data[[y_col]], window_size)
-    ) %>%
-    dplyr::ungroup()
-  
-  return(smoothed_data)
-}
-
-```
-
-```{r}
-d <- smooth_gaze_median_filter(gaze_interp, x_col = "interp_x", y_col = "interp_y", subject, trial, hz = 1000)
-```
+We see the effect is a lot larger when using the gorilla provided coordinates.
