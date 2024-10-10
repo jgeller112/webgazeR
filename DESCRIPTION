@@ -6,7 +6,7 @@ Authors@R: c(
   person("Jason", "Geller", email = "drjasongeller@gmail.edu", role = c("aut", "cre")), 
   person("Yanina", "Prystauka", email = "yanina.prystauka@uit.no", role = c(cre")))
 Author: Jason Geller
-Maintainer: Jason Geller drjasongeller@gmail.com
+Maintainer: Jason Geller <drjasongeller@gmail.com>
 Description: A companion package to gazeR. Functions for reading and pre-processing webcam eye tracking data.
 License: GPL-3
 Encoding: UTF-8
