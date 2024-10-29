@@ -306,7 +306,7 @@ quadrants <- data.frame(
   width = c(0.5, 0.5, 0.5, 0.5),
   height = c(0.5, 0.5, 0.5, 0.5),
   color = c('red', 'blue', 'green', 'orange'),
-  label = c('TL', 'TR', 'BL= 0.5', 'BR = 0.5')
+  label = c('TL', 'TR', 'BL', 'BR')
 )
 
 # Create the plot
