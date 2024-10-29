@@ -13,12 +13,14 @@ execute:
   message: false
 ---
 
-Here I outline the basic functions of the `webgazeR` package.
-
 ``` yaml
+#| echo:false
+#| 
 project:
   render: ['*.qmd']
 ```
+
+Here I outline the basic functions of the `webgazeR` package.
 
 ## Packages
 
@@ -40,7 +42,7 @@ library(easystats)
 
 ```{r}
 #| eval: false
-
+#| 
 remotes::install_github("https://github.com/jgeller112/webgazeR")
 
 ```
@@ -306,7 +308,7 @@ quadrants <- data.frame(
   width = c(0.5, 0.5, 0.5, 0.5),
   height = c(0.5, 0.5, 0.5, 0.5),
   color = c('red', 'blue', 'green', 'orange'),
-  label = c('TL Width = 0.5', 'TR Width = 0.5', 'BL Width = 0.5', 'BR Width = 0.5')
+  label = c('TL', 'TR', 'BL= 0.5', 'BR = 0.5')
 )
 
 # Create the plot
@@ -438,7 +440,16 @@ AOI <- assign %>%
 
   ))
 
-head(AOI)
+
+```
+
+```{r}
+#| echo: false
+
+
+AOI %>%
+  head() %>%
+  tt()
 ```
 
 In the `AOI` object we have our condition variables as columns. For this example, the fixation locations need to be "gathered" from separate columns into a single column and "NA" values need to be re-coded as non-fixations (0). We logically evaluate these below so we know which item was fixated each sample and what was not.
@@ -470,7 +481,7 @@ dat_long_aoi_me <- AOI  %>%
     pivot_longer(
         cols = c(target, unrelated, unrelated2, unrelated3, rhyme, cohort),
         names_to = "condition",
-        values_to = "look"
+        values_to = "Looks"
     )
 
 ```
@@ -506,40 +517,35 @@ group_by(subject, trial) %>%
    dplyr::filter(x_pred_normalised > 0,
                 x_pred_normalised < 1,
                 y_pred_normalised > 0,
-                y_pred_normalised < 1) %>%
-    mutate(bin= 100*floor(time/100)) %>% # timebin 100 ms
-ungroup() %>% 
-  group_by(condition, bin) %>%
-  summarise(meanfix = mean(look, na.rm = TRUE)) %>%
-  ungroup()
+                y_pred_normalised < 1) 
 
 ```
 
-##### Plotting
+### downsampling
+
+We also downsampled our data into 100 ms bins using the `downsample_gaze` function from the webgazeR package. In this process, we read in our `gaze_sub` object, specified the `bin.length` argument as 100, and set the time variable as `time`. We also indicated the variables to aggregate on, such as `condition` and `timebins`. The `timebins` variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here. The function produces @tbl-agg-sub, where the data has been downsampled.
 
 ```{r}
 
-ggplot(gaze_sub, aes(y = meanfix, x = bin, color = condition)) +
-  #geom_ribbon(aes(ymin = Proportion - se, ymax = Proportion + se),
-   #           alpha = 0.5) +
-  # lines for proportions
-  geom_line() +
-  theme_lucid() + 
-  # no grid lines
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        legend.position = "right",
-        # define x-axis tick labels
-        axis.text.x = element_text(angle = 45, vjust=0.6, size = 10)) +
-       labs(x = "Time (in ms) centered around verb onset", y = "Proportion of looks", color = "Conditions") +
-       #scale_color_discrete(labels = c("Constraining verb","Non-constraining verb")) +
-        #scale_color_manual(values=c("#F8766D","#00BA38"))+
-  # define y-axis
-  scale_y_continuous(name = "Proportion in AOI", 
-                     limits = c(0, 1.0), 
-                     breaks = seq(0, 1.0,.1), 
-                     labels = seq(0, 1.0, .1)) + 
-  ggtitle("TCRU")
+gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=200, timevar="time", aggvars=c("condition", "timebins"))
+
+```
+
+### Plotting
+
+To simplify plotting your time-course data, we have created the plot_IA_proportions() function. This function takes several arguments. The ia_column argument specifies the column containing your Interest Area (IA) labels. The time_column argument requires the name of your time bin column, and the proportion_column argument specifies the column containing fixation or look proportions. Additional arguments allow you to specify custom names for each IA in the ia_column, enabling you to label them as desired.
+
+```{r}
+webgazeR::plot_IA_proportions(gaze_sub, 
+                     ia_column = "condition", 
+                     time_column = "timebins", 
+                     proportion_column = "Fix", 
+                     target = "Target", 
+                     cohort = "Cohort", 
+                     rhyme = "Rhyme", 
+                   unrelated = "Unrelated")
+
+
 ```
 
 ## Gorilla provided coordinates
@@ -627,7 +633,13 @@ AOI <- assign %>%
 
   ))
 
-head(AOI)
+
+```
+
+```{r}
+#| echo: false
+
+AOI %>% head() %>% tt()
 ```
 
 In the `AOI` object we have our condition variables as columns. For this example, the fixation locations need to be "gathered" from separate columns into a single column and "NA" values need to be re-coded as non-fixations (0). We logically evaluate these below so we know which item was fixated each sample and what was not.
@@ -652,68 +664,57 @@ head(AOI)
 
 Now we pivot so instead of each condition being an individual column it is one column.
 
-```{r}
+```{R}
+
 dat_long_aoi_me <- AOI  %>%
-  select(subject, trial, target, cohort, unrelated, rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) %>%
+  select(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) %>%
     pivot_longer(
-        cols = c(target, unrelated, rhyme, cohort),
+        cols = c(target, unrelated, unrelated2, unrelated3, rhyme, cohort),
         names_to = "condition",
-        values_to = "look"
+        values_to = "Looks"
     )
+
+
 ```
 
-::: callout-note
-### Non-looks
+```{r}
 
-There are two ways we can handle missingness here. We can either re-code the NA values as non-looks, or we can exclude looks that occurred outside an AOI.
+dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%
+  filter(trialtype=="TCRU") %>%
+  na.omit()
 
-Here we are going to treat non-looks as missing variables and exclude them.
-:::
-
-### Samples to bins
+```
 
 ```{r}
 
-gaze_sub <-dat_long_aoi_me%>% 
+gaze_sub <-dat_long_aoi_me_TCRU %>% 
 group_by(subject, trial) %>%
   mutate(time = time-RT_audio) %>% # subtract audio rt onset for each
- filter(time >= -100, time < 2000) %>% 
+ filter(time >= 0, time < 2000) %>% 
    dplyr::filter(x_pred_normalised > 0,
                 x_pred_normalised < 1,
                 y_pred_normalised > 0,
-                y_pred_normalised < 1) %>%
-    mutate(bin= 100*floor(time/100)) %>% # timebin 100 ms
-ungroup() %>% 
-  group_by(condition, bin) %>%
-  summarise(meanfix = mean(look, na.rm = TRUE)) %>%
-  ungroup()
+                y_pred_normalised < 1)
 
+```
+
+```{r}
+gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=200, timevar="time", aggvars=c("condition", "timebins"))
 ```
 
 ### Plotting
 
 ```{r}
+plot_IA_proportions(gaze_sub, 
+                     ia_column = "condition", 
+                     time_column = "timebins", 
+                     proportion_column = "Fix", 
+                     target = "Target", 
+                     cohort = "Cohort", 
+                     rhyme = "Rhyme", 
+                   unrelated = "Unrelated")
 
-ggplot(gaze_sub, aes(y = meanfix, x = bin, color = condition)) +
-  #geom_ribbon(aes(ymin = Proportion - se, ymax = Proportion + se),
-   #           alpha = 0.5) +
-  # lines for proportions
-  geom_line() +
-  theme_bw() + 
-  # no grid lines
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        legend.position = "right",
-        # define x-axis tick labels
-        axis.text.x = element_text(angle = 45, vjust=0.6, size = 10)) +
-       labs(x = "Time (in ms) centered around verb onset", y = "Proportion of looks", color = "Conditions") +
-       #scale_color_discrete(labels = c("Constraining verb","Non-constraining verb")) +
-        #scale_color_manual(values=c("#F8766D","#00BA38"))+
-  # define y-axis
-  scale_y_continuous(name = "Proportion in AOI", 
-                     limits = c(0, 1.0), 
-                     breaks = seq(0, 1.0,.1), 
-                     labels = seq(0, 1.0, .1))
+
 ```
 
 We see the effect is a lot larger when using the gorilla provided coordinates.
