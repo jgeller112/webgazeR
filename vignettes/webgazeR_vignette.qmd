@@ -596,7 +596,7 @@ quadrants <- data.frame(
   width = aois$width_normalized,
   height = aois$height_normalized,
   color = c('red', 'blue', 'green', 'orange'),
-  label = c('BL Width = 0.5', 'TL Width = 0.5', 'TR Width = 0.5', 'BR Width = 0.5')
+  label = c('BL', 'TL', 'TR', 'BR')
 )
 
 # Create the plot
