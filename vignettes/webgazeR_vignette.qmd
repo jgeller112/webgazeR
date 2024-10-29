@@ -14,8 +14,6 @@ execute:
 ---
 
 ``` yaml
-#| echo:false
-#| 
 project:
   render: ['*.qmd']
 ```
