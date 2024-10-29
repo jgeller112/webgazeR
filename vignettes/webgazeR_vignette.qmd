@@ -492,11 +492,11 @@ There are two ways we can handle missingness here. We can either re-code the NA 
 Here we are going to treat them as non-looks (0)
 :::
 
-### Samples to bins
+# TCRU
 
-With the presentation of audio there is a delay in when it was played. We coded that above as RT_audio. Below we change time to correspond to audio_onset. We can do this by subtracting RT_audio from time. Researchers may decide to down sample their data. Here we down sample to 100 ms bins and get the aggregate across time and condition for plotting. Bramlett and Wiener did not notice a significant difference in bin size as long as sampling rate was \> 5Hz. In addition, we also remove coordinates outside the standardized window. We will end up with proportion looks to each of the AOIs which is stored in the `meanfix` column.
+We will be looking at the target, cohort, rhyme, unrelated condition for the vignette.
 
-#### TCRU
+With the presentation of audio there is a delay in when it was played. We coded that above as `RT_audio`. Below we change time to correspond to `audio_onset`. We can do this by subtracting `RT_audio` from `time`. we also remove coordinates outside the standardized window.
 
 ```{r}
 
@@ -519,7 +519,7 @@ group_by(subject, trial) %>%
 
 ```
 
-### downsampling
+## Downsampling
 
 We also downsampled our data into 100 ms bins using the `downsample_gaze` function from the webgazeR package. In this process, we read in our `gaze_sub` object, specified the `bin.length` argument as 100, and set the time variable as `time`. We also indicated the variables to aggregate on, such as `condition` and `timebins`. The `timebins` variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here. The function produces @tbl-agg-sub, where the data has been downsampled.
 
@@ -557,7 +557,6 @@ We will use the function `extract_aois` to get the coordinates for each quadrant
 #| 
 aois <- extract_aois(vwp_paths_filtered, zone_names =  c("TL", "BR", "TR", "BL"))
 
-
 ```
 
 Below is the table the `extract_aois` function will return.
@@ -585,6 +584,8 @@ aois %>%
 We see the AOIs are a bit smaller now with the gorilla provided coordinates.
 
 ```{r}
+#| echo: false
+#| 
 
 #look at the AOIs and see if they make sense
 
@@ -634,12 +635,6 @@ AOI <- assign %>%
 
 ```
 
-```{r}
-#| echo: false
-
-AOI %>% head() %>% tt()
-```
-
 In the `AOI` object we have our condition variables as columns. For this example, the fixation locations need to be "gathered" from separate columns into a single column and "NA" values need to be re-coded as non-fixations (0). We logically evaluate these below so we know which item was fixated each sample and what was not.
 
 ```{r}
@@ -657,7 +652,6 @@ AOI$rhyme <- ifelse(AOI$loc1 == AOI$rhyme_loc, 1, 0)# if in coordinates 1, if no
 
 AOI$cohort <- ifelse(AOI$loc1 == AOI$cohort_loc, 1, 0)# if in coordinates 1, if not 0. 
 
-head(AOI)
 ```
 
 Now we pivot so instead of each condition being an individual column it is one column.
