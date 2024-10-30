@@ -25,15 +25,10 @@
 #'
 #' @export
 
-plot_IA_proportions <- function(data, ia_column, time_column, proportion_column, condition_column = NULL, ...) {
+plot_IA_proportions <- function(data, ia_column, time_column, proportion_column, condition_column = NULL, ia_mapping) {
 
-  # Capture the mappings from the ellipsis (...) in a named list
-  ia_mapping <- list(...)
-
-  # Get the unique values in the IA column
+  # Check that the ia_mapping provided has mappings for the IAs in the data
   unique_ias <- unique(data[[ia_column]])
-
-  # Filter out mappings where the condition does not exist in the data
   valid_ia_mapping <- ia_mapping[names(ia_mapping) %in% unique_ias]
 
   if (length(valid_ia_mapping) == 0) {
@@ -44,7 +39,7 @@ plot_IA_proportions <- function(data, ia_column, time_column, proportion_column,
   data <- data %>%
     mutate(IA_label = recode(.data[[ia_column]], !!!valid_ia_mapping))  # Map the IAs using recode
 
-  # Set IA_label as a factor with levels in the order specified by ia_mapping
+  # Set IA_label as a factor with levels in the custom order provided by the user
   data$IA_label <- factor(data$IA_label, levels = unname(valid_ia_mapping))
 
   # Create the base plot
