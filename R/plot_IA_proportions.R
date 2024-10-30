@@ -1,30 +1,32 @@
-#' Plot Proportion of Looks Over Time for Interest Areas
+#' Plot Proportion of Looks Over Time for Interest Areas (IAs)
 #'
-#' This function generates a plot of the proportion of looks over time for specified Interest Areas (IAs).
-#' It optionally facets the plot by a condition column. The user can provide custom labels for each IA.
+#' This function creates a time-course plot of the proportion of looks to specified Interest Areas (IAs).
+#' Optionally, it can facet the plot by an experimental condition. Custom labels for each IA can be specified
+#' through the `ia_mapping` argument to define the display order.
 #'
-#' @param data A data frame containing the data to be plotted.
-#' @param ia_column The name of the column containing Interest Areas (IAs).
-#' @param time_column The name of the column representing time (e.g., in milliseconds).
-#' @param proportion_column The name of the column containing the proportion of looks to each IA.
-#' @param condition_column (Optional) The name of the column representing the experimental condition.
+#' @param data A data frame containing the data to plot.
+#' @param ia_column The name of the column containing Interest Area (IA) identifiers.
+#' @param time_column The name of the column representing time (e.g., milliseconds).
+#' @param proportion_column The name of the column with the proportion of looks for each IA.
+#' @param condition_column Optional. The name of the column representing experimental conditions.
 #' If not provided, the plot will not be faceted by condition.
-#' @param ... Mappings of IA names to custom labels (e.g., IA1 = "target", IA2 = "unrelated").
+#' @param ia_mapping A named list specifying custom labels for each IA in the desired display order
+#' (e.g., `list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated")`).
 #'
-#' @return A ggplot2 plot showing the proportion of looks over time for each IA, optionally faceted by condition.
+#' @return A ggplot2 plot of the proportion of looks over time for each IA, optionally faceted by condition.
 #' @examples
 #' # Example with a condition column
 #' plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
-#'   proportion_column = "proportion_looks", condition_column = "condition",
-#'   IA1 = "target", IA2 = "cohort", IA3 = "rhyme", IA4 = "unrelated")
+#'                     proportion_column = "proportion_looks", condition_column = "condition",
+#'                     ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"))
 #'
 #' # Example without a condition column
 #' plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
-#'   proportion_column = "proportion_looks", IA1 = "target", IA2 = "cohort",
-#'   IA3 = "rhyme", IA4 = "unrelated")
+#'                     proportion_column = "proportion_looks",
+#'                     ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"))
 #'
 #' @export
-
+#'
 plot_IA_proportions <- function(data, ia_column, time_column, proportion_column, condition_column = NULL, ia_mapping) {
 
   # Check that the ia_mapping provided has mappings for the IAs in the data

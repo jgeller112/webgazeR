@@ -552,14 +552,11 @@ gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=200, timevar="time", 
 To simplify plotting your time-course data, we have created the `plot_IA_proportions` function. This function takes several arguments. The ia_column argument specifies the column containing your Interest Area (IA) labels. The `time_column` argument requires the name of your time bin column, and the `proportion_column` argument specifies the column containing fixation or look proportions. Additional arguments allow you to specify custom names for each IA in the ia_column, enabling you to label them as desired.
 
 ```{r}
-webgazeR::plot_IA_proportions(gaze_sub, 
+plot_IA_proportions(gaze_sub, 
                      ia_column = "condition", 
                      time_column = "timebins", 
                      proportion_column = "Fix", 
-                     target = "Target", 
-                     cohort = "Cohort", 
-                     rhyme = "Rhyme", 
-                   unrelated = "Unrelated")
+                   ia_mapping = list(target = "Target", cohort = "Cohort", rhyme = "Rhyme", unrelated = "Unrelated"))
 
 
 ```
@@ -725,10 +722,7 @@ plot_IA_proportions(gaze_sub,
                      ia_column = "condition", 
                      time_column = "timebins", 
                      proportion_column = "Fix", 
-                     target = "Target", 
-                     cohort = "Cohort", 
-                     rhyme = "Rhyme", 
-                   unrelated = "Unrelated")
+                   ia_mapping = list(target = "Target", cohort = "Cohort", rhyme = "Rhyme", unrelated = "Unrelated"))
 
 
 ```
