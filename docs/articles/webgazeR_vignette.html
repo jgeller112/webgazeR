@@ -80,7 +80,8 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span> <span class="co"># relative paths instead of abosoulte aids in reproduce</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://vincentarelbundock.github.io/tinytable/" class="external-link">tinytable</a></span><span class="op">)</span> <span class="co"># nice tables</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sfirke/janitor" class="external-link">janitor</a></span><span class="op">)</span><span class="co"># functions for cleaning up your column names</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/easystats/" class="external-link">easystats</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/easystats/" class="external-link">easystats</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <section class="level3"><h4 id="load-webgazer">Load webgazeR<a class="anchor" aria-label="anchor" href="#load-webgazer"></a>
 </h4>
@@ -179,242 +180,180 @@
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trial_data_rt</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://vincentarelbundock.github.io/tinytable/man/tt.html" class="external-link">tt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
-
-
-
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_ppe0e1oohi5u1pge73zg</title>
-<style>
-.table td.tinytable_css_1gkkg1xiwv7zbr00dgzu, .table th.tinytable_css_1gkkg1xiwv7zbr00dgzu {    border-bottom: solid 0.1em #d3d8dc; }
-    </style>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-    </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_ppe0e1oohi5u1pge73zg" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-<thead><tr>
-<th scope="col">subject</th>
-                <th scope="col">trial</th>
-                <th scope="col">acc</th>
-                <th scope="col">TL</th>
-                <th scope="col">TR</th>
-                <th scope="col">BL</th>
-                <th scope="col">BR</th>
-                <th scope="col">trialtype</th>
-                <th scope="col">targetword</th>
-                <th scope="col">tlcode</th>
-                <th scope="col">trcode</th>
-                <th scope="col">blcode</th>
-                <th scope="col">brcode</th>
-                <th scope="col">targ_loc</th>
-                <th scope="col">zone_type</th>
-                <th scope="col">RT</th>
-                <th scope="col">response.x</th>
-                <th scope="col">RT_audio</th>
-                <th scope="col">response.y</th>
-              </tr></thead>
+<table class="table caption-top" style="width:100%;">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 10%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 11%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">subject</th>
+<th style="text-align: left;">trial</th>
+<th style="text-align: right;">acc</th>
+<th style="text-align: left;">TL</th>
+<th style="text-align: left;">TR</th>
+<th style="text-align: left;">BL</th>
+<th style="text-align: left;">BR</th>
+<th style="text-align: left;">trialtype</th>
+<th style="text-align: left;">targetword</th>
+<th style="text-align: left;">tlcode</th>
+<th style="text-align: left;">trcode</th>
+<th style="text-align: left;">blcode</th>
+<th style="text-align: left;">brcode</th>
+<th style="text-align: left;">targ_loc</th>
+<th style="text-align: left;">zone_type</th>
+<th style="text-align: right;">RT</th>
+<th style="text-align: left;">response.x</th>
+<th style="text-align: right;">RT_audio</th>
+<th style="text-align: left;">response.y</th>
+</tr></thead>
 <tbody>
-<tr>
-<td>11788555</td>
-                  <td>10 </td>
-                  <td>1</td>
-                  <td>sunrise.jpg</td>
-                  <td>pillar.jpg</td>
-                  <td>pillow.jpg  </td>
-                  <td>willow.jpg </td>
-                  <td>TRUU</td>
-                  <td>willow.jpg</td>
-                  <td>R </td>
-                  <td>U</td>
-                  <td>U2</td>
-                  <td>T </td>
-                  <td>BR</td>
-                  <td>response_button_image</td>
-                  <td>1822.1999998</td>
-                  <td>willow.jpg</td>
-                  <td>17.09999990</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                </tr>
-<tr>
-<td>11788555</td>
-                  <td>103</td>
-                  <td>1</td>
-                  <td>cap.jpg    </td>
-                  <td>hose.jpg  </td>
-                  <td>goal.jpg    </td>
-                  <td>hole.jpg   </td>
-                  <td>TCUU</td>
-                  <td>hose.jpg  </td>
-                  <td>U </td>
-                  <td>T</td>
-                  <td>U2</td>
-                  <td>C </td>
-                  <td>TR</td>
-                  <td>response_button_image</td>
-                  <td>1467.0000000</td>
-                  <td>hose.jpg  </td>
-                  <td>10.59999990</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                </tr>
-<tr>
-<td>11788555</td>
-                  <td>104</td>
-                  <td>0</td>
-                  <td>hip.jpg    </td>
-                  <td>cave.jpg  </td>
-                  <td>cage.jpg    </td>
-                  <td>gauge.jpg  </td>
-                  <td>TCRU</td>
-                  <td>cage.jpg  </td>
-                  <td>U </td>
-                  <td>C</td>
-                  <td>T </td>
-                  <td>R </td>
-                  <td>TR</td>
-                  <td>response_button_image</td>
-                  <td> 929.8999996</td>
-                  <td>cave.jpg  </td>
-                  <td>17.89999962</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                </tr>
-<tr>
-<td>11788555</td>
-                  <td>106</td>
-                  <td>1</td>
-                  <td>pear.jpg   </td>
-                  <td>bear.jpg  </td>
-                  <td>jet.jpg     </td>
-                  <td>base.jpg   </td>
-                  <td>TUUU</td>
-                  <td>jet.jpg   </td>
-                  <td>U3</td>
-                  <td>U</td>
-                  <td>T </td>
-                  <td>U2</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1661.4000001</td>
-                  <td>jet.jpg   </td>
-                  <td>12.00000000</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                </tr>
-<tr>
-<td>11788555</td>
-                  <td>107</td>
-                  <td>1</td>
-                  <td>beagle.jpg </td>
-                  <td>mother.jpg</td>
-                  <td>money.jpg   </td>
-                  <td>honey.jpg  </td>
-                  <td>TCUU</td>
-                  <td>mother.jpg</td>
-                  <td>U </td>
-                  <td>T</td>
-                  <td>C </td>
-                  <td>U2</td>
-                  <td>TR</td>
-                  <td>response_button_image</td>
-                  <td>1513.5999999</td>
-                  <td>mother.jpg</td>
-                  <td>15.90000010</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                </tr>
-<tr>
-<td>11788555</td>
-                  <td>108</td>
-                  <td>1</td>
-                  <td>parrot.jpg </td>
-                  <td>carrot.jpg</td>
-                  <td>carriage.jpg</td>
-                  <td>tadpole.jpg</td>
-                  <td>TCRU</td>
-                  <td>carrot.jpg</td>
-                  <td>R </td>
-                  <td>T</td>
-                  <td>C </td>
-                  <td>U </td>
-                  <td>TR</td>
-                  <td>response_button_image</td>
-                  <td>1456.8000002</td>
-                  <td>carrot.jpg</td>
-                  <td>16.00000000</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                </tr>
+<tr class="odd">
+<td style="text-align: left;">11788555</td>
+<td style="text-align: left;">10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">sunrise.jpg</td>
+<td style="text-align: left;">pillar.jpg</td>
+<td style="text-align: left;">pillow.jpg</td>
+<td style="text-align: left;">willow.jpg</td>
+<td style="text-align: left;">TRUU</td>
+<td style="text-align: left;">willow.jpg</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1822.1999998</td>
+<td style="text-align: left;">willow.jpg</td>
+<td style="text-align: right;">17.09999990</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">11788555</td>
+<td style="text-align: left;">103</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">cap.jpg</td>
+<td style="text-align: left;">hose.jpg</td>
+<td style="text-align: left;">goal.jpg</td>
+<td style="text-align: left;">hole.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">hose.jpg</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1467.0000000</td>
+<td style="text-align: left;">hose.jpg</td>
+<td style="text-align: right;">10.59999990</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">11788555</td>
+<td style="text-align: left;">104</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">hip.jpg</td>
+<td style="text-align: left;">cave.jpg</td>
+<td style="text-align: left;">cage.jpg</td>
+<td style="text-align: left;">gauge.jpg</td>
+<td style="text-align: left;">TCRU</td>
+<td style="text-align: left;">cage.jpg</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">929.8999996</td>
+<td style="text-align: left;">cave.jpg</td>
+<td style="text-align: right;">17.89999962</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">11788555</td>
+<td style="text-align: left;">106</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">pear.jpg</td>
+<td style="text-align: left;">bear.jpg</td>
+<td style="text-align: left;">jet.jpg</td>
+<td style="text-align: left;">base.jpg</td>
+<td style="text-align: left;">TUUU</td>
+<td style="text-align: left;">jet.jpg</td>
+<td style="text-align: left;">U3</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1661.4000001</td>
+<td style="text-align: left;">jet.jpg</td>
+<td style="text-align: right;">12.00000000</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">11788555</td>
+<td style="text-align: left;">107</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">beagle.jpg</td>
+<td style="text-align: left;">mother.jpg</td>
+<td style="text-align: left;">money.jpg</td>
+<td style="text-align: left;">honey.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">mother.jpg</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1513.5999999</td>
+<td style="text-align: left;">mother.jpg</td>
+<td style="text-align: right;">15.90000010</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">11788555</td>
+<td style="text-align: left;">108</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">parrot.jpg</td>
+<td style="text-align: left;">carrot.jpg</td>
+<td style="text-align: left;">carriage.jpg</td>
+<td style="text-align: left;">tadpole.jpg</td>
+<td style="text-align: left;">TCRU</td>
+<td style="text-align: left;">carrot.jpg</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1456.8000002</td>
+<td style="text-align: left;">carrot.jpg</td>
+<td style="text-align: right;">16.00000000</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+</tr>
 </tbody>
 </table>
-</div>
-
-    <script>
-      function styleCell_tinytable_kakbpxa9nhjusv1d6vwe(i, j, css_id) {
-        var table = document.getElementById("tinytable_ppe0e1oohi5u1pge73zg");
-        table.rows[i].cells[j].classList.add(css_id);
-      }
-      function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_ppe0e1oohi5u1pge73zg');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
-      function spanCell_tinytable_kakbpxa9nhjusv1d6vwe(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_ppe0e1oohi5u1pge73zg");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
-        for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
-            }
-          }
-        }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
-      }
-
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 0, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 1, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 2, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 3, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 4, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 5, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 6, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 7, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 8, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 9, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 10, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 11, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 12, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 13, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 14, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 15, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 16, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 17, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-window.addEventListener('load', function () { styleCell_tinytable_kakbpxa9nhjusv1d6vwe(0, 18, 'tinytable_css_1gkkg1xiwv7zbr00dgzu') })
-    </script>
 </div>
 </div>
 </section><section class="level3"><h4 id="sampling-rate">Sampling Rate<a class="anchor" aria-label="anchor" href="#sampling-rate"></a>
@@ -713,9 +652,9 @@ Y: 2.75%</code></pre>
 
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_3cz0jt0aptanh2rct4jw</title>
+<title>tinytable_qbwemfvs8bonuvuupegv</title>
 <style>
-.table td.tinytable_css_htd5mlxarsjxa0rq9d03, .table th.tinytable_css_htd5mlxarsjxa0rq9d03 {    border-bottom: solid 0.1em #d3d8dc; }
+.table td.tinytable_css_fkfzbzxtsvvre31cjvah, .table th.tinytable_css_fkfzbzxtsvvre31cjvah {    border-bottom: solid 0.1em #d3d8dc; }
     </style>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
     MathJax = {
@@ -727,7 +666,7 @@ Y: 2.75%</code></pre>
       }
     };
     </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_3cz0jt0aptanh2rct4jw" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table table-borderless" id="tinytable_qbwemfvs8bonuvuupegv" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead><tr>
 <th scope="col">subject</th>
                 <th scope="col">total_points</th>
@@ -974,12 +913,12 @@ Y: 2.75%</code></pre>
 </div>
 
     <script>
-      function styleCell_tinytable_p6stbuuwdhlneazihmgu(i, j, css_id) {
-        var table = document.getElementById("tinytable_3cz0jt0aptanh2rct4jw");
+      function styleCell_tinytable_ryyxrh6tmfdrg5s90ptq(i, j, css_id) {
+        var table = document.getElementById("tinytable_qbwemfvs8bonuvuupegv");
         table.rows[i].cells[j].classList.add(css_id);
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_3cz0jt0aptanh2rct4jw');
+        var table = document.getElementById('tinytable_qbwemfvs8bonuvuupegv');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -987,8 +926,8 @@ Y: 2.75%</code></pre>
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_tinytable_p6stbuuwdhlneazihmgu(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_3cz0jt0aptanh2rct4jw");
+      function spanCell_tinytable_ryyxrh6tmfdrg5s90ptq(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_qbwemfvs8bonuvuupegv");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -1015,14 +954,14 @@ Y: 2.75%</code></pre>
         targetCell.colSpan = colspan;
       }
 
-window.addEventListener('load', function () { styleCell_tinytable_p6stbuuwdhlneazihmgu(0, 0, 'tinytable_css_htd5mlxarsjxa0rq9d03') })
-window.addEventListener('load', function () { styleCell_tinytable_p6stbuuwdhlneazihmgu(0, 1, 'tinytable_css_htd5mlxarsjxa0rq9d03') })
-window.addEventListener('load', function () { styleCell_tinytable_p6stbuuwdhlneazihmgu(0, 2, 'tinytable_css_htd5mlxarsjxa0rq9d03') })
-window.addEventListener('load', function () { styleCell_tinytable_p6stbuuwdhlneazihmgu(0, 3, 'tinytable_css_htd5mlxarsjxa0rq9d03') })
-window.addEventListener('load', function () { styleCell_tinytable_p6stbuuwdhlneazihmgu(0, 4, 'tinytable_css_htd5mlxarsjxa0rq9d03') })
-window.addEventListener('load', function () { styleCell_tinytable_p6stbuuwdhlneazihmgu(0, 5, 'tinytable_css_htd5mlxarsjxa0rq9d03') })
-window.addEventListener('load', function () { styleCell_tinytable_p6stbuuwdhlneazihmgu(0, 6, 'tinytable_css_htd5mlxarsjxa0rq9d03') })
-window.addEventListener('load', function () { styleCell_tinytable_p6stbuuwdhlneazihmgu(0, 7, 'tinytable_css_htd5mlxarsjxa0rq9d03') })
+window.addEventListener('load', function () { styleCell_tinytable_ryyxrh6tmfdrg5s90ptq(0, 0, 'tinytable_css_fkfzbzxtsvvre31cjvah') })
+window.addEventListener('load', function () { styleCell_tinytable_ryyxrh6tmfdrg5s90ptq(0, 1, 'tinytable_css_fkfzbzxtsvvre31cjvah') })
+window.addEventListener('load', function () { styleCell_tinytable_ryyxrh6tmfdrg5s90ptq(0, 2, 'tinytable_css_fkfzbzxtsvvre31cjvah') })
+window.addEventListener('load', function () { styleCell_tinytable_ryyxrh6tmfdrg5s90ptq(0, 3, 'tinytable_css_fkfzbzxtsvvre31cjvah') })
+window.addEventListener('load', function () { styleCell_tinytable_ryyxrh6tmfdrg5s90ptq(0, 4, 'tinytable_css_fkfzbzxtsvvre31cjvah') })
+window.addEventListener('load', function () { styleCell_tinytable_ryyxrh6tmfdrg5s90ptq(0, 5, 'tinytable_css_fkfzbzxtsvvre31cjvah') })
+window.addEventListener('load', function () { styleCell_tinytable_ryyxrh6tmfdrg5s90ptq(0, 6, 'tinytable_css_fkfzbzxtsvvre31cjvah') })
+window.addEventListener('load', function () { styleCell_tinytable_ryyxrh6tmfdrg5s90ptq(0, 7, 'tinytable_css_fkfzbzxtsvvre31cjvah') })
     </script>
 </div>
 </div>
@@ -1044,143 +983,80 @@ window.addEventListener('load', function () { styleCell_tinytable_p6stbuuwdhlnea
 <span>  </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="va">x_normalized</span>, ymin <span class="op">=</span> <span class="va">y_normalized</span>,</span>
 <span>         xmax <span class="op">=</span> <span class="va">x_normalized</span><span class="op">+</span><span class="va">width_normalized</span>,</span>
-<span>         ymax <span class="op">=</span> <span class="va">y_normalized</span><span class="op">+</span><span class="va">height_normalized</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">aoi_loc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://vincentarelbundock.github.io/tinytable/man/tt.html" class="external-link">tt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>         ymax <span class="op">=</span> <span class="va">y_normalized</span><span class="op">+</span><span class="va">height_normalized</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
 <div class="cell-output-display">
-
-
-
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_tgtd0mr55e11kez80ymz</title>
-<style>
-.table td.tinytable_css_mgrd5vvqhdfuaqehrglx, .table th.tinytable_css_mgrd5vvqhdfuaqehrglx {    border-bottom: solid 0.1em #d3d8dc; }
-    </style>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-    </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_tgtd0mr55e11kez80ymz" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-<thead><tr>
-<th scope="col">loc</th>
-                <th scope="col">x_normalized</th>
-                <th scope="col">y_normalized</th>
-                <th scope="col">width_normalized</th>
-                <th scope="col">height_normalized</th>
-                <th scope="col">xmin</th>
-                <th scope="col">ymin</th>
-                <th scope="col">xmax</th>
-                <th scope="col">ymax</th>
-              </tr></thead>
+<table class="table caption-top">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 20%">
+<col style="width: 21%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">loc</th>
+<th style="text-align: right;">x_normalized</th>
+<th style="text-align: right;">y_normalized</th>
+<th style="text-align: right;">width_normalized</th>
+<th style="text-align: right;">height_normalized</th>
+<th style="text-align: right;">xmin</th>
+<th style="text-align: right;">ymin</th>
+<th style="text-align: right;">xmax</th>
+<th style="text-align: right;">ymax</th>
+</tr></thead>
 <tbody>
-<tr>
-<td>TL</td>
-                  <td>0.0</td>
-                  <td>0.5</td>
-                  <td>0.5</td>
-                  <td>0.5</td>
-                  <td>0.0</td>
-                  <td>0.5</td>
-                  <td>0.5</td>
-                  <td>1.0</td>
-                </tr>
-<tr>
-<td>TR</td>
-                  <td>0.5</td>
-                  <td>0.5</td>
-                  <td>0.5</td>
-                  <td>0.5</td>
-                  <td>0.5</td>
-                  <td>0.5</td>
-                  <td>1.0</td>
-                  <td>1.0</td>
-                </tr>
-<tr>
-<td>BL</td>
-                  <td>0.0</td>
-                  <td>0.0</td>
-                  <td>0.5</td>
-                  <td>0.5</td>
-                  <td>0.0</td>
-                  <td>0.0</td>
-                  <td>0.5</td>
-                  <td>0.5</td>
-                </tr>
-<tr>
-<td>BR</td>
-                  <td>0.5</td>
-                  <td>0.0</td>
-                  <td>0.5</td>
-                  <td>0.5</td>
-                  <td>0.5</td>
-                  <td>0.0</td>
-                  <td>1.0</td>
-                  <td>0.5</td>
-                </tr>
+<tr class="odd">
+<td style="text-align: left;">TL</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TR</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BL</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BR</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">0.5</td>
+</tr>
 </tbody>
 </table>
-</div>
-
-    <script>
-      function styleCell_tinytable_l6ygzvhjj5kiu21t2qfc(i, j, css_id) {
-        var table = document.getElementById("tinytable_tgtd0mr55e11kez80ymz");
-        table.rows[i].cells[j].classList.add(css_id);
-      }
-      function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_tgtd0mr55e11kez80ymz');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
-      function spanCell_tinytable_l6ygzvhjj5kiu21t2qfc(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_tgtd0mr55e11kez80ymz");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
-        for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
-            }
-          }
-        }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
-      }
-
-window.addEventListener('load', function () { styleCell_tinytable_l6ygzvhjj5kiu21t2qfc(0, 0, 'tinytable_css_mgrd5vvqhdfuaqehrglx') })
-window.addEventListener('load', function () { styleCell_tinytable_l6ygzvhjj5kiu21t2qfc(0, 1, 'tinytable_css_mgrd5vvqhdfuaqehrglx') })
-window.addEventListener('load', function () { styleCell_tinytable_l6ygzvhjj5kiu21t2qfc(0, 2, 'tinytable_css_mgrd5vvqhdfuaqehrglx') })
-window.addEventListener('load', function () { styleCell_tinytable_l6ygzvhjj5kiu21t2qfc(0, 3, 'tinytable_css_mgrd5vvqhdfuaqehrglx') })
-window.addEventListener('load', function () { styleCell_tinytable_l6ygzvhjj5kiu21t2qfc(0, 4, 'tinytable_css_mgrd5vvqhdfuaqehrglx') })
-window.addEventListener('load', function () { styleCell_tinytable_l6ygzvhjj5kiu21t2qfc(0, 5, 'tinytable_css_mgrd5vvqhdfuaqehrglx') })
-window.addEventListener('load', function () { styleCell_tinytable_l6ygzvhjj5kiu21t2qfc(0, 6, 'tinytable_css_mgrd5vvqhdfuaqehrglx') })
-window.addEventListener('load', function () { styleCell_tinytable_l6ygzvhjj5kiu21t2qfc(0, 7, 'tinytable_css_mgrd5vvqhdfuaqehrglx') })
-window.addEventListener('load', function () { styleCell_tinytable_l6ygzvhjj5kiu21t2qfc(0, 8, 'tinytable_css_mgrd5vvqhdfuaqehrglx') })
-    </script>
 </div>
 </div>
 <section class="level5"><h6 id="clean-up-eye-data">Clean-up eye data<a class="anchor" aria-label="anchor" href="#clean-up-eye-data"></a>
@@ -1211,31 +1087,9 @@ window.addEventListener('load', function () { styleCell_tinytable_l6ygzvhjj5kiu2
 </div>
 <p>Let’s verify our AOIs look how they are suppose to.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#look at the AOIs and see if they make sense</span></span>
-<span></span>
-<span><span class="co"># Create a data frame for the quadrants</span></span>
-<span><span class="va">quadrants</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span>,</span>
-<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
-<span>  width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span>,</span>
-<span>  height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span>,</span>
-<span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'red'</span>, <span class="st">'blue'</span>, <span class="st">'green'</span>, <span class="st">'orange'</span><span class="op">)</span>,</span>
-<span>  label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'TL'</span>, <span class="st">'TR'</span>, <span class="st">'BL'</span>, <span class="st">'BR'</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Create the plot</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_rect</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">quadrants</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="va">x</span>, xmax <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">width</span>, ymin <span class="op">=</span> <span class="va">y</span>, ymax <span class="op">=</span> <span class="va">y</span> <span class="op">+</span> <span class="va">height</span>, fill <span class="op">=</span> <span class="va">color</span><span class="op">)</span>, </span>
-<span>            color <span class="op">=</span> <span class="st">'black'</span>, alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">quadrants</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">width</span><span class="op">/</span><span class="fl">2</span>, y <span class="op">=</span> <span class="va">y</span> <span class="op">+</span> <span class="va">height</span><span class="op">/</span><span class="fl">2</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">'black'</span>, size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_identity.html" class="external-link">scale_fill_identity</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">'Normalized X'</span>, y <span class="op">=</span> <span class="st">'Normalized Y'</span>, title <span class="op">=</span> <span class="st">'Quadrants with Width Annotations'</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
-<figure><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-20-1.png" width="672"></p>
+<figure><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-21-1.png" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1252,7 +1106,7 @@ window.addEventListener('load', function () { styleCell_tinytable_l6ygzvhjj5kiu2
 </ol>
 <p>We will first match the pictures in the TL, TR, BL, BR columns to the correct code condition (T,C, R, U, U2, U3).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Assuming your data is in a data frame called df</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -1301,507 +1155,441 @@ window.addEventListener('load', function () { styleCell_tinytable_l6ygzvhjj5kiu2
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  </span>
-<span>  <span class="fu"><a href="https://vincentarelbundock.github.io/tinytable/man/tt.html" class="external-link">tt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
-
-
-
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_85vcc68q62dc747rqcvh</title>
-<style>
-.table td.tinytable_css_l2geerbzynysq10clfjt, .table th.tinytable_css_l2geerbzynysq10clfjt {    border-bottom: solid 0.1em #d3d8dc; }
-    </style>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-    </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_85vcc68q62dc747rqcvh" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-<thead><tr>
-<th scope="col">X</th>
-                <th scope="col">x0</th>
-                <th scope="col">filename</th>
-                <th scope="col">trial</th>
-                <th scope="col">time_stamp</th>
-                <th scope="col">time</th>
-                <th scope="col">type</th>
-                <th scope="col">screen_index</th>
-                <th scope="col">x_pred</th>
-                <th scope="col">y_pred</th>
-                <th scope="col">x_pred_normalised</th>
-                <th scope="col">y_pred_normalised</th>
-                <th scope="col">convergence</th>
-                <th scope="col">face_conf</th>
-                <th scope="col">zone_name</th>
-                <th scope="col">zone_x</th>
-                <th scope="col">zone_y</th>
-                <th scope="col">zone_width</th>
-                <th scope="col">zone_height</th>
-                <th scope="col">zone_x_normalised</th>
-                <th scope="col">zone_y_normalised</th>
-                <th scope="col">zone_width_normalised</th>
-                <th scope="col">zone_height_normalised</th>
-                <th scope="col">subject</th>
-                <th scope="col">acc</th>
-                <th scope="col">TL</th>
-                <th scope="col">TR</th>
-                <th scope="col">BL</th>
-                <th scope="col">BR</th>
-                <th scope="col">trialtype</th>
-                <th scope="col">targetword</th>
-                <th scope="col">tlcode</th>
-                <th scope="col">trcode</th>
-                <th scope="col">blcode</th>
-                <th scope="col">brcode</th>
-                <th scope="col">targ_loc</th>
-                <th scope="col">zone_type</th>
-                <th scope="col">RT</th>
-                <th scope="col">response.x</th>
-                <th scope="col">RT_audio</th>
-                <th scope="col">response.y</th>
-                <th scope="col">med_SR</th>
-                <th scope="col">max_time</th>
-                <th scope="col">n_times</th>
-                <th scope="col">SR</th>
-                <th scope="col">Target</th>
-                <th scope="col">Unrelated</th>
-                <th scope="col">Unrelated2</th>
-                <th scope="col">Unrelated3</th>
-                <th scope="col">Rhyme</th>
-                <th scope="col">Cohort</th>
-              </tr></thead>
+<table class="table caption-top" style="width:100%;">
+<colgroup>
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 3%">
+<col style="width: 0%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 1%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: left;">x0</th>
+<th style="text-align: left;">filename</th>
+<th style="text-align: left;">trial</th>
+<th style="text-align: right;">time_stamp</th>
+<th style="text-align: right;">time</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">screen_index</th>
+<th style="text-align: right;">x_pred</th>
+<th style="text-align: right;">y_pred</th>
+<th style="text-align: right;">x_pred_normalised</th>
+<th style="text-align: right;">y_pred_normalised</th>
+<th style="text-align: right;">convergence</th>
+<th style="text-align: right;">face_conf</th>
+<th style="text-align: left;">zone_name</th>
+<th style="text-align: right;">zone_x</th>
+<th style="text-align: right;">zone_y</th>
+<th style="text-align: right;">zone_width</th>
+<th style="text-align: right;">zone_height</th>
+<th style="text-align: right;">zone_x_normalised</th>
+<th style="text-align: right;">zone_y_normalised</th>
+<th style="text-align: right;">zone_width_normalised</th>
+<th style="text-align: right;">zone_height_normalised</th>
+<th style="text-align: left;">subject</th>
+<th style="text-align: right;">acc</th>
+<th style="text-align: left;">TL</th>
+<th style="text-align: left;">TR</th>
+<th style="text-align: left;">BL</th>
+<th style="text-align: left;">BR</th>
+<th style="text-align: left;">trialtype</th>
+<th style="text-align: left;">targetword</th>
+<th style="text-align: left;">tlcode</th>
+<th style="text-align: left;">trcode</th>
+<th style="text-align: left;">blcode</th>
+<th style="text-align: left;">brcode</th>
+<th style="text-align: left;">targ_loc</th>
+<th style="text-align: left;">zone_type</th>
+<th style="text-align: right;">RT</th>
+<th style="text-align: left;">response.x</th>
+<th style="text-align: right;">RT_audio</th>
+<th style="text-align: left;">response.y</th>
+<th style="text-align: right;">med_SR</th>
+<th style="text-align: right;">max_time</th>
+<th style="text-align: right;">n_times</th>
+<th style="text-align: right;">SR</th>
+<th style="text-align: left;">Target</th>
+<th style="text-align: left;">Unrelated</th>
+<th style="text-align: left;">Unrelated2</th>
+<th style="text-align: left;">Unrelated3</th>
+<th style="text-align: left;">Rhyme</th>
+<th style="text-align: left;">Cohort</th>
+</tr></thead>
 <tbody>
-<tr>
-<td>1</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868218964</td>
-                  <td>  0.00000000</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td> 921.5823073</td>
-                  <td>-61.68745669</td>
-                  <td>0.4717325812</td>
-                  <td>-0.06077581940</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.63857024</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                </tr>
-<tr>
-<td>2</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868218999</td>
-                  <td> 34.00000000</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td> 958.2899489</td>
-                  <td> 78.26706763</td>
-                  <td>0.4988631366</td>
-                  <td> 0.07711041146</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.63857024</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                </tr>
-<tr>
-<td>3</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868219039</td>
-                  <td> 73.30000019</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>1036.1006719</td>
-                  <td>247.37493626</td>
-                  <td>0.5563729098</td>
-                  <td> 0.24371914902</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.63857024</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                </tr>
-<tr>
-<td>4</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868219076</td>
-                  <td>113.09999990</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>1048.4626414</td>
-                  <td>383.69717600</td>
-                  <td>0.5655096204</td>
-                  <td> 0.37802677438</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.63857024</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                </tr>
-<tr>
-<td>5</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868219111</td>
-                  <td>148.40000010</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>1018.1750413</td>
-                  <td>433.21330043</td>
-                  <td>0.5431241067</td>
-                  <td> 0.42681113343</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.63857024</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                </tr>
-<tr>
-<td>6</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868219145</td>
-                  <td>182.00000000</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>1040.6113826</td>
-                  <td>514.57934044</td>
-                  <td>0.5597067684</td>
-                  <td> 0.50697471965</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.63857024</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                </tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868218964</td>
+<td style="text-align: right;">0.00000000</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">921.5823073</td>
+<td style="text-align: right;">-61.68745669</td>
+<td style="text-align: right;">0.4717325812</td>
+<td style="text-align: right;">-0.0607758194</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868218999</td>
+<td style="text-align: right;">34.00000000</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">958.2899489</td>
+<td style="text-align: right;">78.26706763</td>
+<td style="text-align: right;">0.4988631366</td>
+<td style="text-align: right;">0.0771104115</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219039</td>
+<td style="text-align: right;">73.30000019</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1036.1006719</td>
+<td style="text-align: right;">247.37493626</td>
+<td style="text-align: right;">0.5563729098</td>
+<td style="text-align: right;">0.2437191490</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219076</td>
+<td style="text-align: right;">113.09999990</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1048.4626414</td>
+<td style="text-align: right;">383.69717600</td>
+<td style="text-align: right;">0.5655096204</td>
+<td style="text-align: right;">0.3780267744</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219111</td>
+<td style="text-align: right;">148.40000010</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1018.1750413</td>
+<td style="text-align: right;">433.21330043</td>
+<td style="text-align: right;">0.5431241067</td>
+<td style="text-align: right;">0.4268111334</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219145</td>
+<td style="text-align: right;">182.00000000</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1040.6113826</td>
+<td style="text-align: right;">514.57934044</td>
+<td style="text-align: right;">0.5597067684</td>
+<td style="text-align: right;">0.5069747196</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
 </tbody>
 </table>
-</div>
-
-    <script>
-      function styleCell_tinytable_3vw8p96fswaxtzzt7inj(i, j, css_id) {
-        var table = document.getElementById("tinytable_85vcc68q62dc747rqcvh");
-        table.rows[i].cells[j].classList.add(css_id);
-      }
-      function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_85vcc68q62dc747rqcvh');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
-      function spanCell_tinytable_3vw8p96fswaxtzzt7inj(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_85vcc68q62dc747rqcvh");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
-        for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
-            }
-          }
-        }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
-      }
-
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 0, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 1, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 2, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 3, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 4, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 5, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 6, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 7, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 8, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 9, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 10, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 11, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 12, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 13, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 14, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 15, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 16, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 17, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 18, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 19, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 20, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 21, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 22, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 23, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 24, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 25, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 26, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 27, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 28, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 29, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 30, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 31, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 32, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 33, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 34, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 35, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 36, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 37, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 38, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 39, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 40, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 41, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 42, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 43, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 44, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 45, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 46, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 47, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 48, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 49, 'tinytable_css_l2geerbzynysq10clfjt') })
-window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtzzt7inj(0, 50, 'tinytable_css_l2geerbzynysq10clfjt') })
-    </script>
 </div>
 </div>
 <p>In our study, we need to track not only the condition of each image shown (such as Target, Cohort, Rhyme, or Unrelated) but also where each image is located on the screen during each trial as they are randomized on each trial. To do this, we use a function named <code>find_location</code>. This function is designed to determine the location of a specific image on the screen by comparing the image with the list of possible locations.</p>
 <p>The function <code>find_location</code> first checks if the image is NA (missing). If the image is NA, the function returns NA, meaning that there’s no location to find for this image. If the image is not NA, the function creates a vector loc_names that lists the names of the possible locations. It then attempts to match the given image with the locations. If a match is found, it returns the name of the location (e.g., TL, TR, BL, or BR) where the image is located. If there is no match, the function returns NA.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Apply the function to each of the targ, cohort, rhyme, and unrelated columns</span></span>
 <span><span class="va">dat_colnames</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html" class="external-link">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -1817,7 +1605,7 @@ window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtz
 </div>
 <p>Here is where we are going to use our coordinate information from above. We use the <code>assign_aoi</code> that is adaopted from the <code>gazeR</code> package (Geller et al., 2020) to loop through our object <code>dat_colnames</code> and assign locations (i.e., TR, TL, BL, BR) to our normalized <code>x</code> and <code>y</code> coordinates. This function will label non-looks and off screen coordinates with NA. To make it easier to read we change the numerals assigned by the function to actual screen locations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">assign</span> <span class="op">&lt;-</span> <span class="fu">gazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gazer/man/assign_aoi.html" class="external-link">assign_aoi</a></span><span class="op">(</span><span class="va">dat_colnames</span>,X<span class="op">=</span><span class="st">"x_pred_normalised"</span>, Y<span class="op">=</span><span class="st">"y_pred_normalised"</span>,aoi_loc <span class="op">=</span> <span class="va">aoi_loc</span><span class="op">)</span></span>
 <span></span>
 <span></span>
@@ -1837,557 +1625,495 @@ window.addEventListener('load', function () { styleCell_tinytable_3vw8p96fswaxtz
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-
-
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_wcf271e6pn9uqjlw0ris</title>
-<style>
-.table td.tinytable_css_nc55dfehedoi9oul04wj, .table th.tinytable_css_nc55dfehedoi9oul04wj {    border-bottom: solid 0.1em #d3d8dc; }
-    </style>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-    </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_wcf271e6pn9uqjlw0ris" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-<thead><tr>
-<th scope="col">X</th>
-                <th scope="col">x0</th>
-                <th scope="col">filename</th>
-                <th scope="col">trial</th>
-                <th scope="col">time_stamp</th>
-                <th scope="col">time</th>
-                <th scope="col">type</th>
-                <th scope="col">screen_index</th>
-                <th scope="col">x_pred</th>
-                <th scope="col">y_pred</th>
-                <th scope="col">x_pred_normalised</th>
-                <th scope="col">y_pred_normalised</th>
-                <th scope="col">convergence</th>
-                <th scope="col">face_conf</th>
-                <th scope="col">zone_name</th>
-                <th scope="col">zone_x</th>
-                <th scope="col">zone_y</th>
-                <th scope="col">zone_width</th>
-                <th scope="col">zone_height</th>
-                <th scope="col">zone_x_normalised</th>
-                <th scope="col">zone_y_normalised</th>
-                <th scope="col">zone_width_normalised</th>
-                <th scope="col">zone_height_normalised</th>
-                <th scope="col">subject</th>
-                <th scope="col">acc</th>
-                <th scope="col">TL</th>
-                <th scope="col">TR</th>
-                <th scope="col">BL</th>
-                <th scope="col">BR</th>
-                <th scope="col">trialtype</th>
-                <th scope="col">targetword</th>
-                <th scope="col">tlcode</th>
-                <th scope="col">trcode</th>
-                <th scope="col">blcode</th>
-                <th scope="col">brcode</th>
-                <th scope="col">targ_loc</th>
-                <th scope="col">zone_type</th>
-                <th scope="col">RT</th>
-                <th scope="col">response.x</th>
-                <th scope="col">RT_audio</th>
-                <th scope="col">response.y</th>
-                <th scope="col">med_SR</th>
-                <th scope="col">max_time</th>
-                <th scope="col">n_times</th>
-                <th scope="col">SR</th>
-                <th scope="col">Target</th>
-                <th scope="col">Unrelated</th>
-                <th scope="col">Unrelated2</th>
-                <th scope="col">Unrelated3</th>
-                <th scope="col">Rhyme</th>
-                <th scope="col">Cohort</th>
-                <th scope="col">cohort_loc</th>
-                <th scope="col">rhyme_loc</th>
-                <th scope="col">unrelated_loc</th>
-                <th scope="col">unrealted2_loc</th>
-                <th scope="col">unrelated3_loc</th>
-                <th scope="col">AOI</th>
-                <th scope="col">loc1</th>
-              </tr></thead>
+<table class="table caption-top">
+<colgroup>
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 3%">
+<col style="width: 0%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 0%">
+<col style="width: 0%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: left;">x0</th>
+<th style="text-align: left;">filename</th>
+<th style="text-align: left;">trial</th>
+<th style="text-align: right;">time_stamp</th>
+<th style="text-align: right;">time</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">screen_index</th>
+<th style="text-align: right;">x_pred</th>
+<th style="text-align: right;">y_pred</th>
+<th style="text-align: right;">x_pred_normalised</th>
+<th style="text-align: right;">y_pred_normalised</th>
+<th style="text-align: right;">convergence</th>
+<th style="text-align: right;">face_conf</th>
+<th style="text-align: left;">zone_name</th>
+<th style="text-align: right;">zone_x</th>
+<th style="text-align: right;">zone_y</th>
+<th style="text-align: right;">zone_width</th>
+<th style="text-align: right;">zone_height</th>
+<th style="text-align: right;">zone_x_normalised</th>
+<th style="text-align: right;">zone_y_normalised</th>
+<th style="text-align: right;">zone_width_normalised</th>
+<th style="text-align: right;">zone_height_normalised</th>
+<th style="text-align: left;">subject</th>
+<th style="text-align: right;">acc</th>
+<th style="text-align: left;">TL</th>
+<th style="text-align: left;">TR</th>
+<th style="text-align: left;">BL</th>
+<th style="text-align: left;">BR</th>
+<th style="text-align: left;">trialtype</th>
+<th style="text-align: left;">targetword</th>
+<th style="text-align: left;">tlcode</th>
+<th style="text-align: left;">trcode</th>
+<th style="text-align: left;">blcode</th>
+<th style="text-align: left;">brcode</th>
+<th style="text-align: left;">targ_loc</th>
+<th style="text-align: left;">zone_type</th>
+<th style="text-align: right;">RT</th>
+<th style="text-align: left;">response.x</th>
+<th style="text-align: right;">RT_audio</th>
+<th style="text-align: left;">response.y</th>
+<th style="text-align: right;">med_SR</th>
+<th style="text-align: right;">max_time</th>
+<th style="text-align: right;">n_times</th>
+<th style="text-align: right;">SR</th>
+<th style="text-align: left;">Target</th>
+<th style="text-align: left;">Unrelated</th>
+<th style="text-align: left;">Unrelated2</th>
+<th style="text-align: left;">Unrelated3</th>
+<th style="text-align: left;">Rhyme</th>
+<th style="text-align: left;">Cohort</th>
+<th style="text-align: left;">cohort_loc</th>
+<th style="text-align: left;">rhyme_loc</th>
+<th style="text-align: left;">unrelated_loc</th>
+<th style="text-align: left;">unrealted2_loc</th>
+<th style="text-align: left;">unrelated3_loc</th>
+<th style="text-align: right;">AOI</th>
+<th style="text-align: left;">loc1</th>
+</tr></thead>
 <tbody>
-<tr>
-<td>1</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868218964</td>
-                  <td>  0.00000000</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td> 921.5823073</td>
-                  <td>-61.68745669</td>
-                  <td>0.4717325812</td>
-                  <td>-0.06077581940</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.63857024</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                  <td>TR</td>
-                  <td>NA</td>
-                  <td>BR</td>
-                  <td>TL</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                </tr>
-<tr>
-<td>2</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868218999</td>
-                  <td> 34.00000000</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td> 958.2899489</td>
-                  <td> 78.26706763</td>
-                  <td>0.4988631366</td>
-                  <td> 0.07711041146</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.63857024</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                  <td>TR</td>
-                  <td>NA</td>
-                  <td>BR</td>
-                  <td>TL</td>
-                  <td>NA</td>
-                  <td> 3</td>
-                  <td>BL</td>
-                </tr>
-<tr>
-<td>3</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868219039</td>
-                  <td> 73.30000019</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>1036.1006719</td>
-                  <td>247.37493626</td>
-                  <td>0.5563729098</td>
-                  <td> 0.24371914902</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.63857024</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                  <td>TR</td>
-                  <td>NA</td>
-                  <td>BR</td>
-                  <td>TL</td>
-                  <td>NA</td>
-                  <td> 4</td>
-                  <td>BR</td>
-                </tr>
-<tr>
-<td>4</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868219076</td>
-                  <td>113.09999990</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>1048.4626414</td>
-                  <td>383.69717600</td>
-                  <td>0.5655096204</td>
-                  <td> 0.37802677438</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.63857024</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                  <td>TR</td>
-                  <td>NA</td>
-                  <td>BR</td>
-                  <td>TL</td>
-                  <td>NA</td>
-                  <td> 4</td>
-                  <td>BR</td>
-                </tr>
-<tr>
-<td>5</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868219111</td>
-                  <td>148.40000010</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>1018.1750413</td>
-                  <td>433.21330043</td>
-                  <td>0.5431241067</td>
-                  <td> 0.42681113343</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.63857024</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                  <td>TR</td>
-                  <td>NA</td>
-                  <td>BR</td>
-                  <td>TL</td>
-                  <td>NA</td>
-                  <td> 4</td>
-                  <td>BR</td>
-                </tr>
-<tr>
-<td>6</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868219145</td>
-                  <td>182.00000000</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>1040.6113826</td>
-                  <td>514.57934044</td>
-                  <td>0.5597067684</td>
-                  <td> 0.50697471965</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.63857024</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                  <td>TR</td>
-                  <td>NA</td>
-                  <td>BR</td>
-                  <td>TL</td>
-                  <td>NA</td>
-                  <td> 2</td>
-                  <td>TR</td>
-                </tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868218964</td>
+<td style="text-align: right;">0.00000000</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">921.5823073</td>
+<td style="text-align: right;">-61.68745669</td>
+<td style="text-align: right;">0.4717325812</td>
+<td style="text-align: right;">-0.0607758194</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868218999</td>
+<td style="text-align: right;">34.00000000</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">958.2899489</td>
+<td style="text-align: right;">78.26706763</td>
+<td style="text-align: right;">0.4988631366</td>
+<td style="text-align: right;">0.0771104115</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">BL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219039</td>
+<td style="text-align: right;">73.30000019</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1036.1006719</td>
+<td style="text-align: right;">247.37493626</td>
+<td style="text-align: right;">0.5563729098</td>
+<td style="text-align: right;">0.2437191490</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">BR</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219076</td>
+<td style="text-align: right;">113.09999990</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1048.4626414</td>
+<td style="text-align: right;">383.69717600</td>
+<td style="text-align: right;">0.5655096204</td>
+<td style="text-align: right;">0.3780267744</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">BR</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219111</td>
+<td style="text-align: right;">148.40000010</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1018.1750413</td>
+<td style="text-align: right;">433.21330043</td>
+<td style="text-align: right;">0.5431241067</td>
+<td style="text-align: right;">0.4268111334</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">BR</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219145</td>
+<td style="text-align: right;">182.00000000</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1040.6113826</td>
+<td style="text-align: right;">514.57934044</td>
+<td style="text-align: right;">0.5597067684</td>
+<td style="text-align: right;">0.5069747196</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">TR</td>
+</tr>
 </tbody>
 </table>
-</div>
-
-    <script>
-      function styleCell_tinytable_gd3xon98wygpihlhvng9(i, j, css_id) {
-        var table = document.getElementById("tinytable_wcf271e6pn9uqjlw0ris");
-        table.rows[i].cells[j].classList.add(css_id);
-      }
-      function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_wcf271e6pn9uqjlw0ris');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
-      function spanCell_tinytable_gd3xon98wygpihlhvng9(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_wcf271e6pn9uqjlw0ris");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
-        for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
-            }
-          }
-        }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
-      }
-
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 0, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 1, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 2, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 3, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 4, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 5, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 6, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 7, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 8, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 9, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 10, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 11, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 12, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 13, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 14, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 15, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 16, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 17, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 18, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 19, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 20, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 21, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 22, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 23, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 24, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 25, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 26, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 27, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 28, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 29, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 30, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 31, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 32, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 33, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 34, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 35, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 36, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 37, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 38, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 39, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 40, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 41, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 42, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 43, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 44, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 45, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 46, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 47, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 48, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 49, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 50, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 51, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 52, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 53, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 54, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 55, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 56, 'tinytable_css_nc55dfehedoi9oul04wj') })
-window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpihlhvng9(0, 57, 'tinytable_css_nc55dfehedoi9oul04wj') })
-    </script>
 </div>
 </div>
 <p>In the <code>AOI</code> object we have our condition variables as columns. For this example, the fixation locations need to be “gathered” from separate columns into a single column and “NA” values need to be re-coded as non-fixations (0). We logically evaluate these below so we know which item was fixated each sample and what was not.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">AOI</span><span class="op">$</span><span class="va">target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">AOI</span><span class="op">$</span><span class="va">loc1</span><span class="op">==</span><span class="va">AOI</span><span class="op">$</span><span class="va">targ_loc</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span> <span class="co"># if in coordinates 1, if not 0. </span></span>
 <span></span>
 <span><span class="va">AOI</span><span class="op">$</span><span class="va">unrelated</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">AOI</span><span class="op">$</span><span class="va">loc1</span> <span class="op">==</span> <span class="va">AOI</span><span class="op">$</span><span class="va">unrelated_loc</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="co"># if in coordinates 1, if not 0. </span></span>
@@ -2399,31 +2125,547 @@ window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpih
 <span><span class="va">AOI</span><span class="op">$</span><span class="va">rhyme</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">AOI</span><span class="op">$</span><span class="va">loc1</span> <span class="op">==</span> <span class="va">AOI</span><span class="op">$</span><span class="va">rhyme_loc</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="co"># if in coordinates 1, if not 0. </span></span>
 <span></span>
 <span></span>
-<span><span class="va">AOI</span><span class="op">$</span><span class="va">cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">AOI</span><span class="op">$</span><span class="va">loc1</span> <span class="op">==</span> <span class="va">AOI</span><span class="op">$</span><span class="va">cohort_loc</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="co"># if in coordinates 1, if not 0. </span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">AOI</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 64
-      X x0    filename   trial time_stamp  time type  screen_index x_pred y_pred
-  &lt;int&gt; &lt;lgl&gt; &lt;chr&gt;      &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1     1 NA    eyetracki… 153      1.73e12   0   pred…            4   922.  -61.7
-2     2 NA    eyetracki… 153      1.73e12  34   pred…            4   958.   78.3
-3     3 NA    eyetracki… 153      1.73e12  73.3 pred…            4  1036.  247.
-4     4 NA    eyetracki… 153      1.73e12 113.  pred…            4  1048.  384.
-5     5 NA    eyetracki… 153      1.73e12 148.  pred…            4  1018.  433.
-6     6 NA    eyetracki… 153      1.73e12 182   pred…            4  1041.  515.
-# ℹ 54 more variables: x_pred_normalised &lt;dbl&gt;, y_pred_normalised &lt;dbl&gt;,
-#   convergence &lt;int&gt;, face_conf &lt;dbl&gt;, zone_name &lt;lgl&gt;, zone_x &lt;int&gt;,
-#   zone_y &lt;int&gt;, zone_width &lt;int&gt;, zone_height &lt;int&gt;, zone_x_normalised &lt;int&gt;,
-#   zone_y_normalised &lt;int&gt;, zone_width_normalised &lt;int&gt;,
-#   zone_height_normalised &lt;int&gt;, subject &lt;fct&gt;, acc &lt;int&gt;, TL &lt;chr&gt;, TR &lt;chr&gt;,
-#   BL &lt;chr&gt;, BR &lt;chr&gt;, trialtype &lt;chr&gt;, targetword &lt;chr&gt;, tlcode &lt;chr&gt;,
-#   trcode &lt;chr&gt;, blcode &lt;chr&gt;, brcode &lt;chr&gt;, targ_loc &lt;chr&gt;, …</code></pre>
+<span><span class="va">AOI</span><span class="op">$</span><span class="va">cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">AOI</span><span class="op">$</span><span class="va">loc1</span> <span class="op">==</span> <span class="va">AOI</span><span class="op">$</span><span class="va">cohort_loc</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="co"># if in coordinates 1, if not 0. </span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
+<colgroup>
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 3%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 0%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: left;">x0</th>
+<th style="text-align: left;">filename</th>
+<th style="text-align: left;">trial</th>
+<th style="text-align: right;">time_stamp</th>
+<th style="text-align: right;">time</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">screen_index</th>
+<th style="text-align: right;">x_pred</th>
+<th style="text-align: right;">y_pred</th>
+<th style="text-align: right;">x_pred_normalised</th>
+<th style="text-align: right;">y_pred_normalised</th>
+<th style="text-align: right;">convergence</th>
+<th style="text-align: right;">face_conf</th>
+<th style="text-align: left;">zone_name</th>
+<th style="text-align: right;">zone_x</th>
+<th style="text-align: right;">zone_y</th>
+<th style="text-align: right;">zone_width</th>
+<th style="text-align: right;">zone_height</th>
+<th style="text-align: right;">zone_x_normalised</th>
+<th style="text-align: right;">zone_y_normalised</th>
+<th style="text-align: right;">zone_width_normalised</th>
+<th style="text-align: right;">zone_height_normalised</th>
+<th style="text-align: left;">subject</th>
+<th style="text-align: right;">acc</th>
+<th style="text-align: left;">TL</th>
+<th style="text-align: left;">TR</th>
+<th style="text-align: left;">BL</th>
+<th style="text-align: left;">BR</th>
+<th style="text-align: left;">trialtype</th>
+<th style="text-align: left;">targetword</th>
+<th style="text-align: left;">tlcode</th>
+<th style="text-align: left;">trcode</th>
+<th style="text-align: left;">blcode</th>
+<th style="text-align: left;">brcode</th>
+<th style="text-align: left;">targ_loc</th>
+<th style="text-align: left;">zone_type</th>
+<th style="text-align: right;">RT</th>
+<th style="text-align: left;">response.x</th>
+<th style="text-align: right;">RT_audio</th>
+<th style="text-align: left;">response.y</th>
+<th style="text-align: right;">med_SR</th>
+<th style="text-align: right;">max_time</th>
+<th style="text-align: right;">n_times</th>
+<th style="text-align: right;">SR</th>
+<th style="text-align: left;">Target</th>
+<th style="text-align: left;">Unrelated</th>
+<th style="text-align: left;">Unrelated2</th>
+<th style="text-align: left;">Unrelated3</th>
+<th style="text-align: left;">Rhyme</th>
+<th style="text-align: left;">Cohort</th>
+<th style="text-align: left;">cohort_loc</th>
+<th style="text-align: left;">rhyme_loc</th>
+<th style="text-align: left;">unrelated_loc</th>
+<th style="text-align: left;">unrealted2_loc</th>
+<th style="text-align: left;">unrelated3_loc</th>
+<th style="text-align: right;">AOI</th>
+<th style="text-align: left;">loc1</th>
+<th style="text-align: right;">target</th>
+<th style="text-align: right;">unrelated</th>
+<th style="text-align: right;">unrelated2</th>
+<th style="text-align: right;">unrelated3</th>
+<th style="text-align: right;">rhyme</th>
+<th style="text-align: right;">cohort</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868218964</td>
+<td style="text-align: right;">0.00000000</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">921.5823073</td>
+<td style="text-align: right;">-61.68745669</td>
+<td style="text-align: right;">0.4717325812</td>
+<td style="text-align: right;">-0.0607758194</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868218999</td>
+<td style="text-align: right;">34.00000000</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">958.2899489</td>
+<td style="text-align: right;">78.26706763</td>
+<td style="text-align: right;">0.4988631366</td>
+<td style="text-align: right;">0.0771104115</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219039</td>
+<td style="text-align: right;">73.30000019</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1036.1006719</td>
+<td style="text-align: right;">247.37493626</td>
+<td style="text-align: right;">0.5563729098</td>
+<td style="text-align: right;">0.2437191490</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219076</td>
+<td style="text-align: right;">113.09999990</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1048.4626414</td>
+<td style="text-align: right;">383.69717600</td>
+<td style="text-align: right;">0.5655096204</td>
+<td style="text-align: right;">0.3780267744</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219111</td>
+<td style="text-align: right;">148.40000010</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1018.1750413</td>
+<td style="text-align: right;">433.21330043</td>
+<td style="text-align: right;">0.5431241067</td>
+<td style="text-align: right;">0.4268111334</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219145</td>
+<td style="text-align: right;">182.00000000</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1040.6113826</td>
+<td style="text-align: right;">514.57934044</td>
+<td style="text-align: right;">0.5597067684</td>
+<td style="text-align: right;">0.5069747196</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <p>Now we pivot so instead of each condition being an individual column it is one column. This helps with visualization. We <code>pivot_longer</code> or make longer the target, unrelated, unrealted2, unrelated3, rhyme, and cohort columns. We put them into a column called condition and place the values of 0 and 1 into a column called <code>look</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_long_aoi_me</span> <span class="op">&lt;-</span> <span class="va">AOI</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subject</span>, <span class="va">trial</span>, <span class="va">trialtype</span>, <span class="va">target</span>, <span class="va">cohort</span>, <span class="va">unrelated</span>, <span class="va">unrelated2</span>, <span class="va">unrelated3</span>,  <span class="va">rhyme</span>, <span class="va">time</span>, <span class="va">x_pred_normalised</span>, <span class="va">y_pred_normalised</span>, <span class="va">RT_audio</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span></span>
@@ -2444,13 +2686,13 @@ window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpih
 <p>We will be looking at the target, cohort, rhyme, unrelated condition for the vignette.</p>
 <p>With the presentation of audio there is a delay in when it was played. We coded that above as <code>RT_audio</code>. Below we change time to correspond to <code>audio_onset</code>. We can do this by subtracting <code>RT_audio</code> from <code>time</code>. we also remove coordinates outside the standardized window.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_long_aoi_me_TCRU</span> <span class="op">&lt;-</span> <span class="va">dat_long_aoi_me</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">trialtype</span><span class="op">==</span><span class="st">"TCRU"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gaze_sub</span> <span class="op">&lt;-</span><span class="va">dat_long_aoi_me_TCRU</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">subject</span>, <span class="va">trial</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">time</span><span class="op">-</span><span class="va">RT_audio</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># subtract audio rt onset for each</span></span>
@@ -2462,27 +2704,24 @@ window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpih
 </div>
 <section class="level2"><h3 id="downsampling">Downsampling<a class="anchor" aria-label="anchor" href="#downsampling"></a>
 </h3>
-<p>We also downsampled our data into 100 ms bins using the <code>downsample_gaze</code> function from the webgazeR package. In this process, we read in our <code>gaze_sub</code> object, specified the <code>bin.length</code> argument as 100, and set the time variable as <code>time</code>. We also indicated the variables to aggregate on, such as <code>condition</code> and <code>timebins</code>. The <code>timebins</code> variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here. The function produces <strong>?@tbl-agg-sub</strong>, where the data has been downsampled.</p>
+<p>We also downsampled our data into 100 ms bins using the <code>downsample_gaze</code> function from the webgazeR package. In this process, we read in our <code>gaze_sub</code> object, specified the <code>bin.length</code> argument as 200, and set the time variable as <code>time</code>. We also indicated the variables to aggregate on, such as <code>condition</code> and <code>timebins</code>. The <code>timebins</code> variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gaze_sub</span> <span class="op">&lt;-</span> <span class="fu">webgazeR</span><span class="fu">::</span><span class="fu"><a href="../reference/downsample_gaze.html">downsample_gaze</a></span><span class="op">(</span><span class="va">gaze_sub</span>, bin.length<span class="op">=</span><span class="fl">200</span>, timevar<span class="op">=</span><span class="st">"time"</span>, aggvars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"condition"</span>, <span class="st">"timebins"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <section class="level3"><h4 id="plotting">Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a>
 </h4>
-<p>To simplify plotting your time-course data, we have created the plot_IA_proportions() function. This function takes several arguments. The ia_column argument specifies the column containing your Interest Area (IA) labels. The time_column argument requires the name of your time bin column, and the proportion_column argument specifies the column containing fixation or look proportions. Additional arguments allow you to specify custom names for each IA in the ia_column, enabling you to label them as desired.</p>
+<p>To simplify plotting your time-course data, we have created the <code>plot_IA_proportions</code> function. This function takes several arguments. The ia_column argument specifies the column containing your Interest Area (IA) labels. The <code>time_column</code> argument requires the name of your time bin column, and the <code>proportion_column</code> argument specifies the column containing fixation or look proportions. Additional arguments allow you to specify custom names for each IA in the ia_column, enabling you to label them as desired.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">webgazeR</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_IA_proportions.html">plot_IA_proportions</a></span><span class="op">(</span><span class="va">gaze_sub</span>, </span>
+<div class="sourceCode cell-code" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_IA_proportions.html">plot_IA_proportions</a></span><span class="op">(</span><span class="va">gaze_sub</span>, </span>
 <span>                     ia_column <span class="op">=</span> <span class="st">"condition"</span>, </span>
 <span>                     time_column <span class="op">=</span> <span class="st">"timebins"</span>, </span>
 <span>                     proportion_column <span class="op">=</span> <span class="st">"Fix"</span>, </span>
-<span>                     target <span class="op">=</span> <span class="st">"Target"</span>, </span>
-<span>                     cohort <span class="op">=</span> <span class="st">"Cohort"</span>, </span>
-<span>                     rhyme <span class="op">=</span> <span class="st">"Rhyme"</span>, </span>
-<span>                   unrelated <span class="op">=</span> <span class="st">"Unrelated"</span><span class="op">)</span></span></code></pre></div>
+<span>                   ia_mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target <span class="op">=</span> <span class="st">"Target"</span>, cohort <span class="op">=</span> <span class="st">"Cohort"</span>, rhyme <span class="op">=</span> <span class="st">"Rhyme"</span>, unrelated <span class="op">=</span> <span class="st">"Unrelated"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
-<figure><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-31-1.png" width="672"></p>
+<figure><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-33-1.png" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2492,12 +2731,12 @@ window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpih
 <p>If you open the each individual .xlsx file provided by gorilla you will see that it provides standardized coordinates for each location: TL, TR, BL, BR. Let’s use these coordinates instead of setting some general coordinates.</p>
 <p>We will use the function <code>extract_aois</code> to get the coordinates for each quadrant on screen. You can use the zone_names argument to get the zones you want to use.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aois</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_aois.html">extract_aois</a></span><span class="op">(</span><span class="va">vwp_paths_filtered</span>, zone_names <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TL"</span>, <span class="st">"BR"</span>, <span class="st">"TR"</span>, <span class="st">"BL"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>Below is the table the <code>extract_aois</code> function will return.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define the data</span></span>
 <span><span class="va">aois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BL"</span>, <span class="st">"TL"</span>, <span class="st">"TR"</span>, <span class="st">"BR"</span><span class="op">)</span>,</span>
@@ -2509,156 +2748,99 @@ window.addEventListener('load', function () { styleCell_tinytable_gd3xon98wygpih
 <span>  ymin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.04</span>, <span class="fl">0.74</span>, <span class="fl">0.75</span>, <span class="fl">0.06</span><span class="op">)</span>,</span>
 <span>  xmax <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.29</span>, <span class="fl">0.28</span>, <span class="fl">0.97</span>, <span class="fl">0.96</span><span class="op">)</span>,</span>
 <span>  ymax <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.29</span>, <span class="fl">0.99</span>, <span class="fl">0.99</span>, <span class="fl">0.31</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#| echo: false</span></span>
 <span></span>
 <span><span class="va">aois</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://vincentarelbundock.github.io/tinytable/man/tt.html" class="external-link">tt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
-
-
-
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_vqfov806ybxm3oc3ky6m</title>
-<style>
-.table td.tinytable_css_qlihk6fbw5j99ktszizy, .table th.tinytable_css_qlihk6fbw5j99ktszizy {    border-bottom: solid 0.1em #d3d8dc; }
-    </style>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-    </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_vqfov806ybxm3oc3ky6m" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-<thead><tr>
-<th scope="col">loc</th>
-                <th scope="col">x_normalized</th>
-                <th scope="col">y_normalized</th>
-                <th scope="col">width_normalized</th>
-                <th scope="col">height_normalized</th>
-                <th scope="col">xmin</th>
-                <th scope="col">ymin</th>
-                <th scope="col">xmax</th>
-                <th scope="col">ymax</th>
-              </tr></thead>
+<table class="table caption-top">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 20%">
+<col style="width: 21%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">loc</th>
+<th style="text-align: right;">x_normalized</th>
+<th style="text-align: right;">y_normalized</th>
+<th style="text-align: right;">width_normalized</th>
+<th style="text-align: right;">height_normalized</th>
+<th style="text-align: right;">xmin</th>
+<th style="text-align: right;">ymin</th>
+<th style="text-align: right;">xmax</th>
+<th style="text-align: right;">ymax</th>
+</tr></thead>
 <tbody>
-<tr>
-<td>BL</td>
-                  <td>0.03</td>
-                  <td>0.04</td>
-                  <td>0.26</td>
-                  <td>0.25</td>
-                  <td>0.03</td>
-                  <td>0.04</td>
-                  <td>0.29</td>
-                  <td>0.29</td>
-                </tr>
-<tr>
-<td>TL</td>
-                  <td>0.02</td>
-                  <td>0.74</td>
-                  <td>0.26</td>
-                  <td>0.25</td>
-                  <td>0.02</td>
-                  <td>0.74</td>
-                  <td>0.28</td>
-                  <td>0.99</td>
-                </tr>
-<tr>
-<td>TR</td>
-                  <td>0.73</td>
-                  <td>0.75</td>
-                  <td>0.24</td>
-                  <td>0.24</td>
-                  <td>0.73</td>
-                  <td>0.75</td>
-                  <td>0.97</td>
-                  <td>0.99</td>
-                </tr>
-<tr>
-<td>BR</td>
-                  <td>0.73</td>
-                  <td>0.06</td>
-                  <td>0.23</td>
-                  <td>0.25</td>
-                  <td>0.73</td>
-                  <td>0.06</td>
-                  <td>0.96</td>
-                  <td>0.31</td>
-                </tr>
+<tr class="odd">
+<td style="text-align: left;">BL</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.29</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TL</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.99</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TR</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">0.99</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BR</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">0.31</td>
+</tr>
 </tbody>
 </table>
-</div>
-
-    <script>
-      function styleCell_tinytable_hyzr4s3w4jgbmbqbsnj6(i, j, css_id) {
-        var table = document.getElementById("tinytable_vqfov806ybxm3oc3ky6m");
-        table.rows[i].cells[j].classList.add(css_id);
-      }
-      function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_vqfov806ybxm3oc3ky6m');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
-      function spanCell_tinytable_hyzr4s3w4jgbmbqbsnj6(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_vqfov806ybxm3oc3ky6m");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
-        for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
-            }
-          }
-        }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
-      }
-
-window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmbqbsnj6(0, 0, 'tinytable_css_qlihk6fbw5j99ktszizy') })
-window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmbqbsnj6(0, 1, 'tinytable_css_qlihk6fbw5j99ktszizy') })
-window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmbqbsnj6(0, 2, 'tinytable_css_qlihk6fbw5j99ktszizy') })
-window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmbqbsnj6(0, 3, 'tinytable_css_qlihk6fbw5j99ktszizy') })
-window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmbqbsnj6(0, 4, 'tinytable_css_qlihk6fbw5j99ktszizy') })
-window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmbqbsnj6(0, 5, 'tinytable_css_qlihk6fbw5j99ktszizy') })
-window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmbqbsnj6(0, 6, 'tinytable_css_qlihk6fbw5j99ktszizy') })
-window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmbqbsnj6(0, 7, 'tinytable_css_qlihk6fbw5j99ktszizy') })
-window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmbqbsnj6(0, 8, 'tinytable_css_qlihk6fbw5j99ktszizy') })
-    </script>
 </div>
 </div>
 <p>We see the AOIs are a bit smaller now with the gorilla provided coordinates.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-34-1.png" width="672"></p>
+<figure><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-37-1.png" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>We can follow the same steps from above to analyze our data, making sure we input the write coordinates into the <code>aoi_loc</code> argument.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">assign</span> <span class="op">&lt;-</span> <span class="fu">gazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gazer/man/assign_aoi.html" class="external-link">assign_aoi</a></span><span class="op">(</span><span class="va">dat_colnames</span>,X<span class="op">=</span><span class="st">"x_pred_normalised"</span>, Y<span class="op">=</span><span class="st">"y_pred_normalised"</span>,aoi_loc <span class="op">=</span> <span class="va">aois</span><span class="op">)</span></span>
 <span></span>
 <span></span>
@@ -2676,9 +2858,8 @@ window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmb
 <span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>In the <code>AOI</code> object we have our condition variables as columns. For this example, the fixation locations need to be “gathered” from separate columns into a single column and “NA” values need to be re-coded as non-fixations (0). We logically evaluate these below so we know which item was fixated each sample and what was not.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">AOI</span><span class="op">$</span><span class="va">target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">AOI</span><span class="op">$</span><span class="va">loc1</span><span class="op">==</span><span class="va">AOI</span><span class="op">$</span><span class="va">targ_loc</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span> <span class="co"># if in coordinates 1, if not 0. </span></span>
 <span></span>
 <span><span class="va">AOI</span><span class="op">$</span><span class="va">unrelated</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">AOI</span><span class="op">$</span><span class="va">loc1</span> <span class="op">==</span> <span class="va">AOI</span><span class="op">$</span><span class="va">unrelated_loc</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="co"># if in coordinates 1, if not 0. </span></span>
@@ -2694,7 +2875,7 @@ window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmb
 </div>
 <p>Now we pivot so instead of each condition being an individual column it is one column.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_long_aoi_me</span> <span class="op">&lt;-</span> <span class="va">AOI</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subject</span>, <span class="va">trial</span>, <span class="va">trialtype</span>, <span class="va">target</span>, <span class="va">cohort</span>, <span class="va">unrelated</span>, <span class="va">unrelated2</span>, <span class="va">unrelated3</span>,  <span class="va">rhyme</span>, <span class="va">time</span>, <span class="va">x_pred_normalised</span>, <span class="va">y_pred_normalised</span>, <span class="va">RT_audio</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span></span>
@@ -2704,13 +2885,13 @@ window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmb
 <span>    <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_long_aoi_me_TCRU</span> <span class="op">&lt;-</span> <span class="va">dat_long_aoi_me</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">trialtype</span><span class="op">==</span><span class="st">"TCRU"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gaze_sub</span> <span class="op">&lt;-</span><span class="va">dat_long_aoi_me_TCRU</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">subject</span>, <span class="va">trial</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">time</span><span class="op">-</span><span class="va">RT_audio</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># subtract audio rt onset for each</span></span>
@@ -2721,24 +2902,21 @@ window.addEventListener('load', function () { styleCell_tinytable_hyzr4s3w4jgbmb
 <span>                <span class="va">y_pred_normalised</span> <span class="op">&lt;</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gaze_sub</span> <span class="op">&lt;-</span> <span class="fu">webgazeR</span><span class="fu">::</span><span class="fu"><a href="../reference/downsample_gaze.html">downsample_gaze</a></span><span class="op">(</span><span class="va">gaze_sub</span>, bin.length<span class="op">=</span><span class="fl">200</span>, timevar<span class="op">=</span><span class="st">"time"</span>, aggvars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"condition"</span>, <span class="st">"timebins"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <section class="level3"><h4 id="plotting-1">Plotting<a class="anchor" aria-label="anchor" href="#plotting-1"></a>
 </h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_IA_proportions.html">plot_IA_proportions</a></span><span class="op">(</span><span class="va">gaze_sub</span>, </span>
 <span>                     ia_column <span class="op">=</span> <span class="st">"condition"</span>, </span>
 <span>                     time_column <span class="op">=</span> <span class="st">"timebins"</span>, </span>
 <span>                     proportion_column <span class="op">=</span> <span class="st">"Fix"</span>, </span>
-<span>                     target <span class="op">=</span> <span class="st">"Target"</span>, </span>
-<span>                     cohort <span class="op">=</span> <span class="st">"Cohort"</span>, </span>
-<span>                     rhyme <span class="op">=</span> <span class="st">"Rhyme"</span>, </span>
-<span>                   unrelated <span class="op">=</span> <span class="st">"Unrelated"</span><span class="op">)</span></span></code></pre></div>
+<span>                   ia_mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target <span class="op">=</span> <span class="st">"Target"</span>, cohort <span class="op">=</span> <span class="st">"Cohort"</span>, rhyme <span class="op">=</span> <span class="st">"Rhyme"</span>, unrelated <span class="op">=</span> <span class="st">"Unrelated"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
-<figure><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-41-1.png" width="672"></p>
+<figure><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-44-1.png" width="672"></p>
 </figure>
 </div>
 </div>
