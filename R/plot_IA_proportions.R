@@ -25,7 +25,6 @@
 #'
 #' @export
 
-# Define the function
 plot_IA_proportions <- function(data, ia_column, time_column, proportion_column, condition_column = NULL, ...) {
 
   # Capture the mappings from the ellipsis (...) in a named list
@@ -44,6 +43,9 @@ plot_IA_proportions <- function(data, ia_column, time_column, proportion_column,
   # Map the custom IA labels to the unique Interest Areas in the data
   data <- data %>%
     mutate(IA_label = recode(.data[[ia_column]], !!!valid_ia_mapping))  # Map the IAs using recode
+
+  # Set IA_label as a factor with levels in the order specified by ia_mapping
+  data$IA_label <- factor(data$IA_label, levels = unname(valid_ia_mapping))
 
   # Create the base plot
   p <- ggplot(data, aes_string(x = time_column, y = proportion_column, color = "IA_label")) +

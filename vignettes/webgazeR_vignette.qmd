@@ -34,6 +34,7 @@ library(here) # relative paths instead of abosoulte aids in reproduce
 library(tinytable) # nice tables
 library(janitor)# functions for cleaning up your column names
 library(easystats)
+library(knitr)
 ```
 
 ### Load webgazeR
@@ -152,7 +153,7 @@ trial_data_rt <- merge(emstr, audio_rt, by=c("subject", "trial"))
 
 head(trial_data_rt) %>%
   head() %>%
-  tt()
+  kable()
 ```
 
 ### Sampling Rate
@@ -260,8 +261,16 @@ aoi_loc <- data.frame(
          xmax = x_normalized+width_normalized,
          ymax = y_normalized+height_normalized)
 
+```
+
+```{r}
+#| echo: false
+
 aoi_loc %>%
-  tt()
+  kable()
+
+
+
 ```
 
 ##### Clean-up eye data
@@ -296,6 +305,7 @@ dat <- dat %>%
 Let's verify our AOIs look how they are suppose to.
 
 ```{r}
+#| echo: false
 
 #look at the AOIs and see if they make sense
 
@@ -389,11 +399,11 @@ dat <- dat %>%
 ```
 
 ```{r}
-
+#| echo: false
 
 head(dat) %>%
   
-  tt()
+  kable()
 ```
 
 In our study, we need to track not only the condition of each image shown (such as Target, Cohort, Rhyme, or Unrelated) but also where each image is located on the screen during each trial as they are randomized on each trial. To do this, we use a function named `find_location`. This function is designed to determine the location of a specific image on the screen by comparing the image with the list of possible locations.
@@ -447,7 +457,7 @@ AOI <- assign %>%
 
 AOI %>%
   head() %>%
-  tt()
+  kable()
 ```
 
 In the `AOI` object we have our condition variables as columns. For this example, the fixation locations need to be "gathered" from separate columns into a single column and "NA" values need to be re-coded as non-fixations (0). We logically evaluate these below so we know which item was fixated each sample and what was not.
@@ -467,7 +477,15 @@ AOI$rhyme <- ifelse(AOI$loc1 == AOI$rhyme_loc, 1, 0)# if in coordinates 1, if no
 
 AOI$cohort <- ifelse(AOI$loc1 == AOI$cohort_loc, 1, 0)# if in coordinates 1, if not 0. 
 
-head(AOI)
+```
+
+```{r}
+#| echo: false
+
+AOI %>%
+  head() %>%
+  kable()
+
 ```
 
 Now we pivot so instead of each condition being an individual column it is one column. This helps with visualization. We `pivot_longer` or make longer the target, unrelated, unrealted2, unrelated3, rhyme, and cohort columns. We put them into a column called condition and place the values of 0 and 1 into a column called `look`.
@@ -521,7 +539,7 @@ group_by(subject, trial) %>%
 
 ## Downsampling
 
-We also downsampled our data into 100 ms bins using the `downsample_gaze` function from the webgazeR package. In this process, we read in our `gaze_sub` object, specified the `bin.length` argument as 100, and set the time variable as `time`. We also indicated the variables to aggregate on, such as `condition` and `timebins`. The `timebins` variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here. The function produces @tbl-agg-sub, where the data has been downsampled.
+We also downsampled our data into 100 ms bins using the `downsample_gaze` function from the webgazeR package. In this process, we read in our `gaze_sub` object, specified the `bin.length` argument as 200, and set the time variable as `time`. We also indicated the variables to aggregate on, such as `condition` and `timebins`. The `timebins` variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here.
 
 ```{r}
 
@@ -531,7 +549,7 @@ gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=200, timevar="time", 
 
 ### Plotting
 
-To simplify plotting your time-course data, we have created the plot_IA_proportions() function. This function takes several arguments. The ia_column argument specifies the column containing your Interest Area (IA) labels. The time_column argument requires the name of your time bin column, and the proportion_column argument specifies the column containing fixation or look proportions. Additional arguments allow you to specify custom names for each IA in the ia_column, enabling you to label them as desired.
+To simplify plotting your time-course data, we have created the `plot_IA_proportions` function. This function takes several arguments. The ia_column argument specifies the column containing your Interest Area (IA) labels. The `time_column` argument requires the name of your time bin column, and the `proportion_column` argument specifies the column containing fixation or look proportions. Additional arguments allow you to specify custom names for each IA in the ia_column, enabling you to label them as desired.
 
 ```{r}
 webgazeR::plot_IA_proportions(gaze_sub, 
@@ -576,8 +594,14 @@ aois <- data.frame(
   ymax = c(0.29, 0.99, 0.99, 0.31)
 )
 
+```
+
+```{r}
+
+#| echo: false
+
 aois %>%
-  tt()
+  kable()
 
 ```
 
@@ -613,6 +637,8 @@ ggplot() +
 
 ```
 
+We can follow the same steps from above to analyze our data, making sure we input the write coordinates into the `aoi_loc` argument.
+
 ```{r}
 
 assign <- gazer::assign_aoi(dat_colnames,X="x_pred_normalised", Y="y_pred_normalised",aoi_loc = aois)
@@ -634,8 +660,6 @@ AOI <- assign %>%
 
 
 ```
-
-In the `AOI` object we have our condition variables as columns. For this example, the fixation locations need to be "gathered" from separate columns into a single column and "NA" values need to be re-coded as non-fixations (0). We logically evaluate these below so we know which item was fixated each sample and what was not.
 
 ```{r}
 
