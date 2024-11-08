@@ -22,7 +22,7 @@
 #' # merged_data <- extract_gorilla_aois(file_paths, screen_index = 4, extract_aois = FALSE)
 #' # aoi_data <- extract_gorilla_aois(file_paths, screen_index = 4, extract_aois = TRUE)
 
-merge_webcam_files<- function(file_paths, screen_index = NULL) {
+merge_webcam_files <- function(file_paths, screen_index = NULL) {
 
   # Function to ensure required packages are installed
   ensure_packages_installed <- function(packages) {
@@ -44,8 +44,10 @@ merge_webcam_files<- function(file_paths, screen_index = NULL) {
   merged_data <- lapply(file_paths, readxl::read_excel) %>%
     dplyr::bind_rows() %>%
     janitor::clean_names() %>%
-    dplyr::filter(type == "prediction",
-                  if (!is.null(screen_index)) screen_index == screen_index else TRUE) %>%
+    dplyr::filter(
+      type == "prediction",
+      if (!is.null(screen_index)) screen_index %in% screen_index else TRUE
+    ) %>%
     dplyr::rename("trial" = "spreadsheet_row",
                   "time" = "time_elapsed") %>%
     dplyr::mutate(subject = as.factor(participant_id),
@@ -53,4 +55,5 @@ merge_webcam_files<- function(file_paths, screen_index = NULL) {
     dplyr::select(-participant_id)
 
   return(merged_data)
+}
 }
