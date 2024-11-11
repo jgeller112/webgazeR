@@ -56,4 +56,3 @@ merge_webcam_files <- function(file_paths, screen_index = NULL) {
 
   return(merged_data)
 }
-}
