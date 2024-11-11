@@ -20,7 +20,8 @@ extract_aois <- function(file_paths, zone_names=NULL) {
   aoi_data <- lapply(file_paths, readxl::read_excel) %>%
     dplyr::bind_rows() %>%
     janitor::clean_names() %>%
-    dplyr::select(loc = zone_name %in% zone_names,
+    dplyr::filter(zone_name %in% zone_names)%>%
+    dplyr::select(loc = zone_name,
                   x_normalized = zone_x_normalised,
                   y_normalized = zone_y_normalised,
                   width_normalized = zone_width_normalised,
