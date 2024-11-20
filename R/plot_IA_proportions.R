@@ -53,7 +53,7 @@ plot_IA_proportions <- function(data, ia_column, time_column, proportion_column,
   p <- ggplot(data, aes_string(x = time_column, y = proportion_column, color = "IA_label")) +
     geom_line(size = 1.2) +          # Line plot with specified line width
     scale_y_continuous(limits = c(0, 1)) +  # Set y-axis from 0 to 1
-    scale_color_okabe_ito(order = "original") +  # Apply colorblind-friendly palette
+    scale_color_okabe_ito() +  # Apply colorblind-friendly palette
     labs(
       x = "Time since word onset (ms)",   # Custom x-axis label
       y = "Proportion of Looks",          # Custom y-axis label
