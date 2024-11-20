@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="Jason Geller">
-
 <title>Introduction to webgazeR</title>
 <style>
 code{white-space: pre-wrap;}
@@ -56,59 +54,53 @@ div.sourceCode
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
-
-
-<script src="webgazeR_vignette_files/libs/clipboard/clipboard.min.js"></script>
-<script src="webgazeR_vignette_files/libs/quarto-html/quarto.js"></script>
-<script src="webgazeR_vignette_files/libs/quarto-html/popper.min.js"></script>
-<script src="webgazeR_vignette_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="webgazeR_vignette_files/libs/quarto-html/anchor.min.js"></script>
-<link href="webgazeR_vignette_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<script src="webgazeR_vignette_files/libs/clipboard/clipboard.min.js"></script><script src="webgazeR_vignette_files/libs/quarto-html/quarto.js"></script><script src="webgazeR_vignette_files/libs/quarto-html/popper.min.js"></script><script src="webgazeR_vignette_files/libs/quarto-html/tippy.umd.min.js"></script><script src="webgazeR_vignette_files/libs/quarto-html/anchor.min.js"></script><link href="webgazeR_vignette_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="webgazeR_vignette_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="webgazeR_vignette_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="webgazeR_vignette_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<script src="webgazeR_vignette_files/libs/bootstrap/bootstrap.min.js"></script><link href="webgazeR_vignette_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="webgazeR_vignette_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-
-
 </head>
-
 <body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-  <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+  <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#packages" id="toc-packages" class="nav-link active" data-scroll-target="#packages">Packages</a>
+<li>
+<a href="#packages" id="toc-packages" class="nav-link active" data-scroll-target="#packages">Packages</a>
   <ul class="collapse">
-  <li><a href="#load-webgazer" id="toc-load-webgazer" class="nav-link" data-scroll-target="#load-webgazer">Load webgazeR</a></li>
-  </ul></li>
-  <li><a href="#eye-data" id="toc-eye-data" class="nav-link" data-scroll-target="#eye-data">Eye data</a>
+<li><a href="#load-webgazer" id="toc-load-webgazer" class="nav-link" data-scroll-target="#load-webgazer">Load webgazeR</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#eye-data" id="toc-eye-data" class="nav-link" data-scroll-target="#eye-data">Eye data</a>
   <ul class="collapse">
-  <li><a href="#get-audio-onset-time" id="toc-get-audio-onset-time" class="nav-link" data-scroll-target="#get-audio-onset-time">Get audio onset time</a></li>
+<li><a href="#get-audio-onset-time" id="toc-get-audio-onset-time" class="nav-link" data-scroll-target="#get-audio-onset-time">Get audio onset time</a></li>
   <li><a href="#sampling-rate" id="toc-sampling-rate" class="nav-link" data-scroll-target="#sampling-rate">Sampling Rate</a></li>
   <li><a href="#out-of-bounds-outside-of-screen" id="toc-out-of-bounds-outside-of-screen" class="nav-link" data-scroll-target="#out-of-bounds-outside-of-screen">Out-of-bounds (outside of screen)</a></li>
   <li><a href="#zone-coordinates" id="toc-zone-coordinates" class="nav-link" data-scroll-target="#zone-coordinates">Zone coordinates</a></li>
-  </ul></li>
-  <li><a href="#tcru" id="toc-tcru" class="nav-link" data-scroll-target="#tcru">TCRU</a>
-  <ul class="collapse">
-  <li><a href="#downsampling" id="toc-downsampling" class="nav-link" data-scroll-target="#downsampling">Downsampling</a>
-  <ul class="collapse">
-  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting">Plotting</a></li>
-  </ul></li>
-  <li><a href="#gorilla-provided-coordinates" id="toc-gorilla-provided-coordinates" class="nav-link" data-scroll-target="#gorilla-provided-coordinates">Gorilla provided coordinates</a>
-  <ul class="collapse">
-  <li><a href="#plotting-1" id="toc-plotting-1" class="nav-link" data-scroll-target="#plotting-1">Plotting</a></li>
-  </ul></li>
-  </ul></li>
   </ul>
-</nav>
+</li>
+  <li>
+<a href="#tcru" id="toc-tcru" class="nav-link" data-scroll-target="#tcru">TCRU</a>
+  <ul class="collapse">
+<li>
+<a href="#downsampling" id="toc-downsampling" class="nav-link" data-scroll-target="#downsampling">Downsampling</a>
+  <ul class="collapse">
+<li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting">Plotting</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#gorilla-provided-coordinates" id="toc-gorilla-provided-coordinates" class="nav-link" data-scroll-target="#gorilla-provided-coordinates">Gorilla provided coordinates</a>
+  <ul class="collapse">
+<li><a href="#plotting-1" id="toc-plotting-1" class="nav-link" data-scroll-target="#plotting-1">Plotting</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  </ul></nav>
 </div>
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Introduction to webgazeR</h1>
 </div>
 
@@ -129,14 +121,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header>
-
-
-<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+</header><div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">render</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">'*.qmd'</span><span class="kw">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Here I outline the basic functions of the <code>webgazeR</code> package.</p>
-<section id="packages" class="level2">
-<h2 class="anchored" data-anchor-id="packages">Packages</h2>
+<section id="packages" class="section level3"><h3 class="anchored" data-anchor-id="packages">Packages</h3>
 <p>Here we will load in packages needed to run our vignette.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">stringsAsFactors =</span> F)          <span class="co"># no automatic data transformation</span></span>
@@ -149,8 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggokabeito)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="load-webgazer" class="level3">
-<h3 class="anchored" data-anchor-id="load-webgazer">Load webgazeR</h3>
+<section id="load-webgazer" class="level3"><h4 class="anchored" data-anchor-id="load-webgazer">Load webgazeR</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"https://github.com/jgeller112/webgazeR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -167,10 +154,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(webgazeR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-</section>
-<section id="eye-data" class="level2">
-<h2 class="anchored" data-anchor-id="eye-data">Eye data</h2>
+</section></section><section id="eye-data" class="section level3"><h3 class="anchored" data-anchor-id="eye-data">Eye data</h3>
 <p>When data is generated from Gorilla, each trial in your experiment is its own file. Because of this, we need to take all the individual files and merge them together. The <code>merge_webcam_files</code> function merges each trial from each participant into a single tibble or dataframe. Before running the <code>merge_webcam_files</code> function, ensure that your working directory is set to where the files are stored. This function reads in all the .xlsx files, binds them together into one dataframe, and cleans up the column names. The function then filters the data to include only rows where the type is “prediction” and the screen_index matches the specified value (in our case, screen 4). This is where eye-tracking data was recorded. The function renames the <code>spreadsheet_row</code> column to trial and sets both <code>trial</code> and <code>subject</code>as factors for further analysis in our pipeline. As a note, all steps should be followed in order due to the renaming of column names. If you encounter an error it might be because column names have not been changed.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the list of all files in the folder</span></span>
@@ -188,8 +172,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>edat <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span>eyedata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="behavioral-data" class="level4">
-<h4 class="anchored" data-anchor-id="behavioral-data">Behavioral Data</h4>
+<section id="behavioral-data" class="level4"><h5 class="anchored" data-anchor-id="behavioral-data">Behavioral Data</h5>
 <p>Gorilla produces a <code>.csv</code> file that include trial-level information (<code>agg_ege_data)</code>. Below we read that object in and create an object called <code>emstr</code> that selects useful columns from that file and renames stimuli to make them more intuitive. Because most of this will be user-specific, no function is called here.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load in trial level data</span></span>
@@ -225,9 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>         <span class="at">subject=</span><span class="fu">as.factor</span>(subject), </span>
 <span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>         <span class="at">trial=</span><span class="fu">as.factor</span>(trial))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="get-audio-onset-time" class="level3">
-<h3 class="anchored" data-anchor-id="get-audio-onset-time">Get audio onset time</h3>
+</section><section id="get-audio-onset-time" class="level3"><h4 class="anchored" data-anchor-id="get-audio-onset-time">Get audio onset time</h4>
 <p>Because we are using audio on each trial and we are running this experiment for the browser audio onset is never going to to conistent across participants. In Gorilla there is an option to collect advanced audio features such as when the audio play was requested, fired )played and ended. We will want to incorporate this into our pipeline. Gorilla records the onset of the audio which varies by participant. We are extracting that here by filtering <code>zone_type</code> to <code>content_web_audio</code> and response equal to “AUDIO PLAY EVENT FIRED”. This will tell us when the audio was triggered in the experiment (<code>reaction_time</code>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>audio_rt <span class="ot">&lt;-</span> agg_eye_data <span class="sc">%&gt;%</span></span>
@@ -274,8 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <col style="width: 5%">
 <col style="width: 11%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">subject</th>
 <th style="text-align: left;">trial</th>
 <th style="text-align: right;">acc</th>
@@ -295,8 +275,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th style="text-align: left;">response.x</th>
 <th style="text-align: right;">RT_audio</th>
 <th style="text-align: left;">response.y</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">11788555</td>
@@ -428,9 +407,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-</section>
-<section id="sampling-rate" class="level3">
-<h3 class="anchored" data-anchor-id="sampling-rate">Sampling Rate</h3>
+</section><section id="sampling-rate" class="level3"><h4 class="anchored" data-anchor-id="sampling-rate">Sampling Rate</h4>
 <p>While most commercial eye-trackers sample at a constant rate, webcam eye-trackers do not. Below is some code to calculate the sampling rate of each participant. Ideally, you should not have a sampling rate less than 5 Hz. It has been recommended you drop those values. The below function <code>analyze_sample_rate</code> calculates calculates the sampling rate for each subject and trial in an eye-tracking dataset. It provides overall statistics, including the median and standard deviation of sampling rates in your experiment,and also generates a histogram of median sampling rates by subject with a density plot overlayed.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>samp_rate <span class="ot">&lt;-</span> <span class="fu">analyze_sampling_rate</span>(edat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -473,8 +450,7 @@ Median Sampling Rate by Subject:
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -522,9 +498,7 @@ Median Sampling Rate by Subject:
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">by=</span><span class="st">"both"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here no subjects had a threshold below 5. However, 18 trials did, and they were removed.</p>
-</section>
-<section id="out-of-bounds-outside-of-screen" class="level3">
-<h3 class="anchored" data-anchor-id="out-of-bounds-outside-of-screen">Out-of-bounds (outside of screen)</h3>
+</section><section id="out-of-bounds-outside-of-screen" class="level3"><h4 class="anchored" data-anchor-id="out-of-bounds-outside-of-screen">Out-of-bounds (outside of screen)</h4>
 <p>It is important that we do not include points that fall outside the standardized coordinates. The <code>gaze_oob</code> function calculates how many of the data points fall outside the standardized range. This function returns how many data points fall outside this range by subject and provides a percentage. This information would be useful to include in the final paper. We then add by-subject and by-trial out of bounds data and exclude participants and trials with &gt; 30% missing data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>oob_data <span class="ot">&lt;-</span> <span class="fu">gaze_oob</span>(edat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -719,14 +693,12 @@ Y: 2.75%</code></pre>
 
   
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tinytable_vvslaymkyjj60fa4rh7j</title>
-    <style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tinytable_vvslaymkyjj60fa4rh7j</title>
+<style>
 .table td.tinytable_css_v2b7r1bc85flhxe43q6q, .table th.tinytable_css_v2b7r1bc85flhxe43q6q {    border-bottom: solid 0.1em #d3d8dc; }
     </style>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
     MathJax = {
       tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']]
@@ -735,16 +707,10 @@ Y: 2.75%</code></pre>
         fontCache: 'global'
       }
     };
-    </script>
-  
-
-  
-    <div class="container">
+    </script><div class="container">
       <table class="table table-borderless" id="tinytable_vvslaymkyjj60fa4rh7j" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-        <thead>
-        
-              <tr>
-                <th scope="col">subject</th>
+<thead><tr>
+<th scope="col">subject</th>
                 <th scope="col">total_points</th>
                 <th scope="col">outside_count</th>
                 <th scope="col">total_missing_percentage</th>
@@ -752,12 +718,10 @@ Y: 2.75%</code></pre>
                 <th scope="col">y_outside_count</th>
                 <th scope="col">x_outside_percentage</th>
                 <th scope="col">y_outside_percentage</th>
-              </tr>
-        </thead>
-        
-        <tbody>
-                <tr>
-                  <td>11788555</td>
+              </tr></thead>
+<tbody>
+<tr>
+<td>11788555</td>
                   <td>2483</td>
                   <td> 608</td>
                   <td>24.486508256</td>
@@ -766,8 +730,8 @@ Y: 2.75%</code></pre>
                   <td>17.277486911</td>
                   <td>13.532017720</td>
                 </tr>
-                <tr>
-                  <td>11788682</td>
+<tr>
+<td>11788682</td>
                   <td>5798</td>
                   <td> 551</td>
                   <td> 9.503276992</td>
@@ -776,8 +740,8 @@ Y: 2.75%</code></pre>
                   <td> 6.829941359</td>
                   <td> 3.466712660</td>
                 </tr>
-                <tr>
-                  <td>11788824</td>
+<tr>
+<td>11788824</td>
                   <td>6961</td>
                   <td>1792</td>
                   <td>25.743427668</td>
@@ -786,8 +750,8 @@ Y: 2.75%</code></pre>
                   <td>17.138342192</td>
                   <td>13.374515156</td>
                 </tr>
-                <tr>
-                  <td>11788857</td>
+<tr>
+<td>11788857</td>
                   <td>2237</td>
                   <td> 277</td>
                   <td>12.382655342</td>
@@ -796,8 +760,8 @@ Y: 2.75%</code></pre>
                   <td>11.846222620</td>
                   <td> 1.296379079</td>
                 </tr>
-                <tr>
-                  <td>11789574</td>
+<tr>
+<td>11789574</td>
                   <td> 932</td>
                   <td> 221</td>
                   <td>23.712446352</td>
@@ -806,8 +770,8 @@ Y: 2.75%</code></pre>
                   <td>14.163090129</td>
                   <td>16.094420601</td>
                 </tr>
-                <tr>
-                  <td>11795362</td>
+<tr>
+<td>11795362</td>
                   <td>3951</td>
                   <td> 608</td>
                   <td>15.388509238</td>
@@ -816,8 +780,8 @@ Y: 2.75%</code></pre>
                   <td> 9.997468995</td>
                   <td> 7.694254619</td>
                 </tr>
-                <tr>
-                  <td>11795372</td>
+<tr>
+<td>11795372</td>
                   <td>4598</td>
                   <td> 677</td>
                   <td>14.723792953</td>
@@ -826,8 +790,8 @@ Y: 2.75%</code></pre>
                   <td> 9.112657677</td>
                   <td> 8.220965637</td>
                 </tr>
-                <tr>
-                  <td>11795375</td>
+<tr>
+<td>11795375</td>
                   <td>6795</td>
                   <td>1008</td>
                   <td>14.834437086</td>
@@ -836,8 +800,8 @@ Y: 2.75%</code></pre>
                   <td>11.184694628</td>
                   <td> 6.990434143</td>
                 </tr>
-                <tr>
-                  <td>11795376</td>
+<tr>
+<td>11795376</td>
                   <td>6749</td>
                   <td>1676</td>
                   <td>24.833308638</td>
@@ -846,8 +810,8 @@ Y: 2.75%</code></pre>
                   <td>13.483479034</td>
                   <td>16.417247000</td>
                 </tr>
-                <tr>
-                  <td>11795379</td>
+<tr>
+<td>11795379</td>
                   <td>2247</td>
                   <td> 350</td>
                   <td>15.576323988</td>
@@ -856,8 +820,8 @@ Y: 2.75%</code></pre>
                   <td> 4.361370717</td>
                   <td>12.283044059</td>
                 </tr>
-                <tr>
-                  <td>11795382</td>
+<tr>
+<td>11795382</td>
                   <td>5239</td>
                   <td> 528</td>
                   <td>10.078259210</td>
@@ -866,8 +830,8 @@ Y: 2.75%</code></pre>
                   <td> 6.909715595</td>
                   <td> 5.993510212</td>
                 </tr>
-                <tr>
-                  <td>11795385</td>
+<tr>
+<td>11795385</td>
                   <td>6172</td>
                   <td>1557</td>
                   <td>25.226830849</td>
@@ -876,8 +840,8 @@ Y: 2.75%</code></pre>
                   <td>14.517174336</td>
                   <td>15.829552819</td>
                 </tr>
-                <tr>
-                  <td>11795386</td>
+<tr>
+<td>11795386</td>
                   <td>4658</td>
                   <td>1397</td>
                   <td>29.991412623</td>
@@ -886,8 +850,8 @@ Y: 2.75%</code></pre>
                   <td>17.003005582</td>
                   <td>22.327179047</td>
                 </tr>
-                <tr>
-                  <td>11795387</td>
+<tr>
+<td>11795387</td>
                   <td>3634</td>
                   <td> 586</td>
                   <td>16.125481563</td>
@@ -896,8 +860,8 @@ Y: 2.75%</code></pre>
                   <td> 9.411117226</td>
                   <td> 9.246009906</td>
                 </tr>
-                <tr>
-                  <td>11795388</td>
+<tr>
+<td>11795388</td>
                   <td>4097</td>
                   <td> 755</td>
                   <td>18.428118135</td>
@@ -906,8 +870,8 @@ Y: 2.75%</code></pre>
                   <td>11.325360020</td>
                   <td>11.105687088</td>
                 </tr>
-                <tr>
-                  <td>11795426</td>
+<tr>
+<td>11795426</td>
                   <td>1242</td>
                   <td> 122</td>
                   <td> 9.822866345</td>
@@ -916,8 +880,8 @@ Y: 2.75%</code></pre>
                   <td> 6.441223833</td>
                   <td> 6.441223833</td>
                 </tr>
-                <tr>
-                  <td>11795446</td>
+<tr>
+<td>11795446</td>
                   <td>6712</td>
                   <td> 546</td>
                   <td> 8.134684148</td>
@@ -926,8 +890,8 @@ Y: 2.75%</code></pre>
                   <td> 5.914779499</td>
                   <td> 4.678188319</td>
                 </tr>
-                <tr>
-                  <td>11795529</td>
+<tr>
+<td>11795529</td>
                   <td>4668</td>
                   <td> 482</td>
                   <td>10.325621251</td>
@@ -936,8 +900,8 @@ Y: 2.75%</code></pre>
                   <td> 6.919451585</td>
                   <td> 4.862896315</td>
                 </tr>
-                <tr>
-                  <td>11795650</td>
+<tr>
+<td>11795650</td>
                   <td>2213</td>
                   <td> 101</td>
                   <td> 4.563940352</td>
@@ -946,8 +910,8 @@ Y: 2.75%</code></pre>
                   <td> 2.078626299</td>
                   <td> 2.892001808</td>
                 </tr>
-                <tr>
-                  <td>11795671</td>
+<tr>
+<td>11795671</td>
                   <td>4982</td>
                   <td>1438</td>
                   <td>28.863910076</td>
@@ -956,8 +920,8 @@ Y: 2.75%</code></pre>
                   <td>18.145323163</td>
                   <td>17.703733440</td>
                 </tr>
-                <tr>
-                  <td>11796749</td>
+<tr>
+<td>11796749</td>
                   <td>6469</td>
                   <td>1891</td>
                   <td>29.231720513</td>
@@ -966,8 +930,8 @@ Y: 2.75%</code></pre>
                   <td>23.094759623</td>
                   <td>13.479672283</td>
                 </tr>
-                <tr>
-                  <td>11796756</td>
+<tr>
+<td>11796756</td>
                   <td>6249</td>
                   <td> 820</td>
                   <td>13.122099536</td>
@@ -976,8 +940,8 @@ Y: 2.75%</code></pre>
                   <td> 7.249159866</td>
                   <td> 8.641382621</td>
                 </tr>
-                <tr>
-                  <td>11796779</td>
+<tr>
+<td>11796779</td>
                   <td>5737</td>
                   <td> 253</td>
                   <td> 4.409970368</td>
@@ -986,9 +950,9 @@ Y: 2.75%</code></pre>
                   <td> 2.178839115</td>
                   <td> 2.754052641</td>
                 </tr>
-        </tbody>
-      </table>
-    </div>
+</tbody>
+</table>
+</div>
 
     <script>
       function styleCell_tinytable_esjzdcduutkmcbo3qxr8(i, j, css_id) {
@@ -1041,18 +1005,11 @@ window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcb
 window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcbo3qxr8(0, 6, 'tinytable_css_v2b7r1bc85flhxe43q6q') })
 window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcbo3qxr8(0, 7, 'tinytable_css_v2b7r1bc85flhxe43q6q') })
     </script>
-
-  
-
-
 </div>
 </div>
-</section>
-<section id="zone-coordinates" class="level3">
-<h3 class="anchored" data-anchor-id="zone-coordinates">Zone coordinates</h3>
+</section><section id="zone-coordinates" class="level3"><h4 class="anchored" data-anchor-id="zone-coordinates">Zone coordinates</h4>
 <p>In the lab, we can control every aspect of the experiment. Online we cant do this. Participants are going to be completing the experiment under a variety of conditions. This includes using different computers, with very different screen dimensions. To control for this, Gorilla outputs standardized zone coordinates. As discussed in the Gorilla documentation, the Gorilla layout engine lays everything out in a 4:3 frame and makes that frame as big as possible. The normalized coordinates are then expressed relative to this frame; for example, the coordinate 0.5, 0.5 will always be the center of the screen, regardless of the size of the participant’s screen. We used the normalized coordinates in our analysis. However, there are a few different ways to specify the four coordinates of the screen, which I think is worth highlighting.</p>
-<section id="quadrant-approach" class="level4">
-<h4 class="anchored" data-anchor-id="quadrant-approach">Quadrant Approach</h4>
+<section id="quadrant-approach" class="level4"><h5 class="anchored" data-anchor-id="quadrant-approach">Quadrant Approach</h5>
 <p>One way is to make the AOIs as big as possible and place them in the four quadrants of the screen. What we will need to first is create a dataframe with location of the AOI (e.g., TL, TR, BL, BR), x and y normalized coordinates and width and height normalized. In addition, we will get the xmin, xmanx, and ymax and ymin of the AOIs.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for the quadrants with an added column for the quadrant labels</span></span>
@@ -1081,8 +1038,7 @@ window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcb
 <col style="width: 5%">
 <col style="width: 5%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">loc</th>
 <th style="text-align: right;">x_normalized</th>
 <th style="text-align: right;">y_normalized</th>
@@ -1092,8 +1048,7 @@ window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcb
 <th style="text-align: right;">ymin</th>
 <th style="text-align: right;">xmax</th>
 <th style="text-align: right;">ymax</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">TL</td>
@@ -1143,8 +1098,7 @@ window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcb
 </table>
 </div>
 </div>
-<section id="clean-up-eye-data" class="level5">
-<h5 class="anchored" data-anchor-id="clean-up-eye-data">Clean-up eye data</h5>
+<section id="clean-up-eye-data" class="level5"><h6 class="anchored" data-anchor-id="clean-up-eye-data">Clean-up eye data</h6>
 <p>Here we are going to remove poor convergence scales and confidence. We will also remove coordinates that are 0 in our data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>edat_1 <span class="ot">&lt;-</span> edat <span class="sc">%&gt;%</span></span>
@@ -1153,10 +1107,7 @@ window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcb
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>,</span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-</section>
-<section id="combining-eye-and-trial-level-data" class="level4">
-<h4 class="anchored" data-anchor-id="combining-eye-and-trial-level-data">Combining Eye and Trial-level data</h4>
+</section></section><section id="combining-eye-and-trial-level-data" class="level4"><h5 class="anchored" data-anchor-id="combining-eye-and-trial-level-data">Combining Eye and Trial-level data</h5>
 <p>Next we are going to combine the eye-tracking data and behavioral data by using the <code>left_join</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>subject<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>subject)</span>
@@ -1173,16 +1124,13 @@ window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcb
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Excellent!</p>
-</section>
-<section id="matching-conditions-with-screen-locations" class="level4">
-<h4 class="anchored" data-anchor-id="matching-conditions-with-screen-locations">Matching conditions with screen locations</h4>
+</section><section id="matching-conditions-with-screen-locations" class="level4"><h5 class="anchored" data-anchor-id="matching-conditions-with-screen-locations">Matching conditions with screen locations</h5>
 <p>In this experiment we have four different trial types:</p>
 <ol type="1">
 <li>Target, Cohort, Rhyme, Unrealted</li>
@@ -1295,8 +1243,7 @@ window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcb
 <col style="width: 0%">
 <col style="width: 1%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: right;">X</th>
 <th style="text-align: left;">x0</th>
 <th style="text-align: left;">filename</th>
@@ -1348,8 +1295,7 @@ window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcb
 <th style="text-align: left;">Unrelated3</th>
 <th style="text-align: left;">Rhyme</th>
 <th style="text-align: left;">Cohort</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">1</td>
@@ -1771,8 +1717,7 @@ window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcb
 <col style="width: 0%">
 <col style="width: 0%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: right;">X</th>
 <th style="text-align: left;">x0</th>
 <th style="text-align: left;">filename</th>
@@ -1831,8 +1776,7 @@ window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcb
 <th style="text-align: left;">unrelated3_loc</th>
 <th style="text-align: right;">AOI</th>
 <th style="text-align: left;">loc1</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">1</td>
@@ -2282,8 +2226,7 @@ window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcb
 <col style="width: 0%">
 <col style="width: 0%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: right;">X</th>
 <th style="text-align: left;">x0</th>
 <th style="text-align: left;">filename</th>
@@ -2348,8 +2291,7 @@ window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcb
 <th style="text-align: right;">unrelated3</th>
 <th style="text-align: right;">rhyme</th>
 <th style="text-align: right;">cohort</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">1</td>
@@ -2775,11 +2717,7 @@ Non-looks
 <p>Here we are going to treat them as non-looks (0)</p>
 </div>
 </div>
-</section>
-</section>
-</section>
-<section id="tcru" class="level1">
-<h1>TCRU</h1>
+</section></section></section><section id="tcru" class="section level2"><h2>TCRU</h2>
 <p>We will be looking at the target, cohort, rhyme, unrelated condition for the vignette.</p>
 <p>With the presentation of audio there is a delay in when it was played. We coded that above as <code>RT_audio</code>. Below we change time to correspond to <code>audio_onset</code>. We can do this by subtracting <code>RT_audio</code> from <code>time</code>. we also remove coordinates outside the standardized window.</p>
 <div class="cell">
@@ -2797,14 +2735,12 @@ Non-looks
 <span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
 <span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="downsampling" class="level2">
-<h2 class="anchored" data-anchor-id="downsampling">Downsampling</h2>
+<section id="downsampling" class="level2"><h3 class="anchored" data-anchor-id="downsampling">Downsampling</h3>
 <p>We also downsampled our data into 100 ms bins using the <code>downsample_gaze</code> function from the webgazeR package. In this process, we read in our <code>gaze_sub</code> object, specified the <code>bin.length</code> argument as 200, and set the time variable as <code>time</code>. We also indicated the variables to aggregate on, such as <code>condition</code> and <code>timebins</code>. The <code>timebins</code> variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span><span class="fu">downsample_gaze</span>(gaze_sub, <span class="at">bin.length=</span><span class="dv">200</span>, <span class="at">timevar=</span><span class="st">"time"</span>, <span class="at">aggvars=</span><span class="fu">c</span>(<span class="st">"condition"</span>, <span class="st">"timebins"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="plotting" class="level3">
-<h3 class="anchored" data-anchor-id="plotting">Plotting</h3>
+<section id="plotting" class="level3"><h4 class="anchored" data-anchor-id="plotting">Plotting</h4>
 <p>To simplify plotting your time-course data, we have created the <code>plot_IA_proportions</code> function. This function takes several arguments. The ia_column argument specifies the column containing your Interest Area (IA) labels. The <code>time_column</code> argument requires the name of your time bin column, and the <code>proportion_column</code> argument specifies the column containing fixation or look proportions. Additional arguments allow you to specify custom names for each IA in the ia_column, enabling you to label them as desired.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_IA_proportions</span>(gaze_sub, </span>
@@ -2814,16 +2750,12 @@ Non-looks
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ia_mapping =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="st">"Target"</span>, <span class="at">cohort =</span> <span class="st">"Cohort"</span>, <span class="at">rhyme =</span> <span class="st">"Rhyme"</span>, <span class="at">unrelated =</span> <span class="st">"Unrelated"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="gorilla-provided-coordinates" class="level2">
-<h2 class="anchored" data-anchor-id="gorilla-provided-coordinates">Gorilla provided coordinates</h2>
+</section></section><section id="gorilla-provided-coordinates" class="level2"><h3 class="anchored" data-anchor-id="gorilla-provided-coordinates">Gorilla provided coordinates</h3>
 <p>If you open the each individual .xlsx file provided by gorilla you will see that it provides standardized coordinates for each location: TL, TR, BL, BR. Let’s use these coordinates instead of setting some general coordinates.</p>
 <p>We will use the function <code>extract_aois</code> to get the coordinates for each quadrant on screen. You can use the zone_names argument to get the zones you want to use.</p>
 <div class="cell">
@@ -2862,8 +2794,7 @@ Non-looks
 <col style="width: 5%">
 <col style="width: 5%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">loc</th>
 <th style="text-align: right;">x_normalized</th>
 <th style="text-align: right;">y_normalized</th>
@@ -2873,8 +2804,7 @@ Non-looks
 <th style="text-align: right;">ymin</th>
 <th style="text-align: right;">xmax</th>
 <th style="text-align: right;">ymax</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">BL</td>
@@ -2928,8 +2858,7 @@ Non-looks
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2995,8 +2924,7 @@ Non-looks
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span><span class="fu">downsample_gaze</span>(gaze_sub, <span class="at">bin.length=</span><span class="dv">200</span>, <span class="at">timevar=</span><span class="st">"time"</span>, <span class="at">aggvars=</span><span class="fu">c</span>(<span class="st">"condition"</span>, <span class="st">"timebins"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="plotting-1" class="level3">
-<h3 class="anchored" data-anchor-id="plotting-1">Plotting</h3>
+<section id="plotting-1" class="level3"><h4 class="anchored" data-anchor-id="plotting-1">Plotting</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_IA_proportions</span>(gaze_sub, </span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ia_column =</span> <span class="st">"condition"</span>, </span>
@@ -3005,20 +2933,13 @@ Non-looks
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ia_mapping =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="st">"Target"</span>, <span class="at">cohort =</span> <span class="st">"Cohort"</span>, <span class="at">rhyme =</span> <span class="st">"Rhyme"</span>, <span class="at">unrelated =</span> <span class="st">"Unrelated"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>We see the effect is a lot larger when using the gorilla provided coordinates.</p>
-</section>
-</section>
-</section>
-
-</main>
-<!-- /main column -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></section></section></main><!-- /main column --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -3443,4 +3364,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+</body>
+</html>
