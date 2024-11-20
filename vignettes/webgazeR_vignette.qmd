@@ -35,12 +35,13 @@ library(tinytable) # nice tables
 library(janitor)# functions for cleaning up your column names
 library(easystats)
 library(knitr)
+library(ggokabeito)
 ```
 
 ### Load webgazeR
 
 ```{r}
-#| eval: false
+#| eval: true
 #| 
 remotes::install_github("https://github.com/jgeller112/webgazeR")
 

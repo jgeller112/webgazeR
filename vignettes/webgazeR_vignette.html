@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -146,15 +146,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tinytable) <span class="co"># nice tables</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)<span class="co"># functions for cleaning up your column names</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggokabeito)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="load-webgazer" class="level3">
 <h3 class="anchored" data-anchor-id="load-webgazer">Load webgazeR</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"https://github.com/jgeller112/webgazeR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+── R CMD build ─────────────────────────────────────────────────────────────────
+* checking for file ‘/private/var/folders/b6/cndg9nj53jnfy45qtx6h533r0000gs/T/RtmpuhViBn/remotes16543a3425c3/jgeller112-webgazeR-cf16ddc/DESCRIPTION’ ... OK
+* preparing ‘webgazeR’:
+* checking DESCRIPTION meta-information ... OK
+* checking for LF line-endings in source and make files and shell scripts
+* checking for empty or unneeded directories
+* building ‘webgazeR_0.1.0.tar.gz’</code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(webgazeR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(webgazeR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -162,84 +173,84 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="eye-data">Eye data</h2>
 <p>When data is generated from Gorilla, each trial in your experiment is its own file. Because of this, we need to take all the individual files and merge them together. The <code>merge_webcam_files</code> function merges each trial from each participant into a single tibble or dataframe. Before running the <code>merge_webcam_files</code> function, ensure that your working directory is set to where the files are stored. This function reads in all the .xlsx files, binds them together into one dataframe, and cleans up the column names. The function then filters the data to include only rows where the type is “prediction” and the screen_index matches the specified value (in our case, screen 4). This is where eye-tracking data was recorded. The function renames the <code>spreadsheet_row</code> column to trial and sets both <code>trial</code> and <code>subject</code>as factors for further analysis in our pipeline. As a note, all steps should be followed in order due to the renaming of column names. If you encounter an error it might be because column names have not been changed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the list of all files in the folder</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>vwp_files  <span class="ot">&lt;-</span> <span class="fu">list.files</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"monolinguals"</span>, <span class="st">"raw"</span>), <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.xlsx$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclude files that contain "calibration" in their filename</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>vwp_paths_filtered <span class="ot">&lt;-</span> vwp_files[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"calibration"</span>, vwp_files)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the list of all files in the folder</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>vwp_files  <span class="ot">&lt;-</span> <span class="fu">list.files</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"monolinguals"</span>, <span class="st">"raw"</span>), <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.xlsx$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclude files that contain "calibration" in their filename</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>vwp_paths_filtered <span class="ot">&lt;-</span> vwp_files[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"calibration"</span>, vwp_files)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"monolinguals"</span>, <span class="st">"raw"</span>)) <span class="co"># set working directory to raw data folder</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>edat <span class="ot">&lt;-</span> <span class="fu">merge_webcam_files</span>(vwp_paths_filtered, <span class="at">screen_index=</span><span class="dv">4</span>) <span class="co"># eye tracking occured ons creen index 4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"monolinguals"</span>, <span class="st">"raw"</span>)) <span class="co"># set working directory to raw data folder</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>edat <span class="ot">&lt;-</span> <span class="fu">merge_webcam_files</span>(vwp_paths_filtered, <span class="at">screen_index=</span><span class="dv">4</span>) <span class="co"># eye tracking occured ons creen index 4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>the <code>webgazeR</code> package includes a combined dataset for us to use</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>edat <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span>eyedata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>edat <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span>eyedata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="behavioral-data" class="level4">
 <h4 class="anchored" data-anchor-id="behavioral-data">Behavioral Data</h4>
 <p>Gorilla produces a <code>.csv</code> file that include trial-level information (<code>agg_ege_data)</code>. Below we read that object in and create an object called <code>emstr</code> that selects useful columns from that file and renames stimuli to make them more intuitive. Because most of this will be user-specific, no function is called here.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load in trial level data</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>agg_eye_data <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span>behav_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load in trial level data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>agg_eye_data <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span>behav_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Below we describe the pre-processing done on the behavioral data file. The below code processes and transforms the <code>agg_eye_data</code> dataset into a cleaned and structured format for further analysis. First, the code renames several columns for easier access using the <code>janitor::clean_names</code> function. It filters the dataset to include only rows where <code>zone_type</code> is “response_button_image”, representing the picture selected for that trial. Afterward, the function renames additional columns (<code>tlpic</code> to <code>TL</code>, <code>trpic</code> to <code>TR</code>, etc.). We also renamed <code>participant_private_id</code> to <code>subject</code>, <code>spreadsheet_row</code> to <code>trial</code>, and <code>reaction_time</code> to <code>RT</code>. This makes our columns consistent with the <code>edat</code> above for merging later on. Lastly, the `reaction time (RT) is converted to a numeric format for further numerical analysis.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>emstr <span class="ot">&lt;-</span> agg_eye_data <span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Select specific columns to keep in the dataset</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(participant_private_id,  correct, tlpic, trpic, blpic, brpic, trialtype, targetword, tlcode, trcode, blcode, brcode, zone_name, zone_type,reaction_time, spreadsheet_row, response) <span class="sc">%&gt;%</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Filter the rows where 'Zone.Type' equals "response_button_image"</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(zone_type <span class="sc">==</span> <span class="st">"response_button_image"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rename columns for easier use and readability</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TL"</span> <span class="ot">=</span> <span class="st">"tlpic"</span>,              <span class="co"># Rename 'tlpic' to 'TL'</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TR"</span> <span class="ot">=</span> <span class="st">"trpic"</span>,             <span class="co"># Rename 'trpic' to 'TR'</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BL"</span> <span class="ot">=</span> <span class="st">"blpic"</span>,            <span class="co"># Rename 'blpic' to 'BL'</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BR"</span> <span class="ot">=</span> <span class="st">"brpic"</span>,                <span class="co"># Rename 'brpic' to 'BR'</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"targ_loc"</span> <span class="ot">=</span> <span class="st">"zone_name"</span>,       <span class="co"># Rename 'Zone.Name' to 'targ_loc'</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"subject"</span> <span class="ot">=</span> <span class="st">"participant_private_id"</span>,  <span class="co"># Rename 'Participant.Private.ID' to 'subject'</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"trial"</span> <span class="ot">=</span> <span class="st">"spreadsheet_row"</span>,    <span class="co"># Rename 'spreadsheet_row' to 'trial'</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"acc"</span> <span class="ot">=</span> <span class="st">"correct"</span>,              <span class="co"># Rename 'Correct' to 'acc' (accuracy)</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RT"</span> <span class="ot">=</span> <span class="st">"reaction_time"</span>          <span class="co"># Rename 'Reaction.Time' to 'RT'</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert the 'RT' (Reaction Time) column to numeric type</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RT =</span> <span class="fu">as.numeric</span>(RT), </span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>         <span class="at">subject=</span><span class="fu">as.factor</span>(subject), </span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>         <span class="at">trial=</span><span class="fu">as.factor</span>(trial))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>emstr <span class="ot">&lt;-</span> agg_eye_data <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Select specific columns to keep in the dataset</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(participant_private_id,  correct, tlpic, trpic, blpic, brpic, trialtype, targetword, tlcode, trcode, blcode, brcode, zone_name, zone_type,reaction_time, spreadsheet_row, response) <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Filter the rows where 'Zone.Type' equals "response_button_image"</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(zone_type <span class="sc">==</span> <span class="st">"response_button_image"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rename columns for easier use and readability</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TL"</span> <span class="ot">=</span> <span class="st">"tlpic"</span>,              <span class="co"># Rename 'tlpic' to 'TL'</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TR"</span> <span class="ot">=</span> <span class="st">"trpic"</span>,             <span class="co"># Rename 'trpic' to 'TR'</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BL"</span> <span class="ot">=</span> <span class="st">"blpic"</span>,            <span class="co"># Rename 'blpic' to 'BL'</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BR"</span> <span class="ot">=</span> <span class="st">"brpic"</span>,                <span class="co"># Rename 'brpic' to 'BR'</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"targ_loc"</span> <span class="ot">=</span> <span class="st">"zone_name"</span>,       <span class="co"># Rename 'Zone.Name' to 'targ_loc'</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"subject"</span> <span class="ot">=</span> <span class="st">"participant_private_id"</span>,  <span class="co"># Rename 'Participant.Private.ID' to 'subject'</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"trial"</span> <span class="ot">=</span> <span class="st">"spreadsheet_row"</span>,    <span class="co"># Rename 'spreadsheet_row' to 'trial'</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"acc"</span> <span class="ot">=</span> <span class="st">"correct"</span>,              <span class="co"># Rename 'Correct' to 'acc' (accuracy)</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RT"</span> <span class="ot">=</span> <span class="st">"reaction_time"</span>          <span class="co"># Rename 'Reaction.Time' to 'RT'</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert the 'RT' (Reaction Time) column to numeric type</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RT =</span> <span class="fu">as.numeric</span>(RT), </span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>         <span class="at">subject=</span><span class="fu">as.factor</span>(subject), </span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>         <span class="at">trial=</span><span class="fu">as.factor</span>(trial))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="get-audio-onset-time" class="level3">
 <h3 class="anchored" data-anchor-id="get-audio-onset-time">Get audio onset time</h3>
 <p>Because we are using audio on each trial and we are running this experiment for the browser audio onset is never going to to conistent across participants. In Gorilla there is an option to collect advanced audio features such as when the audio play was requested, fired )played and ended. We will want to incorporate this into our pipeline. Gorilla records the onset of the audio which varies by participant. We are extracting that here by filtering <code>zone_type</code> to <code>content_web_audio</code> and response equal to “AUDIO PLAY EVENT FIRED”. This will tell us when the audio was triggered in the experiment (<code>reaction_time</code>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>audio_rt <span class="ot">&lt;-</span> agg_eye_data <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>()<span class="sc">%&gt;%</span> </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(participant_private_id,zone_type, spreadsheet_row, reaction_time, response) <span class="sc">%&gt;%</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(zone_type<span class="sc">==</span><span class="st">"content_web_audio"</span>, response<span class="sc">==</span><span class="st">"AUDIO PLAY EVENT FIRED"</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rename</span>(<span class="st">"subject"</span> <span class="ot">=</span> <span class="st">"participant_private_id"</span>, </span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>       <span class="st">"trial"</span> <span class="ot">=</span><span class="st">"spreadsheet_row"</span>,  </span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>       <span class="st">"RT_audio"</span> <span class="ot">=</span> <span class="st">"reaction_time"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span>zone_type) <span class="sc">%&gt;%</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">RT_audio=</span><span class="fu">as.numeric</span>(RT_audio))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>audio_rt <span class="ot">&lt;-</span> agg_eye_data <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>()<span class="sc">%&gt;%</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(participant_private_id,zone_type, spreadsheet_row, reaction_time, response) <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(zone_type<span class="sc">==</span><span class="st">"content_web_audio"</span>, response<span class="sc">==</span><span class="st">"AUDIO PLAY EVENT FIRED"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rename</span>(<span class="st">"subject"</span> <span class="ot">=</span> <span class="st">"participant_private_id"</span>, </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>       <span class="st">"trial"</span> <span class="ot">=</span><span class="st">"spreadsheet_row"</span>,  </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>       <span class="st">"RT_audio"</span> <span class="ot">=</span> <span class="st">"reaction_time"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span>zone_type) <span class="sc">%&gt;%</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">RT_audio=</span><span class="fu">as.numeric</span>(RT_audio))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We then merge this information with <code>emstr</code>. We see that <code>RT_audio</code> has been added to our dataframe.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>trial_data_rt <span class="ot">&lt;-</span> <span class="fu">merge</span>(emstr, audio_rt, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"subject"</span>, <span class="st">"trial"</span>))</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(trial_data_rt) <span class="sc">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>trial_data_rt <span class="ot">&lt;-</span> <span class="fu">merge</span>(emstr, audio_rt, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"subject"</span>, <span class="st">"trial"</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(trial_data_rt) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -422,7 +433,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="sampling-rate">Sampling Rate</h3>
 <p>While most commercial eye-trackers sample at a constant rate, webcam eye-trackers do not. Below is some code to calculate the sampling rate of each participant. Ideally, you should not have a sampling rate less than 5 Hz. It has been recommended you drop those values. The below function <code>analyze_sample_rate</code> calculates calculates the sampling rate for each subject and trial in an eye-tracking dataset. It provides overall statistics, including the median and standard deviation of sampling rates in your experiment,and also generates a histogram of median sampling rates by subject with a density plot overlayed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>samp_rate <span class="ot">&lt;-</span> <span class="fu">analyze_sampling_rate</span>(edat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>samp_rate <span class="ot">&lt;-</span> <span class="fu">analyze_sampling_rate</span>(edat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Overall Median Sampling Rate (Hz): 24.76936956 
 Overall Standard Deviation of Sampling Rate (Hz): 7.807913315 
@@ -471,44 +482,44 @@ Median Sampling Rate by Subject:
 <p>In this example, we have a median sampling rate of 24.77 with a SD of 7.81.</p>
 <p>When using the above function, separate data frames are produced for subjects and trials. These can be added to the behavioral data object.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract by-subject and by-trial sampling rates from the result</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>subject_sampling_rate <span class="ot">&lt;-</span> samp_rate<span class="sc">$</span>median_SR_by_subject  <span class="co"># Sampling rate by subject</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>trial_sampling_rate <span class="ot">&lt;-</span> samp_rate<span class="sc">$</span>SR_by_trial  <span class="co"># Sampling rate by trial</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>trial_sampling_rate<span class="sc">$</span>subject<span class="ot">&lt;-</span><span class="fu">as.factor</span>(trial_sampling_rate<span class="sc">$</span>subject)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming target_data is your other dataset that contains subject and trial information</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Append the by-subject sampling rate to target_data (based on subject)</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>subject_sampling_rate<span class="sc">$</span>subject <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(subject_sampling_rate<span class="sc">$</span>subject)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>target_data_with_subject_SR <span class="ot">&lt;-</span> trial_data_rt <span class="sc">%&gt;%</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(subject_sampling_rate, <span class="at">by =</span> <span class="st">"subject"</span>)</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Append the by-trial sampling rate to target_data (based on subject and trial)</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>trial_sampling_rate<span class="sc">$</span>trial <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(trial_sampling_rate<span class="sc">$</span>trial)</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>target_data_with_full_SR <span class="ot">&lt;-</span> target_data_with_subject_SR <span class="sc">%&gt;%</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, med_SR)<span class="sc">%&gt;%</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(trial_sampling_rate, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"subject"</span>, <span class="st">"trial"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract by-subject and by-trial sampling rates from the result</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>subject_sampling_rate <span class="ot">&lt;-</span> samp_rate<span class="sc">$</span>median_SR_by_subject  <span class="co"># Sampling rate by subject</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>trial_sampling_rate <span class="ot">&lt;-</span> samp_rate<span class="sc">$</span>SR_by_trial  <span class="co"># Sampling rate by trial</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>trial_sampling_rate<span class="sc">$</span>subject<span class="ot">&lt;-</span><span class="fu">as.factor</span>(trial_sampling_rate<span class="sc">$</span>subject)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming target_data is your other dataset that contains subject and trial information</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Append the by-subject sampling rate to target_data (based on subject)</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>subject_sampling_rate<span class="sc">$</span>subject <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(subject_sampling_rate<span class="sc">$</span>subject)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>target_data_with_subject_SR <span class="ot">&lt;-</span> trial_data_rt <span class="sc">%&gt;%</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(subject_sampling_rate, <span class="at">by =</span> <span class="st">"subject"</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Append the by-trial sampling rate to target_data (based on subject and trial)</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>trial_sampling_rate<span class="sc">$</span>trial <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(trial_sampling_rate<span class="sc">$</span>trial)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>target_data_with_full_SR <span class="ot">&lt;-</span> target_data_with_subject_SR <span class="sc">%&gt;%</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, med_SR)<span class="sc">%&gt;%</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(trial_sampling_rate, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"subject"</span>, <span class="st">"trial"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can add this to our behavioral data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>trial_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(trial_data_rt, target_data_with_full_SR, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"subject"</span>, <span class="st">"trial"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>trial_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(trial_data_rt, target_data_with_full_SR, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"subject"</span>, <span class="st">"trial"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Users can use the <code>filter_sampling_rate</code> function to either either (1) throw out data, by subject, by trial, or both, and (2) label it sampling rates below a certain threshold as bad (TRUE or FALSE). Let’s use the <code>filter_sampling_rate()</code> function to do this. We will read in our <code>target_data_with_full_SR</code> object.</p>
 <p>We leave it up to the user to decide what to do and make no specific recommendations. In our case we are going to remove the data by subject and by trial (<code>action</code>==“both”) if sampling frequency is below 5hz (<code>threshold</code>=5). The <code>filter_sampling_rate</code> function is designed to process a dataset containing subject-level and trial-level sampling rates. It allows the user to either filter out data that falls below a certain sampling rate threshold or simply label it as “bad”. The function gives flexibility by allowing the threshold to be applied at the subject level, trial level, or both. It also lets the user decide whether to remove the data or flag it as below the threshold without removing it. If <code>action</code> = remove, the function will output how many subjects and trials were removed by on the threshold.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>filter_edat <span class="ot">&lt;-</span> <span class="fu">filter_sampling_rate</span>(trial_data,<span class="at">threshold =</span> <span class="dv">5</span>, </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">action =</span> <span class="st">"remove"</span>, </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">by =</span> <span class="st">"both"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>filter_edat <span class="ot">&lt;-</span> <span class="fu">filter_sampling_rate</span>(trial_data,<span class="at">threshold =</span> <span class="dv">5</span>, </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">action =</span> <span class="st">"remove"</span>, </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">by =</span> <span class="st">"both"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>filter_edat</code> returns a dataframe with trials and subjects removed. If we set the argument <code>action</code> to label, <code>filter_edat_label</code> would return a dataframe that includes column(s) with sampling rates &lt; 5 labeled as TRUE (bad) or FALSE</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>filter_edat_label <span class="ot">&lt;-</span> <span class="fu">filter_sampling_rate</span>(trial_data,<span class="at">threshold =</span> <span class="dv">5</span>, </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">action =</span> <span class="st">"label"</span>, </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">by=</span><span class="st">"both"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>filter_edat_label <span class="ot">&lt;-</span> <span class="fu">filter_sampling_rate</span>(trial_data,<span class="at">threshold =</span> <span class="dv">5</span>, </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">action =</span> <span class="st">"label"</span>, </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">by=</span><span class="st">"both"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here no subjects had a threshold below 5. However, 18 trials did, and they were removed.</p>
 </section>
@@ -516,7 +527,7 @@ Median Sampling Rate by Subject:
 <h3 class="anchored" data-anchor-id="out-of-bounds-outside-of-screen">Out-of-bounds (outside of screen)</h3>
 <p>It is important that we do not include points that fall outside the standardized coordinates. The <code>gaze_oob</code> function calculates how many of the data points fall outside the standardized range. This function returns how many data points fall outside this range by subject and provides a percentage. This information would be useful to include in the final paper. We then add by-subject and by-trial out of bounds data and exclude participants and trials with &gt; 30% missing data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>oob_data <span class="ot">&lt;-</span> <span class="fu">gaze_oob</span>(edat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>oob_data <span class="ot">&lt;-</span> <span class="fu">gaze_oob</span>(edat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Subject: 11788555
 Total points: 2483
@@ -701,17 +712,17 @@ Total missing percentage: 4.41%
 X: 2.18%
 Y: 2.75%</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>oob_data <span class="sc">%&gt;%</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>oob_data <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
  
 
   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tinytable_qypzzi59408fthasq8jy</title>
+    <title>tinytable_vvslaymkyjj60fa4rh7j</title>
     <style>
-.table td.tinytable_css_89934np083x01voeyxyx, .table th.tinytable_css_89934np083x01voeyxyx {    border-bottom: solid 0.1em #d3d8dc; }
+.table td.tinytable_css_v2b7r1bc85flhxe43q6q, .table th.tinytable_css_v2b7r1bc85flhxe43q6q {    border-bottom: solid 0.1em #d3d8dc; }
     </style>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -729,7 +740,7 @@ Y: 2.75%</code></pre>
 
   
     <div class="container">
-      <table class="table table-borderless" id="tinytable_qypzzi59408fthasq8jy" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_vvslaymkyjj60fa4rh7j" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -980,12 +991,12 @@ Y: 2.75%</code></pre>
     </div>
 
     <script>
-      function styleCell_tinytable_pg75e5geuiat9r2xqzkc(i, j, css_id) {
-        var table = document.getElementById("tinytable_qypzzi59408fthasq8jy");
+      function styleCell_tinytable_esjzdcduutkmcbo3qxr8(i, j, css_id) {
+        var table = document.getElementById("tinytable_vvslaymkyjj60fa4rh7j");
         table.rows[i].cells[j].classList.add(css_id);
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_qypzzi59408fthasq8jy');
+        var table = document.getElementById('tinytable_vvslaymkyjj60fa4rh7j');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -993,8 +1004,8 @@ Y: 2.75%</code></pre>
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_tinytable_pg75e5geuiat9r2xqzkc(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_qypzzi59408fthasq8jy");
+      function spanCell_tinytable_esjzdcduutkmcbo3qxr8(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_vvslaymkyjj60fa4rh7j");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -1021,14 +1032,14 @@ Y: 2.75%</code></pre>
         targetCell.colSpan = colspan;
       }
 
-window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r2xqzkc(0, 0, 'tinytable_css_89934np083x01voeyxyx') })
-window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r2xqzkc(0, 1, 'tinytable_css_89934np083x01voeyxyx') })
-window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r2xqzkc(0, 2, 'tinytable_css_89934np083x01voeyxyx') })
-window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r2xqzkc(0, 3, 'tinytable_css_89934np083x01voeyxyx') })
-window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r2xqzkc(0, 4, 'tinytable_css_89934np083x01voeyxyx') })
-window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r2xqzkc(0, 5, 'tinytable_css_89934np083x01voeyxyx') })
-window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r2xqzkc(0, 6, 'tinytable_css_89934np083x01voeyxyx') })
-window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r2xqzkc(0, 7, 'tinytable_css_89934np083x01voeyxyx') })
+window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcbo3qxr8(0, 0, 'tinytable_css_v2b7r1bc85flhxe43q6q') })
+window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcbo3qxr8(0, 1, 'tinytable_css_v2b7r1bc85flhxe43q6q') })
+window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcbo3qxr8(0, 2, 'tinytable_css_v2b7r1bc85flhxe43q6q') })
+window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcbo3qxr8(0, 3, 'tinytable_css_v2b7r1bc85flhxe43q6q') })
+window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcbo3qxr8(0, 4, 'tinytable_css_v2b7r1bc85flhxe43q6q') })
+window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcbo3qxr8(0, 5, 'tinytable_css_v2b7r1bc85flhxe43q6q') })
+window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcbo3qxr8(0, 6, 'tinytable_css_v2b7r1bc85flhxe43q6q') })
+window.addEventListener('load', function () { styleCell_tinytable_esjzdcduutkmcbo3qxr8(0, 7, 'tinytable_css_v2b7r1bc85flhxe43q6q') })
     </script>
 
   
@@ -1044,17 +1055,17 @@ window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r
 <h4 class="anchored" data-anchor-id="quadrant-approach">Quadrant Approach</h4>
 <p>One way is to make the AOIs as big as possible and place them in the four quadrants of the screen. What we will need to first is create a dataframe with location of the AOI (e.g., TL, TR, BL, BR), x and y normalized coordinates and width and height normalized. In addition, we will get the xmin, xmanx, and ymax and ymin of the AOIs.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for the quadrants with an added column for the quadrant labels</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>aoi_loc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">loc =</span> <span class="fu">c</span>(<span class="st">'TL'</span>, <span class="st">'TR'</span>, <span class="st">'BL'</span>, <span class="st">'BR'</span>), </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_normalized =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>),</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">y_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">width_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">xmin =</span> x_normalized, <span class="at">ymin =</span> y_normalized,</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">xmax =</span> x_normalized<span class="sc">+</span>width_normalized,</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">ymax =</span> y_normalized<span class="sc">+</span>height_normalized)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for the quadrants with an added column for the quadrant labels</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>aoi_loc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">loc =</span> <span class="fu">c</span>(<span class="st">'TL'</span>, <span class="st">'TR'</span>, <span class="st">'BL'</span>, <span class="st">'BR'</span>), </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_normalized =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>),</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">y_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">width_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">xmin =</span> x_normalized, <span class="at">ymin =</span> y_normalized,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">xmax =</span> x_normalized<span class="sc">+</span>width_normalized,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">ymax =</span> y_normalized<span class="sc">+</span>height_normalized)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -1136,11 +1147,11 @@ window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r
 <h5 class="anchored" data-anchor-id="clean-up-eye-data">Clean-up eye data</h5>
 <p>Here we are going to remove poor convergence scales and confidence. We will also remove coordinates that are 0 in our data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>edat_1 <span class="ot">&lt;-</span> edat <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">filter</span>(convergence <span class="sc">&lt;=</span> .<span class="dv">5</span>, face_conf <span class="sc">&gt;=</span> .<span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove rows without gaze information</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>,</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>edat_1 <span class="ot">&lt;-</span> edat <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">filter</span>(convergence <span class="sc">&lt;=</span> .<span class="dv">5</span>, face_conf <span class="sc">&gt;=</span> .<span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove rows without gaze information</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -1148,15 +1159,15 @@ window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r
 <h4 class="anchored" data-anchor-id="combining-eye-and-trial-level-data">Combining Eye and Trial-level data</h4>
 <p>Next we are going to combine the eye-tracking data and behavioral data by using the <code>left_join</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>subject<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>subject)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>trial<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>trial)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(edat_1, filter_edat, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"subject"</span>,<span class="st">"trial"</span>))</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="co"># make sure to remove duplicate rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>subject<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>subject)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>trial<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>trial)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(edat_1, filter_edat, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"subject"</span>,<span class="st">"trial"</span>))</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="co"># make sure to remove duplicate rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s verify our AOIs look how they are suppose to.</p>
 <div class="cell">
@@ -1181,52 +1192,52 @@ window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r
 </ol>
 <p>We will first match the pictures in the TL, TR, BL, BR columns to the correct code condition (T,C, R, U, U2, U3).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming your data is in a data frame called df</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Target =</span> <span class="fu">case_when</span>(</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> TL,</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> TR,</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> BL,</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> BR,</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>  <span class="co"># Default to NA if no match</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated =</span> <span class="fu">case_when</span>(</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> TL,</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> TR,</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> BL,</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> BR,</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated2 =</span> <span class="fu">case_when</span>(</span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> TL,</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> TR,</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> BL,</span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> BR,</span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated3 =</span> <span class="fu">case_when</span>(</span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> TL,</span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> TR,</span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> BL,</span>
-<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> BR,</span>
-<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">Rhyme =</span> <span class="fu">case_when</span>(</span>
-<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> TL,</span>
-<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> TR,</span>
-<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> BL,</span>
-<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> BR,</span>
-<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">Cohort =</span> <span class="fu">case_when</span>(</span>
-<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> TL,</span>
-<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> TR,</span>
-<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> BL,</span>
-<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> BR,</span>
-<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming your data is in a data frame called df</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Target =</span> <span class="fu">case_when</span>(</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> TL,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> TR,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> BL,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> BR,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>  <span class="co"># Default to NA if no match</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated =</span> <span class="fu">case_when</span>(</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> TL,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> TR,</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> BL,</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> BR,</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated2 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> TL,</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> TR,</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> BL,</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> BR,</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated3 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> TL,</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> TR,</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> BL,</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> BR,</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">Rhyme =</span> <span class="fu">case_when</span>(</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> TL,</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> TR,</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> BL,</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> BR,</span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">Cohort =</span> <span class="fu">case_when</span>(</span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> TL,</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> TR,</span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> BL,</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> BR,</span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -1665,37 +1676,37 @@ window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r
 <p>In our study, we need to track not only the condition of each image shown (such as Target, Cohort, Rhyme, or Unrelated) but also where each image is located on the screen during each trial as they are randomized on each trial. To do this, we use a function named <code>find_location</code>. This function is designed to determine the location of a specific image on the screen by comparing the image with the list of possible locations.</p>
 <p>The function <code>find_location</code> first checks if the image is NA (missing). If the image is NA, the function returns NA, meaning that there’s no location to find for this image. If the image is not NA, the function creates a vector loc_names that lists the names of the possible locations. It then attempts to match the given image with the locations. If a match is found, it returns the name of the location (e.g., TL, TR, BL, or BR) where the image is located. If there is no match, the function returns NA.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to each of the targ, cohort, rhyme, and unrelated columns</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>dat_colnames <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">targ_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Target),</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cohort_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Cohort),</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">rhyme_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Rhyme),</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrelated_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated), </span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrealted2_loc=</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated2), </span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrelated3_loc=</span><span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated3)</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to each of the targ, cohort, rhyme, and unrelated columns</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>dat_colnames <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">targ_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Target),</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cohort_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Cohort),</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">rhyme_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Rhyme),</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrelated_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated), </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrealted2_loc=</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated2), </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrelated3_loc=</span><span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated3)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is where we are going to use our coordinate information from above. We use the <code>assign_aoi</code> that is adaopted from the <code>gazeR</code> package (Geller et al., 2020) to loop through our object <code>dat_colnames</code> and assign locations (i.e., TR, TL, BL, BR) to our normalized <code>x</code> and <code>y</code> coordinates. This function will label non-looks and off screen coordinates with NA. To make it easier to read we change the numerals assigned by the function to actual screen locations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> gazer<span class="sc">::</span><span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aoi_loc)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>AOI <span class="ot">&lt;-</span> assign <span class="sc">%&gt;%</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">loc1 =</span> <span class="fu">case_when</span>(</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"TL"</span>, </span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">"TR"</span>, </span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">3</span> <span class="sc">~</span> <span class="st">"BL"</span>, </span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">4</span> <span class="sc">~</span> <span class="st">"BR"</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> gazer<span class="sc">::</span><span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aoi_loc)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>AOI <span class="ot">&lt;-</span> assign <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">loc1 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"TL"</span>, </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">"TR"</span>, </span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">3</span> <span class="sc">~</span> <span class="st">"BL"</span>, </span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">4</span> <span class="sc">~</span> <span class="st">"BR"</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -2189,18 +2200,18 @@ window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r
 </div>
 <p>In the <code>AOI</code> object we have our condition variables as columns. For this example, the fixation locations need to be “gathered” from separate columns into a single column and “NA” values need to be re-coded as non-fixations (0). We logically evaluate these below so we know which item was fixated each sample and what was not.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>target <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1<span class="sc">==</span>AOI<span class="sc">$</span>targ_loc, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrealted2_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated3 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated3_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>rhyme <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>rhyme_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>cohort <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>cohort_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>target <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1<span class="sc">==</span>AOI<span class="sc">$</span>targ_loc, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrealted2_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated3 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated3_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>rhyme <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>rhyme_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>cohort <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>cohort_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -2742,13 +2753,13 @@ window.addEventListener('load', function () { styleCell_tinytable_pg75e5geuiat9r
 </div>
 <p>Now we pivot so instead of each condition being an individual column it is one column. This helps with visualization. We <code>pivot_longer</code> or make longer the target, unrelated, unrealted2, unrelated3, rhyme, and cohort columns. We put them into a column called condition and place the values of 0 and 1 into a column called <code>look</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me <span class="ot">&lt;-</span> AOI  <span class="sc">%&gt;%</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) <span class="sc">%&gt;%</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">c</span>(target, unrelated, unrelated2, unrelated3, rhyme, cohort),</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"condition"</span>,</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"Looks"</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me <span class="ot">&lt;-</span> AOI  <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">c</span>(target, unrelated, unrelated2, unrelated3, rhyme, cohort),</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"condition"</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"Looks"</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2772,35 +2783,35 @@ Non-looks
 <p>We will be looking at the target, cohort, rhyme, unrelated condition for the vignette.</p>
 <p>With the presentation of audio there is a delay in when it was played. We coded that above as <code>RT_audio</code>. Below we change time to correspond to <code>audio_onset</code>. We can do this by subtracting <code>RT_audio</code> from <code>time</code>. we also remove coordinates outside the standardized window.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me_TCRU <span class="ot">&lt;-</span> dat_long_aoi_me <span class="sc">%&gt;%</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trialtype<span class="sc">==</span><span class="st">"TCRU"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me_TCRU <span class="ot">&lt;-</span> dat_long_aoi_me <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trialtype<span class="sc">==</span><span class="st">"TCRU"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span>dat_long_aoi_me_TCRU<span class="sc">%&gt;%</span> </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(subject, trial) <span class="sc">%&gt;%</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> time<span class="sc">-</span>RT_audio) <span class="sc">%&gt;%</span> <span class="co"># subtract audio rt onset for each</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(time <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">100</span>, time <span class="sc">&lt;</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> <span class="co"># start -100 to 2000 ms </span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                x_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>,</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span>dat_long_aoi_me_TCRU<span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(subject, trial) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> time<span class="sc">-</span>RT_audio) <span class="sc">%&gt;%</span> <span class="co"># subtract audio rt onset for each</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(time <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">100</span>, time <span class="sc">&lt;</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> <span class="co"># start -100 to 2000 ms </span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                x_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="downsampling" class="level2">
 <h2 class="anchored" data-anchor-id="downsampling">Downsampling</h2>
 <p>We also downsampled our data into 100 ms bins using the <code>downsample_gaze</code> function from the webgazeR package. In this process, we read in our <code>gaze_sub</code> object, specified the <code>bin.length</code> argument as 200, and set the time variable as <code>time</code>. We also indicated the variables to aggregate on, such as <code>condition</code> and <code>timebins</code>. The <code>timebins</code> variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span><span class="fu">downsample_gaze</span>(gaze_sub, <span class="at">bin.length=</span><span class="dv">200</span>, <span class="at">timevar=</span><span class="st">"time"</span>, <span class="at">aggvars=</span><span class="fu">c</span>(<span class="st">"condition"</span>, <span class="st">"timebins"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span><span class="fu">downsample_gaze</span>(gaze_sub, <span class="at">bin.length=</span><span class="dv">200</span>, <span class="at">timevar=</span><span class="st">"time"</span>, <span class="at">aggvars=</span><span class="fu">c</span>(<span class="st">"condition"</span>, <span class="st">"timebins"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="plotting" class="level3">
 <h3 class="anchored" data-anchor-id="plotting">Plotting</h3>
 <p>To simplify plotting your time-course data, we have created the <code>plot_IA_proportions</code> function. This function takes several arguments. The ia_column argument specifies the column containing your Interest Area (IA) labels. The <code>time_column</code> argument requires the name of your time bin column, and the <code>proportion_column</code> argument specifies the column containing fixation or look proportions. Additional arguments allow you to specify custom names for each IA in the ia_column, enabling you to label them as desired.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_IA_proportions</span>(gaze_sub, </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ia_column =</span> <span class="st">"condition"</span>, </span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">time_column =</span> <span class="st">"timebins"</span>, </span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">proportion_column =</span> <span class="st">"Fix"</span>, </span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ia_mapping =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="st">"Target"</span>, <span class="at">cohort =</span> <span class="st">"Cohort"</span>, <span class="at">rhyme =</span> <span class="st">"Rhyme"</span>, <span class="at">unrelated =</span> <span class="st">"Unrelated"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_IA_proportions</span>(gaze_sub, </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ia_column =</span> <span class="st">"condition"</span>, </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">time_column =</span> <span class="st">"timebins"</span>, </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">proportion_column =</span> <span class="st">"Fix"</span>, </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ia_mapping =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="st">"Target"</span>, <span class="at">cohort =</span> <span class="st">"Cohort"</span>, <span class="at">rhyme =</span> <span class="st">"Rhyme"</span>, <span class="at">unrelated =</span> <span class="st">"Unrelated"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -2816,28 +2827,28 @@ Non-looks
 <p>If you open the each individual .xlsx file provided by gorilla you will see that it provides standardized coordinates for each location: TL, TR, BL, BR. Let’s use these coordinates instead of setting some general coordinates.</p>
 <p>We will use the function <code>extract_aois</code> to get the coordinates for each quadrant on screen. You can use the zone_names argument to get the zones you want to use.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>aois <span class="ot">&lt;-</span> <span class="fu">extract_aois</span>(vwp_paths_filtered, <span class="at">zone_names =</span>  <span class="fu">c</span>(<span class="st">"TL"</span>, <span class="st">"BR"</span>, <span class="st">"TR"</span>, <span class="st">"BL"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>aois <span class="ot">&lt;-</span> <span class="fu">extract_aois</span>(vwp_paths_filtered, <span class="at">zone_names =</span>  <span class="fu">c</span>(<span class="st">"TL"</span>, <span class="st">"BR"</span>, <span class="st">"TR"</span>, <span class="st">"BL"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Below is the table the <code>extract_aois</code> function will return.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the data</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>aois <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">loc =</span> <span class="fu">c</span>(<span class="st">"BL"</span>, <span class="st">"TL"</span>, <span class="st">"TR"</span>, <span class="st">"BR"</span>),</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_normalized =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.73</span>, <span class="fl">0.73</span>),</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y_normalized =</span> <span class="fu">c</span>(<span class="fl">0.04</span>, <span class="fl">0.74</span>, <span class="fl">0.75</span>, <span class="fl">0.06</span>),</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">width_normalized =</span> <span class="fu">c</span>(<span class="fl">0.26</span>, <span class="fl">0.26</span>, <span class="fl">0.24</span>, <span class="fl">0.23</span>),</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height_normalized =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.24</span>, <span class="fl">0.25</span>),</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">xmin =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.73</span>, <span class="fl">0.73</span>),</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ymin =</span> <span class="fu">c</span>(<span class="fl">0.04</span>, <span class="fl">0.74</span>, <span class="fl">0.75</span>, <span class="fl">0.06</span>),</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">xmax =</span> <span class="fu">c</span>(<span class="fl">0.29</span>, <span class="fl">0.28</span>, <span class="fl">0.97</span>, <span class="fl">0.96</span>),</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">ymax =</span> <span class="fu">c</span>(<span class="fl">0.29</span>, <span class="fl">0.99</span>, <span class="fl">0.99</span>, <span class="fl">0.31</span>)</span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the data</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>aois <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">loc =</span> <span class="fu">c</span>(<span class="st">"BL"</span>, <span class="st">"TL"</span>, <span class="st">"TR"</span>, <span class="st">"BR"</span>),</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_normalized =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.73</span>, <span class="fl">0.73</span>),</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y_normalized =</span> <span class="fu">c</span>(<span class="fl">0.04</span>, <span class="fl">0.74</span>, <span class="fl">0.75</span>, <span class="fl">0.06</span>),</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">width_normalized =</span> <span class="fu">c</span>(<span class="fl">0.26</span>, <span class="fl">0.26</span>, <span class="fl">0.24</span>, <span class="fl">0.23</span>),</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height_normalized =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.24</span>, <span class="fl">0.25</span>),</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">xmin =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.73</span>, <span class="fl">0.73</span>),</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ymin =</span> <span class="fu">c</span>(<span class="fl">0.04</span>, <span class="fl">0.74</span>, <span class="fl">0.75</span>, <span class="fl">0.06</span>),</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">xmax =</span> <span class="fu">c</span>(<span class="fl">0.29</span>, <span class="fl">0.28</span>, <span class="fl">0.97</span>, <span class="fl">0.96</span>),</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">ymax =</span> <span class="fu">c</span>(<span class="fl">0.29</span>, <span class="fl">0.99</span>, <span class="fl">0.99</span>, <span class="fl">0.31</span>)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>aois <span class="sc">%&gt;%</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>aois <span class="sc">%&gt;%</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -2925,73 +2936,73 @@ Non-looks
 </div>
 <p>We can follow the same steps from above to analyze our data, making sure we input the write coordinates into the <code>aoi_loc</code> argument.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> gazer<span class="sc">::</span><span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aois)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>AOI <span class="ot">&lt;-</span> assign <span class="sc">%&gt;%</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">loc1 =</span> <span class="fu">case_when</span>(</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"BL"</span>, </span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">"TL"</span>, </span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">3</span> <span class="sc">~</span> <span class="st">"TR"</span>, </span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">4</span> <span class="sc">~</span> <span class="st">"BR"</span></span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> gazer<span class="sc">::</span><span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aois)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>AOI <span class="ot">&lt;-</span> assign <span class="sc">%&gt;%</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">loc1 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"BL"</span>, </span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">"TL"</span>, </span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">3</span> <span class="sc">~</span> <span class="st">"TR"</span>, </span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">4</span> <span class="sc">~</span> <span class="st">"BR"</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>target <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1<span class="sc">==</span>AOI<span class="sc">$</span>targ_loc, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrealted2_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated3 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated3_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>rhyme <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>rhyme_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>cohort <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>cohort_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>target <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1<span class="sc">==</span>AOI<span class="sc">$</span>targ_loc, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrealted2_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated3 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated3_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>rhyme <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>rhyme_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>cohort <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>cohort_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we pivot so instead of each condition being an individual column it is one column.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me <span class="ot">&lt;-</span> AOI  <span class="sc">%&gt;%</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) <span class="sc">%&gt;%</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">c</span>(target, unrelated, unrelated2, unrelated3, rhyme, cohort),</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"condition"</span>,</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"Looks"</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me <span class="ot">&lt;-</span> AOI  <span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) <span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">c</span>(target, unrelated, unrelated2, unrelated3, rhyme, cohort),</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"condition"</span>,</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"Looks"</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me_TCRU <span class="ot">&lt;-</span> dat_long_aoi_me <span class="sc">%&gt;%</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trialtype<span class="sc">==</span><span class="st">"TCRU"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me_TCRU <span class="ot">&lt;-</span> dat_long_aoi_me <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trialtype<span class="sc">==</span><span class="st">"TCRU"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span>dat_long_aoi_me_TCRU <span class="sc">%&gt;%</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(subject, trial) <span class="sc">%&gt;%</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> time<span class="sc">-</span>RT_audio) <span class="sc">%&gt;%</span> <span class="co"># subtract audio rt onset for each</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(time <span class="sc">&gt;=</span> <span class="dv">0</span>, time <span class="sc">&lt;</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>                x_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>,</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span>dat_long_aoi_me_TCRU <span class="sc">%&gt;%</span> </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(subject, trial) <span class="sc">%&gt;%</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> time<span class="sc">-</span>RT_audio) <span class="sc">%&gt;%</span> <span class="co"># subtract audio rt onset for each</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(time <span class="sc">&gt;=</span> <span class="dv">0</span>, time <span class="sc">&lt;</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                x_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span><span class="fu">downsample_gaze</span>(gaze_sub, <span class="at">bin.length=</span><span class="dv">200</span>, <span class="at">timevar=</span><span class="st">"time"</span>, <span class="at">aggvars=</span><span class="fu">c</span>(<span class="st">"condition"</span>, <span class="st">"timebins"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span><span class="fu">downsample_gaze</span>(gaze_sub, <span class="at">bin.length=</span><span class="dv">200</span>, <span class="at">timevar=</span><span class="st">"time"</span>, <span class="at">aggvars=</span><span class="fu">c</span>(<span class="st">"condition"</span>, <span class="st">"timebins"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="plotting-1" class="level3">
 <h3 class="anchored" data-anchor-id="plotting-1">Plotting</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_IA_proportions</span>(gaze_sub, </span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ia_column =</span> <span class="st">"condition"</span>, </span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">time_column =</span> <span class="st">"timebins"</span>, </span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">proportion_column =</span> <span class="st">"Fix"</span>, </span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ia_mapping =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="st">"Target"</span>, <span class="at">cohort =</span> <span class="st">"Cohort"</span>, <span class="at">rhyme =</span> <span class="st">"Rhyme"</span>, <span class="at">unrelated =</span> <span class="st">"Unrelated"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_IA_proportions</span>(gaze_sub, </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ia_column =</span> <span class="st">"condition"</span>, </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">time_column =</span> <span class="st">"timebins"</span>, </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">proportion_column =</span> <span class="st">"Fix"</span>, </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ia_mapping =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="st">"Target"</span>, <span class="at">cohort =</span> <span class="st">"Cohort"</span>, <span class="at">rhyme =</span> <span class="st">"Rhyme"</span>, <span class="at">unrelated =</span> <span class="st">"Unrelated"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
