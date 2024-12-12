@@ -14,7 +14,7 @@ downsample_gaze <- function(dataframe, bin.length = 50, timevar = "time",
     mutate(time_bin = floor(.data[[timevar]] / bin.length) * bin.length)
 
   # Skip aggregation if aggvars = "none"
-  if (aggvars == "none") {
+  if (identical(aggvars, "none")) {
     return(dataframe)
   }
 
