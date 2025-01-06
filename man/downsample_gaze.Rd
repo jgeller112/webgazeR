@@ -8,7 +8,7 @@ downsample_gaze(
   dataframe,
   bin.length = 50,
   timevar = "time",
-  aggvars = c("subject", "condition", "target", "trial", "object", "timebins")
+  aggvars = c("subject", "condition", "target", "trial", "object", "time_bin")
 )
 }
 \arguments{
@@ -18,11 +18,11 @@ downsample_gaze(
 
 \item{timevar}{Column name representing time.}
 
-\item{aggvars}{Vector of variable names to group by for aggregation.}
+\item{aggvars}{Vector of variable names to group by for aggregation. Use "none" to skip aggregation.}
 }
 \value{
-Downsampled DataFrame.
+DataFrame with time bins added and optionally aggregated data.
 }
 \description{
-This function will combine gaze samples into time bins.
+This function combines gaze samples into time bins and optionally aggregates the data.
 }

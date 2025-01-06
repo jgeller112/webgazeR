@@ -13,11 +13,6 @@ execute:
   message: false
 ---
 
-``` yaml
-project:
-  render: ['*.qmd']
-```
-
 Here I outline the basic functions of the `webgazeR` package.
 
 ## Packages
@@ -540,11 +535,11 @@ group_by(subject, trial) %>%
 
 ## Downsampling
 
-We also downsampled our data into 100 ms bins using the `downsample_gaze` function from the webgazeR package. In this process, we read in our `gaze_sub` object, specified the `bin.length` argument as 200, and set the time variable as `time`. We also indicated the variables to aggregate on, such as `condition` and `timebins`. The `timebins` variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here.
+We also downsampled our data into 100 ms bins using the `downsample_gaze` function from the webgazeR package. In this process, we read in our `gaze_sub` object, specified the `bin.length` argument as 200, and set the time variable as `time`. We also indicated the variables to aggregate on, such as `condition` and `timebins`. The `time_bin` variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here.
 
 ```{r}
 
-gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=200, timevar="time", aggvars=c("condition", "timebins"))
+gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=200, timevar="time", aggvars=c("condition", "time_bin"))
 
 ```
 
@@ -555,7 +550,7 @@ To simplify plotting your time-course data, we have created the `plot_IA_proport
 ```{r}
 plot_IA_proportions(gaze_sub, 
                      ia_column = "condition", 
-                     time_column = "timebins", 
+                     time_column = "time_bin", 
                      proportion_column = "Fix", 
                    ia_mapping = list(target = "Target", cohort = "Cohort", rhyme = "Rhyme", unrelated = "Unrelated"))
 
@@ -713,7 +708,7 @@ group_by(subject, trial) %>%
 ```
 
 ```{r}
-gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=200, timevar="time", aggvars=c("condition", "timebins"))
+gaze_sub <- downsample_gaze(gaze_sub, bin.length=200, timevar="time", aggvars=c("condition", "time_bin"))
 ```
 
 ### Plotting
@@ -721,7 +716,7 @@ gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=200, timevar="time", 
 ```{r}
 plot_IA_proportions(gaze_sub, 
                      ia_column = "condition", 
-                     time_column = "timebins", 
+                     time_column = "time_bin", 
                      proportion_column = "Fix", 
                    ia_mapping = list(target = "Target", cohort = "Cohort", rhyme = "Rhyme", unrelated = "Unrelated"))
 
