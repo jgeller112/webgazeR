@@ -74,8 +74,13 @@
 <div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>          <span class="co"># no automatic data transformation</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"scipen"</span> <span class="op">=</span> <span class="fl">100</span>, <span class="st">"digits"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="co"># suppress math annotation</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span> </span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span> <span class="co"># relative paths instead of abosoulte aids in reproduce</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span> </span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Error in get(paste0(generic, ".", class), envir = get_method_env()) :
+  object 'type_sum.accel' not found</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span> <span class="co"># relative paths instead of abosoulte aids in reproduce</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://vincentarelbundock.github.io/tinytable/" class="external-link">tinytable</a></span><span class="op">)</span> <span class="co"># nice tables</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sfirke/janitor" class="external-link">janitor</a></span><span class="op">)</span><span class="co"># functions for cleaning up your column names</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/easystats/" class="external-link">easystats</a></span><span class="op">)</span></span>
@@ -85,18 +90,12 @@
 <section class="level3"><h4 id="load-webgazer">Load webgazeR<a class="anchor" aria-label="anchor" href="#load-webgazer"></a>
 </h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/jgeller112/webgazeR"</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>pillar  (1.9.0 -&gt; 1.10.0) [CRAN]
-openssl (2.2.2 -&gt; 2.3.0 ) [CRAN]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
 <pre><code>
-The downloaded binary packages are in
-    /var/folders/b6/cndg9nj53jnfy45qtx6h533r0000gs/T//Rtmpcx1Ruw/downloaded_packages
 ── R CMD build ─────────────────────────────────────────────────────────────────
-* checking for file ‘/private/var/folders/b6/cndg9nj53jnfy45qtx6h533r0000gs/T/Rtmpcx1Ruw/remotesf7db30023d3f/jgeller112-webgazeR-52f3fe6/DESCRIPTION’ ... OK
+* checking for file ‘/private/var/folders/b6/cndg9nj53jnfy45qtx6h533r0000gs/T/RtmpNNQGxJ/remotesfa23576f1e06/jgeller112-webgazeR-e226b07/DESCRIPTION’ ... OK
 * preparing ‘webgazeR’:
 * checking DESCRIPTION meta-information ... OK
 * checking for LF line-endings in source and make files and shell scripts
@@ -105,14 +104,14 @@ The downloaded binary packages are in
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">webgazeR</span><span class="op">)</span></span></code></pre></div>
 </div>
 </section></section><section class="section level3"><h3 id="eye-data">Eye data<a class="anchor" aria-label="anchor" href="#eye-data"></a>
 </h3>
 <p>When data is generated from Gorilla, each trial in your experiment is its own file. Because of this, we need to take all the individual files and merge them together. The <code>merge_webcam_files</code> function merges each trial from each participant into a single tibble or dataframe. Before running the <code>merge_webcam_files</code> function, ensure that your working directory is set to where the files are stored. This function reads in all the .xlsx files, binds them together into one dataframe, and cleans up the column names. The function then filters the data to include only rows where the type is “prediction” and the screen_index matches the specified value (in our case, screen 4). This is where eye-tracking data was recorded. The function renames the <code>spreadsheet_row</code> column to trial and sets both <code>trial</code> and <code>subject</code>as factors for further analysis in our pipeline. As a note, all steps should be followed in order due to the renaming of column names. If you encounter an error it might be because column names have not been changed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get the list of all files in the folder</span></span>
 <span><span class="va">vwp_files</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"monolinguals"</span>, <span class="st">"raw"</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">"\\.xlsx$"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
@@ -120,27 +119,27 @@ The downloaded binary packages are in
 <span><span class="va">vwp_paths_filtered</span> <span class="op">&lt;-</span> <span class="va">vwp_files</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"calibration"</span>, <span class="va">vwp_files</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"monolinguals"</span>, <span class="st">"raw"</span><span class="op">)</span><span class="op">)</span> <span class="co"># set working directory to raw data folder</span></span>
 <span></span>
 <span><span class="va">edat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/merge_webcam_files.html">merge_webcam_files</a></span><span class="op">(</span><span class="va">vwp_paths_filtered</span>, screen_index<span class="op">=</span><span class="fl">4</span><span class="op">)</span> <span class="co"># eye tracking occured ons creen index 4</span></span></code></pre></div>
 </div>
 <p>the <code>webgazeR</code> package includes a combined dataset for us to use</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">edat</span> <span class="op">&lt;-</span> <span class="fu">webgazeR</span><span class="fu">::</span><span class="va">eyedata</span></span></code></pre></div>
 </div>
 <section class="level4"><h5 id="behavioral-data">Behavioral Data<a class="anchor" aria-label="anchor" href="#behavioral-data"></a>
 </h5>
 <p>Gorilla produces a <code>.csv</code> file that include trial-level information (<code>agg_ege_data)</code>. Below we read that object in and create an object called <code>emstr</code> that selects useful columns from that file and renames stimuli to make them more intuitive. Because most of this will be user-specific, no function is called here.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load in trial level data</span></span>
 <span><span class="va">agg_eye_data</span> <span class="op">&lt;-</span> <span class="fu">webgazeR</span><span class="fu">::</span><span class="va">behav_data</span></span></code></pre></div>
 </div>
 <p>Below we describe the pre-processing done on the behavioral data file. The below code processes and transforms the <code>agg_eye_data</code> dataset into a cleaned and structured format for further analysis. First, the code renames several columns for easier access using the <code><a href="https://sfirke.github.io/janitor/reference/clean_names.html" class="external-link">janitor::clean_names</a></code> function. It filters the dataset to include only rows where <code>zone_type</code> is “response_button_image”, representing the picture selected for that trial. Afterward, the function renames additional columns (<code>tlpic</code> to <code>TL</code>, <code>trpic</code> to <code>TR</code>, etc.). We also renamed <code>participant_private_id</code> to <code>subject</code>, <code>spreadsheet_row</code> to <code>trial</code>, and <code>reaction_time</code> to <code>RT</code>. This makes our columns consistent with the <code>edat</code> above for merging later on. Lastly, the `reaction time (RT) is converted to a numeric format for further numerical analysis.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">emstr</span> <span class="op">&lt;-</span> <span class="va">agg_eye_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  </span>
 <span>  <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html" class="external-link">clean_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -173,7 +172,7 @@ The downloaded binary packages are in
 </h4>
 <p>Because we are using audio on each trial and we are running this experiment for the browser audio onset is never going to to conistent across participants. In Gorilla there is an option to collect advanced audio features such as when the audio play was requested, fired )played and ended. We will want to incorporate this into our pipeline. Gorilla records the onset of the audio which varies by participant. We are extracting that here by filtering <code>zone_type</code> to <code>content_web_audio</code> and response equal to “AUDIO PLAY EVENT FIRED”. This will tell us when the audio was triggered in the experiment (<code>reaction_time</code>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">audio_rt</span> <span class="op">&lt;-</span> <span class="va">agg_eye_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  </span>
 <span>  <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html" class="external-link">clean_names</a></span><span class="op">(</span><span class="op">)</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -190,7 +189,7 @@ The downloaded binary packages are in
 </div>
 <p>We then merge this information with <code>emstr</code>. We see that <code>RT_audio</code> has been added to our dataframe.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trial_data_rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">emstr</span>, <span class="va">audio_rt</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subject"</span>, <span class="st">"trial"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trial_data_rt</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -375,7 +374,7 @@ The downloaded binary packages are in
 </h4>
 <p>While most commercial eye-trackers sample at a constant rate, webcam eye-trackers do not. Below is some code to calculate the sampling rate of each participant. Ideally, you should not have a sampling rate less than 5 Hz. It has been recommended you drop those values. The below function <code>analyze_sample_rate</code> calculates calculates the sampling rate for each subject and trial in an eye-tracking dataset. It provides overall statistics, including the median and standard deviation of sampling rates in your experiment,and also generates a histogram of median sampling rates by subject with a density plot overlayed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">samp_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze_sampling_rate.html">analyze_sampling_rate</a></span><span class="op">(</span><span class="va">edat</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Overall Median Sampling Rate (Hz): 24.76936956
@@ -424,7 +423,7 @@ Median Sampling Rate by Subject:
 <p>In this example, we have a median sampling rate of 24.77 with a SD of 7.81.</p>
 <p>When using the above function, separate data frames are produced for subjects and trials. These can be added to the behavioral data object.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Extract by-subject and by-trial sampling rates from the result</span></span>
 <span><span class="va">subject_sampling_rate</span> <span class="op">&lt;-</span> <span class="va">samp_rate</span><span class="op">$</span><span class="va">median_SR_by_subject</span>  <span class="co"># Sampling rate by subject</span></span>
 <span><span class="va">trial_sampling_rate</span> <span class="op">&lt;-</span> <span class="va">samp_rate</span><span class="op">$</span><span class="va">SR_by_trial</span>  <span class="co"># Sampling rate by trial</span></span>
@@ -449,20 +448,20 @@ Median Sampling Rate by Subject:
 </div>
 <p>We can add this to our behavioral data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trial_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">trial_data_rt</span>, <span class="va">target_data_with_full_SR</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subject"</span>, <span class="st">"trial"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>Users can use the <code>filter_sampling_rate</code> function to either either (1) throw out data, by subject, by trial, or both, and (2) label it sampling rates below a certain threshold as bad (TRUE or FALSE). Let’s use the <code><a href="../reference/filter_sampling_rate.html">filter_sampling_rate()</a></code> function to do this. We will read in our <code>target_data_with_full_SR</code> object.</p>
 <p>We leave it up to the user to decide what to do and make no specific recommendations. In our case we are going to remove the data by subject and by trial (<code>action</code>==“both”) if sampling frequency is below 5hz (<code>threshold</code>=5). The <code>filter_sampling_rate</code> function is designed to process a dataset containing subject-level and trial-level sampling rates. It allows the user to either filter out data that falls below a certain sampling rate threshold or simply label it as “bad”. The function gives flexibility by allowing the threshold to be applied at the subject level, trial level, or both. It also lets the user decide whether to remove the data or flag it as below the threshold without removing it. If <code>action</code> = remove, the function will output how many subjects and trials were removed by on the threshold.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">filter_edat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_sampling_rate.html">filter_sampling_rate</a></span><span class="op">(</span><span class="va">trial_data</span>,threshold <span class="op">=</span> <span class="fl">5</span>, </span>
 <span>                                         action <span class="op">=</span> <span class="st">"remove"</span>, </span>
 <span>                                         by <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p><code>filter_edat</code> returns a dataframe with trials and subjects removed. If we set the argument <code>action</code> to label, <code>filter_edat_label</code> would return a dataframe that includes column(s) with sampling rates &lt; 5 labeled as TRUE (bad) or FALSE</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">filter_edat_label</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_sampling_rate.html">filter_sampling_rate</a></span><span class="op">(</span><span class="va">trial_data</span>,threshold <span class="op">=</span> <span class="fl">5</span>, </span>
 <span>                                         action <span class="op">=</span> <span class="st">"label"</span>, </span>
 <span>                                         by<span class="op">=</span><span class="st">"both"</span><span class="op">)</span></span></code></pre></div>
@@ -472,7 +471,7 @@ Median Sampling Rate by Subject:
 </h4>
 <p>It is important that we do not include points that fall outside the standardized coordinates. The <code>gaze_oob</code> function calculates how many of the data points fall outside the standardized range. This function returns how many data points fall outside this range by subject and provides a percentage. This information would be useful to include in the final paper. We then add by-subject and by-trial out of bounds data and exclude participants and trials with &gt; 30% missing data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oob_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gaze_oob.html">gaze_oob</a></span><span class="op">(</span><span class="va">edat</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Subject: 11788555
@@ -658,7 +657,7 @@ Total missing percentage: 4.41%
 X: 2.18%
 Y: 2.75%</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oob_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://vincentarelbundock.github.io/tinytable/man/tt.html" class="external-link">tt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
@@ -666,8 +665,8 @@ Y: 2.75%</code></pre>
 
     <script>
 
-      function styleCell_s2f7jxsx74pq6qvq0he4(i, j, css_id) {
-          var table = document.getElementById("tinytable_s2f7jxsx74pq6qvq0he4");
+      function styleCell_hxguc1mj5v8z5sm3eym6(i, j, css_id) {
+          var table = document.getElementById("tinytable_hxguc1mj5v8z5sm3eym6");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -677,7 +676,7 @@ Y: 2.75%</code></pre>
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_s2f7jxsx74pq6qvq0he4');
+        var table = document.getElementById('tinytable_hxguc1mj5v8z5sm3eym6');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -685,8 +684,8 @@ Y: 2.75%</code></pre>
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_s2f7jxsx74pq6qvq0he4(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_s2f7jxsx74pq6qvq0he4");
+      function spanCell_hxguc1mj5v8z5sm3eym6(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_hxguc1mj5v8z5sm3eym6");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -716,24 +715,24 @@ Y: 2.75%</code></pre>
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 }, { i: 0, j: 5 }, { i: 0, j: 6 }, { i: 0, j: 7 },  ], css_id: 'tinytable_css_xoe0uc9e6sph5gsji3mm',},
-          { positions: [ { i: 23, j: 0 }, { i: 23, j: 1 }, { i: 23, j: 2 }, { i: 23, j: 3 }, { i: 23, j: 4 }, { i: 23, j: 5 }, { i: 23, j: 6 }, { i: 23, j: 7 },  ], css_id: 'tinytable_css_oalmi6imtpkevdzepkos',},
+          { positions: [ { i: 23, j: 0 }, { i: 23, j: 1 }, { i: 23, j: 2 }, { i: 23, j: 3 }, { i: 23, j: 4 }, { i: 23, j: 5 }, { i: 23, j: 6 }, { i: 23, j: 7 },  ], css_id: 'tinytable_css_u843ks73rb2aqbb12ahd',},
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 }, { i: 0, j: 5 }, { i: 0, j: 6 }, { i: 0, j: 7 },  ], css_id: 'tinytable_css_evfqxm4dk7hbx3lhx6fc',},
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_s2f7jxsx74pq6qvq0he4(cell.i, cell.j, group.css_id);
+                  styleCell_hxguc1mj5v8z5sm3eym6(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script><style>
       /* tinytable css entries after */
-      .table td.tinytable_css_xoe0uc9e6sph5gsji3mm, .table th.tinytable_css_xoe0uc9e6sph5gsji3mm { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_oalmi6imtpkevdzepkos, .table th.tinytable_css_oalmi6imtpkevdzepkos { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_u843ks73rb2aqbb12ahd, .table th.tinytable_css_u843ks73rb2aqbb12ahd { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_evfqxm4dk7hbx3lhx6fc, .table th.tinytable_css_evfqxm4dk7hbx3lhx6fc { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
 <div class="container">
-      <table class="table table table-borderless" id="tinytable_s2f7jxsx74pq6qvq0he4" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table table-borderless" id="tinytable_hxguc1mj5v8z5sm3eym6" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead><tr>
 <th scope="col">subject</th>
                 <th scope="col">total_points</th>
@@ -988,7 +987,7 @@ Y: 2.75%</code></pre>
 </h5>
 <p>One way is to make the AOIs as big as possible and place them in the four quadrants of the screen. What we will need to first is create a dataframe with location of the AOI (e.g., TL, TR, BL, BR), x and y normalized coordinates and width and height normalized. In addition, we will get the xmin, xmanx, and ymax and ymin of the AOIs.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a data frame for the quadrants with an added column for the quadrant labels</span></span>
 <span><span class="va">aoi_loc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'TL'</span>, <span class="st">'TR'</span>, <span class="st">'BL'</span>, <span class="st">'BR'</span><span class="op">)</span>, </span>
@@ -1079,7 +1078,7 @@ Y: 2.75%</code></pre>
 </h6>
 <p>Here we are going to remove poor convergence scales and confidence. We will also remove coordinates that are 0 in our data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">edat_1</span> <span class="op">&lt;-</span> <span class="va">edat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">convergence</span> <span class="op">&lt;=</span> <span class="fl">.5</span>, <span class="va">face_conf</span> <span class="op">&gt;=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># remove rows without gaze information</span></span>
@@ -1090,7 +1089,7 @@ Y: 2.75%</code></pre>
 </h5>
 <p>Next we are going to combine the eye-tracking data and behavioral data by using the <code>left_join</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">edat_1</span><span class="op">$</span><span class="va">subject</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">edat_1</span><span class="op">$</span><span class="va">subject</span><span class="op">)</span></span>
 <span><span class="va">edat_1</span><span class="op">$</span><span class="va">trial</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">edat_1</span><span class="op">$</span><span class="va">trial</span><span class="op">)</span></span>
 <span></span>
@@ -1122,7 +1121,7 @@ Y: 2.75%</code></pre>
 </ol>
 <p>We will first match the pictures in the TL, TR, BL, BR columns to the correct code condition (T,C, R, U, U2, U3).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Assuming your data is in a data frame called df</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -1605,7 +1604,7 @@ Y: 2.75%</code></pre>
 <p>In our study, we need to track not only the condition of each image shown (such as Target, Cohort, Rhyme, or Unrelated) but also where each image is located on the screen during each trial as they are randomized on each trial. To do this, we use a function named <code>find_location</code>. This function is designed to determine the location of a specific image on the screen by comparing the image with the list of possible locations.</p>
 <p>The function <code>find_location</code> first checks if the image is NA (missing). If the image is NA, the function returns NA, meaning that there’s no location to find for this image. If the image is not NA, the function creates a vector loc_names that lists the names of the possible locations. It then attempts to match the given image with the locations. If a match is found, it returns the name of the location (e.g., TL, TR, BL, or BR) where the image is located. If there is no match, the function returns NA.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Apply the function to each of the targ, cohort, rhyme, and unrelated columns</span></span>
 <span><span class="va">dat_colnames</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html" class="external-link">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -1621,7 +1620,7 @@ Y: 2.75%</code></pre>
 </div>
 <p>Here is where we are going to use our coordinate information from above. We use the <code>assign_aoi</code> that is adaopted from the <code>gazeR</code> package (Geller et al., 2020) to loop through our object <code>dat_colnames</code> and assign locations (i.e., TR, TL, BL, BR) to our normalized <code>x</code> and <code>y</code> coordinates. This function will label non-looks and off screen coordinates with NA. To make it easier to read we change the numerals assigned by the function to actual screen locations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">assign</span> <span class="op">&lt;-</span> <span class="fu">gazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gazer/man/assign_aoi.html" class="external-link">assign_aoi</a></span><span class="op">(</span><span class="va">dat_colnames</span>,X<span class="op">=</span><span class="st">"x_pred_normalised"</span>, Y<span class="op">=</span><span class="st">"y_pred_normalised"</span>,aoi_loc <span class="op">=</span> <span class="va">aoi_loc</span><span class="op">)</span></span>
 <span></span>
 <span></span>
@@ -2129,7 +2128,7 @@ Y: 2.75%</code></pre>
 </div>
 <p>In the <code>AOI</code> object we have our condition variables as columns. For this example, the fixation locations need to be “gathered” from separate columns into a single column and “NA” values need to be re-coded as non-fixations (0). We logically evaluate these below so we know which item was fixated each sample and what was not.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">AOI</span><span class="op">$</span><span class="va">target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">AOI</span><span class="op">$</span><span class="va">loc1</span><span class="op">==</span><span class="va">AOI</span><span class="op">$</span><span class="va">targ_loc</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span> <span class="co"># if in coordinates 1, if not 0. </span></span>
 <span></span>
 <span><span class="va">AOI</span><span class="op">$</span><span class="va">unrelated</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">AOI</span><span class="op">$</span><span class="va">loc1</span> <span class="op">==</span> <span class="va">AOI</span><span class="op">$</span><span class="va">unrelated_loc</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="co"># if in coordinates 1, if not 0. </span></span>
@@ -2681,7 +2680,7 @@ Y: 2.75%</code></pre>
 </div>
 <p>Now we pivot so instead of each condition being an individual column it is one column. This helps with visualization. We <code>pivot_longer</code> or make longer the target, unrelated, unrealted2, unrelated3, rhyme, and cohort columns. We put them into a column called condition and place the values of 0 and 1 into a column called <code>look</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_long_aoi_me</span> <span class="op">&lt;-</span> <span class="va">AOI</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subject</span>, <span class="va">trial</span>, <span class="va">trialtype</span>, <span class="va">target</span>, <span class="va">cohort</span>, <span class="va">unrelated</span>, <span class="va">unrelated2</span>, <span class="va">unrelated3</span>,  <span class="va">rhyme</span>, <span class="va">time</span>, <span class="va">x_pred_normalised</span>, <span class="va">y_pred_normalised</span>, <span class="va">RT_audio</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span></span>
@@ -2702,16 +2701,16 @@ Y: 2.75%</code></pre>
 <p>We will be looking at the target, cohort, rhyme, unrelated condition for the vignette.</p>
 <p>With the presentation of audio there is a delay in when it was played. We coded that above as <code>RT_audio</code>. Below we change time to correspond to <code>audio_onset</code>. We can do this by subtracting <code>RT_audio</code> from <code>time</code>. we also remove coordinates outside the standardized window.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_long_aoi_me_TCRU</span> <span class="op">&lt;-</span> <span class="va">dat_long_aoi_me</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">trialtype</span><span class="op">==</span><span class="st">"TCRU"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gaze_sub</span> <span class="op">&lt;-</span><span class="va">dat_long_aoi_me_TCRU</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">subject</span>, <span class="va">trial</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">time</span><span class="op">-</span><span class="va">RT_audio</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># subtract audio rt onset for each</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>time <span class="op">=</span> <span class="op">(</span><span class="va">time</span><span class="op">-</span><span class="va">RT_audio</span><span class="op">)</span><span class="op">-</span><span class="fl">200</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># subtract audio rt onset for each</span></span>
 <span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">time</span> <span class="op">&gt;=</span> <span class="op">-</span><span class="fl">100</span>, <span class="va">time</span> <span class="op">&lt;</span> <span class="fl">2000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># start -100 to 2000 ms </span></span>
 <span>   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">x_pred_normalised</span> <span class="op">&gt;</span> <span class="fl">0</span>,</span>
 <span>                <span class="va">x_pred_normalised</span> <span class="op">&lt;</span> <span class="fl">1</span>,</span>
@@ -2722,14 +2721,14 @@ Y: 2.75%</code></pre>
 </h3>
 <p>We also downsampled our data into 100 ms bins using the <code>downsample_gaze</code> function from the webgazeR package. In this process, we read in our <code>gaze_sub</code> object, specified the <code>bin.length</code> argument as 200, and set the time variable as <code>time</code>. We also indicated the variables to aggregate on, such as <code>condition</code> and <code>timebins</code>. The <code>time_bin</code> variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gaze_sub</span> <span class="op">&lt;-</span> <span class="fu">webgazeR</span><span class="fu">::</span><span class="fu"><a href="../reference/downsample_gaze.html">downsample_gaze</a></span><span class="op">(</span><span class="va">gaze_sub</span>, bin.length<span class="op">=</span><span class="fl">200</span>, timevar<span class="op">=</span><span class="st">"time"</span>, aggvars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"condition"</span>, <span class="st">"time_bin"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gaze_sub</span> <span class="op">&lt;-</span> <span class="fu">webgazeR</span><span class="fu">::</span><span class="fu"><a href="../reference/downsample_gaze.html">downsample_gaze</a></span><span class="op">(</span><span class="va">gaze_sub</span>, bin.length<span class="op">=</span><span class="fl">100</span>, timevar<span class="op">=</span><span class="st">"time"</span>, aggvars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"condition"</span>, <span class="st">"time_bin"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <section class="level3"><h4 id="plotting">Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a>
 </h4>
 <p>To simplify plotting your time-course data, we have created the <code>plot_IA_proportions</code> function. This function takes several arguments. The ia_column argument specifies the column containing your Interest Area (IA) labels. The <code>time_column</code> argument requires the name of your time bin column, and the <code>proportion_column</code> argument specifies the column containing fixation or look proportions. Additional arguments allow you to specify custom names for each IA in the ia_column, enabling you to label them as desired.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_IA_proportions.html">plot_IA_proportions</a></span><span class="op">(</span><span class="va">gaze_sub</span>, </span>
 <span>                     ia_column <span class="op">=</span> <span class="st">"condition"</span>, </span>
 <span>                     time_column <span class="op">=</span> <span class="st">"time_bin"</span>, </span>
@@ -2747,12 +2746,12 @@ Y: 2.75%</code></pre>
 <p>If you open the each individual .xlsx file provided by gorilla you will see that it provides standardized coordinates for each location: TL, TR, BL, BR. Let’s use these coordinates instead of setting some general coordinates.</p>
 <p>We will use the function <code>extract_aois</code> to get the coordinates for each quadrant on screen. You can use the zone_names argument to get the zones you want to use.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aois</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_aois.html">extract_aois</a></span><span class="op">(</span><span class="va">vwp_paths_filtered</span>, zone_names <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TL"</span>, <span class="st">"BR"</span>, <span class="st">"TR"</span>, <span class="st">"BL"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>Below is the table the <code>extract_aois</code> function will return.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define the data</span></span>
 <span><span class="va">aois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BL"</span>, <span class="st">"TL"</span>, <span class="st">"TR"</span>, <span class="st">"BR"</span><span class="op">)</span>,</span>
@@ -2767,7 +2766,7 @@ Y: 2.75%</code></pre>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#| echo: false</span></span>
 <span></span>
 <span><span class="va">aois</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -2856,7 +2855,7 @@ Y: 2.75%</code></pre>
 </div>
 <p>We can follow the same steps from above to analyze our data, making sure we input the write coordinates into the <code>aoi_loc</code> argument.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">assign</span> <span class="op">&lt;-</span> <span class="fu">gazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gazer/man/assign_aoi.html" class="external-link">assign_aoi</a></span><span class="op">(</span><span class="va">dat_colnames</span>,X<span class="op">=</span><span class="st">"x_pred_normalised"</span>, Y<span class="op">=</span><span class="st">"y_pred_normalised"</span>,aoi_loc <span class="op">=</span> <span class="va">aois</span><span class="op">)</span></span>
 <span></span>
 <span></span>
@@ -2875,7 +2874,7 @@ Y: 2.75%</code></pre>
 <span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">AOI</span><span class="op">$</span><span class="va">target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">AOI</span><span class="op">$</span><span class="va">loc1</span><span class="op">==</span><span class="va">AOI</span><span class="op">$</span><span class="va">targ_loc</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span> <span class="co"># if in coordinates 1, if not 0. </span></span>
 <span></span>
 <span><span class="va">AOI</span><span class="op">$</span><span class="va">unrelated</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">AOI</span><span class="op">$</span><span class="va">loc1</span> <span class="op">==</span> <span class="va">AOI</span><span class="op">$</span><span class="va">unrelated_loc</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="co"># if in coordinates 1, if not 0. </span></span>
@@ -2891,7 +2890,7 @@ Y: 2.75%</code></pre>
 </div>
 <p>Now we pivot so instead of each condition being an individual column it is one column.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_long_aoi_me</span> <span class="op">&lt;-</span> <span class="va">AOI</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subject</span>, <span class="va">trial</span>, <span class="va">trialtype</span>, <span class="va">target</span>, <span class="va">cohort</span>, <span class="va">unrelated</span>, <span class="va">unrelated2</span>, <span class="va">unrelated3</span>,  <span class="va">rhyme</span>, <span class="va">time</span>, <span class="va">x_pred_normalised</span>, <span class="va">y_pred_normalised</span>, <span class="va">RT_audio</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span></span>
@@ -2901,16 +2900,16 @@ Y: 2.75%</code></pre>
 <span>    <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_long_aoi_me_TCRU</span> <span class="op">&lt;-</span> <span class="va">dat_long_aoi_me</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">trialtype</span><span class="op">==</span><span class="st">"TCRU"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gaze_sub</span> <span class="op">&lt;-</span><span class="va">dat_long_aoi_me_TCRU</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">subject</span>, <span class="va">trial</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">time</span><span class="op">-</span><span class="va">RT_audio</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># subtract audio rt onset for each</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>time <span class="op">=</span> <span class="op">(</span><span class="va">time</span><span class="op">-</span><span class="va">RT_audio</span><span class="op">)</span><span class="op">-</span><span class="fl">200</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># subtract audio rt onset for each</span></span>
 <span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">time</span> <span class="op">&gt;=</span> <span class="fl">0</span>, <span class="va">time</span> <span class="op">&lt;</span> <span class="fl">2000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">x_pred_normalised</span> <span class="op">&gt;</span> <span class="fl">0</span>,</span>
 <span>                <span class="va">x_pred_normalised</span> <span class="op">&lt;</span> <span class="fl">1</span>,</span>
@@ -2918,13 +2917,13 @@ Y: 2.75%</code></pre>
 <span>                <span class="va">y_pred_normalised</span> <span class="op">&lt;</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gaze_sub</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/downsample_gaze.html">downsample_gaze</a></span><span class="op">(</span><span class="va">gaze_sub</span>, bin.length<span class="op">=</span><span class="fl">200</span>, timevar<span class="op">=</span><span class="st">"time"</span>, aggvars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"condition"</span>, <span class="st">"time_bin"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gaze_sub</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/downsample_gaze.html">downsample_gaze</a></span><span class="op">(</span><span class="va">gaze_sub</span>, bin.length<span class="op">=</span><span class="fl">100</span>, timevar<span class="op">=</span><span class="st">"time"</span>, aggvars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"condition"</span>, <span class="st">"time_bin"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <section class="level3"><h4 id="plotting-1">Plotting<a class="anchor" aria-label="anchor" href="#plotting-1"></a>
 </h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_IA_proportions.html">plot_IA_proportions</a></span><span class="op">(</span><span class="va">gaze_sub</span>, </span>
 <span>                     ia_column <span class="op">=</span> <span class="st">"condition"</span>, </span>
 <span>                     time_column <span class="op">=</span> <span class="st">"time_bin"</span>, </span>
@@ -2937,7 +2936,7 @@ Y: 2.75%</code></pre>
 </div>
 </div>
 </div>
-<p>We see the effect is a lot larger when using the gorilla provided coordinates.</p>
+<p>We see the effect is a lot larger when using the gorilla provided coordinates, but a bit noiser.</p>
 </section></section></section><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
