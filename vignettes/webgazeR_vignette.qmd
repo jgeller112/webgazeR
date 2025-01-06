@@ -524,7 +524,7 @@ dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%
 
 gaze_sub <-dat_long_aoi_me_TCRU%>% 
 group_by(subject, trial) %>%
-  mutate(time = (time-RT_audio)-200) %>% # subtract audio rt onset for each
+  mutate(time = (time-RT_audio)-300) %>% # subtract audio rt onset for each
  filter(time >= -100, time < 2000) %>% # start -100 to 2000 ms 
    dplyr::filter(x_pred_normalised > 0,
                 x_pred_normalised < 1,
@@ -698,7 +698,7 @@ dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%
 
 gaze_sub <-dat_long_aoi_me_TCRU %>% 
 group_by(subject, trial) %>%
-  mutate(time = (time-RT_audio)-200) %>% # subtract audio rt onset for each
+  mutate(time = (time-RT_audio)-300) %>% # subtract audio rt onset for each
  filter(time >= 0, time < 2000) %>% 
    dplyr::filter(x_pred_normalised > 0,
                 x_pred_normalised < 1,
@@ -714,6 +714,8 @@ gaze_sub <- downsample_gaze(gaze_sub, bin.length=100, timevar="time", aggvars=c(
 ### Plotting
 
 ```{r}
+#| label: fig-gaze-gor
+#| 
 plot_IA_proportions(gaze_sub, 
                      ia_column = "condition", 
                      time_column = "time_bin", 
