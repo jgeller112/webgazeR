@@ -715,13 +715,15 @@ gaze_sub <- downsample_gaze(gaze_sub, bin.length=100, timevar="time", aggvars=c(
 
 ```{r}
 #| label: fig-gaze-gor
-#| 
-plot_IA_proportions(gaze_sub, 
+
+
+gor <- plot_IA_proportions(gaze_sub, 
                      ia_column = "condition", 
                      time_column = "time_bin", 
                      proportion_column = "Fix", 
                    ia_mapping = list(target = "Target", cohort = "Cohort", rhyme = "Rhyme", unrelated = "Unrelated"))
 
+gor
 
 ```
 
