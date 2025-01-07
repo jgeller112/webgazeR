@@ -37,6 +37,7 @@ Optionally, it can facet the plot by an experimental condition. Custom labels fo
 through the `ia_mapping` argument to define the display order.
 }
 \examples{
+\dontrun{
 # Example with a condition column
 plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
                     proportion_column = "proportion_looks", condition_column = "condition",
@@ -47,4 +48,5 @@ plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
                     proportion_column = "proportion_looks",
                     ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"))
 
+}
 }
