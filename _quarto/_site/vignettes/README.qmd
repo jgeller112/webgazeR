@@ -1,5 +1,5 @@
 ---
-title: "Webcam Eye-tracking R Package"
+title: "README"
 format: html
 editor: visual
 ---

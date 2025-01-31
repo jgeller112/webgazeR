@@ -20,6 +20,7 @@ Here I outline the basic functions of the `webgazeR` package. I am using `quarto
 Below are the basic packages needed to run this vignette. The below code chunks will load in the packages needed.
 
 ::: {.to-webr}
+::: {.to-webr}
 ```{r}
 #| label: load
 #| 
@@ -37,11 +38,13 @@ library(webgazeR)
 
 ```
 :::
+:::
 
 ### Load webgazeR
 
 - First you must install it via Github. 
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 #| eval: false
@@ -51,9 +54,11 @@ remotes::install_github("https://github.com/jgeller112/webgazeR")
 
 ```
 :::
+:::
 
 - Then you can load it into your session
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 # load the package
@@ -61,11 +66,13 @@ library(webgazeR)
 
 ```
 :::
+:::
 
 ## Eye data
 
 When data is generated from Gorilla, each trial in your experiment is its own file. Because of this, we need to take all the individual files and merge them together. The `merge_webcam_files` function merges each trial from each participant into a single tibble or dataframe. Before running the `merge_webcam_files` function, ensure that your working directory is set to where the files are stored. This function reads in all the .xlsx files, binds them together into one dataframe, and cleans up the column names. The function then filters the data to include only rows where the type is "prediction" and the screen_index matches the specified value (in our case, screen 4). This is where eye-tracking data was recorded. The function renames the `spreadsheet_row` column to trial and sets both `trial` and `subject`as factors for further analysis in our pipeline. As a note, all steps should be followed in order due to the renaming of column names. If you encounter an error it might be because column names have not been changed.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 #| eval: false
@@ -77,7 +84,9 @@ vwp_files  <- list.files(here::here("data", "monolinguals", "raw"), pattern = "\
 vwp_paths_filtered <- vwp_files[!grepl("calibration", vwp_files)]
 ```
 :::
+:::
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 #| eval: false 
@@ -86,9 +95,11 @@ setwd(here::here("data", "monolinguals", "raw")) # set working directory to raw 
 edat <- merge_webcam_files(vwp_paths_filtered, screen_index=4) # eye tracking occured ons creen index 4
 ```
 :::
+:::
 
 the `webgazeR` package includes a combined dataset for us to use. 
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -96,11 +107,13 @@ edat <- webgazeR::eyedata
 
 ```
 :::
+:::
 
 #### Behavioral Data
 
 Gorilla produces a `.csv` file that include trial-level information (`agg_ege_data)`. Below we read that object in and create an object called `emstr` that selects useful columns from that file and renames stimuli to make them more intuitive. Because most of this will be user-specific, no function is called here.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 # load in trial level data
@@ -108,9 +121,11 @@ agg_eye_data <- webgazeR::behav_data
 
 ```
 :::
+:::
 
 Below we describe the pre-processing done on the behavioral data file. The below code processes and transforms the `agg_eye_data` dataset into a cleaned and structured format for further analysis. First, the code renames several columns for easier access using the `janitor::clean_names` function. It filters the dataset to include only rows where `zone_type` is "response_button_image", representing the picture selected for that trial. Afterward, the function renames additional columns (`tlpic` to `TL`, `trpic` to `TR`, etc.). We also renamed `participant_private_id` to `subject`, `spreadsheet_row` to `trial`, and `reaction_time` to `RT`. This makes our columns consistent with the `edat` above for merging later on. Lastly, the \`reaction time (RT) is converted to a numeric format for further numerical analysis.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -145,11 +160,13 @@ emstr <- agg_eye_data %>%
 
 ```
 :::
+:::
 
 ### Get audio onset time
 
 Because we are using audio on each trial and we are running this experiment for the browser audio onset is never going to to conistent across participants. In Gorilla there is an option to collect advanced audio features such as when the audio play was requested, fired (played) and ended. We will want to incorporate this into our pipeline. Gorilla records the onset of the audio which varies by participant. We are extracting that here by filtering `zone_type` to `content_web_audio` and response equal to "AUDIO PLAY EVENT FIRED". This will tell us when the audio was triggered in the experiment (`reaction_time`).
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -168,9 +185,11 @@ select(-zone_type) %>%
 mutate(RT_audio=as.numeric(RT_audio))
 ```
 :::
+:::
 
 We then merge this information with `emstr`. We see that `RT_audio` has been added to our dataframe.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 trial_data_rt <- merge(emstr, audio_rt, by=c("subject", "trial"))
@@ -180,11 +199,13 @@ head(trial_data_rt) %>%
   kable()
 ```
 :::
+:::
 
 ### Sampling Rate
 
 While most commercial eye-trackers sample at a constant rate, webcam eye-trackers do not. Below is some code to calculate the sampling rate of each participant. Ideally, you should not have a sampling rate less than 5 Hz. It has been recommended you drop those values. The below function `analyze_sample_rate` calculates calculates the sampling rate for each subject and trial in an eye-tracking dataset. It provides overall statistics, including the median and standard deviation of sampling rates in your experiment,and also generates a histogram of median sampling rates by subject with a density plot overlayed.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -192,11 +213,13 @@ samp_rate <- analyze_sampling_rate(edat)
 
 ```
 :::
+:::
 
 In this example, we have a median sampling rate of 24.77 with a SD of 7.81.
 
 When using the above function, separate data frames are produced for subjects and trials. These can be added to the behavioral data object and this merge process is documented below. 
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -225,9 +248,11 @@ target_data_with_full_SR <- target_data_with_subject_SR %>%
 
 ```
 :::
+:::
 
 We can add this to our behavioral data
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -235,11 +260,13 @@ trial_data <- left_join(trial_data_rt, target_data_with_full_SR, by=c("subject",
 
 ```
 :::
+:::
 
 Users can use the `filter_sampling_rate` function to either either (1) throw out data, by subject, by trial, or both, and (2) label it sampling rates below a certain threshold as bad (TRUE or FALSE). Let's use the `filter_sampling_rate()` function to do this. We will read in our `target_data_with_full_SR` object.
 
 We leave it up to the user to decide what to do and make no specific recommendations. In our case we are going to remove the data by subject and by trial (`action`=="both") if sampling frequency is below 5hz (`threshold`=5). The `filter_sampling_rate` function is designed to process a dataset containing subject-level and trial-level sampling rates. It allows the user to either filter out data that falls below a certain sampling rate threshold or simply label it as “bad”. The function gives flexibility by allowing the threshold to be applied at the subject level, trial level, or both. It also lets the user decide whether to remove the data or flag it as below the threshold without removing it. If `action` = remove, the function will output how many subjects and trials were removed by on the threshold.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 filter_edat <- filter_sampling_rate(trial_data,threshold = 5, 
@@ -248,9 +275,11 @@ filter_edat <- filter_sampling_rate(trial_data,threshold = 5,
 
 ```
 :::
+:::
 
 `filter_edat` returns a dataframe with trials and subjects removed. If we set the argument `action` to label, `filter_edat_label` would return a dataframe that includes column(s) with sampling rates \< 5 labeled as TRUE (bad) or FALSE
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -260,6 +289,7 @@ filter_edat_label <- filter_sampling_rate(trial_data,threshold = 5,
 
 ```
 :::
+:::
 
 Here no subjects had a threshold below 5. However, 18 trials did, and they were removed.
 
@@ -268,6 +298,7 @@ Here no subjects had a threshold below 5. However, 18 trials did, and they were 
 It is important that we do not include points that fall outside the standardized coordinates. The `gaze_oob` function calculates how many of the data points fall outside the standardized range. This function returns how many data points fall outside this range by subject and provides a percentage. This information would be useful to include in the final paper. We then add by-subject and by-trial out of bounds data and exclude participants and trials with \> 30% missing data.
 
 ::: {.to-webr}
+::: {.to-webr}
 ```{r}
 
 oob_data <- gaze_oob(edat)
@@ -275,6 +306,7 @@ oob_data <- gaze_oob(edat)
 oob_data %>% 
   tt()
 ```
+:::
 :::
 
 ### Zone coordinates
@@ -285,6 +317,7 @@ In the lab, we can control every aspect of the experiment. Online we cant do thi
 
 One way is to make the AOIs as big as possible and place them in the four quadrants of the screen. What we will need to first is create a dataframe with location of the AOI (e.g., TL, TR, BL, BR), x and y normalized coordinates and width and height normalized. In addition, we will get the xmin, xmanx, and ymax and ymin of the AOIs.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 # Create a data frame for the quadrants with an added column for the quadrant labels
@@ -301,7 +334,9 @@ aoi_loc <- data.frame(
 
 ```
 :::
+:::
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 #| echo: false
@@ -313,11 +348,13 @@ aoi_loc %>%
 
 ```
 :::
+:::
 
 ##### Clean-up eye data
 
 Here we are going to remove poor convergence scales and confidence. We will also remove coordinates that are 0 in our data.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 edat_1 <- edat %>%
@@ -327,11 +364,13 @@ edat_1 <- edat %>%
                 y_pred_normalised != 0) 
 ```
 :::
+:::
 
 #### Combining Eye and Trial-level data
 
 Next we are going to combine the eye-tracking data and behavioral data by using the `left_join` function.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -346,9 +385,11 @@ dat <- dat %>%
   distinct() # make sure to remove duplicate rows
 ```
 :::
+:::
 
 Let's verify our AOIs look how they are suppose to.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 #| echo: false
@@ -379,6 +420,7 @@ ggplot() +
 
 ```
 :::
+:::
 
 Excellent!
 
@@ -393,6 +435,7 @@ In this experiment we have four different trial types:
 
 We will first match the pictures in the TL, TR, BL, BR columns to the correct code condition (T,C, R, U, U2, U3).
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -446,7 +489,9 @@ dat <- dat %>%
 
 ```
 :::
+:::
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 #| echo: false
@@ -456,11 +501,13 @@ tt()
 
 ```
 :::
+:::
 
 In our study, we need to track not only the condition of each image shown (such as Target, Cohort, Rhyme, or Unrelated) but also where each image is located on the screen during each trial as they are randomized on each trial. To do this, we use a function named `find_location`. This function is designed to determine the location of a specific image on the screen by comparing the image with the list of possible locations.
 
 The function `find_location` first checks if the image is NA (missing). If the image is NA, the function returns NA, meaning that there's no location to find for this image. If the image is not NA, the function creates a vector loc_names that lists the names of the possible locations. It then attempts to match the given image with the locations. If a match is found, it returns the name of the location (e.g., TL, TR, BL, or BR) where the image is located. If there is no match, the function returns NA.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -479,9 +526,11 @@ dat_colnames <- dat %>%
 
 ```
 :::
+:::
 
 Here is where we are going to use our coordinate information from above. We use the `assign_aoi` that is adaopted from the `gazeR` package (Geller et al., 2020) to loop through our object `dat_colnames` and assign locations (i.e., TR, TL, BL, BR) to our normalized `x` and `y` coordinates. This function will label non-looks and off screen coordinates with NA. To make it easier to read we change the numerals assigned by the function to actual screen locations.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -505,7 +554,9 @@ AOI <- assign %>%
 
 ```
 :::
+:::
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 #| echo: false
@@ -516,9 +567,11 @@ AOI %>%
   kable()
 ```
 :::
+:::
 
 In the `AOI` object we have our condition variables as columns. For this example, the fixation locations need to be "gathered" from separate columns into a single column and "NA" values need to be re-coded as non-fixations (0). We logically evaluate these below so we know which item was fixated each sample and what was not.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -537,7 +590,9 @@ AOI$cohort <- ifelse(AOI$loc1 == AOI$cohort_loc, 1, 0)# if in coordinates 1, if 
 
 ```
 :::
+:::
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 #| echo: false
@@ -548,9 +603,11 @@ AOI %>%
 
 ```
 :::
+:::
 
 Now we pivot so instead of each condition being an individual column it is one column. This helps with visualization. We `pivot_longer` or make longer the target, unrelated, unrealted2, unrelated3, rhyme, and cohort columns. We put them into a column called condition and place the values of 0 and 1 into a column called `look`.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -563,6 +620,7 @@ dat_long_aoi_me <- AOI  %>%
     )
 
 ```
+:::
 :::
 
 ::: callout-note
@@ -580,6 +638,7 @@ We will be looking at the target, cohort, rhyme, unrelated condition for the vig
 With the presentation of audio there is a delay in when it was played. We coded that above as `RT_audio`. Below we change time to correspond to `audio_onset`. We can do this by subtracting `RT_audio` from `time`. we also remove coordinates outside the standardized window.
 
 ::: {.to-webr}
+::: {.to-webr}
 ```{r}
 
 dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%
@@ -588,7 +647,9 @@ dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%
 
 ```
 :::
+:::
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -603,11 +664,13 @@ group_by(subject, trial) %>%
 
 ```
 :::
+:::
 
 ## Downsampling
 
 We also downsampled our data into 100 ms bins using the `downsample_gaze` function from the webgazeR package. In this process, we read in our `gaze_sub` object, specified the `bin.length` argument as 200, and set the time variable as `time`. We also indicated the variables to aggregate on, such as `condition` and `timebins`. The `time_bin` variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -615,11 +678,13 @@ gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=100, timevar="time", 
 
 ```
 :::
+:::
 
 ### Plotting
 
 To simplify plotting your time-course data, we have created the `plot_IA_proportions` function. This function takes several arguments. The ia_column argument specifies the column containing your Interest Area (IA) labels. The `time_column` argument requires the name of your time bin column, and the `proportion_column` argument specifies the column containing fixation or look proportions. Additional arguments allow you to specify custom names for each IA in the ia_column, enabling you to label them as desired.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 plot_IA_proportions(gaze_sub, 
@@ -631,6 +696,7 @@ plot_IA_proportions(gaze_sub,
 
 ```
 :::
+:::
 
 ## Gorilla provided coordinates
 
@@ -639,6 +705,7 @@ If you open the each individual .xlsx file provided by gorilla you will see that
 We will use the function `extract_aois` to get the coordinates for each quadrant on screen. You can use the zone_names argument to get the zones you want to use.
 
 ::: {.to-webr}
+::: {.to-webr}
 ```{r}
 #| eval: false
 #| 
@@ -646,9 +713,11 @@ aois <- extract_aois(vwp_paths_filtered, zone_names =  c("TL", "BR", "TR", "BL")
 
 ```
 :::
+:::
 
 Below is the table the `extract_aois` function will return.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -667,7 +736,9 @@ aois <- data.frame(
 
 ```
 :::
+:::
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -678,9 +749,11 @@ aois %>%
 
 ```
 :::
+:::
 
 We see the AOIs are a bit smaller now with the gorilla provided coordinates.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 #| echo: false
@@ -712,9 +785,11 @@ ggplot() +
 
 ```
 :::
+:::
 
 We can follow the same steps from above to analyze our data, making sure we input the write coordinates into the `aoi_loc` argument.
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -738,7 +813,9 @@ AOI <- assign %>%
 
 ```
 :::
+:::
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -757,6 +834,7 @@ AOI$cohort <- ifelse(AOI$loc1 == AOI$cohort_loc, 1, 0)# if in coordinates 1, if 
 
 ```
 :::
+:::
 
 Now we pivot so instead of each condition being an individual column it is one column.
 
@@ -774,6 +852,7 @@ dat_long_aoi_me <- AOI  %>%
 ```
 
 ::: {.to-webr}
+::: {.to-webr}
 ```{r}
 
 dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%
@@ -782,7 +861,9 @@ dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%
 
 ```
 :::
+:::
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 
@@ -797,15 +878,19 @@ group_by(subject, trial) %>%
 
 ```
 :::
+:::
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 gaze_sub <- downsample_gaze(gaze_sub, bin.length=100, timevar="time", aggvars=c("condition", "time_bin"))
 ```
 :::
+:::
 
 ### Plotting
 
+::: {.to-webr}
 ::: {.to-webr}
 ```{r}
 #| label: fig-gaze-gor
@@ -820,6 +905,7 @@ gor <- plot_IA_proportions(gaze_sub,
 gor
 
 ```
+:::
 :::
 
 We see the effect is a lot larger when using the gorilla provided coordinates, but a bit noiser.

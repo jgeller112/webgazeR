@@ -62,6 +62,7 @@ A ggplot2 plot of the proportion of looks over time for each IA, optionally face
 
 ### Examples
 ::: {.to-webr}
+::: {.to-webr}
 ```{r}
 #| warning: false
 #| message: false
@@ -82,4 +83,5 @@ plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
 
 
 ```
+:::
 :::
