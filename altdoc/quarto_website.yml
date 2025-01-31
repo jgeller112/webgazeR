@@ -1,5 +1,6 @@
 project:
   type: website
+  pre-render: panelize-code-cells-for-quarto-webr.R
 
 website:
   title: "$ALTDOC_PACKAGE_NAME"
@@ -28,6 +29,16 @@ website:
         file: $ALTDOC_CODE_OF_CONDUCT
       - text: Citation
         file: $ALTDOC_CITATION
+# Add custom repository registration
+webr:
+  packages: ['$ALTDOC_PACKAGE_NAME']
+  repos:
+    - $ALTDOC_PACKAGE_URL
+
+# Attach extensions
+filters:
+- panelize
+- webr
 
 # format:
 #   html:
