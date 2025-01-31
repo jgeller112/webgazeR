@@ -1,0 +1,48 @@
+
+## Downsample gaze data {.unnumbered}
+
+
+### Description
+
+This function combines gaze samples into time bins and optionally aggregates the data.
+
+
+
+### Usage
+
+<pre><code class='language-R'>downsample_gaze(
+  dataframe,
+  bin.length = 50,
+  timevar = "time",
+  aggvars = c("subject", "condition", "target", "trial", "object", "time_bin")
+)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="dataframe">dataframe</code></td>
+<td>
+DataFrame containing gaze data.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="bin.length">bin.length</code></td>
+<td>
+Length of time bins (in milliseconds).
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="timevar">timevar</code></td>
+<td>
+Column name representing time.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="aggvars">aggvars</code></td>
+<td>
+Vector of variable names to group by for aggregation. Use &quot;none&quot; to skip aggregation.
+</td></tr>
+</table>
+
+
+### Value
+
+DataFrame with time bins added and optionally aggregated data.
+
+

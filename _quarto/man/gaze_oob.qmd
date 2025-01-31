@@ -1,0 +1,90 @@
+## Calculate Out-of-Bounds Proportion by Subject {.unnumbered}
+
+
+### Description
+
+This function calculates the number and percentage of points that fall outside a specified range
+(0, 1) for both X and Y coordinates, grouped by subject.
+
+
+
+### Usage
+
+<pre><code class='language-R'>gaze_oob(
+  data,
+  subject_col = "subject",
+  x_col = "x_pred_normalised",
+  y_col = "y_pred_normalised"
+)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
+<td>
+A data frame containing gaze data.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="subject_col">subject_col</code></td>
+<td>
+A string specifying the name of the column that contains the subject identifier. Default is &quot;subject&quot;.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="x_col">x_col</code></td>
+<td>
+A string specifying the name of the column that contains the X coordinate. Default is &quot;x_pred_normalised&quot;.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="y_col">y_col</code></td>
+<td>
+A string specifying the name of the column that contains the Y coordinate. Default is &quot;y_pred_normalised&quot;.
+</td></tr>
+</table>
+
+
+### Value
+
+A data frame with the following columns:
+
+
+<dl>
+<dt>subject</dt><dd>The subject identifier.
+</dd>
+<dt>total_points</dt><dd>The total number of points for the subject.
+</dd>
+<dt>outside_count</dt><dd>The number of points outside the range for both X and Y coordinates.
+</dd>
+<dt>x_outside_count</dt><dd>The number of points outside the range for the X coordinate.
+</dd>
+<dt>y_outside_count</dt><dd>The number of points outside the range for the Y coordinate.
+</dd>
+<dt>x_outside_percentage</dt><dd>The percentage of points outside the range for the X coordinate.
+</dd>
+<dt>y_outside_percentage</dt><dd>The percentage of points outside the range for the Y coordinate.
+</dd>
+</dl>
+
+
+
+### Examples
+::: {.to-webr}
+```{r}
+#| warning: false
+#| message: false
+#| eval: false
+library(webgazeR)
+
+  # Example data
+  data <- data.frame(
+    subject = rep(1:2, each = 100),
+    x_pred_normalised = runif(200, -0.5, 1.5),
+    y_pred_normalised = runif(200, -0.5, 1.5)
+  )
+
+  # Calculate out-of-bounds proportion by subject
+  results <- calculate_out_of_bounds_by_subject(data)
+  print(results)
+
+
+
+```
+:::

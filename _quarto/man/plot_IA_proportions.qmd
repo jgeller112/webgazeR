@@ -1,0 +1,85 @@
+## Plot Proportion of Looks Over Time for Interest Areas (IAs) {.unnumbered}
+
+
+### Description
+
+This function creates a time-course plot of the proportion of looks to specified Interest Areas (IAs).
+Optionally, it can facet the plot by an experimental condition. Custom labels for each IA can be specified
+through the 'ia_mapping' argument to define the display order.
+
+
+
+### Usage
+
+<pre><code class='language-R'>plot_IA_proportions(
+  data,
+  ia_column,
+  time_column,
+  proportion_column,
+  condition_column = NULL,
+  ia_mapping
+)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
+<td>
+A data frame containing the data to plot.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="ia_column">ia_column</code></td>
+<td>
+The name of the column containing Interest Area (IA) identifiers.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="time_column">time_column</code></td>
+<td>
+The name of the column representing time (e.g., milliseconds).
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="proportion_column">proportion_column</code></td>
+<td>
+The name of the column with the proportion of looks for each IA.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="condition_column">condition_column</code></td>
+<td>
+Optional. The name of the column representing experimental conditions.
+If not provided, the plot will not be faceted by condition.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="ia_mapping">ia_mapping</code></td>
+<td>
+A named list specifying custom labels for each IA in the desired display order
+(e.g., 'list(IA1 = &quot;Target&quot;, IA2 = &quot;Cohort&quot;, IA3 = &quot;Rhyme&quot;, IA4 = &quot;Unrelated&quot;)').
+</td></tr>
+</table>
+
+
+### Value
+
+A ggplot2 plot of the proportion of looks over time for each IA, optionally faceted by condition.
+
+
+
+### Examples
+::: {.to-webr}
+```{r}
+#| warning: false
+#| message: false
+#| eval: false
+library(webgazeR)
+
+# Example with a condition column
+plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
+                    proportion_column = "proportion_looks", condition_column = "condition",
+                    ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"))
+
+# Example without a condition column
+plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
+                    proportion_column = "proportion_looks",
+                    ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"))
+
+
+
+
+```
+:::

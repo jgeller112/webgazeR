@@ -1,0 +1,63 @@
+## Analyze Sampling Rates for Eye-Tracking Data {.unnumbered}
+
+
+### Description
+
+This function calculates the sampling rate for each subject and trial in an eye-tracking dataset.
+It provides overall statistics, including the median and standard deviation of sampling rates,
+and also generates a histogram of median sampling rates by subject, with a density plot overlayed,
+and a vertical line showing the overall median sampling rate and the standard deviation displayed.
+
+
+
+### Usage
+
+<pre><code class='language-R'>analyze_sampling_rate(eye_data)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="eye_data">eye_data</code></td>
+<td>
+A dataframe containing eye-tracking data with columns 'subject', 'trial', and 'time'.
+The column 'time' should represent the time in milliseconds for each trial.
+</td></tr>
+</table>
+
+
+### Value
+
+A list containing:
+
+
+<dl>
+<dt>overall_median_SR</dt><dd>The overall median sampling rate (Hz).
+</dd>
+<dt>overall_sd_SR</dt><dd>The overall standard deviation of sampling rates.
+</dd>
+<dt>median_SR_by_subject</dt><dd>A dataframe with the median sampling rate by subject.
+</dd>
+<dt>SR_by_trial</dt><dd>A dataframe with the sampling rate by subject and trial.
+</dd>
+</dl>
+
+
+
+### Examples
+::: {.to-webr}
+```{r}
+#| warning: false
+#| message: false
+#| eval: false
+library(webgazeR)
+
+  # Assuming eye_data is a dataframe with appropriate columns
+  result <- analyze_sampling_rate(eye_data)
+  print(result)
+
+
+
+```
+:::
