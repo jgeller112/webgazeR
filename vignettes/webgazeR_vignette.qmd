@@ -36,7 +36,7 @@ library(ggokabeito)
 ### Load webgazeR
 
 ```{r}
-#| eval: true
+#| eval: false
 #| 
 remotes::install_github("https://github.com/jgeller112/webgazeR")
 
@@ -398,8 +398,8 @@ dat <- dat %>%
 #| echo: false
 
 head(dat) %>%
-  
-  kable()
+tt()
+
 ```
 
 In our study, we need to track not only the condition of each image shown (such as Target, Cohort, Rhyme, or Unrelated) but also where each image is located on the screen during each trial as they are randomized on each trial. To do this, we use a function named `find_location`. This function is designed to determine the location of a specific image on the screen by comparing the image with the list of possible locations.
@@ -427,7 +427,7 @@ Here is where we are going to use our coordinate information from above. We use 
 
 ```{r}
 
-assign <- gazer::assign_aoi(dat_colnames,X="x_pred_normalised", Y="y_pred_normalised",aoi_loc = aoi_loc)
+assign <- assign_aoi(dat_colnames,X="x_pred_normalised", Y="y_pred_normalised",aoi_loc = aoi_loc)
 
 
 AOI <- assign %>%
