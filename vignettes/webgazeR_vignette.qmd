@@ -634,7 +634,7 @@ We can follow the same steps from above to analyze our data, making sure we inpu
 
 ```{r}
 
-assign <- gazer::assign_aoi(dat_colnames,X="x_pred_normalised", Y="y_pred_normalised",aoi_loc = aois)
+assign <- assign_aoi(dat_colnames,X="x_pred_normalised", Y="y_pred_normalised",aoi_loc = aois)
 
 
 AOI <- assign %>%
