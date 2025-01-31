@@ -23,6 +23,6 @@ Imports:
 RoxygenNote: 7.3.2
 Depends: 
     R (>= 4.0)
-URL: https://github.com/jgeller112/webgazeR
+URL: https://jgeller112.github.io/webgazeR/, https://github.com/jgeller112/webgazeR
 Suggests: 
     altdoc

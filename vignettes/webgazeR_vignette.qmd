@@ -13,11 +13,11 @@ execute:
   message: false
 ---
 
-Here I outline the basic functions of the `webgazeR` package.
+Here I outline the basic functions of the `webgazeR` package. I am using `quarto-webr` which allows for code to be run interactively in your browser! 
 
 ## Packages
 
-Here we will load in packages needed to run our vignette.
+Below are the basic packages needed to run this vignette. The below code chunks will load in the packages needed.
 
 ```{r}
 #| label: load
@@ -31,18 +31,27 @@ library(janitor)# functions for cleaning up your column names
 library(easystats)
 library(knitr)
 library(ggokabeito)
+install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))
+library(webgazeR)
+
 ```
 
 ### Load webgazeR
 
+- First you must install it via Github. 
+
 ```{r}
 #| eval: false
-#| 
+
+# do not run interactively
 remotes::install_github("https://github.com/jgeller112/webgazeR")
 
 ```
 
+- Then you can load it into your session
+
 ```{r}
+# load the package
 library(webgazeR)
 
 ```
@@ -68,7 +77,7 @@ setwd(here::here("data", "monolinguals", "raw")) # set working directory to raw 
 edat <- merge_webcam_files(vwp_paths_filtered, screen_index=4) # eye tracking occured ons creen index 4
 ```
 
-the `webgazeR` package includes a combined dataset for us to use
+the `webgazeR` package includes a combined dataset for us to use. 
 
 ```{r}
 
@@ -123,7 +132,7 @@ emstr <- agg_eye_data %>%
 
 ### Get audio onset time
 
-Because we are using audio on each trial and we are running this experiment for the browser audio onset is never going to to conistent across participants. In Gorilla there is an option to collect advanced audio features such as when the audio play was requested, fired )played and ended. We will want to incorporate this into our pipeline. Gorilla records the onset of the audio which varies by participant. We are extracting that here by filtering `zone_type` to `content_web_audio` and response equal to "AUDIO PLAY EVENT FIRED". This will tell us when the audio was triggered in the experiment (`reaction_time`).
+Because we are using audio on each trial and we are running this experiment for the browser audio onset is never going to to conistent across participants. In Gorilla there is an option to collect advanced audio features such as when the audio play was requested, fired (played) and ended. We will want to incorporate this into our pipeline. Gorilla records the onset of the audio which varies by participant. We are extracting that here by filtering `zone_type` to `content_web_audio` and response equal to "AUDIO PLAY EVENT FIRED". This will tell us when the audio was triggered in the experiment (`reaction_time`).
 
 ```{r}
 
@@ -164,7 +173,7 @@ samp_rate <- analyze_sampling_rate(edat)
 
 In this example, we have a median sampling rate of 24.77 with a SD of 7.81.
 
-When using the above function, separate data frames are produced for subjects and trials. These can be added to the behavioral data object.
+When using the above function, separate data frames are produced for subjects and trials. These can be added to the behavioral data object and this merge process is documented below. 
 
 ```{r}
 
