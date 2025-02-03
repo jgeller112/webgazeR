@@ -2,6 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-docs
 altdoc/freeze.rds
 ^_quarto$
