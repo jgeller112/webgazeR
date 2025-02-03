@@ -1,5 +1,5 @@
 ---
-title: "README"
+title: "Webcame Eey-tracking"
 format: html
 editor: visual
 ---
@@ -8,4 +8,4 @@ editor: visual
 
 Functions for analyzing webcam eye-tracking data
 
-![](webgazeR_hex_sticker.png)
+![](README_files/webgazeR_hex_sticker.png)
