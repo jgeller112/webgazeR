@@ -1,0 +1,22 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Webcam Eye-tracking R Package",
+    "section": "",
+    "text": "WebgazeR\nFunctions for analyzing webcam eye-tracking data",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "CITATION.html",
+    "href": "CITATION.html",
+    "title": "Citation",
+    "section": "",
+    "text": "Citation\nTo cite package ‘webgazeR’ in publications use:\n\n  Geller J, Prystauka Y (2025). _webgazeR: Tools for Processing Webcam Eye Tracking Data_. R\n  package version 0.1.0, https://github.com/jgeller112/webgazeR,\n  &lt;https://jgeller112.github.io/webgazeR/&gt;.\n\nA BibTeX entry for LaTeX users is\n\n  @Manual{,\n    title = {webgazeR: Tools for Processing Webcam Eye Tracking Data},\n    author = {Jason Geller and Yanina Prystauka},\n    year = {2025},\n    note = {R package version 0.1.0, \nhttps://github.com/jgeller112/webgazeR},\n    url = {https://jgeller112.github.io/webgazeR/},\n  }",
+    "crumbs": [
+      "Citation"
+    ]
+  }
+]
