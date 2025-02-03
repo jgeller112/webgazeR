@@ -47,7 +47,6 @@ A list containing:
 
 ### Examples
 ::: {.to-webr}
-::: {.to-webr}
 ```{r}
 #| warning: false
 #| message: false
@@ -61,5 +60,4 @@ library(webgazeR)
 
 
 ```
-:::
 :::

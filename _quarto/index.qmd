@@ -8,4 +8,4 @@ editor: visual
 
 Functions for analyzing webcam eye-tracking data
 
-![](images/webgazeR_hex_sticker.png)
+![](webgazeR_hex_sticker.png)

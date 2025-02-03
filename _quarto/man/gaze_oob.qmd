@@ -67,7 +67,6 @@ A data frame with the following columns:
 
 ### Examples
 ::: {.to-webr}
-::: {.to-webr}
 ```{r}
 #| warning: false
 #| message: false
@@ -88,5 +87,4 @@ library(webgazeR)
 
 
 ```
-:::
 :::

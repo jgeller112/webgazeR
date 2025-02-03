@@ -92,7 +92,6 @@ sampling rate threshold).
 
 ### Examples
 ::: {.to-webr}
-::: {.to-webr}
 ```{r}
 #| warning: false
 #| message: false
@@ -107,5 +106,4 @@ result <- filter_sampling_rate(data = data_with_sr, threshold = 500, action = "l
 
 
 ```
-:::
 :::

@@ -37,7 +37,6 @@ A character string representing the location of the image, or 'NA' if the image 
 
 ### Examples
 ::: {.to-webr}
-::: {.to-webr}
 ```{r}
 #| warning: false
 #| message: false
@@ -52,5 +51,4 @@ find_location(locations, "orange")  # Returns NA
 
 
 ```
-:::
 :::

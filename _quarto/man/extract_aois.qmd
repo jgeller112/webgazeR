@@ -34,7 +34,6 @@ A dataframe containing distinct rows with AOI-related columns and calculated coo
 
 ### Examples
 ::: {.to-webr}
-::: {.to-webr}
 ```{r}
 #| warning: false
 #| message: false
@@ -47,5 +46,4 @@ library(webgazeR)
 
 
 ```
-:::
 :::
