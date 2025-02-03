@@ -1,0 +1,11 @@
+---
+title: "Webcame Eey-tracking"
+format: html
+editor: visual
+---
+
+# WebgazeR
+
+Functions for analyzing webcam eye-tracking data
+
+![](README_files/webgazeR_hex_sticker.png)
