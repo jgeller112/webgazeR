@@ -1,8 +1,8 @@
-# README
+# Webcam Eye-tracking R Package
 
 
 # WebgazeR
 
 Functions for analyzing webcam eye-tracking data
 
-![](webgazeR_hex_sticker.png)
+<img src="webgazeR_hex_sticker.png" data-fig-align="center" />
