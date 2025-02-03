@@ -1,5 +1,5 @@
 ---
-title: "Webcame Eey-tracking"
+title: "Webcame Eye-tracking"
 format: html
 editor: visual
 ---
