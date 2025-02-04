@@ -1,71 +1,86 @@
 #' Analyze Sampling Rates for Eye-Tracking Data
 #'
 #' This function calculates the sampling rate for each subject and trial in an eye-tracking dataset.
-#' It provides overall statistics, including the median and standard deviation of sampling rates,
-#' and also generates a histogram of median sampling rates by subject, with a density plot overlayed,
-#' and a vertical line showing the overall median sampling rate and the standard deviation displayed.
+#' Users can specify whether to compute the mean or median sampling rate. It provides overall statistics,
+#' including the selected measure and standard deviation, and generates a histogram of sampling rates.
 #'
 #' @param eye_data A dataframe containing eye-tracking data with columns `subject`, `trial`, and `time`.
 #' The column `time` should represent the time in milliseconds for each trial.
+#' @param summary_stat A character string indicating the summary statistic to use. Must be either `"median"`
+#' (default) or `"mean"`.
 #'
 #' @return A list containing:
 #' \describe{
-#'   \item{overall_median_SR}{The overall median sampling rate (Hz).}
-#'   \item{overall_sd_SR}{The overall standard deviation of sampling rates.}
-#'   \item{median_SR_by_subject}{A dataframe with the median sampling rate by subject.}
+#'   \item{overall_summary_SR}{The overall mean or median sampling rate (Hz).}
+#'   \item{overall_sd_SR}{The standard deviation of the sampling rate.}
+#'   \item{summary_SR_by_subject}{A dataframe with the mean or median sampling rate by subject.}
 #'   \item{SR_by_trial}{A dataframe with the sampling rate by subject and trial.}
 #' }
 #'
 #' @examples
 #' \dontrun{
 #'   # Assuming eye_data is a dataframe with appropriate columns
-#'   result <- analyze_sampling_rate(eye_data)
+#'   result <- analyze_sampling_rate(eye_data, summary_stat = "mean")
 #'   print(result)
 #' }
 #' @export
-#' @import dplyr ggplot2
-analyze_sampling_rate <- function(eye_data) {
+#' @import tidyverse
+analyze_sampling_rate <- function(eye_data, summary_stat = "median") {
 
-  # Calculate sampling rate (SR) for each subject and trial
+  # Step 1: Validate the summary_stat argument
+  if (!summary_stat %in% c("median", "mean")) {
+    stop("Invalid summary_stat. Please choose either 'median' or 'mean'.")
+  }
+
+  # Define the summary function dynamically
+  summary_fn <- if (summary_stat == "median") median else mean
+
+  # Step 2: Calculate Sampling Rate (SR) for Each Subject and Trial
+  # We determine the sampling rate as: 1000 / (max time in trial / number of time points)
   edatSR <- eye_data %>%
     dplyr::group_by(subject, trial) %>%
     dplyr::summarise(
-      max_time = max(time),
-      n_times = length(time),
-      SR = ifelse(max_time > 0, 1000 / (max_time / n_times), NA_real_)
+      max_time = max(time),  # Maximum time in the trial
+      n_times = length(time),  # Number of samples in the trial
+      SR = ifelse(max_time > 0, 1000 / (max_time / n_times), NA_real_),  # Compute SR in Hz
+      .groups = "drop"
     ) %>%
-    dplyr::filter(!is.na(SR))  # Remove rows with NA SR
+    dplyr::filter(!is.na(SR))  # Remove rows where SR could not be computed
 
-  # Summarize the median sampling rate for each subject
-  samp_med <- edatSR %>%
+  # Step 3: Compute Subject-Level Summary (Mean or Median)
+  samp_summary <- edatSR %>%
     dplyr::group_by(subject) %>%
-    dplyr::summarise(med_SR = median(SR, na.rm = TRUE))
+    dplyr::summarise(summary_SR = summary_fn(SR, na.rm = TRUE), .groups = "drop")
 
-  # Calculate overall median and standard deviation of sampling rates
-  overall_med_SR <- median(samp_med$med_SR, na.rm = TRUE)
-  overall_sd_SR <- sd(samp_med$med_SR, na.rm = TRUE)
+  # Step 4: Compute Overall Summary Statistics
+  overall_summary_SR <- summary_fn(samp_summary$summary_SR, na.rm = TRUE)
+  overall_sd_SR <- sd(samp_summary$summary_SR, na.rm = TRUE)
 
-  # Print the overall median and standard deviation
-  cat("Overall Median Sampling Rate (Hz):", overall_med_SR, "\n")
+  # Step 5: Print Summary Statistics
+  cat("Overall", summary_stat, "Sampling Rate (Hz):", overall_summary_SR, "\n")
   cat("Overall Standard Deviation of Sampling Rate (Hz):", overall_sd_SR, "\n")
 
-  # Print the sampling rate by trial
+  # Print individual-level sampling rate data
   cat("\nSampling Rate by Trial:\n")
   print(edatSR)
 
-  # Print the median sampling rate by subject
-  cat("\nMedian Sampling Rate by Subject:\n")
-  print(samp_med)
+  cat("\n", summary_stat, "Sampling Rate by Subject:\n")
+  print(samp_summary)
 
-  # Plot the histogram of median sampling rates by subject, with a density plot and a vertical line at the overall median
-  histogram_plot <- ggplot(samp_med, aes(x = med_SR)) +
+  # Plot the histogram of sampling rates with density overlay
+  histogram_plot <- ggplot(samp_summary, aes(x = summary_SR)) +
     geom_histogram(binwidth = 1, fill = "skyblue", color = "black", alpha = 0.7) +
-    geom_density(aes(y = ..count..), fill = "orange", alpha = 0.3) +  # Overlayed density plot
-    geom_vline(aes(xintercept = overall_med_SR), color = "red", linetype = "dashed", size = 1) +  # Vertical line for median
-    annotate("text", x = overall_med_SR, y = Inf, label = paste0("Median: ", round(overall_med_SR, 2), "\nSD: ", round(overall_sd_SR, 2)),
-             vjust = 1.5, hjust = -0.1, color = "red", size = 5, fontface = "bold") +  # Annotate with median and SD
-    labs(title = "Histogram and Density of Median Sampling Rates",
-         x = "Median Sampling Rate (Hz)",
+
+    # Updated density plot to use after_stat(count) instead of ..count..
+    geom_density(aes(y = after_stat(count)), fill = "orange", alpha = 0.3) +
+
+    geom_vline(aes(xintercept = overall_summary_SR), color = "red", linetype = "dashed", size = 1) +  # Vertical line
+    annotate("text", x = overall_summary_SR, y = Inf,
+             label = paste0(summary_stat, ": ", round(overall_summary_SR, 2),
+                            "\nSD: ", round(overall_sd_SR, 2)),
+             vjust = 1.5, hjust = -0.1, color = "red", size = 5, fontface = "bold") +
+    labs(title = paste("Histogram and Density of", summary_stat, "Sampling Rates"),
+         x = paste(summary_stat, "Sampling Rate (Hz)"),
          y = "Frequency / Density") +
     theme_minimal() +
     theme(
@@ -76,9 +91,12 @@ analyze_sampling_rate <- function(eye_data) {
   # Print the histogram
   print(histogram_plot)
 
-  # Return the overall median, standard deviation, median SR by subject, and SR by trial
-  return(list(overall_median_SR = overall_med_SR,
-              overall_sd_SR = overall_sd_SR,
-              median_SR_by_subject = samp_med,
-              SR_by_trial = edatSR))
+
+  # Step 7: Return Data as a List
+  return(list(
+    overall_summary_SR = overall_summary_SR,
+    overall_sd_SR = overall_sd_SR,
+    summary_SR_by_subject = samp_summary,
+    SR_by_trial = edatSR
+  ))
 }

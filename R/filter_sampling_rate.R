@@ -64,7 +64,7 @@ filter_sampling_rate <- function(data,
       # Remove data where the subject-level median sampling rate is below the threshold
       cleaned_data <- data %>%
         group_by(subject) %>%  # Group by subject to apply the subject-level filter
-        filter(med_SR >= threshold) %>%
+        filter(sampling_rate_subject >= threshold) %>%
         ungroup()
       subjects_removed <- total_subjects - length(unique(cleaned_data$subject))
       trials_removed <- total_trials - nrow(cleaned_data)
@@ -72,7 +72,7 @@ filter_sampling_rate <- function(data,
       # Remove data where the trial-level sampling rate is below the threshold
       cleaned_data <- data %>%
         group_by(trial) %>%  # Group by trial to apply the trial-level filter
-        filter(SR >= threshold) %>%
+        filter(sampling_rate_trial >= threshold) %>%
         ungroup()
       subjects_removed <- total_subjects - length(unique(cleaned_data$subject))
       trials_removed <- total_trials - nrow(cleaned_data)
@@ -80,7 +80,7 @@ filter_sampling_rate <- function(data,
       # Remove data where either subject or trial sampling rate is below the threshold
       cleaned_data <- data %>%
         group_by(subject, trial) %>%
-        filter(med_SR >= threshold & SR >= threshold) %>%
+        filter(sampling_rate_subject >= threshold & sampling_rate_trial >= threshold) %>%
         ungroup()
       subjects_removed <- total_subjects - length(unique(cleaned_data$subject))
       trials_removed <- total_trials - nrow(cleaned_data)
@@ -95,7 +95,7 @@ filter_sampling_rate <- function(data,
       # Label data where the subject-level median sampling rate is below the threshold
       flagged_data <- data %>%
         group_by(subject) %>%  # Group by subject
-        mutate(is_bad_subject = ifelse(med_SR < threshold, TRUE, FALSE)) %>%
+        mutate(is_bad_subject = ifelse(sampling_rate_subject < threshold, TRUE, FALSE)) %>%
         ungroup()
       subjects_bad <- length(unique(flagged_data$subject[flagged_data$is_bad_subject == TRUE]))
       trials_bad <- sum(flagged_data$is_bad_subject)
@@ -107,7 +107,7 @@ filter_sampling_rate <- function(data,
       # Label data where the trial-level sampling rate is below the threshold, handling NA values
       flagged_data <- data %>%
         group_by(trial) %>%  # Group by trial
-        mutate(is_bad_trial = ifelse(is.na(SR) | SR < threshold, TRUE, FALSE)) %>%
+        mutate(is_bad_trial = ifelse(is.na(sampling_rate_trial) | sampling_rate_trial < threshold, TRUE, FALSE)) %>%
         ungroup()
       subjects_bad <- length(unique(flagged_data$subject[flagged_data$is_bad_trial == TRUE]))
       trials_bad <- sum(flagged_data$is_bad_trial, na.rm = TRUE)  # Use na.rm to handle NAs
@@ -119,8 +119,8 @@ filter_sampling_rate <- function(data,
       # Label data where either subject or trial sampling rate is below the threshold, handling NA values
       flagged_data <- data %>%
         group_by(subject, trial) %>%
-        mutate(is_bad_subject = ifelse(is.na(med_SR) | med_SR < threshold, TRUE, FALSE),
-               is_bad_trial = ifelse(is.na(SR) | SR < threshold, TRUE, FALSE)) %>%
+        mutate(is_bad_subject = ifelse(is.na(sampling_rate_subject) | sampling_rate_subject < threshold, TRUE, FALSE),
+               is_bad_trial = ifelse(is.na(sampling_rate_trial) | sampling_rate_trial < threshold, TRUE, FALSE)) %>%
         ungroup()
       subjects_bad <- length(unique(flagged_data$subject[flagged_data$is_bad_subject == TRUE]))
       trials_bad <- sum(flagged_data$is_bad_trial, na.rm = TRUE)  # Use na.rm to handle NAs
