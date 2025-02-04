@@ -32,7 +32,7 @@ library(janitor)# functions for cleaning up your column names
 library(easystats)
 library(knitr)
 library(ggokabeito)
-install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))
+#install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))
 library(webgazeR)
 
 ```
@@ -188,7 +188,7 @@ While most commercial eye-trackers sample at a constant rate, webcam eye-tracker
 ::: {.to-webr}
 ```{r}
 
-samp_rate <- analyze_sampling_rate(edat)
+samp_rate <- analyze_sampling_rate(edat, summary_stat = "mean")
 
 ```
 :::
@@ -199,27 +199,27 @@ When using the above function, separate data frames are produced for subjects an
 
 ::: {.to-webr}
 ```{r}
-
 # Extract by-subject and by-trial sampling rates from the result
-subject_sampling_rate <- samp_rate$median_SR_by_subject  # Sampling rate by subject
+subject_sampling_rate <- samp_rate$summary_SR_by_subject  # Sampling rate by subject
 trial_sampling_rate <- samp_rate$SR_by_trial  # Sampling rate by trial
-trial_sampling_rate$subject<-as.factor(trial_sampling_rate$subject)
 
-# Assuming target_data is your other dataset that contains subject and trial information
-# Append the by-subject sampling rate to target_data (based on subject)
+# Ensure subject and trial are factors for proper merging
+trial_sampling_rate$subject <- as.factor(trial_sampling_rate$subject)
+trial_sampling_rate$trial <- as.factor(trial_sampling_rate$trial)
+
 subject_sampling_rate$subject <- as.factor(subject_sampling_rate$subject)
 
+# Rename column dynamically based on function output (summary_stat can be "mean" or "median")
+colnames(subject_sampling_rate)[colnames(subject_sampling_rate) == "summary_SR"] <- "sampling_rate_subject"
+colnames(trial_sampling_rate)[colnames(trial_sampling_rate) == "SR"] <- "sampling_rate_trial"
+
+# Merge by-subject sampling rate with target data
 target_data_with_subject_SR <- trial_data_rt %>%
   left_join(subject_sampling_rate, by = "subject")
 
-# Append the by-trial sampling rate to target_data (based on subject and trial)
-
-
-trial_sampling_rate$trial <- as.factor(trial_sampling_rate$trial)
-
-
+# Merge by-trial sampling rate with target data
 target_data_with_full_SR <- target_data_with_subject_SR %>%
-  select(subject, trial, med_SR)%>%
+  select(subject, trial, sampling_rate_subject) %>%
   left_join(trial_sampling_rate, by = c("subject", "trial"))
 
 

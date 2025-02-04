@@ -132,10 +132,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Here I outline the basic functions of the <code>webgazeR</code> package.</p>
+<p>Here I outline the basic functions of the <code>webgazeR</code> package. I am using <code>quarto-webr</code> which allows for code to be run interactively in your browser!</p>
 <section id="packages" class="level2">
 <h2 class="anchored" data-anchor-id="packages">Packages</h2>
-<p>Here we will load in packages needed to run our vignette.</p>
+<p>Below are the basic packages needed to run this vignette. The below code chunks will load in the packages needed.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">stringsAsFactors =</span> F)          <span class="co"># no automatic data transformation</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="st">"scipen"</span> <span class="ot">=</span> <span class="dv">100</span>, <span class="st">"digits"</span> <span class="ot">=</span> <span class="dv">10</span>) <span class="co"># suppress math annotation</span></span>
@@ -145,15 +145,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)<span class="co"># functions for cleaning up your column names</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggokabeito)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggokabeito)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(webgazeR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="load-webgazer" class="level3">
 <h3 class="anchored" data-anchor-id="load-webgazer">Load webgazeR</h3>
+<ul>
+<li>First you must install it via Github.</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"https://github.com/jgeller112/webgazeR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do not run interactively</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"https://github.com/jgeller112/webgazeR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<ul>
+<li>Then you can load it into your session</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(webgazeR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the package</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(webgazeR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -172,7 +182,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>edat <span class="ot">&lt;-</span> <span class="fu">merge_webcam_files</span>(vwp_paths_filtered, <span class="at">screen_index=</span><span class="dv">4</span>) <span class="co"># eye tracking occured ons creen index 4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>the <code>webgazeR</code> package includes a combined dataset for us to use</p>
+<p>the <code>webgazeR</code> package includes a combined dataset for us to use.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>edat <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span>eyedata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -216,7 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="get-audio-onset-time" class="level3">
 <h3 class="anchored" data-anchor-id="get-audio-onset-time">Get audio onset time</h3>
-<p>Because we are using audio on each trial and we are running this experiment for the browser audio onset is never going to to conistent across participants. In Gorilla there is an option to collect advanced audio features such as when the audio play was requested, fired )played and ended. We will want to incorporate this into our pipeline. Gorilla records the onset of the audio which varies by participant. We are extracting that here by filtering <code>zone_type</code> to <code>content_web_audio</code> and response equal to “AUDIO PLAY EVENT FIRED”. This will tell us when the audio was triggered in the experiment (<code>reaction_time</code>).</p>
+<p>Because we are using audio on each trial and we are running this experiment for the browser audio onset is never going to to conistent across participants. In Gorilla there is an option to collect advanced audio features such as when the audio play was requested, fired (played) and ended. We will want to incorporate this into our pipeline. Gorilla records the onset of the audio which varies by participant. We are extracting that here by filtering <code>zone_type</code> to <code>content_web_audio</code> and response equal to “AUDIO PLAY EVENT FIRED”. This will tell us when the audio was triggered in the experiment (<code>reaction_time</code>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>audio_rt <span class="ot">&lt;-</span> agg_eye_data <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -421,14 +431,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="sampling-rate">Sampling Rate</h3>
 <p>While most commercial eye-trackers sample at a constant rate, webcam eye-trackers do not. Below is some code to calculate the sampling rate of each participant. Ideally, you should not have a sampling rate less than 5 Hz. It has been recommended you drop those values. The below function <code>analyze_sample_rate</code> calculates calculates the sampling rate for each subject and trial in an eye-tracking dataset. It provides overall statistics, including the median and standard deviation of sampling rates in your experiment,and also generates a histogram of median sampling rates by subject with a density plot overlayed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>samp_rate <span class="ot">&lt;-</span> <span class="fu">analyze_sampling_rate</span>(edat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>samp_rate <span class="ot">&lt;-</span> <span class="fu">analyze_sampling_rate</span>(edat, <span class="at">summary_stat =</span> <span class="st">"mean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Overall Median Sampling Rate (Hz): 24.76936956 
-Overall Standard Deviation of Sampling Rate (Hz): 7.807913315 
+<pre><code>Overall mean Sampling Rate (Hz): 22.76296 
+Overall Standard Deviation of Sampling Rate (Hz): 7.831290938 
 
 Sampling Rate by Trial:
 # A tibble: 3,122 × 5
-# Groups:   subject [23]
     subject trial max_time n_times    SR
       &lt;int&gt; &lt;int&gt;    &lt;dbl&gt;   &lt;int&gt; &lt;dbl&gt;
  1 11788555     7    3664.     107  29.2
@@ -443,20 +452,20 @@ Sampling Rate by Trial:
 10 11788555    27    2103.      62  29.5
 # ℹ 3,112 more rows
 
-Median Sampling Rate by Subject:
+ mean Sampling Rate by Subject:
 # A tibble: 23 × 2
-    subject med_SR
-      &lt;int&gt;  &lt;dbl&gt;
- 1 11788555  29.6 
- 2 11788682  29.7 
- 3 11788824  23.9 
- 4 11788857   8.79
- 5 11789574  11.5 
- 6 11795362  22.6 
- 7 11795372  24.8 
- 8 11795375  28.5 
- 9 11795376  29.9 
-10 11795379  30.4 
+    subject summary_SR
+      &lt;int&gt;      &lt;dbl&gt;
+ 1 11788555      29.6 
+ 2 11788682      29.7 
+ 3 11788824      23.7 
+ 4 11788857       8.78
+ 5 11789574      11.0 
+ 6 11795362      22.6 
+ 7 11795372      24.9 
+ 8 11795375      28.4 
+ 9 11795376      29.9 
+10 11795379      30.4 
 # ℹ 13 more rows</code></pre>
 </div>
 <div class="cell-output-display">
@@ -468,29 +477,30 @@ Median Sampling Rate by Subject:
 </div>
 </div>
 <p>In this example, we have a median sampling rate of 24.77 with a SD of 7.81.</p>
-<p>When using the above function, separate data frames are produced for subjects and trials. These can be added to the behavioral data object.</p>
+<p>When using the above function, separate data frames are produced for subjects and trials. These can be added to the behavioral data object and this merge process is documented below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract by-subject and by-trial sampling rates from the result</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>subject_sampling_rate <span class="ot">&lt;-</span> samp_rate<span class="sc">$</span>median_SR_by_subject  <span class="co"># Sampling rate by subject</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>subject_sampling_rate <span class="ot">&lt;-</span> samp_rate<span class="sc">$</span>summary_SR_by_subject  <span class="co"># Sampling rate by subject</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>trial_sampling_rate <span class="ot">&lt;-</span> samp_rate<span class="sc">$</span>SR_by_trial  <span class="co"># Sampling rate by trial</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>trial_sampling_rate<span class="sc">$</span>subject<span class="ot">&lt;-</span><span class="fu">as.factor</span>(trial_sampling_rate<span class="sc">$</span>subject)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming target_data is your other dataset that contains subject and trial information</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Append the by-subject sampling rate to target_data (based on subject)</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>subject_sampling_rate<span class="sc">$</span>subject <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(subject_sampling_rate<span class="sc">$</span>subject)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>target_data_with_subject_SR <span class="ot">&lt;-</span> trial_data_rt <span class="sc">%&gt;%</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(subject_sampling_rate, <span class="at">by =</span> <span class="st">"subject"</span>)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Append the by-trial sampling rate to target_data (based on subject and trial)</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure subject and trial are factors for proper merging</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>trial_sampling_rate<span class="sc">$</span>subject <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(trial_sampling_rate<span class="sc">$</span>subject)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>trial_sampling_rate<span class="sc">$</span>trial <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(trial_sampling_rate<span class="sc">$</span>trial)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>subject_sampling_rate<span class="sc">$</span>subject <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(subject_sampling_rate<span class="sc">$</span>subject)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename column dynamically based on function output (summary_stat can be "mean" or "median")</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(subject_sampling_rate)[<span class="fu">colnames</span>(subject_sampling_rate) <span class="sc">==</span> <span class="st">"summary_SR"</span>] <span class="ot">&lt;-</span> <span class="st">"sampling_rate_subject"</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(trial_sampling_rate)[<span class="fu">colnames</span>(trial_sampling_rate) <span class="sc">==</span> <span class="st">"SR"</span>] <span class="ot">&lt;-</span> <span class="st">"sampling_rate_trial"</span></span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>trial_sampling_rate<span class="sc">$</span>trial <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(trial_sampling_rate<span class="sc">$</span>trial)</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge by-subject sampling rate with target data</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>target_data_with_subject_SR <span class="ot">&lt;-</span> trial_data_rt <span class="sc">%&gt;%</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(subject_sampling_rate, <span class="at">by =</span> <span class="st">"subject"</span>)</span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>target_data_with_full_SR <span class="ot">&lt;-</span> target_data_with_subject_SR <span class="sc">%&gt;%</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, med_SR)<span class="sc">%&gt;%</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(trial_sampling_rate, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"subject"</span>, <span class="st">"trial"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge by-trial sampling rate with target data</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>target_data_with_full_SR <span class="ot">&lt;-</span> target_data_with_subject_SR <span class="sc">%&gt;%</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, sampling_rate_subject) <span class="sc">%&gt;%</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(trial_sampling_rate, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"subject"</span>, <span class="st">"trial"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can add this to our behavioral data</p>
 <div class="cell">
@@ -707,8 +717,8 @@ Y: 2.75%</code></pre>
 
     <script>
 
-      function styleCell_llfb6dv5jg7q2h88gt2e(i, j, css_id) {
-          var table = document.getElementById("tinytable_llfb6dv5jg7q2h88gt2e");
+      function styleCell_contrtjzlrnbe8w45y6p(i, j, css_id) {
+          var table = document.getElementById("tinytable_contrtjzlrnbe8w45y6p");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -718,7 +728,7 @@ Y: 2.75%</code></pre>
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_llfb6dv5jg7q2h88gt2e');
+        var table = document.getElementById('tinytable_contrtjzlrnbe8w45y6p');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -726,8 +736,8 @@ Y: 2.75%</code></pre>
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_llfb6dv5jg7q2h88gt2e(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_llfb6dv5jg7q2h88gt2e");
+      function spanCell_contrtjzlrnbe8w45y6p(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_contrtjzlrnbe8w45y6p");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -757,14 +767,14 @@ Y: 2.75%</code></pre>
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 23, j: 0 }, { i: 23, j: 1 }, { i: 23, j: 2 }, { i: 23, j: 3 }, { i: 23, j: 4 }, { i: 23, j: 5 }, { i: 23, j: 6 }, { i: 23, j: 7 },  ], css_id: 'tinytable_css_ox3g0pdhey01q9ijhj7m',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 }, { i: 0, j: 5 }, { i: 0, j: 6 }, { i: 0, j: 7 },  ], css_id: 'tinytable_css_1td4p3n2itnonsnm6zzo',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 }, { i: 0, j: 5 }, { i: 0, j: 6 }, { i: 0, j: 7 },  ], css_id: 'tinytable_css_6ddjxkpvfvkzkcunf7d2',}, 
+          { positions: [ { i: 23, j: 0 }, { i: 23, j: 1 }, { i: 23, j: 2 }, { i: 23, j: 3 }, { i: 23, j: 4 }, { i: 23, j: 5 }, { i: 23, j: 6 }, { i: 23, j: 7 },  ], css_id: 'tinytable_css_0xz0ego7odpjc7j1mnfj',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_llfb6dv5jg7q2h88gt2e(cell.i, cell.j, group.css_id);
+                  styleCell_contrtjzlrnbe8w45y6p(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -772,11 +782,11 @@ Y: 2.75%</code></pre>
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_ox3g0pdhey01q9ijhj7m, .table th.tinytable_css_ox3g0pdhey01q9ijhj7m { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_1td4p3n2itnonsnm6zzo, .table th.tinytable_css_1td4p3n2itnonsnm6zzo { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_6ddjxkpvfvkzkcunf7d2, .table th.tinytable_css_6ddjxkpvfvkzkcunf7d2 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_0xz0ego7odpjc7j1mnfj, .table th.tinytable_css_0xz0ego7odpjc7j1mnfj { border-bottom: solid #d3d8dc 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_llfb6dv5jg7q2h88gt2e" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_contrtjzlrnbe8w45y6p" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -1222,436 +1232,460 @@ Y: 2.75%</code></pre>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<colgroup>
-<col style="width: 0%">
-<col style="width: 0%">
-<col style="width: 3%">
-<col style="width: 0%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 1%">
-<col style="width: 0%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 3%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 3%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 0%">
-<col style="width: 1%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: right;">X</th>
-<th style="text-align: left;">x0</th>
-<th style="text-align: left;">filename</th>
-<th style="text-align: left;">trial</th>
-<th style="text-align: right;">time_stamp</th>
-<th style="text-align: right;">time</th>
-<th style="text-align: left;">type</th>
-<th style="text-align: right;">screen_index</th>
-<th style="text-align: right;">x_pred</th>
-<th style="text-align: right;">y_pred</th>
-<th style="text-align: right;">x_pred_normalised</th>
-<th style="text-align: right;">y_pred_normalised</th>
-<th style="text-align: right;">convergence</th>
-<th style="text-align: right;">face_conf</th>
-<th style="text-align: left;">zone_name</th>
-<th style="text-align: right;">zone_x</th>
-<th style="text-align: right;">zone_y</th>
-<th style="text-align: right;">zone_width</th>
-<th style="text-align: right;">zone_height</th>
-<th style="text-align: right;">zone_x_normalised</th>
-<th style="text-align: right;">zone_y_normalised</th>
-<th style="text-align: right;">zone_width_normalised</th>
-<th style="text-align: right;">zone_height_normalised</th>
-<th style="text-align: left;">subject</th>
-<th style="text-align: right;">acc</th>
-<th style="text-align: left;">TL</th>
-<th style="text-align: left;">TR</th>
-<th style="text-align: left;">BL</th>
-<th style="text-align: left;">BR</th>
-<th style="text-align: left;">trialtype</th>
-<th style="text-align: left;">targetword</th>
-<th style="text-align: left;">tlcode</th>
-<th style="text-align: left;">trcode</th>
-<th style="text-align: left;">blcode</th>
-<th style="text-align: left;">brcode</th>
-<th style="text-align: left;">targ_loc</th>
-<th style="text-align: left;">zone_type</th>
-<th style="text-align: right;">RT</th>
-<th style="text-align: left;">response.x</th>
-<th style="text-align: right;">RT_audio</th>
-<th style="text-align: left;">response.y</th>
-<th style="text-align: right;">med_SR</th>
-<th style="text-align: right;">max_time</th>
-<th style="text-align: right;">n_times</th>
-<th style="text-align: right;">SR</th>
-<th style="text-align: left;">Target</th>
-<th style="text-align: left;">Unrelated</th>
-<th style="text-align: left;">Unrelated2</th>
-<th style="text-align: left;">Unrelated3</th>
-<th style="text-align: left;">Rhyme</th>
-<th style="text-align: left;">Cohort</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">eyetracking_collection</td>
-<td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868218964</td>
-<td style="text-align: right;">0.00000000</td>
-<td style="text-align: left;">prediction</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">921.5823073</td>
-<td style="text-align: right;">-61.68745669</td>
-<td style="text-align: right;">0.4717325812</td>
-<td style="text-align: right;">-0.0607758194</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">11788555</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">TCUU</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">U2</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">BL</td>
-<td style="text-align: left;">response_button_image</td>
-<td style="text-align: right;">1997.8</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: right;">13.0999999</td>
-<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
-<td style="text-align: right;">1922.4</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">29.65043695</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sandal.jpg</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">eyetracking_collection</td>
-<td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868218999</td>
-<td style="text-align: right;">34.00000000</td>
-<td style="text-align: left;">prediction</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">958.2899489</td>
-<td style="text-align: right;">78.26706763</td>
-<td style="text-align: right;">0.4988631366</td>
-<td style="text-align: right;">0.0771104115</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">11788555</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">TCUU</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">U2</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">BL</td>
-<td style="text-align: left;">response_button_image</td>
-<td style="text-align: right;">1997.8</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: right;">13.0999999</td>
-<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
-<td style="text-align: right;">1922.4</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">29.65043695</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sandal.jpg</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">eyetracking_collection</td>
-<td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868219039</td>
-<td style="text-align: right;">73.30000019</td>
-<td style="text-align: left;">prediction</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">1036.1006719</td>
-<td style="text-align: right;">247.37493626</td>
-<td style="text-align: right;">0.5563729098</td>
-<td style="text-align: right;">0.2437191490</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">11788555</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">TCUU</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">U2</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">BL</td>
-<td style="text-align: left;">response_button_image</td>
-<td style="text-align: right;">1997.8</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: right;">13.0999999</td>
-<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
-<td style="text-align: right;">1922.4</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">29.65043695</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sandal.jpg</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">4</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">eyetracking_collection</td>
-<td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868219076</td>
-<td style="text-align: right;">113.09999990</td>
-<td style="text-align: left;">prediction</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">1048.4626414</td>
-<td style="text-align: right;">383.69717600</td>
-<td style="text-align: right;">0.5655096204</td>
-<td style="text-align: right;">0.3780267744</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">11788555</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">TCUU</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">U2</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">BL</td>
-<td style="text-align: left;">response_button_image</td>
-<td style="text-align: right;">1997.8</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: right;">13.0999999</td>
-<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
-<td style="text-align: right;">1922.4</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">29.65043695</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sandal.jpg</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">eyetracking_collection</td>
-<td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868219111</td>
-<td style="text-align: right;">148.40000010</td>
-<td style="text-align: left;">prediction</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">1018.1750413</td>
-<td style="text-align: right;">433.21330043</td>
-<td style="text-align: right;">0.5431241067</td>
-<td style="text-align: right;">0.4268111334</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">11788555</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">TCUU</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">U2</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">BL</td>
-<td style="text-align: left;">response_button_image</td>
-<td style="text-align: right;">1997.8</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: right;">13.0999999</td>
-<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
-<td style="text-align: right;">1922.4</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">29.65043695</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sandal.jpg</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">eyetracking_collection</td>
-<td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868219145</td>
-<td style="text-align: right;">182.00000000</td>
-<td style="text-align: left;">prediction</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">1040.6113826</td>
-<td style="text-align: right;">514.57934044</td>
-<td style="text-align: right;">0.5597067684</td>
-<td style="text-align: right;">0.5069747196</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">11788555</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">TCUU</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">U2</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">BL</td>
-<td style="text-align: left;">response_button_image</td>
-<td style="text-align: right;">1997.8</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: right;">13.0999999</td>
-<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
-<td style="text-align: right;">1922.4</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">29.65043695</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sandal.jpg</td>
-</tr>
-</tbody>
-</table>
+<!-- preamble start -->
+
+    <script>
+
+      function styleCell_4pld5gt9qzsnijuhup0u(i, j, css_id) {
+          var table = document.getElementById("tinytable_4pld5gt9qzsnijuhup0u");
+          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_4pld5gt9qzsnijuhup0u');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_4pld5gt9qzsnijuhup0u(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_4pld5gt9qzsnijuhup0u");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: 6, j: 5 }, { i: 6, j: 6 }, { i: 6, j: 0 }, { i: 6, j: 7 }, { i: 6, j: 1 }, { i: 6, j: 8 }, { i: 6, j: 2 }, { i: 6, j: 9 }, { i: 6, j: 3 }, { i: 6, j: 10 }, { i: 6, j: 4 }, { i: 6, j: 11 }, { i: 6, j: 18 }, { i: 6, j: 12 }, { i: 6, j: 19 }, { i: 6, j: 13 }, { i: 6, j: 20 }, { i: 6, j: 14 }, { i: 6, j: 21 }, { i: 6, j: 15 }, { i: 6, j: 22 }, { i: 6, j: 16 }, { i: 6, j: 23 }, { i: 6, j: 17 }, { i: 6, j: 24 }, { i: 6, j: 31 }, { i: 6, j: 25 }, { i: 6, j: 32 }, { i: 6, j: 26 }, { i: 6, j: 33 }, { i: 6, j: 27 }, { i: 6, j: 34 }, { i: 6, j: 28 }, { i: 6, j: 35 }, { i: 6, j: 29 }, { i: 6, j: 36 }, { i: 6, j: 30 }, { i: 6, j: 37 }, { i: 6, j: 44 }, { i: 6, j: 38 }, { i: 6, j: 45 }, { i: 6, j: 39 }, { i: 6, j: 46 }, { i: 6, j: 40 }, { i: 6, j: 47 }, { i: 6, j: 41 }, { i: 6, j: 48 }, { i: 6, j: 42 }, { i: 6, j: 49 }, { i: 6, j: 43 }, { i: 6, j: 50 },  ], css_id: 'tinytable_css_yf0ddzi1afmj93opmgr1',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 7 }, { i: 0, j: 1 }, { i: 0, j: 8 }, { i: 0, j: 2 }, { i: 0, j: 9 }, { i: 0, j: 3 }, { i: 0, j: 10 }, { i: 0, j: 4 }, { i: 0, j: 11 }, { i: 0, j: 5 }, { i: 0, j: 12 }, { i: 0, j: 6 }, { i: 0, j: 13 }, { i: 0, j: 20 }, { i: 0, j: 14 }, { i: 0, j: 21 }, { i: 0, j: 15 }, { i: 0, j: 22 }, { i: 0, j: 16 }, { i: 0, j: 23 }, { i: 0, j: 17 }, { i: 0, j: 24 }, { i: 0, j: 18 }, { i: 0, j: 25 }, { i: 0, j: 19 }, { i: 0, j: 26 }, { i: 0, j: 33 }, { i: 0, j: 27 }, { i: 0, j: 34 }, { i: 0, j: 28 }, { i: 0, j: 35 }, { i: 0, j: 29 }, { i: 0, j: 36 }, { i: 0, j: 30 }, { i: 0, j: 37 }, { i: 0, j: 31 }, { i: 0, j: 38 }, { i: 0, j: 32 }, { i: 0, j: 39 }, { i: 0, j: 46 }, { i: 0, j: 40 }, { i: 0, j: 47 }, { i: 0, j: 41 }, { i: 0, j: 48 }, { i: 0, j: 42 }, { i: 0, j: 49 }, { i: 0, j: 43 }, { i: 0, j: 50 }, { i: 0, j: 44 }, { i: 0, j: 45 },  ], css_id: 'tinytable_css_b6llckf6fsmkstpj8upn',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_4pld5gt9qzsnijuhup0u(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_yf0ddzi1afmj93opmgr1, .table th.tinytable_css_yf0ddzi1afmj93opmgr1 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_b6llckf6fsmkstpj8upn, .table th.tinytable_css_b6llckf6fsmkstpj8upn { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_4pld5gt9qzsnijuhup0u" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <thead>
+        
+              <tr>
+                <th scope="col">X</th>
+                <th scope="col">x0</th>
+                <th scope="col">filename</th>
+                <th scope="col">trial</th>
+                <th scope="col">time_stamp</th>
+                <th scope="col">time</th>
+                <th scope="col">type</th>
+                <th scope="col">screen_index</th>
+                <th scope="col">x_pred</th>
+                <th scope="col">y_pred</th>
+                <th scope="col">x_pred_normalised</th>
+                <th scope="col">y_pred_normalised</th>
+                <th scope="col">convergence</th>
+                <th scope="col">face_conf</th>
+                <th scope="col">zone_name</th>
+                <th scope="col">zone_x</th>
+                <th scope="col">zone_y</th>
+                <th scope="col">zone_width</th>
+                <th scope="col">zone_height</th>
+                <th scope="col">zone_x_normalised</th>
+                <th scope="col">zone_y_normalised</th>
+                <th scope="col">zone_width_normalised</th>
+                <th scope="col">zone_height_normalised</th>
+                <th scope="col">subject</th>
+                <th scope="col">acc</th>
+                <th scope="col">TL</th>
+                <th scope="col">TR</th>
+                <th scope="col">BL</th>
+                <th scope="col">BR</th>
+                <th scope="col">trialtype</th>
+                <th scope="col">targetword</th>
+                <th scope="col">tlcode</th>
+                <th scope="col">trcode</th>
+                <th scope="col">blcode</th>
+                <th scope="col">brcode</th>
+                <th scope="col">targ_loc</th>
+                <th scope="col">zone_type</th>
+                <th scope="col">RT</th>
+                <th scope="col">response.x</th>
+                <th scope="col">RT_audio</th>
+                <th scope="col">response.y</th>
+                <th scope="col">sampling_rate_subject</th>
+                <th scope="col">max_time</th>
+                <th scope="col">n_times</th>
+                <th scope="col">sampling_rate_trial</th>
+                <th scope="col">Target</th>
+                <th scope="col">Unrelated</th>
+                <th scope="col">Unrelated2</th>
+                <th scope="col">Unrelated3</th>
+                <th scope="col">Rhyme</th>
+                <th scope="col">Cohort</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>NA</td>
+                  <td>eyetracking_collection</td>
+                  <td>153</td>
+                  <td>1727868218964</td>
+                  <td>  0.00000000</td>
+                  <td>prediction</td>
+                  <td>4</td>
+                  <td> 921.5823073</td>
+                  <td>-61.68745669</td>
+                  <td>0.4717325812</td>
+                  <td>-0.06077581940</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>NA</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>11788555</td>
+                  <td>1</td>
+                  <td>candle.jpg</td>
+                  <td>sandal.jpg</td>
+                  <td>sandwich.jpg</td>
+                  <td>building.jpg</td>
+                  <td>TCUU</td>
+                  <td>sandwich.jpg</td>
+                  <td>U2</td>
+                  <td>C</td>
+                  <td>T</td>
+                  <td>U</td>
+                  <td>BL</td>
+                  <td>response_button_image</td>
+                  <td>1997.8</td>
+                  <td>sandwich.jpg</td>
+                  <td>13.0999999</td>
+                  <td>AUDIO PLAY EVENT FIRED</td>
+                  <td>29.57322764</td>
+                  <td>1922.4</td>
+                  <td>57</td>
+                  <td>29.65043695</td>
+                  <td>sandwich.jpg</td>
+                  <td>building.jpg</td>
+                  <td>candle.jpg</td>
+                  <td>NA</td>
+                  <td>NA</td>
+                  <td>sandal.jpg</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>NA</td>
+                  <td>eyetracking_collection</td>
+                  <td>153</td>
+                  <td>1727868218999</td>
+                  <td> 34.00000000</td>
+                  <td>prediction</td>
+                  <td>4</td>
+                  <td> 958.2899489</td>
+                  <td> 78.26706763</td>
+                  <td>0.4988631366</td>
+                  <td> 0.07711041146</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>NA</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>11788555</td>
+                  <td>1</td>
+                  <td>candle.jpg</td>
+                  <td>sandal.jpg</td>
+                  <td>sandwich.jpg</td>
+                  <td>building.jpg</td>
+                  <td>TCUU</td>
+                  <td>sandwich.jpg</td>
+                  <td>U2</td>
+                  <td>C</td>
+                  <td>T</td>
+                  <td>U</td>
+                  <td>BL</td>
+                  <td>response_button_image</td>
+                  <td>1997.8</td>
+                  <td>sandwich.jpg</td>
+                  <td>13.0999999</td>
+                  <td>AUDIO PLAY EVENT FIRED</td>
+                  <td>29.57322764</td>
+                  <td>1922.4</td>
+                  <td>57</td>
+                  <td>29.65043695</td>
+                  <td>sandwich.jpg</td>
+                  <td>building.jpg</td>
+                  <td>candle.jpg</td>
+                  <td>NA</td>
+                  <td>NA</td>
+                  <td>sandal.jpg</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>NA</td>
+                  <td>eyetracking_collection</td>
+                  <td>153</td>
+                  <td>1727868219039</td>
+                  <td> 73.30000019</td>
+                  <td>prediction</td>
+                  <td>4</td>
+                  <td>1036.1006719</td>
+                  <td>247.37493626</td>
+                  <td>0.5563729098</td>
+                  <td> 0.24371914902</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>NA</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>11788555</td>
+                  <td>1</td>
+                  <td>candle.jpg</td>
+                  <td>sandal.jpg</td>
+                  <td>sandwich.jpg</td>
+                  <td>building.jpg</td>
+                  <td>TCUU</td>
+                  <td>sandwich.jpg</td>
+                  <td>U2</td>
+                  <td>C</td>
+                  <td>T</td>
+                  <td>U</td>
+                  <td>BL</td>
+                  <td>response_button_image</td>
+                  <td>1997.8</td>
+                  <td>sandwich.jpg</td>
+                  <td>13.0999999</td>
+                  <td>AUDIO PLAY EVENT FIRED</td>
+                  <td>29.57322764</td>
+                  <td>1922.4</td>
+                  <td>57</td>
+                  <td>29.65043695</td>
+                  <td>sandwich.jpg</td>
+                  <td>building.jpg</td>
+                  <td>candle.jpg</td>
+                  <td>NA</td>
+                  <td>NA</td>
+                  <td>sandal.jpg</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>NA</td>
+                  <td>eyetracking_collection</td>
+                  <td>153</td>
+                  <td>1727868219076</td>
+                  <td>113.09999990</td>
+                  <td>prediction</td>
+                  <td>4</td>
+                  <td>1048.4626414</td>
+                  <td>383.69717600</td>
+                  <td>0.5655096204</td>
+                  <td> 0.37802677438</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>NA</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>11788555</td>
+                  <td>1</td>
+                  <td>candle.jpg</td>
+                  <td>sandal.jpg</td>
+                  <td>sandwich.jpg</td>
+                  <td>building.jpg</td>
+                  <td>TCUU</td>
+                  <td>sandwich.jpg</td>
+                  <td>U2</td>
+                  <td>C</td>
+                  <td>T</td>
+                  <td>U</td>
+                  <td>BL</td>
+                  <td>response_button_image</td>
+                  <td>1997.8</td>
+                  <td>sandwich.jpg</td>
+                  <td>13.0999999</td>
+                  <td>AUDIO PLAY EVENT FIRED</td>
+                  <td>29.57322764</td>
+                  <td>1922.4</td>
+                  <td>57</td>
+                  <td>29.65043695</td>
+                  <td>sandwich.jpg</td>
+                  <td>building.jpg</td>
+                  <td>candle.jpg</td>
+                  <td>NA</td>
+                  <td>NA</td>
+                  <td>sandal.jpg</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>NA</td>
+                  <td>eyetracking_collection</td>
+                  <td>153</td>
+                  <td>1727868219111</td>
+                  <td>148.40000010</td>
+                  <td>prediction</td>
+                  <td>4</td>
+                  <td>1018.1750413</td>
+                  <td>433.21330043</td>
+                  <td>0.5431241067</td>
+                  <td> 0.42681113343</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>NA</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>11788555</td>
+                  <td>1</td>
+                  <td>candle.jpg</td>
+                  <td>sandal.jpg</td>
+                  <td>sandwich.jpg</td>
+                  <td>building.jpg</td>
+                  <td>TCUU</td>
+                  <td>sandwich.jpg</td>
+                  <td>U2</td>
+                  <td>C</td>
+                  <td>T</td>
+                  <td>U</td>
+                  <td>BL</td>
+                  <td>response_button_image</td>
+                  <td>1997.8</td>
+                  <td>sandwich.jpg</td>
+                  <td>13.0999999</td>
+                  <td>AUDIO PLAY EVENT FIRED</td>
+                  <td>29.57322764</td>
+                  <td>1922.4</td>
+                  <td>57</td>
+                  <td>29.65043695</td>
+                  <td>sandwich.jpg</td>
+                  <td>building.jpg</td>
+                  <td>candle.jpg</td>
+                  <td>NA</td>
+                  <td>NA</td>
+                  <td>sandal.jpg</td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td>NA</td>
+                  <td>eyetracking_collection</td>
+                  <td>153</td>
+                  <td>1727868219145</td>
+                  <td>182.00000000</td>
+                  <td>prediction</td>
+                  <td>4</td>
+                  <td>1040.6113826</td>
+                  <td>514.57934044</td>
+                  <td>0.5597067684</td>
+                  <td> 0.50697471965</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>NA</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>11788555</td>
+                  <td>1</td>
+                  <td>candle.jpg</td>
+                  <td>sandal.jpg</td>
+                  <td>sandwich.jpg</td>
+                  <td>building.jpg</td>
+                  <td>TCUU</td>
+                  <td>sandwich.jpg</td>
+                  <td>U2</td>
+                  <td>C</td>
+                  <td>T</td>
+                  <td>U</td>
+                  <td>BL</td>
+                  <td>response_button_image</td>
+                  <td>1997.8</td>
+                  <td>sandwich.jpg</td>
+                  <td>13.0999999</td>
+                  <td>AUDIO PLAY EVENT FIRED</td>
+                  <td>29.57322764</td>
+                  <td>1922.4</td>
+                  <td>57</td>
+                  <td>29.65043695</td>
+                  <td>sandwich.jpg</td>
+                  <td>building.jpg</td>
+                  <td>candle.jpg</td>
+                  <td>NA</td>
+                  <td>NA</td>
+                  <td>sandal.jpg</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
 <p>In our study, we need to track not only the condition of each image shown (such as Target, Cohort, Rhyme, or Unrelated) but also where each image is located on the screen during each trial as they are randomized on each trial. To do this, we use a function named <code>find_location</code>. This function is designed to determine the location of a specific image on the screen by comparing the image with the list of possible locations.</p>
@@ -1672,7 +1706,7 @@ Y: 2.75%</code></pre>
 </div>
 <p>Here is where we are going to use our coordinate information from above. We use the <code>assign_aoi</code> that is adaopted from the <code>gazeR</code> package (Geller et al., 2020) to loop through our object <code>dat_colnames</code> and assign locations (i.e., TR, TL, BL, BR) to our normalized <code>x</code> and <code>y</code> coordinates. This function will label non-looks and off screen coordinates with NA. To make it easier to read we change the numerals assigned by the function to actual screen locations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> gazer<span class="sc">::</span><span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aoi_loc)</span>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> <span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aoi_loc)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>AOI <span class="ot">&lt;-</span> assign <span class="sc">%&gt;%</span></span>
@@ -1734,10 +1768,10 @@ Y: 2.75%</code></pre>
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 3%">
+<col style="width: 3%">
 <col style="width: 1%">
 <col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
+<col style="width: 2%">
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 1%">
@@ -1795,10 +1829,10 @@ Y: 2.75%</code></pre>
 <th style="text-align: left;">response.x</th>
 <th style="text-align: right;">RT_audio</th>
 <th style="text-align: left;">response.y</th>
-<th style="text-align: right;">med_SR</th>
+<th style="text-align: right;">sampling_rate_subject</th>
 <th style="text-align: right;">max_time</th>
 <th style="text-align: right;">n_times</th>
-<th style="text-align: right;">SR</th>
+<th style="text-align: right;">sampling_rate_trial</th>
 <th style="text-align: left;">Target</th>
 <th style="text-align: left;">Unrelated</th>
 <th style="text-align: left;">Unrelated2</th>
@@ -1857,7 +1891,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandwich.jpg</td>
 <td style="text-align: right;">13.0999999</td>
 <td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">29.57322764</td>
 <td style="text-align: right;">1922.4</td>
 <td style="text-align: right;">57</td>
 <td style="text-align: right;">29.65043695</td>
@@ -1917,7 +1951,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandwich.jpg</td>
 <td style="text-align: right;">13.0999999</td>
 <td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">29.57322764</td>
 <td style="text-align: right;">1922.4</td>
 <td style="text-align: right;">57</td>
 <td style="text-align: right;">29.65043695</td>
@@ -1977,7 +2011,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandwich.jpg</td>
 <td style="text-align: right;">13.0999999</td>
 <td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">29.57322764</td>
 <td style="text-align: right;">1922.4</td>
 <td style="text-align: right;">57</td>
 <td style="text-align: right;">29.65043695</td>
@@ -2037,7 +2071,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandwich.jpg</td>
 <td style="text-align: right;">13.0999999</td>
 <td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">29.57322764</td>
 <td style="text-align: right;">1922.4</td>
 <td style="text-align: right;">57</td>
 <td style="text-align: right;">29.65043695</td>
@@ -2097,7 +2131,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandwich.jpg</td>
 <td style="text-align: right;">13.0999999</td>
 <td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">29.57322764</td>
 <td style="text-align: right;">1922.4</td>
 <td style="text-align: right;">57</td>
 <td style="text-align: right;">29.65043695</td>
@@ -2157,7 +2191,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandwich.jpg</td>
 <td style="text-align: right;">13.0999999</td>
 <td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">29.57322764</td>
 <td style="text-align: right;">1922.4</td>
 <td style="text-align: right;">57</td>
 <td style="text-align: right;">29.65043695</td>
@@ -2219,30 +2253,30 @@ Y: 2.75%</code></pre>
 <col style="width: 1%">
 <col style="width: 2%">
 <col style="width: 2%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 1%">
-<col style="width: 0%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 0%">
-<col style="width: 0%">
-<col style="width: 0%">
-<col style="width: 0%">
-<col style="width: 1%">
-<col style="width: 3%">
-<col style="width: 0%">
-<col style="width: 1%">
-<col style="width: 1%">
+<col style="width: 2%">
 <col style="width: 3%">
 <col style="width: 1%">
+<col style="width: 0%">
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 1%">
@@ -2306,10 +2340,10 @@ Y: 2.75%</code></pre>
 <th style="text-align: left;">response.x</th>
 <th style="text-align: right;">RT_audio</th>
 <th style="text-align: left;">response.y</th>
-<th style="text-align: right;">med_SR</th>
+<th style="text-align: right;">sampling_rate_subject</th>
 <th style="text-align: right;">max_time</th>
 <th style="text-align: right;">n_times</th>
-<th style="text-align: right;">SR</th>
+<th style="text-align: right;">sampling_rate_trial</th>
 <th style="text-align: left;">Target</th>
 <th style="text-align: left;">Unrelated</th>
 <th style="text-align: left;">Unrelated2</th>
@@ -2374,7 +2408,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandwich.jpg</td>
 <td style="text-align: right;">13.0999999</td>
 <td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">29.57322764</td>
 <td style="text-align: right;">1922.4</td>
 <td style="text-align: right;">57</td>
 <td style="text-align: right;">29.65043695</td>
@@ -2440,7 +2474,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandwich.jpg</td>
 <td style="text-align: right;">13.0999999</td>
 <td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">29.57322764</td>
 <td style="text-align: right;">1922.4</td>
 <td style="text-align: right;">57</td>
 <td style="text-align: right;">29.65043695</td>
@@ -2506,7 +2540,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandwich.jpg</td>
 <td style="text-align: right;">13.0999999</td>
 <td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">29.57322764</td>
 <td style="text-align: right;">1922.4</td>
 <td style="text-align: right;">57</td>
 <td style="text-align: right;">29.65043695</td>
@@ -2572,7 +2606,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandwich.jpg</td>
 <td style="text-align: right;">13.0999999</td>
 <td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">29.57322764</td>
 <td style="text-align: right;">1922.4</td>
 <td style="text-align: right;">57</td>
 <td style="text-align: right;">29.65043695</td>
@@ -2638,7 +2672,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandwich.jpg</td>
 <td style="text-align: right;">13.0999999</td>
 <td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">29.57322764</td>
 <td style="text-align: right;">1922.4</td>
 <td style="text-align: right;">57</td>
 <td style="text-align: right;">29.65043695</td>
@@ -2704,7 +2738,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandwich.jpg</td>
 <td style="text-align: right;">13.0999999</td>
 <td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.63857024</td>
+<td style="text-align: right;">29.57322764</td>
 <td style="text-align: right;">1922.4</td>
 <td style="text-align: right;">57</td>
 <td style="text-align: right;">29.65043695</td>
@@ -2917,7 +2951,7 @@ Non-looks
 </div>
 <p>We can follow the same steps from above to analyze our data, making sure we input the write coordinates into the <code>aoi_loc</code> argument.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> gazer<span class="sc">::</span><span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aois)</span>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> <span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aois)</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>AOI <span class="ot">&lt;-</span> assign <span class="sc">%&gt;%</span></span>
