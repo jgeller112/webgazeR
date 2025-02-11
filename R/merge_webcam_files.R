@@ -52,7 +52,7 @@ merge_webcam_files <- function(file_paths, screen_index = NULL) {
                   "time" = "time_elapsed") %>%
     dplyr::mutate(subject = as.factor(participant_id),
                   trial = as.factor(trial)) %>%
-    dplyr::select(-participant_id)
+    dplyr::select(-participant_id, -x0, -filename) # remove part_id and weird columns produced by Gorilla
 
   return(merged_data)
 }
