@@ -12,23 +12,26 @@
 #' If not provided, the plot will not be faceted by condition.
 #' @param ia_mapping A named list specifying custom labels for each IA in the desired display order
 #' (e.g., `list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated")`).
+#' @param use_color Logical. If `TRUE` (default), the plot will use colors to differentiate Interest Areas.
+#' If `FALSE`, different line types, shapes, and line widths will be used instead.
 #'
 #' @return A ggplot2 plot of the proportion of looks over time for each IA, optionally faceted by condition.
 #' @examples
-#' # Example with a condition column
+#' # Example with a condition column and color
 #' plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
 #'                     proportion_column = "proportion_looks", condition_column = "condition",
-#'                     ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"))
+#'                     ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"),
+#'                     use_color = TRUE)
 #'
-#' # Example without a condition column
+#' # Example without color (using line types and shapes instead)
 #' plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
-#'                     proportion_column = "proportion_looks",
-#'                     ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"))
+#'                     proportion_column = "proportion_looks", condition_column = "condition",
+#'                     ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"),
+#'                     use_color = FALSE)
 #'
 #' @export
-#'
 
-plot_IA_proportions <- function(data, ia_column, time_column, proportion_column, condition_column = NULL, ia_mapping) {
+plot_IA_proportions <- function(data, ia_column, time_column, proportion_column, condition_column = NULL, ia_mapping, use_color=TRUE) {
 
   if (!requireNamespace("ggokabeito", quietly = TRUE)) {
     install.packages("ggokabeito")
@@ -49,27 +52,48 @@ plot_IA_proportions <- function(data, ia_column, time_column, proportion_column,
   # Set IA_label as a factor with levels in the custom order provided by the user
   data$IA_label <- factor(data$IA_label, levels = unname(valid_ia_mapping))
 
-  # Create the base plot
-  p <- ggplot(data, aes_string(x = time_column, y = proportion_column, color = "IA_label")) +
-    geom_line(size = 1.2) +          # Line plot with specified line width
-    scale_y_continuous(limits = c(0, 1)) +  # Set y-axis from 0 to 1
-    scale_color_okabe_ito() +  # Apply colorblind-friendly palette
-    labs(
-      x = "Time since word onset (ms)",   # Custom x-axis label
-      y = "Proportion of Looks",          # Custom y-axis label
-      color = "Interest Area"             # Legend title
-    ) +
-    theme_minimal(base_size = 14) +  # Set base font size to 14
+  # Create the base plot with different aesthetics based on use_color
+  if (use_color) {
+    p <- ggplot(data, aes(x = .data[[time_column]], y = .data[[proportion_column]], color = IA_label)) +
+      geom_line(linewidth = 1.2) +  # Line plot with specified line width
+      scale_color_okabe_ito() +  # Apply colorblind-friendly palette
+      labs(
+        x = "Time since word onset (ms)",
+        y = "Proportion of Looks",
+        color = "Interest Area"
+      )
+  } else {
+    p <- ggplot(data, aes(x = .data[[time_column]], y = .data[[proportion_column]],
+                          linetype = IA_label, shape = IA_label)) +
+      geom_line(aes(linewidth = IA_label)) +  # Line width varies per IA
+      geom_point(size = 3, alpha = 0.7) +  # Add points to distinguish IA labels
+      scale_linetype_manual(values = c("solid", "dashed", "dotted", "dotdash", "longdash")) +
+      scale_shape_manual(values = c(16, 17, 18, 15, 8)) +
+      scale_linewidth_manual(values = c(0.8, 1.2, 1.5, 1.8, 2.2)) +  # Different line widths
+      labs(
+        x = "Time since word onset (ms)",
+        y = "Proportion of Looks",
+        linetype = "Interest Area",
+        shape = "Interest Area"
+      )
+  }
+
+  # Common plot styling
+  p <- p +
+    scale_y_continuous(limits = c(0, 1)) +  # Set y-axis range
+    theme_minimal(base_size = 14) +
     theme(
-      axis.title = element_text(face = "bold"),   # Bold axis titles
-      axis.text = element_text(face = "bold")     # Bold axis labels
+      axis.title = element_text(face = "bold"),
+      axis.text = element_text(face = "bold"),
+      legend.position = "right"
     )
 
   # If a condition column is provided, facet by condition
   if (!is.null(condition_column)) {
-    p <- p + facet_wrap(as.formula(paste("~", condition_column)))  # Create separate plots for each condition
+    p <- p + facet_wrap(vars(.data[[condition_column]]))
   }
 
-  # Return the plot
   return(p)
 }
+
+
