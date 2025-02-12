@@ -561,10 +561,21 @@ plot_IA_proportions(gaze_sub,
                      ia_column = "condition", 
                      time_column = "time_bin", 
                      proportion_column = "Fix", 
-                   ia_mapping = list(target = "Target", cohort = "Cohort", rhyme = "Rhyme", unrelated = "Unrelated"))
+                   ia_mapping = list(target = "Target", cohort = "Cohort", rhyme = "Rhyme", unrelated = "Unrelated"), use_color=TRUE)
 
 
 ```
+
+```{r}
+plot_IA_proportions(gaze_sub, 
+                     ia_column = "condition", 
+                     time_column = "time_bin", 
+                     proportion_column = "Fix", 
+                   ia_mapping = list(target = "Target", cohort = "Cohort", rhyme = "Rhyme", unrelated = "Unrelated"), use_color=FALSE)
+
+
+```
+
 
 ## Gorilla provided coordinates
 
