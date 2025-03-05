@@ -24,27 +24,27 @@ Takes a data frame of gaze positions (or other locations), plus screen size and 
 ### Arguments
 
 <table>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="gaze">gaze</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="gaze">gaze</code></td>
 <td>
 data frame containing positions
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="screen_size">screen_size</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="screen_size">screen_size</code></td>
 <td>
 size of the screen in pixels. Defaults to c(1024, 768) and assumes reversed vertical (i.e., [0,0] is top left).
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="aoi_size">aoi_size</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="aoi_size">aoi_size</code></td>
 <td>
 size of AOIs in pixels. Defaults to a c(400, 300) width-height pair and assumes AOIs are in screen corners. AOIs will be coded numerically 1 to 4 in reading order (left to right, top to bottom), with 0 as center location.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="aoi_loc">aoi_loc</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="aoi_loc">aoi_loc</code></td>
 <td>
 location of rectangular AOIs. Use as alternative to aoi_size for non-corner AOIs. Each AOI location should be a separate row in a data frame that has variables xmin, xmax, ymin, and ymax. Assumes reversed vertical (i.e., [0,0] is top left). AOIs will be coded numerically in row order.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="X">X</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="X">X</code></td>
 <td>
 name of variable containing X coordinates. Defaults to &quot;CURRENT_FIX_X&quot;
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="Y">Y</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="Y">Y</code></td>
 <td>
 name of variable containing Y coordinates. Defaults to &quot;CURRENT_FIX_Y&quot;
 </td></tr>

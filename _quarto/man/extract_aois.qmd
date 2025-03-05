@@ -19,7 +19,7 @@ for the AOIs. It also rounds all numeric columns to 3 decimal places.
 ### Arguments
 
 <table>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="file_paths">file_paths</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="file_paths">file_paths</code></td>
 <td>
 A list of file paths to webcam files (in .xlsx format).
 </td></tr>
@@ -38,7 +38,7 @@ A dataframe containing distinct rows with AOI-related columns and calculated coo
 #| warning: false
 #| message: false
 #| eval: true
-library(webgazeR)
+library("webgazeR")
 
 # Example usage:
 # file_paths <- c("file1.xlsx", "file2.xlsx")

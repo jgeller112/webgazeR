@@ -37,6 +37,8 @@ website:
             file: man/merge_webcam_files.qmd
           - text: plot_IA_proportions
             file: man/plot_IA_proportions.qmd
+          - text: upsample_gaze
+            file: man/upsample_gaze.qmd
       - text: Citation
         file: CITATION.md
 webr:

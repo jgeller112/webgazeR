@@ -18,11 +18,11 @@ It returns the corresponding location name if the image is found, or 'NA' if the
 ### Arguments
 
 <table>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="locations">locations</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="locations">locations</code></td>
 <td>
 A character vector representing the possible locations (e.g., 'c(&quot;TL&quot;, &quot;TR&quot;, &quot;BL&quot;, &quot;BR&quot;)').
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="image">image</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="image">image</code></td>
 <td>
 A character value representing the image to find in the locations.
 </td></tr>
@@ -41,7 +41,7 @@ A character string representing the location of the image, or 'NA' if the image 
 #| warning: false
 #| message: false
 #| eval: true
-library(webgazeR)
+library("webgazeR")
 
 # Example usage of the find_location function
 locations <- c("apple", "banana", "cherry", "date")

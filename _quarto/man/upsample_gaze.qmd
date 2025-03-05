@@ -1,0 +1,54 @@
+
+## Up-sample gaze and pupil data {.unnumbered}
+
+
+### Description
+
+Increase the sampling frequency to 'target_hz' Hz by inserting additional rows.
+Missing values in gaze and pupil data will be preserved for later interpolation.
+
+
+
+### Usage
+
+<pre><code class='language-R'>upsample_gaze(
+  x,
+  pupil_cols = c("Pupil_Diameter"),
+  gaze_cols = c("x_pred_normalised", "y_pred_normalised"),
+  target_hz = 1000,
+  upsample_pupil = TRUE
+)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<td>
+A dataframe containing gaze and pupil data with columns: 'subject', 'trial', and 'time'.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="pupil_cols">pupil_cols</code></td>
+<td>
+Character vector of pupil diameter column names.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="gaze_cols">gaze_cols</code></td>
+<td>
+Character vector of gaze position column names.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="target_hz">target_hz</code></td>
+<td>
+Target sampling frequency (default is 1000 Hz).
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="upsample_pupil">upsample_pupil</code></td>
+<td>
+Logical; if 'TRUE', pupil data will also be upsampled.
+</td></tr>
+</table>
+
+
+### Value
+
+A dataframe with up-sampled time points and an 'up_sampled' column.
+
+

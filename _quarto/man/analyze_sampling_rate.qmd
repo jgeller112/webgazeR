@@ -19,7 +19,7 @@ and a vertical line showing the overall median sampling rate and the standard de
 ### Arguments
 
 <table>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="eye_data">eye_data</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="eye_data">eye_data</code></td>
 <td>
 A dataframe containing eye-tracking data with columns 'subject', 'trial', and 'time'.
 The column 'time' should represent the time in milliseconds for each trial.
@@ -51,7 +51,7 @@ A list containing:
 #| warning: false
 #| message: false
 #| eval: false
-library(webgazeR)
+library("webgazeR")
 
   # Assuming eye_data is a dataframe with appropriate columns
   result <- analyze_sampling_rate(eye_data)

@@ -22,19 +22,19 @@ This function calculates the number and percentage of points that fall outside a
 ### Arguments
 
 <table>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
 <td>
 A data frame containing gaze data.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="subject_col">subject_col</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="subject_col">subject_col</code></td>
 <td>
 A string specifying the name of the column that contains the subject identifier. Default is &quot;subject&quot;.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="x_col">x_col</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x_col">x_col</code></td>
 <td>
 A string specifying the name of the column that contains the X coordinate. Default is &quot;x_pred_normalised&quot;.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="y_col">y_col</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="y_col">y_col</code></td>
 <td>
 A string specifying the name of the column that contains the Y coordinate. Default is &quot;y_pred_normalised&quot;.
 </td></tr>
@@ -71,7 +71,7 @@ A data frame with the following columns:
 #| warning: false
 #| message: false
 #| eval: false
-library(webgazeR)
+library("webgazeR")
 
   # Example data
   data <- data.frame(

@@ -24,7 +24,7 @@ or both.
 ### Arguments
 
 <table>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
 <td>
 A dataframe that contains the data to be processed. The dataframe
 should include the columns:
@@ -39,11 +39,11 @@ should include the columns:
 </dd>
 </dl>
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="threshold">threshold</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="threshold">threshold</code></td>
 <td>
 Numeric value specifying the sampling rate threshold. Data falling below this threshold will either be removed or labeled as &quot;bad&quot;.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="action">action</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="action">action</code></td>
 <td>
 Character string specifying whether to &quot;remove&quot; data that falls below the threshold or &quot;label&quot; it as bad. Acceptable values are '&quot;remove&quot;' or '&quot;label&quot;'.
 
@@ -55,7 +55,7 @@ Character string specifying whether to &quot;remove&quot; data that falls below 
 </dd>
 </dl>
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="by">by</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="by">by</code></td>
 <td>
 Character string specifying whether the threshold should be applied
 at the &quot;subject&quot; level, the &quot;trial&quot; level, or &quot;both&quot;. Acceptable values are
@@ -96,7 +96,7 @@ sampling rate threshold).
 #| warning: false
 #| message: false
 #| eval: false
-library(webgazeR)
+library("webgazeR")
 
 # Example usage of the filter_sampling_rate function
 result <- filter_sampling_rate(data = data_with_sr, threshold = 500, action = "remove", by = "both")
