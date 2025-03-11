@@ -23,6 +23,8 @@ website:
             file: man/analyze_sampling_rate.qmd
           - text: assign_aoi
             file: man/assign_aoi.qmd
+          - text: calculate_isc
+            file: man/calculate_isc.qmd
           - text: downsample_gaze
             file: man/downsample_gaze.qmd
           - text: extract_aois
