@@ -4,15 +4,14 @@
 ### Description
 
 This function calculates the sampling rate for each subject and trial in an eye-tracking dataset.
-It provides overall statistics, including the median and standard deviation of sampling rates,
-and also generates a histogram of median sampling rates by subject, with a density plot overlayed,
-and a vertical line showing the overall median sampling rate and the standard deviation displayed.
+Users can specify whether to compute the mean or median sampling rate. It provides overall statistics,
+including the selected measure and standard deviation, and generates a histogram of sampling rates.
 
 
 
 ### Usage
 
-<pre><code class='language-R'>analyze_sampling_rate(eye_data)
+<pre><code class='language-R'>analyze_sampling_rate(eye_data, summary_stat = "median")
 </code></pre>
 
 
@@ -24,6 +23,11 @@ and a vertical line showing the overall median sampling rate and the standard de
 A dataframe containing eye-tracking data with columns 'subject', 'trial', and 'time'.
 The column 'time' should represent the time in milliseconds for each trial.
 </td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="summary_stat">summary_stat</code></td>
+<td>
+A character string indicating the summary statistic to use. Must be either '&quot;median&quot;'
+(default) or '&quot;mean&quot;'.
+</td></tr>
 </table>
 
 
@@ -33,11 +37,11 @@ A list containing:
 
 
 <dl>
-<dt>overall_median_SR</dt><dd>The overall median sampling rate (Hz).
+<dt>overall_summary_SR</dt><dd>The overall mean or median sampling rate (Hz).
 </dd>
-<dt>overall_sd_SR</dt><dd>The overall standard deviation of sampling rates.
+<dt>overall_sd_SR</dt><dd>The standard deviation of the sampling rate.
 </dd>
-<dt>median_SR_by_subject</dt><dd>A dataframe with the median sampling rate by subject.
+<dt>summary_SR_by_subject</dt><dd>A dataframe with the mean or median sampling rate by subject.
 </dd>
 <dt>SR_by_trial</dt><dd>A dataframe with the sampling rate by subject and trial.
 </dd>
@@ -54,7 +58,7 @@ A list containing:
 library("webgazeR")
 
   # Assuming eye_data is a dataframe with appropriate columns
-  result <- analyze_sampling_rate(eye_data)
+  result <- analyze_sampling_rate(eye_data, summary_stat = "mean")
   print(result)
 
 

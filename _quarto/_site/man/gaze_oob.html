@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.7.15">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -64,15 +64,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-26a54071d5a5d1f5c34874d8d975e232.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-79108a0fc1995748cbd19a5b0e3e3e7c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -400,7 +401,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"options":{"comment":"","results":"markup","context":"interactive","read-only":"false","editor-word-wrap":"true","autorun":"false","editor-max-height":"","fig-cap":"","message":"true","fig-width":7,"warning":"true","out-width":"700px","dpi":72,"fig-height":5,"label":"unnamed-chunk-1","classes":"","editor-quick-suggestions":"false","out-height":"","output":"true","editor-font-scale":"1"},"code":"library(\"webgazeR\")\n\n  # Example data\n  data <- data.frame(\n    subject = rep(1:2, each = 100),\n    x_pred_normalised = runif(200, -0.5, 1.5),\n    y_pred_normalised = runif(200, -0.5, 1.5)\n  )\n\n  # Calculate out-of-bounds proportion by subject\n  results <- calculate_out_of_bounds_by_subject(data)\n  print(results)","id":1}];
+globalThis.qwebrCellDetails = [{"code":"library(\"webgazeR\")\n\n  # Example data\n  data <- data.frame(\n    subject = rep(1:2, each = 100),\n    x_pred_normalised = runif(200, -0.5, 1.5),\n    y_pred_normalised = runif(200, -0.5, 1.5)\n  )\n\n  # Calculate out-of-bounds proportion by subject\n  results <- calculate_out_of_bounds_by_subject(data)\n  print(results)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1748,6 +1749,12 @@ globalThis.qwebrExecuteCode = async function (
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/calculate_isc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">calculate_isc</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/downsample_gaze.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">downsample_gaze</span></a>
   </div>
@@ -1809,7 +1816,7 @@ globalThis.qwebrExecuteCode = async function (
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/gaze_oob.html">gaze_oob</a></li></ol></nav></header>
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/loader.js"></script>
 <script type="module" id="qwebr-monaco-editor-init">
 
@@ -2312,8 +2319,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -2424,7 +2429,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

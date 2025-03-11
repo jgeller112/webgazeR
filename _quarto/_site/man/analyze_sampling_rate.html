@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.7.15">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -64,15 +64,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-26a54071d5a5d1f5c34874d8d975e232.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-79108a0fc1995748cbd19a5b0e3e3e7c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -400,7 +401,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"id":1,"options":{"out-width":"700px","fig-width":7,"read-only":"false","results":"markup","dpi":72,"message":"true","editor-max-height":"","output":"true","warning":"true","editor-word-wrap":"true","context":"interactive","comment":"","editor-quick-suggestions":"false","fig-cap":"","autorun":"false","classes":"","out-height":"","fig-height":5,"label":"unnamed-chunk-1","editor-font-scale":"1"},"code":"library(\"webgazeR\")\n\n  # Assuming eye_data is a dataframe with appropriate columns\n  result <- analyze_sampling_rate(eye_data)\n  print(result)"}];
+globalThis.qwebrCellDetails = [{"code":"library(\"webgazeR\")\n\n  # Assuming eye_data is a dataframe with appropriate columns\n  result <- analyze_sampling_rate(eye_data, summary_stat = \"mean\")\n  print(result)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1748,6 +1749,12 @@ globalThis.qwebrExecuteCode = async function (
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/calculate_isc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">calculate_isc</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/downsample_gaze.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">downsample_gaze</span></a>
   </div>
@@ -1809,7 +1816,7 @@ globalThis.qwebrExecuteCode = async function (
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">analyze_sampling_rate</a></li></ol></nav></header>
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/loader.js"></script>
 <script type="module" id="qwebr-monaco-editor-init">
 
@@ -2102,11 +2109,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h2 class="unnumbered anchored" data-anchor-id="analyze-sampling-rates-for-eye-tracking-data">Analyze Sampling Rates for Eye-Tracking Data</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>This function calculates the sampling rate for each subject and trial in an eye-tracking dataset. It provides overall statistics, including the median and standard deviation of sampling rates, and also generates a histogram of median sampling rates by subject, with a density plot overlayed, and a vertical line showing the overall median sampling rate and the standard deviation displayed.</p>
+<p>This function calculates the sampling rate for each subject and trial in an eye-tracking dataset. Users can specify whether to compute the mean or median sampling rate. It provides overall statistics, including the selected measure and standard deviation, and generates a histogram of sampling rates.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">analyze_sampling_rate(eye_data)
+<pre><code class="language-R">analyze_sampling_rate(eye_data, summary_stat = "median")
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -2120,6 +2127,14 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 A dataframe containing eye-tracking data with columns ‘subject’, ‘trial’, and ‘time’. The column ‘time’ should represent the time in milliseconds for each trial.
 </td>
 </tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="summary_stat">summary_stat</code>
+</td>
+<td>
+A character string indicating the summary statistic to use. Must be either ‘"median"’ (default) or ‘"mean"’.
+</td>
+</tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
@@ -2127,22 +2142,22 @@ A dataframe containing eye-tracking data with columns ‘subject’, ‘trial’
 <p>A list containing:</p>
 <dl>
 <dt>
-overall_median_SR
+overall_summary_SR
 </dt>
 <dd>
-The overall median sampling rate (Hz).
+The overall mean or median sampling rate (Hz).
 </dd>
 <dt>
 overall_sd_SR
 </dt>
 <dd>
-The overall standard deviation of sampling rates.
+The standard deviation of the sampling rate.
 </dd>
 <dt>
-median_SR_by_subject
+summary_SR_by_subject
 </dt>
 <dd>
-A dataframe with the median sampling rate by subject.
+A dataframe with the mean or median sampling rate by subject.
 </dd>
 <dt>
 SR_by_trial
@@ -2161,7 +2176,7 @@ A dataframe with the sampling rate by subject and trial.
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"webgazeR"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Assuming eye_data is a dataframe with appropriate columns</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">analyze_sampling_rate</span>(eye_data)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">analyze_sampling_rate</span>(eye_data, <span class="at">summary_stat =</span> <span class="st">"mean"</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
@@ -2258,8 +2273,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -2370,7 +2383,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
