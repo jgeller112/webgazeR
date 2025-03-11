@@ -17,7 +17,8 @@ through the 'ia_mapping' argument to define the display order.
   time_column,
   proportion_column,
   condition_column = NULL,
-  ia_mapping
+  ia_mapping,
+  use_color = TRUE
 )
 </code></pre>
 
@@ -51,6 +52,11 @@ If not provided, the plot will not be faceted by condition.
 A named list specifying custom labels for each IA in the desired display order
 (e.g., 'list(IA1 = &quot;Target&quot;, IA2 = &quot;Cohort&quot;, IA3 = &quot;Rhyme&quot;, IA4 = &quot;Unrelated&quot;)').
 </td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="use_color">use_color</code></td>
+<td>
+Logical. If 'TRUE' (default), the plot will use colors to differentiate Interest Areas.
+If 'FALSE', different line types, shapes, and line widths will be used instead.
+</td></tr>
 </table>
 
 
@@ -65,19 +71,20 @@ A ggplot2 plot of the proportion of looks over time for each IA, optionally face
 ```{r}
 #| warning: false
 #| message: false
-#| eval: false
+#| eval: true
 library("webgazeR")
 
-# Example with a condition column
+# Example with a condition column and color
 plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
                     proportion_column = "proportion_looks", condition_column = "condition",
-                    ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"))
+                    ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"),
+                    use_color = TRUE)
 
-# Example without a condition column
+# Example without color (using line types and shapes instead)
 plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
-                    proportion_column = "proportion_looks",
-                    ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"))
-
+                    proportion_column = "proportion_looks", condition_column = "condition",
+                    ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"),
+                    use_color = FALSE)
 
 
 

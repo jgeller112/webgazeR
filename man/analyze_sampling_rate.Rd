@@ -4,31 +4,33 @@
 \alias{analyze_sampling_rate}
 \title{Analyze Sampling Rates for Eye-Tracking Data}
 \usage{
-analyze_sampling_rate(eye_data)
+analyze_sampling_rate(eye_data, summary_stat = "median")
 }
 \arguments{
 \item{eye_data}{A dataframe containing eye-tracking data with columns `subject`, `trial`, and `time`.
 The column `time` should represent the time in milliseconds for each trial.}
+
+\item{summary_stat}{A character string indicating the summary statistic to use. Must be either `"median"`
+(default) or `"mean"`.}
 }
 \value{
 A list containing:
 \describe{
-  \item{overall_median_SR}{The overall median sampling rate (Hz).}
-  \item{overall_sd_SR}{The overall standard deviation of sampling rates.}
-  \item{median_SR_by_subject}{A dataframe with the median sampling rate by subject.}
+  \item{overall_summary_SR}{The overall mean or median sampling rate (Hz).}
+  \item{overall_sd_SR}{The standard deviation of the sampling rate.}
+  \item{summary_SR_by_subject}{A dataframe with the mean or median sampling rate by subject.}
   \item{SR_by_trial}{A dataframe with the sampling rate by subject and trial.}
 }
 }
 \description{
 This function calculates the sampling rate for each subject and trial in an eye-tracking dataset.
-It provides overall statistics, including the median and standard deviation of sampling rates,
-and also generates a histogram of median sampling rates by subject, with a density plot overlayed,
-and a vertical line showing the overall median sampling rate and the standard deviation displayed.
+Users can specify whether to compute the mean or median sampling rate. It provides overall statistics,
+including the selected measure and standard deviation, and generates a histogram of sampling rates.
 }
 \examples{
 \dontrun{
   # Assuming eye_data is a dataframe with appropriate columns
-  result <- analyze_sampling_rate(eye_data)
+  result <- analyze_sampling_rate(eye_data, summary_stat = "mean")
   print(result)
 }
 }

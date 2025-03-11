@@ -95,7 +95,7 @@ sampling rate threshold).
 ```{r}
 #| warning: false
 #| message: false
-#| eval: false
+#| eval: true
 library("webgazeR")
 
 # Example usage of the filter_sampling_rate function

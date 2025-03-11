@@ -10,7 +10,8 @@ plot_IA_proportions(
   time_column,
   proportion_column,
   condition_column = NULL,
-  ia_mapping
+  ia_mapping,
+  use_color = TRUE
 )
 }
 \arguments{
@@ -27,6 +28,9 @@ If not provided, the plot will not be faceted by condition.}
 
 \item{ia_mapping}{A named list specifying custom labels for each IA in the desired display order
 (e.g., `list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated")`).}
+
+\item{use_color}{Logical. If `TRUE` (default), the plot will use colors to differentiate Interest Areas.
+If `FALSE`, different line types, shapes, and line widths will be used instead.}
 }
 \value{
 A ggplot2 plot of the proportion of looks over time for each IA, optionally faceted by condition.
@@ -37,16 +41,16 @@ Optionally, it can facet the plot by an experimental condition. Custom labels fo
 through the `ia_mapping` argument to define the display order.
 }
 \examples{
-\dontrun{
-# Example with a condition column
+# Example with a condition column and color
 plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
                     proportion_column = "proportion_looks", condition_column = "condition",
-                    ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"))
+                    ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"),
+                    use_color = TRUE)
 
-# Example without a condition column
+# Example without color (using line types and shapes instead)
 plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
-                    proportion_column = "proportion_looks",
-                    ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"))
+                    proportion_column = "proportion_looks", condition_column = "condition",
+                    ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"),
+                    use_color = FALSE)
 
-}
 }
