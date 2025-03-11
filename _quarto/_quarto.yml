@@ -16,6 +16,7 @@ website:
         file: index.qmd
       - section: Articles
         contents:
+          - vignettes/ISC.qmd
           - vignettes/webgazeR_vignette.qmd
       - section: Reference
         contents:
