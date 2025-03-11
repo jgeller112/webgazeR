@@ -1,3 +1,4 @@
+
 ## Analyze Sampling Rates for Eye-Tracking Data {.unnumbered}
 
 
@@ -48,20 +49,3 @@ A list containing:
 </dl>
 
 
-
-### Examples
-::: {.to-webr}
-```{r}
-#| warning: false
-#| message: false
-#| eval: false
-library("webgazeR")
-
-  # Assuming eye_data is a dataframe with appropriate columns
-  result <- analyze_sampling_rate(eye_data, summary_stat = "mean")
-  print(result)
-
-
-
-```
-:::

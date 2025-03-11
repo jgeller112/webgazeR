@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>merge_webcam_files – webgazeR</title>
+<title>extract_aois – webgazeR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,7 +104,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/merge_webcam_files.html">merge_webcam_files</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/extract_aois.html">extract_aois</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -174,7 +174,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/extract_aois.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/extract_aois.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">extract_aois</span></a>
   </div>
 </li>
@@ -198,7 +198,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/merge_webcam_files.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/merge_webcam_files.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">merge_webcam_files</span></a>
   </div>
 </li>
@@ -229,20 +229,20 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/merge_webcam_files.html">merge_webcam_files</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/extract_aois.html">extract_aois</a></li></ol></nav></header>
 
 
 
 
-<section id="extract-and-merge-gorilla-webcam-files-with-optional-aoi-extraction" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="extract-and-merge-gorilla-webcam-files-with-optional-aoi-extraction">Extract and Merge Gorilla Webcam Files with Optional AOI Extraction</h2>
+<section id="extract-aoi-related-columns-from-webcam-files-and-calculate-locations" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="extract-aoi-related-columns-from-webcam-files-and-calculate-locations">Extract AOI-related Columns from Webcam Files and Calculate Locations</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>This function reads in multiple Gorilla webcam files, merges them, and optionally extracts area of interest (AOI) data. It cleans up column names, and allows filtering by screen index. If ‘extract_aois’ is TRUE, it extracts specific AOI-related columns (‘zone_name’, ‘zone_x_normalized’, ‘zone_y_normalized’, ‘zone_width_normalized’, and ‘zone_height_normalized’) and returns distinct rows for these columns.</p>
+<p>This function reads in multiple Gorilla webcam files, extracts the ‘loc’, ‘x_normalised’, ‘y_normalised’, ‘width_normalised’, and ‘height_normalised’ columns, and calculates the bounding box coordinates for the AOIs. It also rounds all numeric columns to 3 decimal places.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">merge_webcam_files(file_paths, screen_index = NULL)
+<pre><code class="language-R">extract_aois(file_paths, zone_names = NULL)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -256,27 +256,11 @@ ul.task-list li input[type="checkbox"] {
 A list of file paths to webcam files (in .xlsx format).
 </td>
 </tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="screen_index">screen_index</code>
-</td>
-<td>
-An optional screen index to filter the data by. If NULL, the filter will be ignored.
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="extract_aois">extract_aois</code>
-</td>
-<td>
-Logical. If TRUE, extracts AOI-related columns and returns distinct rows for them.
-</td>
-</tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A dataframe containing the merged and processed data from the webcam files. If ‘extract_aois’ is TRUE, it returns a dataframe with distinct AOI-related columns.</p>
+<p>A dataframe containing distinct rows with AOI-related columns and calculated coordinates.</p>
 
 
 </section>

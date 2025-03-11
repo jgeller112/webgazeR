@@ -1,3 +1,4 @@
+
 ## Extract and Merge Gorilla Webcam Files with Optional AOI Extraction {.unnumbered}
 
 
@@ -40,20 +41,3 @@ A dataframe containing the merged and processed data from the webcam files. If '
 a dataframe with distinct AOI-related columns.
 
 
-
-### Examples
-::: {.to-webr}
-```{r}
-#| warning: false
-#| message: false
-#| eval: true
-library("webgazeR")
-
-# Example usage:
-# file_paths <- c("file1.xlsx", "file2.xlsx")
-# merged_data <- extract_gorilla_aois(file_paths, screen_index = 4, extract_aois = FALSE)
-# aoi_data <- extract_gorilla_aois(file_paths, screen_index = 4, extract_aois = TRUE)
-
-
-```
-:::

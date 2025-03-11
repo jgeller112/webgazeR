@@ -9,17 +9,6 @@
 #'
 #' @return A numeric vector of ISC values, one per participant.
 #'
-#' @examples
-#' # Simulated example with 10 participants and 1000 time points
-#' set.seed(123)
-#' data_matrix <- matrix(rnorm(10 * 1000), nrow = 1000, ncol = 10)
-#'
-#' # Compute ISC using the pairwise method
-#' isc_pairwise <- calculate_isc(data_matrix, method = "pairwise")
-#'
-#' # Compute ISC using the leave-one-out method
-#' isc_loo <- calculate_isc(data_matrix, method = "leave-one-out")
-#'
 #' @export
 calculate_isc <- function(data_matrix, method = "pairwise") {
   # Validate input

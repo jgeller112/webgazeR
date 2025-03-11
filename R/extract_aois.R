@@ -8,11 +8,6 @@
 #' @param file_paths A list of file paths to webcam files (in .xlsx format).
 #' @return A dataframe containing distinct rows with AOI-related columns and calculated coordinates.
 #' @export
-#'
-#' @examples
-#' # Example usage:
-#' # file_paths <- c("file1.xlsx", "file2.xlsx")
-#' # aoi_data <- extract_aois(file_paths)
 
 extract_aois <- function(file_paths, zone_names=NULL) {
 

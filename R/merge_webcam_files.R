@@ -15,12 +15,7 @@
 #' @import dplyr
 #' @import readxl
 #' @export
-#'
-#' @examples
-#' # Example usage:
-#' # file_paths <- c("file1.xlsx", "file2.xlsx")
-#' # merged_data <- extract_gorilla_aois(file_paths, screen_index = 4, extract_aois = FALSE)
-#' # aoi_data <- extract_gorilla_aois(file_paths, screen_index = 4, extract_aois = TRUE)
+
 
 merge_webcam_files <- function(file_paths, screen_index = NULL) {
 

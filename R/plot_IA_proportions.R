@@ -16,19 +16,6 @@
 #' If `FALSE`, different line types, shapes, and line widths will be used instead.
 #'
 #' @return A ggplot2 plot of the proportion of looks over time for each IA, optionally faceted by condition.
-#' @examples
-#' # Example with a condition column and color
-#' plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
-#'                     proportion_column = "proportion_looks", condition_column = "condition",
-#'                     ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"),
-#'                     use_color = TRUE)
-#'
-#' # Example without color (using line types and shapes instead)
-#' plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
-#'                     proportion_column = "proportion_looks", condition_column = "condition",
-#'                     ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"),
-#'                     use_color = FALSE)
-#'
 #' @export
 
 plot_IA_proportions <- function(data, ia_column, time_column, proportion_column, condition_column = NULL, ia_mapping, use_color=TRUE) {

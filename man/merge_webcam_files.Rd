@@ -23,9 +23,3 @@ It cleans up column names, and allows filtering by screen index. If `extract_aoi
 columns (`zone_name`, `zone_x_normalized`, `zone_y_normalized`, `zone_width_normalized`, and `zone_height_normalized`) and
 returns distinct rows for these columns.
 }
-\examples{
-# Example usage:
-# file_paths <- c("file1.xlsx", "file2.xlsx")
-# merged_data <- extract_gorilla_aois(file_paths, screen_index = 4, extract_aois = FALSE)
-# aoi_data <- extract_gorilla_aois(file_paths, screen_index = 4, extract_aois = TRUE)
-}

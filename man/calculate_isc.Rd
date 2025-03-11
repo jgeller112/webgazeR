@@ -19,15 +19,3 @@ Computes ISC using either the **pairwise correlation** method or the **leave-one
 The pairwise method computes a full correlation matrix and averages Fisher-transformed values.
 The leave-one-out method computes the correlation of each participant's time series with the mean of all others.
 }
-\examples{
-# Simulated example with 10 participants and 1000 time points
-set.seed(123)
-data_matrix <- matrix(rnorm(10 * 1000), nrow = 1000, ncol = 10)
-
-# Compute ISC using the pairwise method
-isc_pairwise <- calculate_isc(data_matrix, method = "pairwise")
-
-# Compute ISC using the leave-one-out method
-isc_loo <- calculate_isc(data_matrix, method = "leave-one-out")
-
-}

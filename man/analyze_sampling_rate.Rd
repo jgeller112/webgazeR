@@ -27,10 +27,3 @@ This function calculates the sampling rate for each subject and trial in an eye-
 Users can specify whether to compute the mean or median sampling rate. It provides overall statistics,
 including the selected measure and standard deviation, and generates a histogram of sampling rates.
 }
-\examples{
-\dontrun{
-  # Assuming eye_data is a dataframe with appropriate columns
-  result <- analyze_sampling_rate(eye_data, summary_stat = "mean")
-  print(result)
-}
-}

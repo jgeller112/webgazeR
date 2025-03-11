@@ -16,13 +16,6 @@
 #'   \item{summary_SR_by_subject}{A dataframe with the mean or median sampling rate by subject.}
 #'   \item{SR_by_trial}{A dataframe with the sampling rate by subject and trial.}
 #' }
-#'
-#' @examples
-#' \dontrun{
-#'   # Assuming eye_data is a dataframe with appropriate columns
-#'   result <- analyze_sampling_rate(eye_data, summary_stat = "mean")
-#'   print(result)
-#' }
 #' @export
 #' @import tidyverse
 analyze_sampling_rate <- function(eye_data, summary_stat = "median") {

@@ -18,8 +18,3 @@ This function reads in multiple Gorilla webcam files, extracts the
 and `height_normalised` columns, and calculates the bounding box coordinates
 for the AOIs. It also rounds all numeric columns to 3 decimal places.
 }
-\examples{
-# Example usage:
-# file_paths <- c("file1.xlsx", "file2.xlsx")
-# aoi_data <- extract_aois(file_paths)
-}

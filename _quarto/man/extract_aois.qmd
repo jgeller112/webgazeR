@@ -1,3 +1,4 @@
+
 ## Extract AOI-related Columns from Webcam Files and Calculate Locations {.unnumbered}
 
 
@@ -31,19 +32,3 @@ A list of file paths to webcam files (in .xlsx format).
 A dataframe containing distinct rows with AOI-related columns and calculated coordinates.
 
 
-
-### Examples
-::: {.to-webr}
-```{r}
-#| warning: false
-#| message: false
-#| eval: true
-library("webgazeR")
-
-# Example usage:
-# file_paths <- c("file1.xlsx", "file2.xlsx")
-# aoi_data <- extract_aois(file_paths)
-
-
-```
-:::
