@@ -56,10 +56,3 @@ which indicates whether the data is considered "bad" (i.e., below the
 sampling rate threshold).
 }
 
-\examples{
-# Example usage of the filter_sampling_rate function
-result <- filter_sampling_rate(data = data_with_sr, threshold = 500, action = "remove", by = "both")
-# Example usage to label data as "bad"
-result <- filter_sampling_rate(data = data_with_sr, threshold = 500, action = "label", by = "trial")
-
-}

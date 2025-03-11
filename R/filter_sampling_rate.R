@@ -36,13 +36,6 @@
 #'
 #' @return A dataframe with either rows removed or new columns (`is_bad_subject`, `is_bad_trial`) added
 #' to indicate whether the data is below the threshold. Additionally, messages will inform the user how many subjects and trials were removed or labeled as "bad."
-#'
-#' @examples
-#' # Example usage of the filter_sampling_rate function
-#' result <- filter_sampling_rate(data = data_with_sr, threshold = 500, action = "remove", by = "both")
-#' # Example usage to label data as "bad"
-#' result <- filter_sampling_rate(data = data_with_sr, threshold = 500, action = "label", by = "trial")
-#'
 #' @export
 
 filter_sampling_rate <- function(data,
