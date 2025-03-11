@@ -71,7 +71,7 @@ A ggplot2 plot of the proportion of looks over time for each IA, optionally face
 ```{r}
 #| warning: false
 #| message: false
-#| eval: true
+#| eval: false
 library("webgazeR")
 
 # Example with a condition column and color
