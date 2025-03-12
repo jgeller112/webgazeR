@@ -12,7 +12,7 @@ The leave-one-out method computes the correlation of each participant's time ser
 
 ### Usage
 
-<pre><code class='language-R'>calculate_isc(data_matrix, method = "pairwise")
+<pre><code class='language-R'>calculate_isc(data_matrix, method = "pairwise", summary_statistic = "mean")
 </code></pre>
 
 
@@ -26,6 +26,10 @@ A numeric matrix where rows represent time points and columns represent particip
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="method">method</code></td>
 <td>
 A string specifying the ISC computation method. Options are '&quot;pairwise&quot;' (default) or '&quot;leave-one-out&quot;'.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="summary_statistic">summary_statistic</code></td>
+<td>
+A string specifying whether to return '&quot;mean&quot;', '&quot;median&quot;', or '&quot;raw&quot;' ISC values per participant.
 </td></tr>
 </table>
 

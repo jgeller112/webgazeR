@@ -248,7 +248,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">calculate_isc(data_matrix, method = "pairwise")
+<pre><code class="language-R">calculate_isc(data_matrix, method = "pairwise", summary_statistic = "mean")
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -268,6 +268,14 @@ A numeric matrix where rows represent time points and columns represent particip
 </td>
 <td>
 A string specifying the ISC computation method. Options are ‘"pairwise"’ (default) or ‘"leave-one-out"’.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="summary_statistic">summary_statistic</code>
+</td>
+<td>
+A string specifying whether to return ‘"mean"’, ‘"median"’, or ‘"raw"’ ISC values per participant.
 </td>
 </tr>
 </tbody></table>

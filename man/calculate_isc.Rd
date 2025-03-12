@@ -4,12 +4,14 @@
 \alias{calculate_isc}
 \title{Compute Intersubject Correlation (ISC)}
 \usage{
-calculate_isc(data_matrix, method = "pairwise")
+calculate_isc(data_matrix, method = "pairwise", summary_statistic = "mean")
 }
 \arguments{
 \item{data_matrix}{A numeric matrix where rows represent time points and columns represent participants.}
 
 \item{method}{A string specifying the ISC computation method. Options are `"pairwise"` (default) or `"leave-one-out"`.}
+
+\item{summary_statistic}{A string specifying whether to return `"mean"`, `"median"`, or `"raw"` ISC values per participant.}
 }
 \value{
 A numeric vector of ISC values, one per participant.

@@ -16,28 +16,30 @@ execute:
 Intersubject correlation (ISC) is a measure used to assess the degree of synchrony among participants—that is, how similarly their responses change over time. ISC has been widely applied in fMRI and EEG research, particularly in naturalistic contexts, to quantify shared neural activity. More recently, ISC has been extended to webcam-based eye-tracking, allowing researchers to examine shared gaze patterns during dynamic stimuli.
 
 This vignette demonstrates how to calculate ISC using two commonly used approaches:
-	1.	Pairwise ISC Approach
-	- In this method, each participant’s data is correlated with every other participant’s data, generating a correlation matrix across all pairs.
-	- Correlations are transformed using Fisher's z to r transformation and averaged and then transformed back into r resulting in one ISC for each participant. 
-	2.	Leave-One-Out ISC Approach
-	- Here, each participant’s data is correlated with the mean time series of all other participants, excluding their own data.
-	- This results in one correlation value for each participant. 
+
+1.  Pairwise ISC Approach
+
+-   In this method, each participant’s data is correlated with every other participant’s data, generating a correlation matrix across all pairs.
+
+-   Correlations are transformed using Fisher's z to r transformation and averaged and then transformed back into r resulting in one ISC for each participant.
+
+2.  Leave-One-Out ISC Approach - Here, each participant’s data is correlated with the mean time series of all other participants, excluding their own data. - This results in one correlation value for each participant.
 
 To compute ISC, your data should be structured as a p × t matrix, where:
-	•	p represents the number of participants
-	•	t represents time points
 
- Before highlighting the function `calculate_isc()` I want to break down each step that goes into calculating the ISC. 
- 
+-   p represents the number of participants
+-   t represents time points
+
+Before highlighting the function `calculate_isc()` I want to break down each step that goes into calculating the ISC.
+
 ## Pairwise ISC
- 
- Below, we generate a 10 × 1000 matrix
+
+Below, we generate a 10 × 1000 matrix
+
 
 ::: {.to-webr}
 ```{r}
 library(tidyverse)
-library(webgazeR)
-
 set.seed(123)
 
 data_matrix <- matrix(rnorm(10 * 1000), nrow = 1000, ncol = 10)
@@ -51,8 +53,10 @@ data_matrix %>%
 We use the cor() function to compute pairwise correlations between each participant’s time-binned data and that of every other participant.
 
 We specify use = "pairwise.complete.obs" to ensure that:
-	•	If any missing values (NA) exist for a participant, those time points are excluded from the correlation for all comparisons involving that participant.
-	•	This allows us to retain all participants in the dataset while ensuring that correlations are computed using only available data.
+
+-   If any missing values (NA) exist for a participant, those time points are excluded from the correlation for all comparisons involving that participant.
+
+-   This allows us to retain all participants in the dataset while ensuring that correlations are computed using only available data.
 
 ::: {.to-webr}
 ```{r}
@@ -64,7 +68,6 @@ correlation_matrix <- cor(data_matrix, use = "pairwise.complete.obs")
 :::
 
 Since the diagonal of the correlation matrix represents self-correlations (i.e., each participant correlated with themselves), we replace those values with NA, as they are not meaningful for intersubject correlation (ISC):
-
 
 ::: {.to-webr}
 ```{r}
@@ -82,21 +85,24 @@ correlation_matrix
 
 ```
 :::
+
 Next, we apply Fisher’s Z-transformation using atanh() to convert the correlation coefficients into Z-scores before averaging.
 
 Averaging correlation scores directly is bad practice because:
-	•	Correlations are bounded between -1 and 1, which skews their distribution.
-	•	Fisher’s Z-transformation normalizes correlation values, making them more suitable for averaging.
+
+-   Correlations are bounded between -1 and 1, which skews their distribution.
+-   Fisher’s Z-transformation normalizes correlation values, making them more suitable for averaging.
+
+You can also choose to use the median instead (if this is the case you do not need to apply Fisher transformation)
 
 ::: {.to-webr}
 ```{r}
 z_values <- atanh(correlation_matrix)  # Fisher's Z transformation
 
-
 ```
 :::
 
-Once transformed, we compute the average ISC per participant and transform back to r. 
+Once transformed, we compute the average ISC per participant and transform back to r.
 
 ::: {.to-webr}
 ```{r}
@@ -106,12 +112,12 @@ isc_values <- tanh(rowMeans(z_values, na.rm = TRUE))  # Convert back to r
 ```
 :::
 
-the `calculate_isc()` function with method="pairwise" does all this for us. 
+the `calculate_isc()` function with method="pairwise" does all this for us.
 
 ::: {.to-webr}
 ```{r}
 
-isc_pairwise <- calculate_isc(data_matrix, method = "pairwise")
+isc_pairwise <- calculate_isc(data_matrix, method = "pairwise", summary_statistic = "mean")
 
 isc_pairwise
 ```
@@ -122,6 +128,7 @@ isc_pairwise
 In the leave-one-out approach, we compute the correlation between each participant’s time series and the average time series of all other participants, excluding their own data.
 
 First, we extract the time series for a single participant:
+
 ::: {.to-webr}
 ```{r}
 # Extract the full time series for the current subject
@@ -131,6 +138,7 @@ subject_time_series <- data_matrix[, 1]
 :::
 
 and calculate the mean of the other subjects data points, excluding the current subject
+
 ::: {.to-webr}
 ```{r}
 
@@ -140,6 +148,7 @@ leave_one_out_mean <- rowMeans(data_matrix[, -1, drop = FALSE], na.rm = TRUE)
 :::
 
 We then compute the correlation between the participant’s time series and the leave-one-out mean:
+
 ::: {.to-webr}
 ```{r}
 leave_one_out_isc <- cor(subject_time_series, 

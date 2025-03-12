@@ -6,11 +6,12 @@
 #'
 #' @param data_matrix A numeric matrix where rows represent time points and columns represent participants.
 #' @param method A string specifying the ISC computation method. Options are `"pairwise"` (default) or `"leave-one-out"`.
+#' @param summary_statistic A string specifying whether to return `"mean"`, `"median"`, or `"raw"` ISC values per participant.
 #'
 #' @return A numeric vector of ISC values, one per participant.
 #'
 #' @export
-calculate_isc <- function(data_matrix, method = "pairwise") {
+calculate_isc <- function(data_matrix, method = "pairwise", summary_statistic = "mean") {
   # Validate input
   if (!is.matrix(data_matrix)) {
     stop("`data_matrix` must be a numeric matrix.")
@@ -28,9 +29,16 @@ calculate_isc <- function(data_matrix, method = "pairwise") {
     # Remove self-correlations (diagonal)
     diag(correlation_matrix) <- NA
 
-    # Convert to Fisher's Z, average per participant, and convert back
-    z_values <- atanh(correlation_matrix)  # Fisher's Z transformation
-    isc_values <- tanh(rowMeans(z_values, na.rm = TRUE))  # Convert back to r
+    if (summary_statistic == "median") {
+      # ✅ Compute the median on the raw correlation matrix (not Z-transformed values)
+      isc_values <- apply(correlation_matrix, 1, median, na.rm = TRUE)
+    } else {
+      # ✅ Convert to Fisher's Z for averaging
+      z_values <- atanh(correlation_matrix)
+
+      # ✅ Compute ISC per participant using Fisher-transformed values
+      isc_values <- tanh(rowMeans(z_values, na.rm = TRUE))
+    }
 
   } else if (method == "leave-one-out") {
     leave_one_out_isc <- numeric(n_participants)
@@ -59,5 +67,6 @@ calculate_isc <- function(data_matrix, method = "pairwise") {
     stop("Invalid method. Use 'pairwise' or 'leave-one-out'.")
   }
 
-  return(isc_values)  # Ensure only one return statement
+  # ✅ Final step: Simply return the computed ISC values (summary handled above)
+  return(isc_values)
 }
