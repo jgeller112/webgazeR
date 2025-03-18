@@ -2,11 +2,12 @@
 % Please edit documentation in R/gaze_oob.R
 \name{gaze_oob}
 \alias{gaze_oob}
-\title{Calculate Out-of-Bounds Proportion by Subject}
+\title{Calculate Out-of-Bounds Proportion by Subject and Trial}
 \usage{
 gaze_oob(
   data,
   subject_col = "subject",
+  trial_col = "trial",
   x_col = "x_pred_normalised",
   y_col = "y_pred_normalised"
 )
@@ -16,37 +17,39 @@ gaze_oob(
 
 \item{subject_col}{A string specifying the name of the column that contains the subject identifier. Default is "subject".}
 
+\item{trial_col}{A string specifying the name of the column that contains the trial identifier. Default is "trial".}
+
 \item{x_col}{A string specifying the name of the column that contains the X coordinate. Default is "x_pred_normalised".}
 
 \item{y_col}{A string specifying the name of the column that contains the Y coordinate. Default is "y_pred_normalised".}
 }
 \value{
-A data frame with the following columns:
+A list containing two data frames:
 \describe{
-  \item{subject}{The subject identifier.}
-  \item{total_points}{The total number of points for the subject.}
-  \item{outside_count}{The number of points outside the range for both X and Y coordinates.}
-  \item{x_outside_count}{The number of points outside the range for the X coordinate.}
-  \item{y_outside_count}{The number of points outside the range for the Y coordinate.}
-  \item{x_outside_percentage}{The percentage of points outside the range for the X coordinate.}
-  \item{y_outside_percentage}{The percentage of points outside the range for the Y coordinate.}
+  \item{subject_results}{Summary of missingness at the subject level, including total trials, total points, and percentages.}
+  \item{trial_results}{Summary of missingness at the trial level, including total points, and percentages.}
 }
 }
 \description{
-This function calculates the number and percentage of points that fall outside a specified range
-(0, 1) for both X and Y coordinates, grouped by subject.
+This function calculates the number and percentage of gaze points that fall outside a specified range (0,1)
+for both X and Y coordinates, grouped by subject and trial.
 }
 \examples{
 \dontrun{
   # Example data
   data <- data.frame(
-    subject = rep(1:2, each = 100),
-    x_pred_normalised = runif(200, -0.5, 1.5),
-    y_pred_normalised = runif(200, -0.5, 1.5)
+    subject = rep(1:2, each = 10),
+    trial = rep(1:5, times = 4),
+    x_pred_normalised = runif(20, -0.5, 1.5),
+    y_pred_normalised = runif(20, -0.5, 1.5)
   )
 
-  # Calculate out-of-bounds proportion by subject
-  results <- calculate_out_of_bounds_by_subject(data)
-  print(results)
+  # Calculate out-of-bounds proportion by subject and trial
+  results <- gaze_oob(data)
+
+  # View results
+  print(results$subject_results)
+  print(results$trial_results)
 }
+
 }

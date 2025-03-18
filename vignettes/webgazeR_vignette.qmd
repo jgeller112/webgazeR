@@ -241,8 +241,6 @@ It is important that we do not include points that fall outside the standardized
 
 oob_data <- gaze_oob(edat)
 
-oob_data %>% 
-  tt()
 ```
 
 ### Zone coordinates

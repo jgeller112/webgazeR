@@ -16,6 +16,19 @@
 #' If `FALSE`, different line types, shapes, and line widths will be used instead.
 #'
 #' @return A ggplot2 plot of the proportion of looks over time for each IA, optionally faceted by condition.
+#' @examples
+#' # Example with a condition column and color
+#' plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
+#'                     proportion_column = "proportion_looks", condition_column = "condition",
+#'                     ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"),
+#'                     use_color = TRUE)
+#'
+#' # Example without color (using line types and shapes instead)
+#' plot_IA_proportions(gaze_data, ia_column = "condition", time_column = "time_ms",
+#'                     proportion_column = "proportion_looks", condition_column = "condition",
+#'                     ia_mapping = list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated"),
+#'                     use_color = FALSE)
+#'
 #' @export
 
 plot_IA_proportions <- function(data, ia_column, time_column, proportion_column, condition_column = NULL, ia_mapping, use_color=TRUE) {
@@ -51,17 +64,21 @@ plot_IA_proportions <- function(data, ia_column, time_column, proportion_column,
       )
   } else {
     p <- ggplot(data, aes(x = .data[[time_column]], y = .data[[proportion_column]],
-                          linetype = IA_label, shape = IA_label)) +
-      geom_line(aes(linewidth = IA_label)) +  # Line width varies per IA
-      geom_point(size = 3, alpha = 0.7) +  # Add points to distinguish IA labels
-      scale_linetype_manual(values = c("solid", "dashed", "dotted", "dotdash", "longdash")) +
-      scale_shape_manual(values = c(16, 17, 18, 15, 8)) +
-      scale_linewidth_manual(values = c(0.8, 1.2, 1.5, 1.8, 2.2)) +  # Different line widths
+                          linetype = IA_label, shape = IA_label, linewidth = IA_label)) +
+      geom_line() +
+      geom_point(size = 3, alpha = 0.7) +
+
+      # Set manual aesthetics, ensuring a single legend
+      scale_linetype_manual(values = c("solid", "dashed", "dotted", "dotdash", "longdash"), guide = "legend") +
+      scale_shape_manual(values = c(16, 17, 18, 15, 8), guide = "legend") +
+      scale_linewidth_manual(values = c(0.8, 1.2, 1.5, 1.8, 2.2), guide = "legend") +
+
       labs(
         x = "Time since word onset (ms)",
         y = "Proportion of Looks",
         linetype = "Interest Area",
-        shape = "Interest Area"
+        shape = "Interest Area",
+        linewidth = "Interest Area"  # Ensures all mapped aesthetics are in the same legend
       )
   }
 
