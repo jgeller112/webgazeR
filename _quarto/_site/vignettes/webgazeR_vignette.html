@@ -402,7 +402,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"options(stringsAsFactors = F)          # no automatic data transformation\noptions(\"scipen\" = 100, \"digits\" = 10) # suppress math annotation\nlibrary(tidyverse) \nlibrary(here) # relative paths instead of abosoulte aids in reproduce\nlibrary(tinytable) # nice tables\nlibrary(janitor)# functions for cleaning up your column names\nlibrary(easystats)\nlibrary(knitr)\nlibrary(ggokabeito)\n#install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))\nlibrary(webgazeR)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# do not run interactively\nremotes::install_github(\"https://github.com/jgeller112/webgazeR\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# load the package\nlibrary(webgazeR)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Get the list of all files in the folder\nvwp_files  <- list.files(here::here(\"data\", \"monolinguals\", \"raw\"), pattern = \"\\\\.xlsx$\", full.names = TRUE)\n\n# Exclude files that contain \"calibration\" in their filename\nvwp_paths_filtered <- vwp_files[!grepl(\"calibration\", vwp_files)]","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"setwd(here::here(\"data\", \"monolinguals\", \"raw\")) # set working directory to raw data folder\n\nedat <- merge_webcam_files(vwp_paths_filtered, screen_index=4) # eye tracking occured ons creen index 4","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"edat <- webgazeR::eyedata","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# load in trial level data\nagg_eye_data <- webgazeR::behav_data","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"emstr <- agg_eye_data %>%\n  \n  janitor::clean_names() %>%\n  \n  # Select specific columns to keep in the dataset\n  dplyr::select(participant_private_id,  correct, tlpic, trpic, blpic, brpic, trialtype, targetword, tlcode, trcode, blcode, brcode, zone_name, zone_type,reaction_time, spreadsheet_row, response) %>%\n  \n  # Filter the rows where 'Zone.Type' equals \"response_button_image\"\n  dplyr::filter(zone_type == \"response_button_image\") %>%\n  \n  # Rename columns for easier use and readability\n  dplyr::rename(\n    \"TL\" = \"tlpic\",              # Rename 'tlpic' to 'TL'\n    \"TR\" = \"trpic\",             # Rename 'trpic' to 'TR'\n    \"BL\" = \"blpic\",            # Rename 'blpic' to 'BL'\n    \"BR\" = \"brpic\",                # Rename 'brpic' to 'BR'\n    \"targ_loc\" = \"zone_name\",       # Rename 'Zone.Name' to 'targ_loc'\n    \"subject\" = \"participant_private_id\",  # Rename 'Participant.Private.ID' to 'subject'\n    \"trial\" = \"spreadsheet_row\",    # Rename 'spreadsheet_row' to 'trial'\n    \"acc\" = \"correct\",              # Rename 'Correct' to 'acc' (accuracy)\n    \"RT\" = \"reaction_time\"          # Rename 'Reaction.Time' to 'RT'\n  ) %>%\n  \n  # Convert the 'RT' (Reaction Time) column to numeric type\n  mutate(RT = as.numeric(RT), \n         subject=as.factor(subject), \n         trial=as.factor(trial))","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"audio_rt <- agg_eye_data %>%\n  \n  janitor::clean_names()%>% \n\nselect(participant_private_id,zone_type, spreadsheet_row, reaction_time, response) %>%\n\n  filter(zone_type==\"content_web_audio\", response==\"AUDIO PLAY EVENT FIRED\")%>%\n  distinct() %>%\nrename(\"subject\" = \"participant_private_id\", \n       \"trial\" =\"spreadsheet_row\",  \n       \"RT_audio\" = \"reaction_time\") %>%\nselect(-zone_type) %>%\nmutate(RT_audio=as.numeric(RT_audio))","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"trial_data_rt <- merge(emstr, audio_rt, by=c(\"subject\", \"trial\"))\n\nhead(trial_data_rt) %>%\n  head() %>%\n  kable()","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"samp_rate <- analyze_sampling_rate(edat, summary_stat = \"mean\")","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Extract by-subject and by-trial sampling rates from the result\nsubject_sampling_rate <- samp_rate$summary_SR_by_subject  # Sampling rate by subject\ntrial_sampling_rate <- samp_rate$SR_by_trial  # Sampling rate by trial\n\n# Ensure subject and trial are factors for proper merging\ntrial_sampling_rate$subject <- as.factor(trial_sampling_rate$subject)\ntrial_sampling_rate$trial <- as.factor(trial_sampling_rate$trial)\n\nsubject_sampling_rate$subject <- as.factor(subject_sampling_rate$subject)\n\n# Rename column dynamically based on function output (summary_stat can be \"mean\" or \"median\")\ncolnames(subject_sampling_rate)[colnames(subject_sampling_rate) == \"summary_SR\"] <- \"sampling_rate_subject\"\ncolnames(trial_sampling_rate)[colnames(trial_sampling_rate) == \"SR\"] <- \"sampling_rate_trial\"\n\n# Merge by-subject sampling rate with target data\ntarget_data_with_subject_SR <- trial_data_rt %>%\n  left_join(subject_sampling_rate, by = \"subject\")\n\n# Merge by-trial sampling rate with target data\ntarget_data_with_full_SR <- target_data_with_subject_SR %>%\n  select(subject, trial, sampling_rate_subject) %>%\n  left_join(trial_sampling_rate, by = c(\"subject\", \"trial\"))","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"trial_data <- left_join(trial_data_rt, target_data_with_full_SR, by=c(\"subject\", \"trial\"))","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"filter_edat <- filter_sampling_rate(trial_data,threshold = 5, \n                                         action = \"remove\", \n                                         by = \"both\")","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"filter_edat_label <- filter_sampling_rate(trial_data,threshold = 5, \n                                         action = \"label\", \n                                         by=\"both\")","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"oob_data <- gaze_oob(edat)\noob_data %>% \n  tt()","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Create a data frame for the quadrants with an added column for the quadrant labels\naoi_loc <- data.frame(\n  loc = c('TL', 'TR', 'BL', 'BR'), \n  x_normalized = c(0, 0.5, 0, 0.5),\n   y_normalized = c(0.5, 0.5, 0, 0),\n  width_normalized = c(0.5, 0.5, 0.5, 0.5),\n  height_normalized = c(0.5, 0.5, 0.5, 0.5)) %>% \n  \n  mutate(xmin = x_normalized, ymin = y_normalized,\n         xmax = x_normalized+width_normalized,\n         ymax = y_normalized+height_normalized)","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"edat_1 <- edat %>%\n dplyr::filter(convergence <= .5, face_conf >= .5) %>%\n  # remove rows without gaze information\n  dplyr::filter(x_pred_normalised != 0,\n                y_pred_normalised != 0) ","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"edat_1$subject<-as.factor(edat_1$subject)\nedat_1$trial<-as.factor(edat_1$trial)\n\n\n\ndat <- left_join(edat_1, filter_edat, by = c(\"subject\",\"trial\"))\n\ndat <- dat %>%\n  distinct() # make sure to remove duplicate rows","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Assuming your data is in a data frame called df\ndat <- dat %>%\n  mutate(\n    Target = case_when(\n      tlcode == \"T\" ~ TL,\n      trcode == \"T\" ~ TR,\n      blcode == \"T\" ~ BL,\n      brcode == \"T\" ~ BR,\n      TRUE ~ NA_character_  # Default to NA if no match\n    ),\n    Unrelated = case_when(\n      tlcode == \"U\" ~ TL,\n      trcode == \"U\" ~ TR,\n      blcode == \"U\" ~ BL,\n      brcode == \"U\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Unrelated2 = case_when(\n      tlcode == \"U2\" ~ TL,\n      trcode == \"U2\" ~ TR,\n      blcode == \"U2\" ~ BL,\n      brcode == \"U2\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Unrelated3 = case_when(\n      tlcode == \"U3\" ~ TL,\n      trcode == \"U3\" ~ TR,\n      blcode == \"U3\" ~ BL,\n      brcode == \"U3\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Rhyme = case_when(\n      tlcode == \"R\" ~ TL,\n      trcode == \"R\" ~ TR,\n      blcode == \"R\" ~ BL,\n      brcode == \"R\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Cohort = case_when(\n      tlcode == \"C\" ~ TL,\n      trcode == \"C\" ~ TR,\n      blcode == \"C\" ~ BL,\n      brcode == \"C\" ~ BR,\n      TRUE ~ NA_character_\n    )\n  )","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Apply the function to each of the targ, cohort, rhyme, and unrelated columns\ndat_colnames <- dat %>%\n  rowwise() %>%\n  mutate(\n    targ_loc = find_location(c(TL, TR, BL, BR), Target),\n    cohort_loc = find_location(c(TL, TR, BL, BR), Cohort),\n    rhyme_loc = find_location(c(TL, TR, BL, BR), Rhyme),\n    unrelated_loc = find_location(c(TL, TR, BL, BR), Unrelated), \n    unrealted2_loc= find_location(c(TL, TR, BL, BR), Unrelated2), \n    unrelated3_loc=find_location(c(TL, TR, BL, BR), Unrelated3)\n  ) %>%\n  ungroup()","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"assign <- assign_aoi(dat_colnames,X=\"x_pred_normalised\", Y=\"y_pred_normalised\",aoi_loc = aoi_loc)\n\n\nAOI <- assign %>%\n\n  mutate(loc1 = case_when(\n\n    AOI==1 ~ \"TL\", \n\n    AOI==2 ~ \"TR\", \n\n    AOI==3 ~ \"BL\", \n\n    AOI==4 ~ \"BR\"\n\n  ))","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"AOI$target <- ifelse(AOI$loc1==AOI$targ_loc, 1, 0) # if in coordinates 1, if not 0. \n\nAOI$unrelated <- ifelse(AOI$loc1 == AOI$unrelated_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated2 <- ifelse(AOI$loc1 == AOI$unrealted2_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated3 <- ifelse(AOI$loc1 == AOI$unrelated3_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$rhyme <- ifelse(AOI$loc1 == AOI$rhyme_loc, 1, 0)# if in coordinates 1, if not 0. \n\n\nAOI$cohort <- ifelse(AOI$loc1 == AOI$cohort_loc, 1, 0)# if in coordinates 1, if not 0. ","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat_long_aoi_me <- AOI  %>%\n  select(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) %>%\n    pivot_longer(\n        cols = c(target, unrelated, unrelated2, unrelated3, rhyme, cohort),\n        names_to = \"condition\",\n        values_to = \"Looks\"\n    )","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%\n  filter(trialtype==\"TCRU\") %>%\n  na.omit()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <-dat_long_aoi_me_TCRU%>% \ngroup_by(subject, trial) %>%\n  mutate(time = (time-RT_audio)-300) %>% # subtract audio rt onset for each\n filter(time >= -100, time < 2000) %>% # start -100 to 2000 ms \n   dplyr::filter(x_pred_normalised > 0,\n                x_pred_normalised < 1,\n                y_pred_normalised > 0,\n                y_pred_normalised < 1) ","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=100, timevar=\"time\", aggvars=c(\"condition\", \"time_bin\"))","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"plot_IA_proportions(gaze_sub, \n                     ia_column = \"condition\", \n                     time_column = \"time_bin\", \n                     proportion_column = \"Fix\", \n                   ia_mapping = list(target = \"Target\", cohort = \"Cohort\", rhyme = \"Rhyme\", unrelated = \"Unrelated\"), use_color=TRUE)","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"plot_IA_proportions(gaze_sub, \n                     ia_column = \"condition\", \n                     time_column = \"time_bin\", \n                     proportion_column = \"Fix\", \n                   ia_mapping = list(target = \"Target\", cohort = \"Cohort\", rhyme = \"Rhyme\", unrelated = \"Unrelated\"), use_color=FALSE)","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"aois <- extract_aois(vwp_paths_filtered, zone_names =  c(\"TL\", \"BR\", \"TR\", \"BL\"))","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Define the data\naois <- data.frame(\n  loc = c(\"BL\", \"TL\", \"TR\", \"BR\"),\n  x_normalized = c(0.03, 0.02, 0.73, 0.73),\n  y_normalized = c(0.04, 0.74, 0.75, 0.06),\n  width_normalized = c(0.26, 0.26, 0.24, 0.23),\n  height_normalized = c(0.25, 0.25, 0.24, 0.25),\n  xmin = c(0.03, 0.02, 0.73, 0.73),\n  ymin = c(0.04, 0.74, 0.75, 0.06),\n  xmax = c(0.29, 0.28, 0.97, 0.96),\n  ymax = c(0.29, 0.99, 0.99, 0.31)\n)","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"aois %>%\n  kable()","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"assign <- assign_aoi(dat_colnames,X=\"x_pred_normalised\", Y=\"y_pred_normalised\",aoi_loc = aois)\n\n\nAOI <- assign %>%\n\n  mutate(loc1 = case_when(\n\n    AOI==1 ~ \"BL\", \n\n    AOI==2 ~ \"TL\", \n\n    AOI==3 ~ \"TR\", \n\n    AOI==4 ~ \"BR\"\n\n  ))","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"AOI$target <- ifelse(AOI$loc1==AOI$targ_loc, 1, 0) # if in coordinates 1, if not 0. \n\nAOI$unrelated <- ifelse(AOI$loc1 == AOI$unrelated_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated2 <- ifelse(AOI$loc1 == AOI$unrealted2_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated3 <- ifelse(AOI$loc1 == AOI$unrelated3_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$rhyme <- ifelse(AOI$loc1 == AOI$rhyme_loc, 1, 0)# if in coordinates 1, if not 0. \n\n\nAOI$cohort <- ifelse(AOI$loc1 == AOI$cohort_loc, 1, 0)# if in coordinates 1, if not 0. ","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%\n  filter(trialtype==\"TCRU\") %>%\n  na.omit()","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <-dat_long_aoi_me_TCRU %>% \ngroup_by(subject, trial) %>%\n  mutate(time = (time-RT_audio)-300) %>% # subtract audio rt onset for each\n filter(time >= 0, time < 2000) %>% \n   dplyr::filter(x_pred_normalised > 0,\n                x_pred_normalised < 1,\n                y_pred_normalised > 0,\n                y_pred_normalised < 1)","id":36,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-36","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <- downsample_gaze(gaze_sub, bin.length=100, timevar=\"time\", aggvars=c(\"condition\", \"time_bin\"))","id":37,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-37","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gor <- plot_IA_proportions(gaze_sub, \n                     ia_column = \"condition\", \n                     time_column = \"time_bin\", \n                     proportion_column = \"Fix\", \n                   ia_mapping = list(target = \"Target\", cohort = \"Cohort\", rhyme = \"Rhyme\", unrelated = \"Unrelated\"))\n\ngor","id":38,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-38","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"options(stringsAsFactors = F)          # no automatic data transformation\noptions(\"scipen\" = 100, \"digits\" = 10) # suppress math annotation\nlibrary(tidyverse) \nlibrary(here) # relative paths instead of abosoulte aids in reproduce\nlibrary(tinytable) # nice tables\nlibrary(janitor)# functions for cleaning up your column names\nlibrary(easystats)\nlibrary(knitr)\nlibrary(ggokabeito)\n#install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))\n#library(webgazeR)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# do not run interactively\nremotes::install_github(\"https://github.com/jgeller112/webgazeR\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# load the package\nlibrary(webgazeR)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Get the list of all files in the folder\nvwp_files  <- list.files(here::here(\"data\", \"monolinguals\", \"raw\"), pattern = \"\\\\.xlsx$\", full.names = TRUE)\n\n# Exclude files that contain \"calibration\" in their filename\nvwp_paths_filtered <- vwp_files[!grepl(\"calibration\", vwp_files)]","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"setwd(here::here(\"data\", \"monolinguals\", \"raw\")) # set working directory to raw data folder\n\nedat <- merge_webcam_files(vwp_paths_filtered, screen_index=4) # eye tracking occured ons creen index 4","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"edat <- webgazeR::eyedata","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# load in trial level data\nagg_eye_data <- webgazeR::behav_data","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"emstr <- agg_eye_data %>%\n  \n  janitor::clean_names() %>%\n  \n  # Select specific columns to keep in the dataset\n  dplyr::select(participant_private_id,  correct, tlpic, trpic, blpic, brpic, trialtype, targetword, tlcode, trcode, blcode, brcode, zone_name, zone_type,reaction_time, spreadsheet_row, response) %>%\n  \n  # Filter the rows where 'Zone.Type' equals \"response_button_image\"\n  dplyr::filter(zone_type == \"response_button_image\") %>%\n  \n  # Rename columns for easier use and readability\n  dplyr::rename(\n    \"TL\" = \"tlpic\",              # Rename 'tlpic' to 'TL'\n    \"TR\" = \"trpic\",             # Rename 'trpic' to 'TR'\n    \"BL\" = \"blpic\",            # Rename 'blpic' to 'BL'\n    \"BR\" = \"brpic\",                # Rename 'brpic' to 'BR'\n    \"targ_loc\" = \"zone_name\",       # Rename 'Zone.Name' to 'targ_loc'\n    \"subject\" = \"participant_private_id\",  # Rename 'Participant.Private.ID' to 'subject'\n    \"trial\" = \"spreadsheet_row\",    # Rename 'spreadsheet_row' to 'trial'\n    \"acc\" = \"correct\",              # Rename 'Correct' to 'acc' (accuracy)\n    \"RT\" = \"reaction_time\"          # Rename 'Reaction.Time' to 'RT'\n  ) %>%\n  \n  # Convert the 'RT' (Reaction Time) column to numeric type\n  mutate(RT = as.numeric(RT), \n         subject=as.factor(subject), \n         trial=as.factor(trial))","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"audio_rt <- agg_eye_data %>%\n  \n  janitor::clean_names()%>% \n\nselect(participant_private_id,zone_type, spreadsheet_row, reaction_time, response) %>%\n\n  filter(zone_type==\"content_web_audio\", response==\"AUDIO PLAY EVENT FIRED\")%>%\n  distinct() %>%\nrename(\"subject\" = \"participant_private_id\", \n       \"trial\" =\"spreadsheet_row\",  \n       \"RT_audio\" = \"reaction_time\") %>%\nselect(-zone_type) %>%\nmutate(RT_audio=as.numeric(RT_audio))","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"trial_data_rt <- merge(emstr, audio_rt, by=c(\"subject\", \"trial\"))\n\nhead(trial_data_rt) %>%\n  head() %>%\n  kable()","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"samp_rate <- analyze_sampling_rate(edat, summary_stat = \"mean\")","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Extract by-subject and by-trial sampling rates from the result\nsubject_sampling_rate <- samp_rate$summary_SR_by_subject  # Sampling rate by subject\ntrial_sampling_rate <- samp_rate$SR_by_trial  # Sampling rate by trial\n\n# Ensure subject and trial are factors for proper merging\ntrial_sampling_rate$subject <- as.factor(trial_sampling_rate$subject)\ntrial_sampling_rate$trial <- as.factor(trial_sampling_rate$trial)\n\nsubject_sampling_rate$subject <- as.factor(subject_sampling_rate$subject)\n\n# Rename column dynamically based on function output (summary_stat can be \"mean\" or \"median\")\ncolnames(subject_sampling_rate)[colnames(subject_sampling_rate) == \"summary_SR\"] <- \"sampling_rate_subject\"\ncolnames(trial_sampling_rate)[colnames(trial_sampling_rate) == \"SR\"] <- \"sampling_rate_trial\"\n\n# Merge by-subject sampling rate with target data\ntarget_data_with_subject_SR <- trial_data_rt %>%\n  left_join(subject_sampling_rate, by = \"subject\")\n\n# Merge by-trial sampling rate with target data\ntarget_data_with_full_SR <- target_data_with_subject_SR %>%\n  select(subject, trial, sampling_rate_subject) %>%\n  left_join(trial_sampling_rate, by = c(\"subject\", \"trial\"))","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"trial_data <- left_join(trial_data_rt, target_data_with_full_SR, by=c(\"subject\", \"trial\"))","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"filter_edat <- filter_sampling_rate(trial_data,threshold = 5, \n                                         action = \"remove\", \n                                         by = \"both\")","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"filter_edat_label <- filter_sampling_rate(trial_data,threshold = 5, \n                                         action = \"label\", \n                                         by=\"both\")","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"oob_data <- gaze_oob(edat)","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Create a data frame for the quadrants with an added column for the quadrant labels\naoi_loc <- data.frame(\n  loc = c('TL', 'TR', 'BL', 'BR'), \n  x_normalized = c(0, 0.5, 0, 0.5),\n   y_normalized = c(0.5, 0.5, 0, 0),\n  width_normalized = c(0.5, 0.5, 0.5, 0.5),\n  height_normalized = c(0.5, 0.5, 0.5, 0.5)) %>% \n  \n  mutate(xmin = x_normalized, ymin = y_normalized,\n         xmax = x_normalized+width_normalized,\n         ymax = y_normalized+height_normalized)","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"edat_1 <- edat %>%\n dplyr::filter(convergence <= .5, face_conf >= .5) %>%\n  # remove rows without gaze information\n  dplyr::filter(x_pred_normalised != 0,\n                y_pred_normalised != 0) ","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"edat_1$subject<-as.factor(edat_1$subject)\nedat_1$trial<-as.factor(edat_1$trial)\n\n\n\ndat <- left_join(edat_1, filter_edat, by = c(\"subject\",\"trial\"))\n\ndat <- dat %>%\n  distinct() # make sure to remove duplicate rows","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Assuming your data is in a data frame called df\ndat <- dat %>%\n  mutate(\n    Target = case_when(\n      tlcode == \"T\" ~ TL,\n      trcode == \"T\" ~ TR,\n      blcode == \"T\" ~ BL,\n      brcode == \"T\" ~ BR,\n      TRUE ~ NA_character_  # Default to NA if no match\n    ),\n    Unrelated = case_when(\n      tlcode == \"U\" ~ TL,\n      trcode == \"U\" ~ TR,\n      blcode == \"U\" ~ BL,\n      brcode == \"U\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Unrelated2 = case_when(\n      tlcode == \"U2\" ~ TL,\n      trcode == \"U2\" ~ TR,\n      blcode == \"U2\" ~ BL,\n      brcode == \"U2\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Unrelated3 = case_when(\n      tlcode == \"U3\" ~ TL,\n      trcode == \"U3\" ~ TR,\n      blcode == \"U3\" ~ BL,\n      brcode == \"U3\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Rhyme = case_when(\n      tlcode == \"R\" ~ TL,\n      trcode == \"R\" ~ TR,\n      blcode == \"R\" ~ BL,\n      brcode == \"R\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Cohort = case_when(\n      tlcode == \"C\" ~ TL,\n      trcode == \"C\" ~ TR,\n      blcode == \"C\" ~ BL,\n      brcode == \"C\" ~ BR,\n      TRUE ~ NA_character_\n    )\n  )","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Apply the function to each of the targ, cohort, rhyme, and unrelated columns\ndat_colnames <- dat %>%\n  rowwise() %>%\n  mutate(\n    targ_loc = find_location(c(TL, TR, BL, BR), Target),\n    cohort_loc = find_location(c(TL, TR, BL, BR), Cohort),\n    rhyme_loc = find_location(c(TL, TR, BL, BR), Rhyme),\n    unrelated_loc = find_location(c(TL, TR, BL, BR), Unrelated), \n    unrealted2_loc= find_location(c(TL, TR, BL, BR), Unrelated2), \n    unrelated3_loc=find_location(c(TL, TR, BL, BR), Unrelated3)\n  ) %>%\n  ungroup()","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"assign <- assign_aoi(dat_colnames,X=\"x_pred_normalised\", Y=\"y_pred_normalised\",aoi_loc = aoi_loc)\n\n\nAOI <- assign %>%\n\n  mutate(loc1 = case_when(\n\n    AOI==1 ~ \"TL\", \n\n    AOI==2 ~ \"TR\", \n\n    AOI==3 ~ \"BL\", \n\n    AOI==4 ~ \"BR\"\n\n  ))","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"AOI$target <- ifelse(AOI$loc1==AOI$targ_loc, 1, 0) # if in coordinates 1, if not 0. \n\nAOI$unrelated <- ifelse(AOI$loc1 == AOI$unrelated_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated2 <- ifelse(AOI$loc1 == AOI$unrealted2_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated3 <- ifelse(AOI$loc1 == AOI$unrelated3_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$rhyme <- ifelse(AOI$loc1 == AOI$rhyme_loc, 1, 0)# if in coordinates 1, if not 0. \n\n\nAOI$cohort <- ifelse(AOI$loc1 == AOI$cohort_loc, 1, 0)# if in coordinates 1, if not 0. ","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat_long_aoi_me <- AOI  %>%\n  select(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) %>%\n    pivot_longer(\n        cols = c(target, unrelated, unrelated2, unrelated3, rhyme, cohort),\n        names_to = \"condition\",\n        values_to = \"Looks\"\n    )","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%\n  filter(trialtype==\"TCRU\") %>%\n  na.omit()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <-dat_long_aoi_me_TCRU%>% \ngroup_by(subject, trial) %>%\n  mutate(time = (time-RT_audio)-300) %>% # subtract audio rt onset for each\n filter(time >= -100, time < 2000) %>% # start -100 to 2000 ms \n   dplyr::filter(x_pred_normalised > 0,\n                x_pred_normalised < 1,\n                y_pred_normalised > 0,\n                y_pred_normalised < 1) ","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=100, timevar=\"time\", aggvars=c(\"condition\", \"time_bin\"))","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"plot_IA_proportions(gaze_sub, \n                     ia_column = \"condition\", \n                     time_column = \"time_bin\", \n                     proportion_column = \"Fix\", \n                   ia_mapping = list(target = \"Target\", cohort = \"Cohort\", rhyme = \"Rhyme\", unrelated = \"Unrelated\"), use_color=TRUE)","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"plot_IA_proportions(gaze_sub, \n                     ia_column = \"condition\", \n                     time_column = \"time_bin\", \n                     proportion_column = \"Fix\", \n                   ia_mapping = list(target = \"Target\", cohort = \"Cohort\", rhyme = \"Rhyme\", unrelated = \"Unrelated\"), use_color=FALSE)","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"aois <- extract_aois(vwp_paths_filtered, zone_names =  c(\"TL\", \"BR\", \"TR\", \"BL\"))","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Define the data\naois <- data.frame(\n  loc = c(\"BL\", \"TL\", \"TR\", \"BR\"),\n  x_normalized = c(0.03, 0.02, 0.73, 0.73),\n  y_normalized = c(0.04, 0.74, 0.75, 0.06),\n  width_normalized = c(0.26, 0.26, 0.24, 0.23),\n  height_normalized = c(0.25, 0.25, 0.24, 0.25),\n  xmin = c(0.03, 0.02, 0.73, 0.73),\n  ymin = c(0.04, 0.74, 0.75, 0.06),\n  xmax = c(0.29, 0.28, 0.97, 0.96),\n  ymax = c(0.29, 0.99, 0.99, 0.31)\n)","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"aois %>%\n  kable()","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"assign <- assign_aoi(dat_colnames,X=\"x_pred_normalised\", Y=\"y_pred_normalised\",aoi_loc = aois)\n\n\nAOI <- assign %>%\n\n  mutate(loc1 = case_when(\n\n    AOI==1 ~ \"BL\", \n\n    AOI==2 ~ \"TL\", \n\n    AOI==3 ~ \"TR\", \n\n    AOI==4 ~ \"BR\"\n\n  ))","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"AOI$target <- ifelse(AOI$loc1==AOI$targ_loc, 1, 0) # if in coordinates 1, if not 0. \n\nAOI$unrelated <- ifelse(AOI$loc1 == AOI$unrelated_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated2 <- ifelse(AOI$loc1 == AOI$unrealted2_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated3 <- ifelse(AOI$loc1 == AOI$unrelated3_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$rhyme <- ifelse(AOI$loc1 == AOI$rhyme_loc, 1, 0)# if in coordinates 1, if not 0. \n\n\nAOI$cohort <- ifelse(AOI$loc1 == AOI$cohort_loc, 1, 0)# if in coordinates 1, if not 0. ","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%\n  filter(trialtype==\"TCRU\") %>%\n  na.omit()","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <-dat_long_aoi_me_TCRU %>% \ngroup_by(subject, trial) %>%\n  mutate(time = (time-RT_audio)-300) %>% # subtract audio rt onset for each\n filter(time >= 0, time < 2000) %>% \n   dplyr::filter(x_pred_normalised > 0,\n                x_pred_normalised < 1,\n                y_pred_normalised > 0,\n                y_pred_normalised < 1)","id":36,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-36","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <- downsample_gaze(gaze_sub, bin.length=100, timevar=\"time\", aggvars=c(\"condition\", \"time_bin\"))","id":37,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-37","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gor <- plot_IA_proportions(gaze_sub, \n                     ia_column = \"condition\", \n                     time_column = \"time_bin\", \n                     proportion_column = \"Fix\", \n                   ia_mapping = list(target = \"Target\", cohort = \"Cohort\", rhyme = \"Rhyme\", unrelated = \"Unrelated\"))\n\ngor","id":38,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-38","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -2181,7 +2181,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggokabeito)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(webgazeR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#library(webgazeR)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div id="qwebr-insertion-location-1"></div>
@@ -2595,7 +2595,7 @@ Sampling Rate by Trial:
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2697,514 +2697,187 @@ Sampling Rate by Trial:
 <div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>oob_data <span class="ot">&lt;-</span> <span class="fu">gaze_oob</span>(edat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Subject: 11788555
+Total trials: 54
 Total points: 2483
-Points outside the range: 608
 Total missing percentage: 24.49%
 X: 17.28%
 Y: 13.53%
 
 
 Subject: 11788682
+Total trials: 154
 Total points: 5798
-Points outside the range: 551
 Total missing percentage: 9.5%
 X: 6.83%
 Y: 3.47%
 
 
 Subject: 11788824
+Total trials: 134
 Total points: 6961
-Points outside the range: 1792
 Total missing percentage: 25.74%
 X: 17.14%
 Y: 13.37%
 
 
 Subject: 11788857
+Total trials: 54
 Total points: 2237
-Points outside the range: 277
 Total missing percentage: 12.38%
 X: 11.85%
 Y: 1.3%
 
 
 Subject: 11789574
+Total trials: 54
 Total points: 932
-Points outside the range: 221
 Total missing percentage: 23.71%
 X: 14.16%
 Y: 16.09%
 
 
 Subject: 11795362
+Total trials: 154
 Total points: 3951
-Points outside the range: 608
 Total missing percentage: 15.39%
 X: 10%
 Y: 7.69%
 
 
 Subject: 11795372
+Total trials: 154
 Total points: 4598
-Points outside the range: 677
 Total missing percentage: 14.72%
 X: 9.11%
 Y: 8.22%
 
 
 Subject: 11795375
+Total trials: 154
 Total points: 6795
-Points outside the range: 1008
 Total missing percentage: 14.83%
 X: 11.18%
 Y: 6.99%
 
 
 Subject: 11795376
+Total trials: 154
 Total points: 6749
-Points outside the range: 1676
 Total missing percentage: 24.83%
 X: 13.48%
 Y: 16.42%
 
 
 Subject: 11795379
+Total trials: 54
 Total points: 2247
-Points outside the range: 350
 Total missing percentage: 15.58%
 X: 4.36%
 Y: 12.28%
 
 
 Subject: 11795382
+Total trials: 154
 Total points: 5239
-Points outside the range: 528
 Total missing percentage: 10.08%
 X: 6.91%
 Y: 5.99%
 
 
 Subject: 11795385
+Total trials: 154
 Total points: 6172
-Points outside the range: 1557
 Total missing percentage: 25.23%
 X: 14.52%
 Y: 15.83%
 
 
 Subject: 11795386
+Total trials: 154
 Total points: 4658
-Points outside the range: 1397
 Total missing percentage: 29.99%
 X: 17%
 Y: 22.33%
 
 
 Subject: 11795387
+Total trials: 154
 Total points: 3634
-Points outside the range: 586
 Total missing percentage: 16.13%
 X: 9.41%
 Y: 9.25%
 
 
 Subject: 11795388
+Total trials: 154
 Total points: 4097
-Points outside the range: 755
 Total missing percentage: 18.43%
 X: 11.33%
 Y: 11.11%
 
 
 Subject: 11795426
+Total trials: 154
 Total points: 1242
-Points outside the range: 122
 Total missing percentage: 9.82%
 X: 6.44%
 Y: 6.44%
 
 
 Subject: 11795446
+Total trials: 154
 Total points: 6712
-Points outside the range: 546
 Total missing percentage: 8.13%
 X: 5.91%
 Y: 4.68%
 
 
 Subject: 11795529
+Total trials: 154
 Total points: 4668
-Points outside the range: 482
 Total missing percentage: 10.33%
 X: 6.92%
 Y: 4.86%
 
 
 Subject: 11795650
+Total trials: 154
 Total points: 2213
-Points outside the range: 101
 Total missing percentage: 4.56%
 X: 2.08%
 Y: 2.89%
 
 
 Subject: 11795671
+Total trials: 154
 Total points: 4982
-Points outside the range: 1438
 Total missing percentage: 28.86%
 X: 18.15%
 Y: 17.7%
 
 
 Subject: 11796749
+Total trials: 154
 Total points: 6469
-Points outside the range: 1891
 Total missing percentage: 29.23%
 X: 23.09%
 Y: 13.48%
 
 
 Subject: 11796756
+Total trials: 154
 Total points: 6249
-Points outside the range: 820
 Total missing percentage: 13.12%
 X: 7.25%
 Y: 8.64%
 
 
 Subject: 11796779
+Total trials: 154
 Total points: 5737
-Points outside the range: 253
 Total missing percentage: 4.41%
 X: 2.18%
 Y: 2.75%</code></pre>
-</div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>oob_data <span class="sc">%&gt;%</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<!-- preamble start -->
-
-    <script>
-
-      function styleCell_lcj5a2c1zt414hnoiaro(i, j, css_id) {
-          var table = document.getElementById("tinytable_lcj5a2c1zt414hnoiaro");
-          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
-          if (cell) {
-              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
-              cell.classList.add(css_id);
-          } else {
-              console.warn(`Cell at (${i}, ${j}) not found.`);
-          }
-      }
-      function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_lcj5a2c1zt414hnoiaro');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
-      function spanCell_lcj5a2c1zt414hnoiaro(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_lcj5a2c1zt414hnoiaro");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
-        for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
-            }
-          }
-        }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
-      }
-      // tinytable span after
-      window.addEventListener('load', function () {
-          var cellsToStyle = [
-            // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 }, { i: 0, j: 5 }, { i: 0, j: 6 }, { i: 0, j: 7 },  ], css_id: 'tinytable_css_wfvr697uqmy88kaftlhh',}, 
-          { positions: [ { i: 23, j: 0 }, { i: 23, j: 1 }, { i: 23, j: 2 }, { i: 23, j: 3 }, { i: 23, j: 4 }, { i: 23, j: 5 }, { i: 23, j: 6 }, { i: 23, j: 7 },  ], css_id: 'tinytable_css_tfz4ssniabeq0jykcxmf',}, 
-          ];
-
-          // Loop over the arrays to style the cells
-          cellsToStyle.forEach(function (group) {
-              group.positions.forEach(function (cell) {
-                  styleCell_lcj5a2c1zt414hnoiaro(cell.i, cell.j, group.css_id);
-              });
-          });
-      });
-    </script>
-
-    <style>
-      /* tinytable css entries after */
-      .table td.tinytable_css_wfvr697uqmy88kaftlhh, .table th.tinytable_css_wfvr697uqmy88kaftlhh { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_tfz4ssniabeq0jykcxmf, .table th.tinytable_css_tfz4ssniabeq0jykcxmf { border-bottom: solid #d3d8dc 0.1em; }
-    </style>
-    <div class="container">
-      <table class="table table-borderless" id="tinytable_lcj5a2c1zt414hnoiaro" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-        <thead>
-        
-              <tr>
-                <th scope="col">subject</th>
-                <th scope="col">total_points</th>
-                <th scope="col">outside_count</th>
-                <th scope="col">total_missing_percentage</th>
-                <th scope="col">x_outside_count</th>
-                <th scope="col">y_outside_count</th>
-                <th scope="col">x_outside_percentage</th>
-                <th scope="col">y_outside_percentage</th>
-              </tr>
-        </thead>
-        
-        <tbody>
-                <tr>
-                  <td>11788555</td>
-                  <td>2483</td>
-                  <td>608</td>
-                  <td>24.486508256</td>
-                  <td>429</td>
-                  <td>336</td>
-                  <td>17.277486911</td>
-                  <td>13.532017720</td>
-                </tr>
-                <tr>
-                  <td>11788682</td>
-                  <td>5798</td>
-                  <td>551</td>
-                  <td>9.503276992</td>
-                  <td>396</td>
-                  <td>201</td>
-                  <td>6.829941359</td>
-                  <td>3.466712660</td>
-                </tr>
-                <tr>
-                  <td>11788824</td>
-                  <td>6961</td>
-                  <td>1792</td>
-                  <td>25.743427668</td>
-                  <td>1193</td>
-                  <td>931</td>
-                  <td>17.138342192</td>
-                  <td>13.374515156</td>
-                </tr>
-                <tr>
-                  <td>11788857</td>
-                  <td>2237</td>
-                  <td>277</td>
-                  <td>12.382655342</td>
-                  <td>265</td>
-                  <td>29</td>
-                  <td>11.846222620</td>
-                  <td>1.296379079</td>
-                </tr>
-                <tr>
-                  <td>11789574</td>
-                  <td>932</td>
-                  <td>221</td>
-                  <td>23.712446352</td>
-                  <td>132</td>
-                  <td>150</td>
-                  <td>14.163090129</td>
-                  <td>16.094420601</td>
-                </tr>
-                <tr>
-                  <td>11795362</td>
-                  <td>3951</td>
-                  <td>608</td>
-                  <td>15.388509238</td>
-                  <td>395</td>
-                  <td>304</td>
-                  <td>9.997468995</td>
-                  <td>7.694254619</td>
-                </tr>
-                <tr>
-                  <td>11795372</td>
-                  <td>4598</td>
-                  <td>677</td>
-                  <td>14.723792953</td>
-                  <td>419</td>
-                  <td>378</td>
-                  <td>9.112657677</td>
-                  <td>8.220965637</td>
-                </tr>
-                <tr>
-                  <td>11795375</td>
-                  <td>6795</td>
-                  <td>1008</td>
-                  <td>14.834437086</td>
-                  <td>760</td>
-                  <td>475</td>
-                  <td>11.184694628</td>
-                  <td>6.990434143</td>
-                </tr>
-                <tr>
-                  <td>11795376</td>
-                  <td>6749</td>
-                  <td>1676</td>
-                  <td>24.833308638</td>
-                  <td>910</td>
-                  <td>1108</td>
-                  <td>13.483479034</td>
-                  <td>16.417247000</td>
-                </tr>
-                <tr>
-                  <td>11795379</td>
-                  <td>2247</td>
-                  <td>350</td>
-                  <td>15.576323988</td>
-                  <td>98</td>
-                  <td>276</td>
-                  <td>4.361370717</td>
-                  <td>12.283044059</td>
-                </tr>
-                <tr>
-                  <td>11795382</td>
-                  <td>5239</td>
-                  <td>528</td>
-                  <td>10.078259210</td>
-                  <td>362</td>
-                  <td>314</td>
-                  <td>6.909715595</td>
-                  <td>5.993510212</td>
-                </tr>
-                <tr>
-                  <td>11795385</td>
-                  <td>6172</td>
-                  <td>1557</td>
-                  <td>25.226830849</td>
-                  <td>896</td>
-                  <td>977</td>
-                  <td>14.517174336</td>
-                  <td>15.829552819</td>
-                </tr>
-                <tr>
-                  <td>11795386</td>
-                  <td>4658</td>
-                  <td>1397</td>
-                  <td>29.991412623</td>
-                  <td>792</td>
-                  <td>1040</td>
-                  <td>17.003005582</td>
-                  <td>22.327179047</td>
-                </tr>
-                <tr>
-                  <td>11795387</td>
-                  <td>3634</td>
-                  <td>586</td>
-                  <td>16.125481563</td>
-                  <td>342</td>
-                  <td>336</td>
-                  <td>9.411117226</td>
-                  <td>9.246009906</td>
-                </tr>
-                <tr>
-                  <td>11795388</td>
-                  <td>4097</td>
-                  <td>755</td>
-                  <td>18.428118135</td>
-                  <td>464</td>
-                  <td>455</td>
-                  <td>11.325360020</td>
-                  <td>11.105687088</td>
-                </tr>
-                <tr>
-                  <td>11795426</td>
-                  <td>1242</td>
-                  <td>122</td>
-                  <td>9.822866345</td>
-                  <td>80</td>
-                  <td>80</td>
-                  <td>6.441223833</td>
-                  <td>6.441223833</td>
-                </tr>
-                <tr>
-                  <td>11795446</td>
-                  <td>6712</td>
-                  <td>546</td>
-                  <td>8.134684148</td>
-                  <td>397</td>
-                  <td>314</td>
-                  <td>5.914779499</td>
-                  <td>4.678188319</td>
-                </tr>
-                <tr>
-                  <td>11795529</td>
-                  <td>4668</td>
-                  <td>482</td>
-                  <td>10.325621251</td>
-                  <td>323</td>
-                  <td>227</td>
-                  <td>6.919451585</td>
-                  <td>4.862896315</td>
-                </tr>
-                <tr>
-                  <td>11795650</td>
-                  <td>2213</td>
-                  <td>101</td>
-                  <td>4.563940352</td>
-                  <td>46</td>
-                  <td>64</td>
-                  <td>2.078626299</td>
-                  <td>2.892001808</td>
-                </tr>
-                <tr>
-                  <td>11795671</td>
-                  <td>4982</td>
-                  <td>1438</td>
-                  <td>28.863910076</td>
-                  <td>904</td>
-                  <td>882</td>
-                  <td>18.145323163</td>
-                  <td>17.703733440</td>
-                </tr>
-                <tr>
-                  <td>11796749</td>
-                  <td>6469</td>
-                  <td>1891</td>
-                  <td>29.231720513</td>
-                  <td>1494</td>
-                  <td>872</td>
-                  <td>23.094759623</td>
-                  <td>13.479672283</td>
-                </tr>
-                <tr>
-                  <td>11796756</td>
-                  <td>6249</td>
-                  <td>820</td>
-                  <td>13.122099536</td>
-                  <td>453</td>
-                  <td>540</td>
-                  <td>7.249159866</td>
-                  <td>8.641382621</td>
-                </tr>
-                <tr>
-                  <td>11796779</td>
-                  <td>5737</td>
-                  <td>253</td>
-                  <td>4.409970368</td>
-                  <td>125</td>
-                  <td>158</td>
-                  <td>2.178839115</td>
-                  <td>2.754052641</td>
-                </tr>
-        </tbody>
-      </table>
-    </div>
-<!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
 <div id="tabset-16-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-16-2-tab">
@@ -3224,17 +2897,17 @@ Y: 2.75%</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-17-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-17-1" role="tab" aria-controls="tabset-17-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-17-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-17-2" role="tab" aria-controls="tabset-17-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-17-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-17-1-tab">
-<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for the quadrants with an added column for the quadrant labels</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>aoi_loc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">loc =</span> <span class="fu">c</span>(<span class="st">'TL'</span>, <span class="st">'TR'</span>, <span class="st">'BL'</span>, <span class="st">'BR'</span>), </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_normalized =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>),</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">y_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">width_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">xmin =</span> x_normalized, <span class="at">ymin =</span> y_normalized,</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">xmax =</span> x_normalized<span class="sc">+</span>width_normalized,</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">ymax =</span> y_normalized<span class="sc">+</span>height_normalized)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for the quadrants with an added column for the quadrant labels</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>aoi_loc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">loc =</span> <span class="fu">c</span>(<span class="st">'TL'</span>, <span class="st">'TR'</span>, <span class="st">'BL'</span>, <span class="st">'BR'</span>), </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_normalized =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">y_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">width_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">xmin =</span> x_normalized, <span class="at">ymin =</span> y_normalized,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">xmax =</span> x_normalized<span class="sc">+</span>width_normalized,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">ymax =</span> y_normalized<span class="sc">+</span>height_normalized)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-17-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-17-2-tab">
 <div id="qwebr-insertion-location-17"></div>
@@ -3327,11 +3000,11 @@ Y: 2.75%</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-18-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-18-1" role="tab" aria-controls="tabset-18-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-18-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-18-2" role="tab" aria-controls="tabset-18-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-18-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-18-1-tab">
-<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>edat_1 <span class="ot">&lt;-</span> edat <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">filter</span>(convergence <span class="sc">&lt;=</span> .<span class="dv">5</span>, face_conf <span class="sc">&gt;=</span> .<span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove rows without gaze information</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>,</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>edat_1 <span class="ot">&lt;-</span> edat <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">filter</span>(convergence <span class="sc">&lt;=</span> .<span class="dv">5</span>, face_conf <span class="sc">&gt;=</span> .<span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove rows without gaze information</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-18-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-18-2-tab">
 <div id="qwebr-insertion-location-18"></div>
@@ -3348,15 +3021,15 @@ Y: 2.75%</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-19-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-19-1" role="tab" aria-controls="tabset-19-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-19-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-19-2" role="tab" aria-controls="tabset-19-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-19-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-19-1-tab">
-<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>subject<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>subject)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>trial<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>trial)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(edat_1, filter_edat, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"subject"</span>,<span class="st">"trial"</span>))</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="co"># make sure to remove duplicate rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>subject<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>subject)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>trial<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>trial)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(edat_1, filter_edat, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"subject"</span>,<span class="st">"trial"</span>))</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="co"># make sure to remove duplicate rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-19-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-19-2-tab">
 <div id="qwebr-insertion-location-19"></div>
@@ -3370,7 +3043,7 @@ Y: 2.75%</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -3392,52 +3065,52 @@ Y: 2.75%</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-20-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-20-1" role="tab" aria-controls="tabset-20-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-20-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-20-2" role="tab" aria-controls="tabset-20-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-20-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-20-1-tab">
-<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming your data is in a data frame called df</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Target =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> TL,</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> TR,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> BL,</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> BR,</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>  <span class="co"># Default to NA if no match</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> TL,</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> TR,</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> BL,</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> BR,</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated2 =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> TL,</span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> TR,</span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> BL,</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> BR,</span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated3 =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> TL,</span>
-<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> TR,</span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> BL,</span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> BR,</span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">Rhyme =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> TL,</span>
-<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> TR,</span>
-<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> BL,</span>
-<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> BR,</span>
-<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">Cohort =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> TL,</span>
-<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> TR,</span>
-<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> BL,</span>
-<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> BR,</span>
-<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming your data is in a data frame called df</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Target =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> TL,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> TR,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> BL,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> BR,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>  <span class="co"># Default to NA if no match</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> TL,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> TR,</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> BL,</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> BR,</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated2 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> TL,</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> TR,</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> BL,</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> BR,</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated3 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> TL,</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> TR,</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> BL,</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> BR,</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">Rhyme =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> TL,</span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> TR,</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> BL,</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> BR,</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">Cohort =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> TL,</span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> TR,</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> BL,</span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> BR,</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-20-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-20-2-tab">
 <div id="qwebr-insertion-location-20"></div>
@@ -3452,8 +3125,8 @@ Y: 2.75%</code></pre>
 
     <script>
 
-      function styleCell_9jn4hsuohl10bf0umfa0(i, j, css_id) {
-          var table = document.getElementById("tinytable_9jn4hsuohl10bf0umfa0");
+      function styleCell_k0ks8pzw0beczd2x49ti(i, j, css_id) {
+          var table = document.getElementById("tinytable_k0ks8pzw0beczd2x49ti");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -3463,7 +3136,7 @@ Y: 2.75%</code></pre>
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_9jn4hsuohl10bf0umfa0');
+        var table = document.getElementById('tinytable_k0ks8pzw0beczd2x49ti');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -3471,8 +3144,8 @@ Y: 2.75%</code></pre>
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_9jn4hsuohl10bf0umfa0(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_9jn4hsuohl10bf0umfa0");
+      function spanCell_k0ks8pzw0beczd2x49ti(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_k0ks8pzw0beczd2x49ti");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -3502,14 +3175,14 @@ Y: 2.75%</code></pre>
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 6, j: 5 }, { i: 6, j: 6 }, { i: 6, j: 0 }, { i: 6, j: 7 }, { i: 6, j: 1 }, { i: 6, j: 8 }, { i: 6, j: 2 }, { i: 6, j: 9 }, { i: 6, j: 3 }, { i: 6, j: 10 }, { i: 6, j: 4 }, { i: 6, j: 11 }, { i: 6, j: 18 }, { i: 6, j: 12 }, { i: 6, j: 19 }, { i: 6, j: 13 }, { i: 6, j: 20 }, { i: 6, j: 14 }, { i: 6, j: 21 }, { i: 6, j: 15 }, { i: 6, j: 22 }, { i: 6, j: 16 }, { i: 6, j: 23 }, { i: 6, j: 17 }, { i: 6, j: 24 }, { i: 6, j: 31 }, { i: 6, j: 25 }, { i: 6, j: 32 }, { i: 6, j: 26 }, { i: 6, j: 33 }, { i: 6, j: 27 }, { i: 6, j: 34 }, { i: 6, j: 28 }, { i: 6, j: 35 }, { i: 6, j: 29 }, { i: 6, j: 36 }, { i: 6, j: 30 }, { i: 6, j: 37 }, { i: 6, j: 44 }, { i: 6, j: 38 }, { i: 6, j: 45 }, { i: 6, j: 39 }, { i: 6, j: 46 }, { i: 6, j: 40 }, { i: 6, j: 47 }, { i: 6, j: 41 }, { i: 6, j: 48 }, { i: 6, j: 42 }, { i: 6, j: 49 }, { i: 6, j: 43 }, { i: 6, j: 50 },  ], css_id: 'tinytable_css_d2nkysa14hz2xpc9xqfn',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 7 }, { i: 0, j: 1 }, { i: 0, j: 8 }, { i: 0, j: 2 }, { i: 0, j: 9 }, { i: 0, j: 3 }, { i: 0, j: 10 }, { i: 0, j: 4 }, { i: 0, j: 11 }, { i: 0, j: 5 }, { i: 0, j: 12 }, { i: 0, j: 6 }, { i: 0, j: 13 }, { i: 0, j: 20 }, { i: 0, j: 14 }, { i: 0, j: 21 }, { i: 0, j: 15 }, { i: 0, j: 22 }, { i: 0, j: 16 }, { i: 0, j: 23 }, { i: 0, j: 17 }, { i: 0, j: 24 }, { i: 0, j: 18 }, { i: 0, j: 25 }, { i: 0, j: 19 }, { i: 0, j: 26 }, { i: 0, j: 33 }, { i: 0, j: 27 }, { i: 0, j: 34 }, { i: 0, j: 28 }, { i: 0, j: 35 }, { i: 0, j: 29 }, { i: 0, j: 36 }, { i: 0, j: 30 }, { i: 0, j: 37 }, { i: 0, j: 31 }, { i: 0, j: 38 }, { i: 0, j: 32 }, { i: 0, j: 39 }, { i: 0, j: 46 }, { i: 0, j: 40 }, { i: 0, j: 47 }, { i: 0, j: 41 }, { i: 0, j: 48 }, { i: 0, j: 42 }, { i: 0, j: 49 }, { i: 0, j: 43 }, { i: 0, j: 50 }, { i: 0, j: 44 }, { i: 0, j: 45 },  ], css_id: 'tinytable_css_7muwwnmi3lftz925w8y0',}, 
+          { positions: [ { i: 6, j: 5 }, { i: 6, j: 6 }, { i: 6, j: 0 }, { i: 6, j: 7 }, { i: 6, j: 1 }, { i: 6, j: 8 }, { i: 6, j: 2 }, { i: 6, j: 9 }, { i: 6, j: 3 }, { i: 6, j: 10 }, { i: 6, j: 4 }, { i: 6, j: 11 }, { i: 6, j: 18 }, { i: 6, j: 12 }, { i: 6, j: 19 }, { i: 6, j: 13 }, { i: 6, j: 20 }, { i: 6, j: 14 }, { i: 6, j: 21 }, { i: 6, j: 15 }, { i: 6, j: 22 }, { i: 6, j: 16 }, { i: 6, j: 23 }, { i: 6, j: 17 }, { i: 6, j: 24 }, { i: 6, j: 31 }, { i: 6, j: 25 }, { i: 6, j: 32 }, { i: 6, j: 26 }, { i: 6, j: 33 }, { i: 6, j: 27 }, { i: 6, j: 34 }, { i: 6, j: 28 }, { i: 6, j: 35 }, { i: 6, j: 29 }, { i: 6, j: 36 }, { i: 6, j: 30 }, { i: 6, j: 37 }, { i: 6, j: 44 }, { i: 6, j: 38 }, { i: 6, j: 45 }, { i: 6, j: 39 }, { i: 6, j: 46 }, { i: 6, j: 40 }, { i: 6, j: 47 }, { i: 6, j: 41 }, { i: 6, j: 48 }, { i: 6, j: 42 }, { i: 6, j: 49 }, { i: 6, j: 43 }, { i: 6, j: 50 },  ], css_id: 'tinytable_css_ve3ahtbp04mfkokv96a6',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 7 }, { i: 0, j: 1 }, { i: 0, j: 8 }, { i: 0, j: 2 }, { i: 0, j: 9 }, { i: 0, j: 3 }, { i: 0, j: 10 }, { i: 0, j: 4 }, { i: 0, j: 11 }, { i: 0, j: 5 }, { i: 0, j: 12 }, { i: 0, j: 6 }, { i: 0, j: 13 }, { i: 0, j: 20 }, { i: 0, j: 14 }, { i: 0, j: 21 }, { i: 0, j: 15 }, { i: 0, j: 22 }, { i: 0, j: 16 }, { i: 0, j: 23 }, { i: 0, j: 17 }, { i: 0, j: 24 }, { i: 0, j: 18 }, { i: 0, j: 25 }, { i: 0, j: 19 }, { i: 0, j: 26 }, { i: 0, j: 33 }, { i: 0, j: 27 }, { i: 0, j: 34 }, { i: 0, j: 28 }, { i: 0, j: 35 }, { i: 0, j: 29 }, { i: 0, j: 36 }, { i: 0, j: 30 }, { i: 0, j: 37 }, { i: 0, j: 31 }, { i: 0, j: 38 }, { i: 0, j: 32 }, { i: 0, j: 39 }, { i: 0, j: 46 }, { i: 0, j: 40 }, { i: 0, j: 47 }, { i: 0, j: 41 }, { i: 0, j: 48 }, { i: 0, j: 42 }, { i: 0, j: 49 }, { i: 0, j: 43 }, { i: 0, j: 50 }, { i: 0, j: 44 }, { i: 0, j: 45 },  ], css_id: 'tinytable_css_py3igunxwvggizzlbnwk',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_9jn4hsuohl10bf0umfa0(cell.i, cell.j, group.css_id);
+                  styleCell_k0ks8pzw0beczd2x49ti(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -3517,11 +3190,11 @@ Y: 2.75%</code></pre>
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_d2nkysa14hz2xpc9xqfn, .table th.tinytable_css_d2nkysa14hz2xpc9xqfn { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_7muwwnmi3lftz925w8y0, .table th.tinytable_css_7muwwnmi3lftz925w8y0 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_ve3ahtbp04mfkokv96a6, .table th.tinytable_css_ve3ahtbp04mfkokv96a6 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_py3igunxwvggizzlbnwk, .table th.tinytable_css_py3igunxwvggizzlbnwk { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_9jn4hsuohl10bf0umfa0" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_k0ks8pzw0beczd2x49ti" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -3911,18 +3584,18 @@ Y: 2.75%</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-21-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-21-1" role="tab" aria-controls="tabset-21-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-21-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-21-2" role="tab" aria-controls="tabset-21-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-21-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-21-1-tab">
-<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to each of the targ, cohort, rhyme, and unrelated columns</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>dat_colnames <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">targ_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Target),</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cohort_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Cohort),</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">rhyme_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Rhyme),</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrelated_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated), </span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrealted2_loc=</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated2), </span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrelated3_loc=</span><span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated3)</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to each of the targ, cohort, rhyme, and unrelated columns</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dat_colnames <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">targ_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Target),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cohort_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Cohort),</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">rhyme_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Rhyme),</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrelated_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated), </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrealted2_loc=</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated2), </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrelated3_loc=</span><span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated3)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-21-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-21-2-tab">
 <div id="qwebr-insertion-location-21"></div>
@@ -3935,22 +3608,22 @@ Y: 2.75%</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-22-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-22-1" role="tab" aria-controls="tabset-22-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-22-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-22-2" role="tab" aria-controls="tabset-22-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-22-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-22-1-tab">
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> <span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aoi_loc)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>AOI <span class="ot">&lt;-</span> assign <span class="sc">%&gt;%</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">loc1 =</span> <span class="fu">case_when</span>(</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"TL"</span>, </span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">"TR"</span>, </span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">3</span> <span class="sc">~</span> <span class="st">"BL"</span>, </span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">4</span> <span class="sc">~</span> <span class="st">"BR"</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> <span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aoi_loc)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>AOI <span class="ot">&lt;-</span> assign <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">loc1 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"TL"</span>, </span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">"TR"</span>, </span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">3</span> <span class="sc">~</span> <span class="st">"BL"</span>, </span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">4</span> <span class="sc">~</span> <span class="st">"BR"</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-22-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-22-2-tab">
 <div id="qwebr-insertion-location-22"></div>
@@ -4455,18 +4128,18 @@ Y: 2.75%</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-23-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-23-1" role="tab" aria-controls="tabset-23-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-23-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-23-2" role="tab" aria-controls="tabset-23-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-23-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-23-1-tab">
-<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>target <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1<span class="sc">==</span>AOI<span class="sc">$</span>targ_loc, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrealted2_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated3 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated3_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>rhyme <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>rhyme_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>cohort <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>cohort_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>target <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1<span class="sc">==</span>AOI<span class="sc">$</span>targ_loc, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrealted2_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated3 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated3_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>rhyme <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>rhyme_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>cohort <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>cohort_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-23-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-23-2-tab">
 <div id="qwebr-insertion-location-23"></div>
@@ -5019,13 +4692,13 @@ Y: 2.75%</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-24-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-24-1" role="tab" aria-controls="tabset-24-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-24-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-24-2" role="tab" aria-controls="tabset-24-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-24-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-24-1-tab">
-<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me <span class="ot">&lt;-</span> AOI  <span class="sc">%&gt;%</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) <span class="sc">%&gt;%</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">c</span>(target, unrelated, unrelated2, unrelated3, rhyme, cohort),</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"condition"</span>,</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"Looks"</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me <span class="ot">&lt;-</span> AOI  <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">c</span>(target, unrelated, unrelated2, unrelated3, rhyme, cohort),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"condition"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"Looks"</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-24-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-24-2-tab">
 <div id="qwebr-insertion-location-24"></div>
@@ -5058,9 +4731,9 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-25-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-25-1" role="tab" aria-controls="tabset-25-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-25-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-25-2" role="tab" aria-controls="tabset-25-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-25-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-25-1-tab">
-<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me_TCRU <span class="ot">&lt;-</span> dat_long_aoi_me <span class="sc">%&gt;%</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trialtype<span class="sc">==</span><span class="st">"TCRU"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me_TCRU <span class="ot">&lt;-</span> dat_long_aoi_me <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trialtype<span class="sc">==</span><span class="st">"TCRU"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-25-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-25-2-tab">
 <div id="qwebr-insertion-location-25"></div>
@@ -5072,14 +4745,14 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-26-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-26-1" role="tab" aria-controls="tabset-26-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-26-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-26-2" role="tab" aria-controls="tabset-26-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-26-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-26-1-tab">
-<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span>dat_long_aoi_me_TCRU<span class="sc">%&gt;%</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(subject, trial) <span class="sc">%&gt;%</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> (time<span class="sc">-</span>RT_audio)<span class="sc">-</span><span class="dv">300</span>) <span class="sc">%&gt;%</span> <span class="co"># subtract audio rt onset for each</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(time <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">100</span>, time <span class="sc">&lt;</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> <span class="co"># start -100 to 2000 ms </span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                x_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>,</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span>dat_long_aoi_me_TCRU<span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(subject, trial) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> (time<span class="sc">-</span>RT_audio)<span class="sc">-</span><span class="dv">300</span>) <span class="sc">%&gt;%</span> <span class="co"># subtract audio rt onset for each</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(time <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">100</span>, time <span class="sc">&lt;</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> <span class="co"># start -100 to 2000 ms </span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                x_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-26-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-26-2-tab">
 <div id="qwebr-insertion-location-26"></div>
@@ -5094,7 +4767,7 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-27-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-27-1" role="tab" aria-controls="tabset-27-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-27-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-27-2" role="tab" aria-controls="tabset-27-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-27-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-27-1-tab">
-<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span><span class="fu">downsample_gaze</span>(gaze_sub, <span class="at">bin.length=</span><span class="dv">100</span>, <span class="at">timevar=</span><span class="st">"time"</span>, <span class="at">aggvars=</span><span class="fu">c</span>(<span class="st">"condition"</span>, <span class="st">"time_bin"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span><span class="fu">downsample_gaze</span>(gaze_sub, <span class="at">bin.length=</span><span class="dv">100</span>, <span class="at">timevar=</span><span class="st">"time"</span>, <span class="at">aggvars=</span><span class="fu">c</span>(<span class="st">"condition"</span>, <span class="st">"time_bin"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-27-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-27-2-tab">
 <div id="qwebr-insertion-location-27"></div>
@@ -5109,15 +4782,15 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-28-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-28-1" role="tab" aria-controls="tabset-28-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-28-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-28-2" role="tab" aria-controls="tabset-28-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-28-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-28-1-tab">
-<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_IA_proportions</span>(gaze_sub, </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ia_column =</span> <span class="st">"condition"</span>, </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">time_column =</span> <span class="st">"time_bin"</span>, </span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">proportion_column =</span> <span class="st">"Fix"</span>, </span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ia_mapping =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="st">"Target"</span>, <span class="at">cohort =</span> <span class="st">"Cohort"</span>, <span class="at">rhyme =</span> <span class="st">"Rhyme"</span>, <span class="at">unrelated =</span> <span class="st">"Unrelated"</span>), <span class="at">use_color=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_IA_proportions</span>(gaze_sub, </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ia_column =</span> <span class="st">"condition"</span>, </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">time_column =</span> <span class="st">"time_bin"</span>, </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">proportion_column =</span> <span class="st">"Fix"</span>, </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ia_mapping =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="st">"Target"</span>, <span class="at">cohort =</span> <span class="st">"Cohort"</span>, <span class="at">rhyme =</span> <span class="st">"Rhyme"</span>, <span class="at">unrelated =</span> <span class="st">"Unrelated"</span>), <span class="at">use_color=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -5132,15 +4805,15 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-29-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-29-1" role="tab" aria-controls="tabset-29-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-29-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-29-2" role="tab" aria-controls="tabset-29-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-29-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-29-1-tab">
-<div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_IA_proportions</span>(gaze_sub, </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ia_column =</span> <span class="st">"condition"</span>, </span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">time_column =</span> <span class="st">"time_bin"</span>, </span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">proportion_column =</span> <span class="st">"Fix"</span>, </span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ia_mapping =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="st">"Target"</span>, <span class="at">cohort =</span> <span class="st">"Cohort"</span>, <span class="at">rhyme =</span> <span class="st">"Rhyme"</span>, <span class="at">unrelated =</span> <span class="st">"Unrelated"</span>), <span class="at">use_color=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_IA_proportions</span>(gaze_sub, </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ia_column =</span> <span class="st">"condition"</span>, </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">time_column =</span> <span class="st">"time_bin"</span>, </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">proportion_column =</span> <span class="st">"Fix"</span>, </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ia_mapping =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="st">"Target"</span>, <span class="at">cohort =</span> <span class="st">"Cohort"</span>, <span class="at">rhyme =</span> <span class="st">"Rhyme"</span>, <span class="at">unrelated =</span> <span class="st">"Unrelated"</span>), <span class="at">use_color=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -5161,7 +4834,7 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-30-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-30-1" role="tab" aria-controls="tabset-30-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-30-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-30-2" role="tab" aria-controls="tabset-30-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-30-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-30-1-tab">
-<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>aois <span class="ot">&lt;-</span> <span class="fu">extract_aois</span>(vwp_paths_filtered, <span class="at">zone_names =</span>  <span class="fu">c</span>(<span class="st">"TL"</span>, <span class="st">"BR"</span>, <span class="st">"TR"</span>, <span class="st">"BL"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>aois <span class="ot">&lt;-</span> <span class="fu">extract_aois</span>(vwp_paths_filtered, <span class="at">zone_names =</span>  <span class="fu">c</span>(<span class="st">"TL"</span>, <span class="st">"BR"</span>, <span class="st">"TR"</span>, <span class="st">"BL"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-30-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-30-2-tab">
 <div id="qwebr-insertion-location-30"></div>
@@ -5174,18 +4847,18 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-31-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-31-1" role="tab" aria-controls="tabset-31-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-31-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-31-2" role="tab" aria-controls="tabset-31-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-31-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-31-1-tab">
-<div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the data</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>aois <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">loc =</span> <span class="fu">c</span>(<span class="st">"BL"</span>, <span class="st">"TL"</span>, <span class="st">"TR"</span>, <span class="st">"BR"</span>),</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_normalized =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.73</span>, <span class="fl">0.73</span>),</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y_normalized =</span> <span class="fu">c</span>(<span class="fl">0.04</span>, <span class="fl">0.74</span>, <span class="fl">0.75</span>, <span class="fl">0.06</span>),</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">width_normalized =</span> <span class="fu">c</span>(<span class="fl">0.26</span>, <span class="fl">0.26</span>, <span class="fl">0.24</span>, <span class="fl">0.23</span>),</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height_normalized =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.24</span>, <span class="fl">0.25</span>),</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">xmin =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.73</span>, <span class="fl">0.73</span>),</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ymin =</span> <span class="fu">c</span>(<span class="fl">0.04</span>, <span class="fl">0.74</span>, <span class="fl">0.75</span>, <span class="fl">0.06</span>),</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">xmax =</span> <span class="fu">c</span>(<span class="fl">0.29</span>, <span class="fl">0.28</span>, <span class="fl">0.97</span>, <span class="fl">0.96</span>),</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">ymax =</span> <span class="fu">c</span>(<span class="fl">0.29</span>, <span class="fl">0.99</span>, <span class="fl">0.99</span>, <span class="fl">0.31</span>)</span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the data</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>aois <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">loc =</span> <span class="fu">c</span>(<span class="st">"BL"</span>, <span class="st">"TL"</span>, <span class="st">"TR"</span>, <span class="st">"BR"</span>),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_normalized =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.73</span>, <span class="fl">0.73</span>),</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y_normalized =</span> <span class="fu">c</span>(<span class="fl">0.04</span>, <span class="fl">0.74</span>, <span class="fl">0.75</span>, <span class="fl">0.06</span>),</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">width_normalized =</span> <span class="fu">c</span>(<span class="fl">0.26</span>, <span class="fl">0.26</span>, <span class="fl">0.24</span>, <span class="fl">0.23</span>),</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height_normalized =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.24</span>, <span class="fl">0.25</span>),</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">xmin =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.73</span>, <span class="fl">0.73</span>),</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ymin =</span> <span class="fu">c</span>(<span class="fl">0.04</span>, <span class="fl">0.74</span>, <span class="fl">0.75</span>, <span class="fl">0.06</span>),</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">xmax =</span> <span class="fu">c</span>(<span class="fl">0.29</span>, <span class="fl">0.28</span>, <span class="fl">0.97</span>, <span class="fl">0.96</span>),</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">ymax =</span> <span class="fu">c</span>(<span class="fl">0.29</span>, <span class="fl">0.99</span>, <span class="fl">0.99</span>, <span class="fl">0.31</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-31-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-31-2-tab">
 <div id="qwebr-insertion-location-31"></div>
@@ -5197,9 +4870,9 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-32-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-32-1" role="tab" aria-controls="tabset-32-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-32-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-32-2" role="tab" aria-controls="tabset-32-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-32-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-32-1-tab">
-<div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>aois <span class="sc">%&gt;%</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>aois <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table">
 <colgroup>
@@ -5287,7 +4960,7 @@ Non-looks
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -5298,22 +4971,22 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-33-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-33-1" role="tab" aria-controls="tabset-33-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-33-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-33-2" role="tab" aria-controls="tabset-33-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-33-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-33-1-tab">
-<div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> <span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aois)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>AOI <span class="ot">&lt;-</span> assign <span class="sc">%&gt;%</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">loc1 =</span> <span class="fu">case_when</span>(</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"BL"</span>, </span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">"TL"</span>, </span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">3</span> <span class="sc">~</span> <span class="st">"TR"</span>, </span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">4</span> <span class="sc">~</span> <span class="st">"BR"</span></span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> <span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aois)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>AOI <span class="ot">&lt;-</span> assign <span class="sc">%&gt;%</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">loc1 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"BL"</span>, </span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">"TL"</span>, </span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">3</span> <span class="sc">~</span> <span class="st">"TR"</span>, </span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">4</span> <span class="sc">~</span> <span class="st">"BR"</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-33-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-33-2-tab">
 <div id="qwebr-insertion-location-33"></div>
@@ -5325,18 +4998,18 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-34-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-34-1" role="tab" aria-controls="tabset-34-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-34-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-34-2" role="tab" aria-controls="tabset-34-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-34-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-34-1-tab">
-<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>target <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1<span class="sc">==</span>AOI<span class="sc">$</span>targ_loc, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrealted2_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated3 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated3_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>rhyme <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>rhyme_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>cohort <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>cohort_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>target <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1<span class="sc">==</span>AOI<span class="sc">$</span>targ_loc, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrealted2_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated3 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated3_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>rhyme <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>rhyme_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>cohort <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>cohort_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-34-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-34-2-tab">
 <div id="qwebr-insertion-location-34"></div>
@@ -5346,21 +5019,21 @@ Non-looks
 </div>
 <p>Now we pivot so instead of each condition being an individual column it is one column.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me <span class="ot">&lt;-</span> AOI  <span class="sc">%&gt;%</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) <span class="sc">%&gt;%</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">c</span>(target, unrelated, unrelated2, unrelated3, rhyme, cohort),</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"condition"</span>,</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"Looks"</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me <span class="ot">&lt;-</span> AOI  <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) <span class="sc">%&gt;%</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">c</span>(target, unrelated, unrelated2, unrelated3, rhyme, cohort),</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"condition"</span>,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"Looks"</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-35-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-35-1" role="tab" aria-controls="tabset-35-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-35-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-35-2" role="tab" aria-controls="tabset-35-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-35-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-35-1-tab">
-<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me_TCRU <span class="ot">&lt;-</span> dat_long_aoi_me <span class="sc">%&gt;%</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trialtype<span class="sc">==</span><span class="st">"TCRU"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me_TCRU <span class="ot">&lt;-</span> dat_long_aoi_me <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trialtype<span class="sc">==</span><span class="st">"TCRU"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-35-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-35-2-tab">
 <div id="qwebr-insertion-location-35"></div>
@@ -5372,14 +5045,14 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-36-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-36-1" role="tab" aria-controls="tabset-36-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-36-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-36-2" role="tab" aria-controls="tabset-36-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-36-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-36-1-tab">
-<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span>dat_long_aoi_me_TCRU <span class="sc">%&gt;%</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(subject, trial) <span class="sc">%&gt;%</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> (time<span class="sc">-</span>RT_audio)<span class="sc">-</span><span class="dv">300</span>) <span class="sc">%&gt;%</span> <span class="co"># subtract audio rt onset for each</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(time <span class="sc">&gt;=</span> <span class="dv">0</span>, time <span class="sc">&lt;</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>                x_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>,</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span>dat_long_aoi_me_TCRU <span class="sc">%&gt;%</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(subject, trial) <span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> (time<span class="sc">-</span>RT_audio)<span class="sc">-</span><span class="dv">300</span>) <span class="sc">%&gt;%</span> <span class="co"># subtract audio rt onset for each</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(time <span class="sc">&gt;=</span> <span class="dv">0</span>, time <span class="sc">&lt;</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>                x_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>,</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-36-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-36-2-tab">
 <div id="qwebr-insertion-location-36"></div>
@@ -5391,7 +5064,7 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-37-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-37-1" role="tab" aria-controls="tabset-37-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-37-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-37-2" role="tab" aria-controls="tabset-37-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-37-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-37-1-tab">
-<div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span> <span class="fu">downsample_gaze</span>(gaze_sub, <span class="at">bin.length=</span><span class="dv">100</span>, <span class="at">timevar=</span><span class="st">"time"</span>, <span class="at">aggvars=</span><span class="fu">c</span>(<span class="st">"condition"</span>, <span class="st">"time_bin"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span> <span class="fu">downsample_gaze</span>(gaze_sub, <span class="at">bin.length=</span><span class="dv">100</span>, <span class="at">timevar=</span><span class="st">"time"</span>, <span class="at">aggvars=</span><span class="fu">c</span>(<span class="st">"condition"</span>, <span class="st">"time_bin"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-37-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-37-2-tab">
 <div id="qwebr-insertion-location-37"></div>
@@ -5405,13 +5078,13 @@ Non-looks
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-38-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-38-1" role="tab" aria-controls="tabset-38-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-38-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-38-2" role="tab" aria-controls="tabset-38-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-38-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-38-1-tab">
-<div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>gor <span class="ot">&lt;-</span> <span class="fu">plot_IA_proportions</span>(gaze_sub, </span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ia_column =</span> <span class="st">"condition"</span>, </span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">time_column =</span> <span class="st">"time_bin"</span>, </span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">proportion_column =</span> <span class="st">"Fix"</span>, </span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ia_mapping =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="st">"Target"</span>, <span class="at">cohort =</span> <span class="st">"Cohort"</span>, <span class="at">rhyme =</span> <span class="st">"Rhyme"</span>, <span class="at">unrelated =</span> <span class="st">"Unrelated"</span>))</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>gor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>gor <span class="ot">&lt;-</span> <span class="fu">plot_IA_proportions</span>(gaze_sub, </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ia_column =</span> <span class="st">"condition"</span>, </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">time_column =</span> <span class="st">"time_bin"</span>, </span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">proportion_column =</span> <span class="st">"Fix"</span>, </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ia_mapping =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="st">"Target"</span>, <span class="at">cohort =</span> <span class="st">"Cohort"</span>, <span class="at">rhyme =</span> <span class="st">"Rhyme"</span>, <span class="at">unrelated =</span> <span class="st">"Unrelated"</span>))</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>gor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-gaze-gor" class="quarto-float quarto-figure quarto-figure-center anchored" width="672">
 <figure class="quarto-float quarto-float-fig figure">

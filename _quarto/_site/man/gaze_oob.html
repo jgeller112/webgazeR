@@ -401,7 +401,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(\"webgazeR\")\n\n  # Example data\n  data <- data.frame(\n    subject = rep(1:2, each = 100),\n    x_pred_normalised = runif(200, -0.5, 1.5),\n    y_pred_normalised = runif(200, -0.5, 1.5)\n  )\n\n  # Calculate out-of-bounds proportion by subject\n  results <- calculate_out_of_bounds_by_subject(data)\n  print(results)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(\"webgazeR\")\n\n  # Example data\n  data <- data.frame(\n    subject = rep(1:2, each = 10),\n    trial = rep(1:5, times = 4),\n    x_pred_normalised = runif(20, -0.5, 1.5),\n    y_pred_normalised = runif(20, -0.5, 1.5)\n  )\n\n  # Calculate out-of-bounds proportion by subject and trial\n  results <- gaze_oob(data)\n\n  # View results\n  print(results$subject_results)\n  print(results$trial_results)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -2111,17 +2111,18 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 
 
-<section id="calculate-out-of-bounds-proportion-by-subject" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="calculate-out-of-bounds-proportion-by-subject">Calculate Out-of-Bounds Proportion by Subject</h2>
+<section id="calculate-out-of-bounds-proportion-by-subject-and-trial" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="calculate-out-of-bounds-proportion-by-subject-and-trial">Calculate Out-of-Bounds Proportion by Subject and Trial</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>This function calculates the number and percentage of points that fall outside a specified range (0, 1) for both X and Y coordinates, grouped by subject.</p>
+<p>This function calculates the number and percentage of gaze points that fall outside a specified range (0,1) for both X and Y coordinates, grouped by subject and trial.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
 <pre><code class="language-R">gaze_oob(
   data,
   subject_col = "subject",
+  trial_col = "trial",
   x_col = "x_pred_normalised",
   y_col = "y_pred_normalised"
 )
@@ -2148,6 +2149,14 @@ A string specifying the name of the column that contains the subject identifier.
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="trial_col">trial_col</code>
+</td>
+<td>
+A string specifying the name of the column that contains the trial identifier. Default is "trial".
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
 <code id="x_col">x_col</code>
 </td>
 <td>
@@ -2166,49 +2175,19 @@ A string specifying the name of the column that contains the Y coordinate. Defau
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A data frame with the following columns:</p>
+<p>A list containing two data frames:</p>
 <dl>
 <dt>
-subject
+subject_results
 </dt>
 <dd>
-The subject identifier.
+Summary of missingness at the subject level, including total trials, total points, and percentages.
 </dd>
 <dt>
-total_points
+trial_results
 </dt>
 <dd>
-The total number of points for the subject.
-</dd>
-<dt>
-outside_count
-</dt>
-<dd>
-The number of points outside the range for both X and Y coordinates.
-</dd>
-<dt>
-x_outside_count
-</dt>
-<dd>
-The number of points outside the range for the X coordinate.
-</dd>
-<dt>
-y_outside_count
-</dt>
-<dd>
-The number of points outside the range for the Y coordinate.
-</dd>
-<dt>
-x_outside_percentage
-</dt>
-<dd>
-The percentage of points outside the range for the X coordinate.
-</dd>
-<dt>
-y_outside_percentage
-</dt>
-<dd>
-The percentage of points outside the range for the Y coordinate.
+Summary of missingness at the trial level, including total points, and percentages.
 </dd>
 </dl>
 </section>
@@ -2222,14 +2201,18 @@ The percentage of points outside the range for the Y coordinate.
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Example data</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">subject =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> <span class="dv">100</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x_pred_normalised =</span> <span class="fu">runif</span>(<span class="dv">200</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">1.5</span>),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_pred_normalised =</span> <span class="fu">runif</span>(<span class="dv">200</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">1.5</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate out-of-bounds proportion by subject</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">calculate_out_of_bounds_by_subject</span>(data)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">subject =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> <span class="dv">10</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">trial =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">times =</span> <span class="dv">4</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x_pred_normalised =</span> <span class="fu">runif</span>(<span class="dv">20</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">1.5</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_pred_normalised =</span> <span class="fu">runif</span>(<span class="dv">20</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">1.5</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate out-of-bounds proportion by subject and trial</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">gaze_oob</span>(data)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># View results</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(results<span class="sc">$</span>subject_results)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(results<span class="sc">$</span>trial_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div id="qwebr-insertion-location-1"></div>
