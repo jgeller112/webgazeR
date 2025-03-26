@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>downsample_gaze – webgazeR</title>
+<title>gaze_dispersion – webgazeR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,7 +104,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/downsample_gaze.html">downsample_gaze</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/gaze_dispersion.html">gaze_dispersion</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -174,7 +174,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/downsample_gaze.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/downsample_gaze.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">downsample_gaze</span></a>
   </div>
 </li>
@@ -198,7 +198,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/gaze_dispersion.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/gaze_dispersion.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">gaze_dispersion</span></a>
   </div>
 </li>
@@ -241,25 +241,20 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/downsample_gaze.html">downsample_gaze</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/gaze_dispersion.html">gaze_dispersion</a></li></ol></nav></header>
 
 
 
 
-<section id="downsample-gaze-data" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="downsample-gaze-data">Downsample gaze data</h2>
+<section id="compute-gaze-dispersion" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="compute-gaze-dispersion">Compute Gaze Dispersion</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>This function combines gaze samples into time bins and optionally aggregates the data.</p>
+<p>Calculates centroid anddispersion from gaze data.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">downsample_gaze(
-  dataframe,
-  bin.length = 50,
-  timevar = "time",
-  aggvars = c("subject", "condition", "target", "trial", "object", "time_bin")
-)
+<pre><code class="language-R">gaze_dispersion(data, x, y, grouping_vars)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -267,41 +262,41 @@ ul.task-list li input[type="checkbox"] {
 <table>
 <tbody><tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="dataframe">dataframe</code>
+<code id="data">data</code>
 </td>
 <td>
-DataFrame containing gaze data.
+A data frame or tibble.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="bin.length">bin.length</code>
+<code id="x">x</code>
 </td>
 <td>
-Length of time bins (in milliseconds).
+A string: name of the column with X gaze coordinates.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="timevar">timevar</code>
+<code id="y">y</code>
 </td>
 <td>
-Column name representing time.
+A string: name of the column with Y gaze coordinates.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="aggvars">aggvars</code>
+<code id="grouping_vars">grouping_vars</code>
 </td>
 <td>
-Vector of variable names to group by for aggregation. Use "none" to skip aggregation.
+A character vector of column names to group by (e.g., subject, condition, trial).
 </td>
 </tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>DataFrame with time bins added and optionally aggregated data.</p>
+<p>A tibble with centroid_x, centroid_y, dispersion, and log_dispersion for each group.</p>
 
 
 </section>

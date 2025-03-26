@@ -1,0 +1,43 @@
+
+## Compute Gaze Dispersion {.unnumbered}
+
+
+### Description
+
+Calculates centroid anddispersion from gaze data.
+
+
+
+### Usage
+
+<pre><code class='language-R'>gaze_dispersion(data, x, y, grouping_vars)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
+<td>
+A data frame or tibble.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<td>
+A string: name of the column with X gaze coordinates.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="y">y</code></td>
+<td>
+A string: name of the column with Y gaze coordinates.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="grouping_vars">grouping_vars</code></td>
+<td>
+A character vector of column names to group by (e.g., subject, condition, trial).
+</td></tr>
+</table>
+
+
+### Value
+
+A tibble with centroid_x, centroid_y, dispersion, and log_dispersion for each group.
+
+

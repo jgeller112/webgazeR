@@ -34,6 +34,8 @@ website:
             file: man/filter_sampling_rate.qmd
           - text: find_location
             file: man/find_location.qmd
+          - text: gaze_dispersion
+            file: man/gaze_dispersion.qmd
           - text: gaze_oob
             file: man/gaze_oob.qmd
           - text: merge_webcam_files
