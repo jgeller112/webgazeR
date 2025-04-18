@@ -1,12 +1,11 @@
 
-## Analyze Sampling Rates for Eye-Tracking Data {.unnumbered}
+## Analyze Sampling Rates for Eye-Tracking Data (Removes Duplicate Times) {.unnumbered}
 
 
 ### Description
 
-This function calculates the sampling rate for each subject and trial in an eye-tracking dataset.
-Users can specify whether to compute the mean or median sampling rate. It provides overall statistics,
-including the selected measure and standard deviation, and generates a histogram of sampling rates.
+Calculates the sampling rate for each subject and trial using distinct timepoints,
+ignoring duplicates. Provides overall summary statistics and histogram.
 
 
 
@@ -21,30 +20,28 @@ including the selected measure and standard deviation, and generates a histogram
 <table>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="eye_data">eye_data</code></td>
 <td>
-A dataframe containing eye-tracking data with columns 'subject', 'trial', and 'time'.
-The column 'time' should represent the time in milliseconds for each trial.
+A dataframe with columns: 'subject', 'trial', and 'time' (in ms).
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="summary_stat">summary_stat</code></td>
 <td>
-A character string indicating the summary statistic to use. Must be either '&quot;median&quot;'
-(default) or '&quot;mean&quot;'.
+Either &quot;median&quot; (default) or &quot;mean&quot; to summarize subject-level SR.
 </td></tr>
 </table>
 
 
 ### Value
 
-A list containing:
+A list with:
 
 
 <dl>
-<dt>overall_summary_SR</dt><dd>The overall mean or median sampling rate (Hz).
+<dt>overall_summary_SR</dt><dd>Overall median or mean sampling rate.
 </dd>
-<dt>overall_sd_SR</dt><dd>The standard deviation of the sampling rate.
+<dt>overall_sd_SR</dt><dd>Standard deviation of subject-level SR.
 </dd>
-<dt>summary_SR_by_subject</dt><dd>A dataframe with the mean or median sampling rate by subject.
+<dt>summary_SR_by_subject</dt><dd>Summary SR by subject.
 </dd>
-<dt>SR_by_trial</dt><dd>A dataframe with the sampling rate by subject and trial.
+<dt>SR_by_trial</dt><dd>Trial-level SR estimates.
 </dd>
 </dl>
 

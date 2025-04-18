@@ -405,7 +405,7 @@ dat <- dat %>%
 #| echo: false
 
 head(dat) %>%
-tt()
+kable()
 
 ```
 
@@ -491,6 +491,8 @@ AOI %>%
 
 ```
 
+
+
 Now we pivot so instead of each condition being an individual column it is one column. This helps with visualization. We `pivot_longer` or make longer the target, unrelated, unrealted2, unrelated3, rhyme, and cohort columns. We put them into a column called condition and place the values of 0 and 1 into a column called `look`.
 
 ```{r}
@@ -548,6 +550,26 @@ We also downsampled our data into 100 ms bins using the `downsample_gaze` functi
 
 gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=100, timevar="time", aggvars=c("condition", "time_bin"))
 
+```
+
+## Upsampling
+
+You might also want to upsample your data. If this is the case you can use the `upsample_gaze` function which will upsample the data to 1000Hz (or whatever sampling rate you want). After you upsample your data you can use `smooth_gaze` to apply a moving average of the gaze samples skipping over NA values. Finally, you can use `interpolate_gaze` to perform linear interpolation. 
+
+```{r}
+
+AOI_upsample <- AOI %>%
+  group_by(subject, trial) %>%
+  upsample_gaze(
+    gaze_cols = c("x_pred_normalised", "y_pred_normalised"),
+    upsample_pupil = FALSE, 
+    target_hz = 250)
+
+
+AOI_upsample %>%
+  head() %>%
+  select(subject, trial, time, x_pred_normalised, y_pred_normalised) %>%
+  kable()
 ```
 
 ### Plotting

@@ -2,28 +2,25 @@
 % Please edit documentation in R/analyze_sampling_rate.R
 \name{analyze_sampling_rate}
 \alias{analyze_sampling_rate}
-\title{Analyze Sampling Rates for Eye-Tracking Data}
+\title{Analyze Sampling Rates for Eye-Tracking Data (Removes Duplicate Times)}
 \usage{
 analyze_sampling_rate(eye_data, summary_stat = "median")
 }
 \arguments{
-\item{eye_data}{A dataframe containing eye-tracking data with columns `subject`, `trial`, and `time`.
-The column `time` should represent the time in milliseconds for each trial.}
+\item{eye_data}{A dataframe with columns: `subject`, `trial`, and `time` (in ms).}
 
-\item{summary_stat}{A character string indicating the summary statistic to use. Must be either `"median"`
-(default) or `"mean"`.}
+\item{summary_stat}{Either "median" (default) or "mean" to summarize subject-level SR.}
 }
 \value{
-A list containing:
+A list with:
 \describe{
-  \item{overall_summary_SR}{The overall mean or median sampling rate (Hz).}
-  \item{overall_sd_SR}{The standard deviation of the sampling rate.}
-  \item{summary_SR_by_subject}{A dataframe with the mean or median sampling rate by subject.}
-  \item{SR_by_trial}{A dataframe with the sampling rate by subject and trial.}
+  \item{overall_summary_SR}{Overall median or mean sampling rate.}
+  \item{overall_sd_SR}{Standard deviation of subject-level SR.}
+  \item{summary_SR_by_subject}{Summary SR by subject.}
+  \item{SR_by_trial}{Trial-level SR estimates.}
 }
 }
 \description{
-This function calculates the sampling rate for each subject and trial in an eye-tracking dataset.
-Users can specify whether to compute the mean or median sampling rate. It provides overall statistics,
-including the selected measure and standard deviation, and generates a histogram of sampling rates.
+Calculates the sampling rate for each subject and trial using distinct timepoints,
+ignoring duplicates. Provides overall summary statistics and histogram.
 }
