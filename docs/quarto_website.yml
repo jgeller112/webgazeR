@@ -3,7 +3,7 @@ project:
   pre-render: panelize-code-cells-for-quarto-webr.R
 
 website:
-  title: "$ALTDOC_PACKAGE_NAME"
+  title: "$ALTDOC_PACKAGE_NAME v$ALTDOC_PACKAGE_VERSION"
   navbar:
     search: true
     right:

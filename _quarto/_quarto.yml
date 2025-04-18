@@ -2,7 +2,7 @@ project:
   type: website
   pre-render: panelize-code-cells-for-quarto-webr.R
 website:
-  title: webgazeR
+  title: webgazeR v0.4.0
   navbar:
     search: true
     right:
@@ -46,6 +46,8 @@ website:
             file: man/smooth_gaze.qmd
           - text: upsample_gaze
             file: man/upsample_gaze.qmd
+      - text: License
+        file: LICENSE.md
       - text: Citation
         file: CITATION.md
 webr:

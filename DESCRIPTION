@@ -1,10 +1,9 @@
 Package: webgazeR
 Type: Package
 Title: Tools for Processing Webcam Eye Tracking Data
-Version: 0.4.1
+Version: 0.4.0
 Authors@R: c(
-  person("Jason", "Geller", email = "drjasongeller@gmail.edu", role = c("aut", "cre")), 
-  person("Yanina", "Prystauka", email = "yanina.prystauka@uit.no",role = c("aut", "cre")))
+  person("Jason", "Geller", email = "drjasongeller@gmail.edu", role = c("aut", "cre")) 
 Author: Jason Geller
 Maintainer: Jason Geller <drjasongeller@gmail.com>
 Description: A companion package to gazeR. Functions for reading and pre-processing webcam eye tracking data.
