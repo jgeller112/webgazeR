@@ -8,8 +8,8 @@ gaze_oob(
   data,
   subject_col = "subject",
   trial_col = "trial",
-  x_col = "x_pred_normalised",
-  y_col = "y_pred_normalised"
+  x_col = "x",
+  y_col = "y"
 )
 }
 \arguments{

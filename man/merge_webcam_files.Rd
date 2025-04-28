@@ -2,24 +2,30 @@
 % Please edit documentation in R/merge_webcam_files.R
 \name{merge_webcam_files}
 \alias{merge_webcam_files}
-\title{Extract and Merge Gorilla Webcam Files with Optional AOI Extraction}
+\title{Merge and Process Webcam Eye-Tracking Files}
 \usage{
-merge_webcam_files(file_paths, screen_index = NULL)
+merge_webcam_files(
+  file_paths,
+  screen_index = NULL,
+  kind = "gorilla",
+  col_map = list(subject = "participant_id", trial = "spreadsheet_row", time =
+    "time_elapsed", x = "x", y = "y")
+)
 }
 \arguments{
-\item{file_paths}{A list of file paths to webcam files (in .xlsx format).}
+\item{file_paths}{A list of file paths to webcam files.}
 
-\item{screen_index}{An optional screen index to filter the data by. If NULL, the filter will be ignored.}
+\item{screen_index}{Optional. If provided, filters data by one or more screen indices (for Gorilla).}
 
-\item{extract_aois}{Logical. If TRUE, extracts AOI-related columns and returns distinct rows for them.}
+\item{kind}{The data collection platform. Options: "gorilla" (default), "labvanced".}
+
+\item{col_map}{A named list mapping your current columns to WebGazer names: `subject`, `trial`, `time`, `x`, `y`.}
 }
 \value{
-A dataframe containing the merged and processed data from the webcam files. If `extract_aois` is TRUE, it returns
-a dataframe with distinct AOI-related columns.
+A dataframe with standardized columns depending on the platform.
 }
 \description{
-This function reads in multiple Gorilla webcam files, merges them, and optionally extracts area of interest (AOI) data.
-It cleans up column names, and allows filtering by screen index. If `extract_aois` is TRUE, it extracts specific AOI-related
-columns (`zone_name`, `zone_x_normalized`, `zone_y_normalized`, `zone_width_normalized`, and `zone_height_normalized`) and
-returns distinct rows for these columns.
+This function reads, merges, and processes webcam eye-tracking files.
+It standardizes column names (subject, trial, time, x, y) for universal use.
+Supports .csv, .tsv, and .xlsx formats.
 }
