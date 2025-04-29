@@ -8,8 +8,10 @@ gaze_oob(
   data,
   subject_col = "subject",
   trial_col = "trial",
-  x_col = "x_pred_normalised",
-  y_col = "y_pred_normalised"
+  x_col = "x",
+  y_col = "y",
+  screen_size = c(1, 1),
+  remove = FALSE
 )
 }
 \arguments{
@@ -19,37 +21,24 @@ gaze_oob(
 
 \item{trial_col}{A string specifying the name of the column that contains the trial identifier. Default is "trial".}
 
-\item{x_col}{A string specifying the name of the column that contains the X coordinate. Default is "x_pred_normalised".}
+\item{x_col}{A string specifying the name of the column that contains the X coordinate. Default is "x".}
 
-\item{y_col}{A string specifying the name of the column that contains the Y coordinate. Default is "y_pred_normalised".}
+\item{y_col}{A string specifying the name of the column that contains the Y coordinate. Default is "y".}
+
+\item{screen_size}{A numeric vector of length 2 specifying the screen width and height.
+Default is c(1, 1) assuming normalized coordinates.}
+
+\item{remove}{Logical; if TRUE, removes points outside of screen dimensions. Default is FALSE.}
 }
 \value{
-A list containing two data frames:
+A list containing:
 \describe{
-  \item{subject_results}{Summary of missingness at the subject level, including total trials, total points, and percentages.}
-  \item{trial_results}{Summary of missingness at the trial level, including total points, and percentages.}
+  \item{subject_results}{Summary of missingness at the subject level.}
+  \item{trial_results}{Summary of missingness at the trial level.}
+  \item{data_clean}{Dataset with optional removal of out-of-bounds points and missingness annotations.}
 }
 }
 \description{
-This function calculates the number and percentage of gaze points that fall outside a specified range (0,1)
-for both X and Y coordinates, grouped by subject and trial.
-}
-\examples{
-\dontrun{
-  # Example data
-  data <- data.frame(
-    subject = rep(1:2, each = 10),
-    trial = rep(1:5, times = 4),
-    x_pred_normalised = runif(20, -0.5, 1.5),
-    y_pred_normalised = runif(20, -0.5, 1.5)
-  )
-
-  # Calculate out-of-bounds proportion by subject and trial
-  results <- gaze_oob(data)
-
-  # View results
-  print(results$subject_results)
-  print(results$trial_results)
-}
-
+This function calculates the number and percentage of gaze points that fall outside the screen dimensions,
+and optionally removes only the out-of-bounds gaze points.
 }

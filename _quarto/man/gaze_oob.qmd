@@ -1,10 +1,11 @@
+
 ## Calculate Out-of-Bounds Proportion by Subject and Trial {.unnumbered}
 
 
 ### Description
 
-This function calculates the number and percentage of gaze points that fall outside a specified range (0,1)
-for both X and Y coordinates, grouped by subject and trial.
+This function calculates the number and percentage of gaze points that fall outside the screen dimensions,
+and optionally removes only the out-of-bounds gaze points.
 
 
 
@@ -15,7 +16,9 @@ for both X and Y coordinates, grouped by subject and trial.
   subject_col = "subject",
   trial_col = "trial",
   x_col = "x",
-  y_col = "y"
+  y_col = "y",
+  screen_size = c(1, 1),
+  remove = FALSE
 )
 </code></pre>
 
@@ -37,54 +40,36 @@ A string specifying the name of the column that contains the trial identifier. D
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x_col">x_col</code></td>
 <td>
-A string specifying the name of the column that contains the X coordinate. Default is &quot;x_pred_normalised&quot;.
+A string specifying the name of the column that contains the X coordinate. Default is &quot;x&quot;.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="y_col">y_col</code></td>
 <td>
-A string specifying the name of the column that contains the Y coordinate. Default is &quot;y_pred_normalised&quot;.
+A string specifying the name of the column that contains the Y coordinate. Default is &quot;y&quot;.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="screen_size">screen_size</code></td>
+<td>
+A numeric vector of length 2 specifying the screen width and height.
+Default is c(1, 1) assuming normalized coordinates.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="remove">remove</code></td>
+<td>
+Logical; if TRUE, removes points outside of screen dimensions. Default is FALSE.
 </td></tr>
 </table>
 
 
 ### Value
 
-A list containing two data frames:
+A list containing:
 
 
 <dl>
-<dt>subject_results</dt><dd>Summary of missingness at the subject level, including total trials, total points, and percentages.
+<dt>subject_results</dt><dd>Summary of missingness at the subject level.
 </dd>
-<dt>trial_results</dt><dd>Summary of missingness at the trial level, including total points, and percentages.
+<dt>trial_results</dt><dd>Summary of missingness at the trial level.
+</dd>
+<dt>data_clean</dt><dd>Dataset with optional removal of out-of-bounds points and missingness annotations.
 </dd>
 </dl>
 
 
-
-### Examples
-::: {.to-webr}
-```{r}
-#| warning: false
-#| message: false
-#| eval: false
-library("webgazeR")
-
-  # Example data
-  data <- data.frame(
-    subject = rep(1:2, each = 10),
-    trial = rep(1:5, times = 4),
-    x_pred_normalised = runif(20, -0.5, 1.5),
-    y_pred_normalised = runif(20, -0.5, 1.5)
-  )
-
-  # Calculate out-of-bounds proportion by subject and trial
-  results <- gaze_oob(data)
-
-  # View results
-  print(results$subject_results)
-  print(results$trial_results)
-
-
-
-
-```
-:::
