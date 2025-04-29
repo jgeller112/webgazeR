@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.7.15">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,15 +59,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="webgazeR_vignette_files/libs/clipboard/clipboard.min.js"></script>
-<script src="webgazeR_vignette_files/libs/quarto-html/quarto.js"></script>
+<script src="webgazeR_vignette_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="webgazeR_vignette_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="webgazeR_vignette_files/libs/quarto-html/popper.min.js"></script>
 <script src="webgazeR_vignette_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="webgazeR_vignette_files/libs/quarto-html/anchor.min.js"></script>
 <link href="webgazeR_vignette_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="webgazeR_vignette_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="webgazeR_vignette_files/libs/quarto-html/quarto-syntax-highlighting-26a54071d5a5d1f5c34874d8d975e232.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="webgazeR_vignette_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="webgazeR_vignette_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="webgazeR_vignette_files/libs/bootstrap/bootstrap-973236bd072d72a04ee9cd82dcc9cb29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="webgazeR_vignette_files/libs/bootstrap/bootstrap-c0367b04c37547644fece4185067e4a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -93,7 +94,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#tcru" id="toc-tcru" class="nav-link" data-scroll-target="#tcru">TCRU</a>
   <ul class="collapse">
-  <li><a href="#downsampling" id="toc-downsampling" class="nav-link" data-scroll-target="#downsampling">Downsampling</a>
+  <li><a href="#downsampling" id="toc-downsampling" class="nav-link" data-scroll-target="#downsampling">Downsampling</a></li>
+  <li><a href="#upsampling" id="toc-upsampling" class="nav-link" data-scroll-target="#upsampling">Upsampling</a>
   <ul class="collapse">
   <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting">Plotting</a></li>
   </ul></li>
@@ -471,7 +473,7 @@ Sampling Rate by Trial:
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -528,514 +530,187 @@ Sampling Rate by Trial:
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>oob_data <span class="ot">&lt;-</span> <span class="fu">gaze_oob</span>(edat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Subject: 11788555
+Total trials: 54
 Total points: 2483
-Points outside the range: 608
 Total missing percentage: 24.49%
 X: 17.28%
 Y: 13.53%
 
 
 Subject: 11788682
+Total trials: 154
 Total points: 5798
-Points outside the range: 551
 Total missing percentage: 9.5%
 X: 6.83%
 Y: 3.47%
 
 
 Subject: 11788824
+Total trials: 134
 Total points: 6961
-Points outside the range: 1792
 Total missing percentage: 25.74%
 X: 17.14%
 Y: 13.37%
 
 
 Subject: 11788857
+Total trials: 54
 Total points: 2237
-Points outside the range: 277
 Total missing percentage: 12.38%
 X: 11.85%
 Y: 1.3%
 
 
 Subject: 11789574
+Total trials: 54
 Total points: 932
-Points outside the range: 221
 Total missing percentage: 23.71%
 X: 14.16%
 Y: 16.09%
 
 
 Subject: 11795362
+Total trials: 154
 Total points: 3951
-Points outside the range: 608
 Total missing percentage: 15.39%
 X: 10%
 Y: 7.69%
 
 
 Subject: 11795372
+Total trials: 154
 Total points: 4598
-Points outside the range: 677
 Total missing percentage: 14.72%
 X: 9.11%
 Y: 8.22%
 
 
 Subject: 11795375
+Total trials: 154
 Total points: 6795
-Points outside the range: 1008
 Total missing percentage: 14.83%
 X: 11.18%
 Y: 6.99%
 
 
 Subject: 11795376
+Total trials: 154
 Total points: 6749
-Points outside the range: 1676
 Total missing percentage: 24.83%
 X: 13.48%
 Y: 16.42%
 
 
 Subject: 11795379
+Total trials: 54
 Total points: 2247
-Points outside the range: 350
 Total missing percentage: 15.58%
 X: 4.36%
 Y: 12.28%
 
 
 Subject: 11795382
+Total trials: 154
 Total points: 5239
-Points outside the range: 528
 Total missing percentage: 10.08%
 X: 6.91%
 Y: 5.99%
 
 
 Subject: 11795385
+Total trials: 154
 Total points: 6172
-Points outside the range: 1557
 Total missing percentage: 25.23%
 X: 14.52%
 Y: 15.83%
 
 
 Subject: 11795386
+Total trials: 154
 Total points: 4658
-Points outside the range: 1397
 Total missing percentage: 29.99%
 X: 17%
 Y: 22.33%
 
 
 Subject: 11795387
+Total trials: 154
 Total points: 3634
-Points outside the range: 586
 Total missing percentage: 16.13%
 X: 9.41%
 Y: 9.25%
 
 
 Subject: 11795388
+Total trials: 154
 Total points: 4097
-Points outside the range: 755
 Total missing percentage: 18.43%
 X: 11.33%
 Y: 11.11%
 
 
 Subject: 11795426
+Total trials: 154
 Total points: 1242
-Points outside the range: 122
 Total missing percentage: 9.82%
 X: 6.44%
 Y: 6.44%
 
 
 Subject: 11795446
+Total trials: 154
 Total points: 6712
-Points outside the range: 546
 Total missing percentage: 8.13%
 X: 5.91%
 Y: 4.68%
 
 
 Subject: 11795529
+Total trials: 154
 Total points: 4668
-Points outside the range: 482
 Total missing percentage: 10.33%
 X: 6.92%
 Y: 4.86%
 
 
 Subject: 11795650
+Total trials: 154
 Total points: 2213
-Points outside the range: 101
 Total missing percentage: 4.56%
 X: 2.08%
 Y: 2.89%
 
 
 Subject: 11795671
+Total trials: 154
 Total points: 4982
-Points outside the range: 1438
 Total missing percentage: 28.86%
 X: 18.15%
 Y: 17.7%
 
 
 Subject: 11796749
+Total trials: 154
 Total points: 6469
-Points outside the range: 1891
 Total missing percentage: 29.23%
 X: 23.09%
 Y: 13.48%
 
 
 Subject: 11796756
+Total trials: 154
 Total points: 6249
-Points outside the range: 820
 Total missing percentage: 13.12%
 X: 7.25%
 Y: 8.64%
 
 
 Subject: 11796779
+Total trials: 154
 Total points: 5737
-Points outside the range: 253
 Total missing percentage: 4.41%
 X: 2.18%
 Y: 2.75%</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>oob_data <span class="sc">%&gt;%</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<!-- preamble start -->
-
-    <script>
-
-      function styleCell_30830ud3hgvo272uev5g(i, j, css_id) {
-          var table = document.getElementById("tinytable_30830ud3hgvo272uev5g");
-          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
-          if (cell) {
-              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
-              cell.classList.add(css_id);
-          } else {
-              console.warn(`Cell at (${i}, ${j}) not found.`);
-          }
-      }
-      function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_30830ud3hgvo272uev5g');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
-      function spanCell_30830ud3hgvo272uev5g(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_30830ud3hgvo272uev5g");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
-        for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
-            }
-          }
-        }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
-      }
-      // tinytable span after
-      window.addEventListener('load', function () {
-          var cellsToStyle = [
-            // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 }, { i: 0, j: 5 }, { i: 0, j: 6 }, { i: 0, j: 7 },  ], css_id: 'tinytable_css_orr1rmx65eebzrynozen',}, 
-          { positions: [ { i: 23, j: 0 }, { i: 23, j: 1 }, { i: 23, j: 2 }, { i: 23, j: 3 }, { i: 23, j: 4 }, { i: 23, j: 5 }, { i: 23, j: 6 }, { i: 23, j: 7 },  ], css_id: 'tinytable_css_1l4fs6avmpjyamqv0aia',}, 
-          ];
-
-          // Loop over the arrays to style the cells
-          cellsToStyle.forEach(function (group) {
-              group.positions.forEach(function (cell) {
-                  styleCell_30830ud3hgvo272uev5g(cell.i, cell.j, group.css_id);
-              });
-          });
-      });
-    </script>
-
-    <style>
-      /* tinytable css entries after */
-      .table td.tinytable_css_orr1rmx65eebzrynozen, .table th.tinytable_css_orr1rmx65eebzrynozen { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_1l4fs6avmpjyamqv0aia, .table th.tinytable_css_1l4fs6avmpjyamqv0aia { border-bottom: solid #d3d8dc 0.1em; }
-    </style>
-    <div class="container">
-      <table class="table table-borderless" id="tinytable_30830ud3hgvo272uev5g" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-        <thead>
-        
-              <tr>
-                <th scope="col">subject</th>
-                <th scope="col">total_points</th>
-                <th scope="col">outside_count</th>
-                <th scope="col">total_missing_percentage</th>
-                <th scope="col">x_outside_count</th>
-                <th scope="col">y_outside_count</th>
-                <th scope="col">x_outside_percentage</th>
-                <th scope="col">y_outside_percentage</th>
-              </tr>
-        </thead>
-        
-        <tbody>
-                <tr>
-                  <td>11788555</td>
-                  <td>2483</td>
-                  <td>608</td>
-                  <td>24.486508256</td>
-                  <td>429</td>
-                  <td>336</td>
-                  <td>17.277486911</td>
-                  <td>13.532017720</td>
-                </tr>
-                <tr>
-                  <td>11788682</td>
-                  <td>5798</td>
-                  <td>551</td>
-                  <td>9.503276992</td>
-                  <td>396</td>
-                  <td>201</td>
-                  <td>6.829941359</td>
-                  <td>3.466712660</td>
-                </tr>
-                <tr>
-                  <td>11788824</td>
-                  <td>6961</td>
-                  <td>1792</td>
-                  <td>25.743427668</td>
-                  <td>1193</td>
-                  <td>931</td>
-                  <td>17.138342192</td>
-                  <td>13.374515156</td>
-                </tr>
-                <tr>
-                  <td>11788857</td>
-                  <td>2237</td>
-                  <td>277</td>
-                  <td>12.382655342</td>
-                  <td>265</td>
-                  <td>29</td>
-                  <td>11.846222620</td>
-                  <td>1.296379079</td>
-                </tr>
-                <tr>
-                  <td>11789574</td>
-                  <td>932</td>
-                  <td>221</td>
-                  <td>23.712446352</td>
-                  <td>132</td>
-                  <td>150</td>
-                  <td>14.163090129</td>
-                  <td>16.094420601</td>
-                </tr>
-                <tr>
-                  <td>11795362</td>
-                  <td>3951</td>
-                  <td>608</td>
-                  <td>15.388509238</td>
-                  <td>395</td>
-                  <td>304</td>
-                  <td>9.997468995</td>
-                  <td>7.694254619</td>
-                </tr>
-                <tr>
-                  <td>11795372</td>
-                  <td>4598</td>
-                  <td>677</td>
-                  <td>14.723792953</td>
-                  <td>419</td>
-                  <td>378</td>
-                  <td>9.112657677</td>
-                  <td>8.220965637</td>
-                </tr>
-                <tr>
-                  <td>11795375</td>
-                  <td>6795</td>
-                  <td>1008</td>
-                  <td>14.834437086</td>
-                  <td>760</td>
-                  <td>475</td>
-                  <td>11.184694628</td>
-                  <td>6.990434143</td>
-                </tr>
-                <tr>
-                  <td>11795376</td>
-                  <td>6749</td>
-                  <td>1676</td>
-                  <td>24.833308638</td>
-                  <td>910</td>
-                  <td>1108</td>
-                  <td>13.483479034</td>
-                  <td>16.417247000</td>
-                </tr>
-                <tr>
-                  <td>11795379</td>
-                  <td>2247</td>
-                  <td>350</td>
-                  <td>15.576323988</td>
-                  <td>98</td>
-                  <td>276</td>
-                  <td>4.361370717</td>
-                  <td>12.283044059</td>
-                </tr>
-                <tr>
-                  <td>11795382</td>
-                  <td>5239</td>
-                  <td>528</td>
-                  <td>10.078259210</td>
-                  <td>362</td>
-                  <td>314</td>
-                  <td>6.909715595</td>
-                  <td>5.993510212</td>
-                </tr>
-                <tr>
-                  <td>11795385</td>
-                  <td>6172</td>
-                  <td>1557</td>
-                  <td>25.226830849</td>
-                  <td>896</td>
-                  <td>977</td>
-                  <td>14.517174336</td>
-                  <td>15.829552819</td>
-                </tr>
-                <tr>
-                  <td>11795386</td>
-                  <td>4658</td>
-                  <td>1397</td>
-                  <td>29.991412623</td>
-                  <td>792</td>
-                  <td>1040</td>
-                  <td>17.003005582</td>
-                  <td>22.327179047</td>
-                </tr>
-                <tr>
-                  <td>11795387</td>
-                  <td>3634</td>
-                  <td>586</td>
-                  <td>16.125481563</td>
-                  <td>342</td>
-                  <td>336</td>
-                  <td>9.411117226</td>
-                  <td>9.246009906</td>
-                </tr>
-                <tr>
-                  <td>11795388</td>
-                  <td>4097</td>
-                  <td>755</td>
-                  <td>18.428118135</td>
-                  <td>464</td>
-                  <td>455</td>
-                  <td>11.325360020</td>
-                  <td>11.105687088</td>
-                </tr>
-                <tr>
-                  <td>11795426</td>
-                  <td>1242</td>
-                  <td>122</td>
-                  <td>9.822866345</td>
-                  <td>80</td>
-                  <td>80</td>
-                  <td>6.441223833</td>
-                  <td>6.441223833</td>
-                </tr>
-                <tr>
-                  <td>11795446</td>
-                  <td>6712</td>
-                  <td>546</td>
-                  <td>8.134684148</td>
-                  <td>397</td>
-                  <td>314</td>
-                  <td>5.914779499</td>
-                  <td>4.678188319</td>
-                </tr>
-                <tr>
-                  <td>11795529</td>
-                  <td>4668</td>
-                  <td>482</td>
-                  <td>10.325621251</td>
-                  <td>323</td>
-                  <td>227</td>
-                  <td>6.919451585</td>
-                  <td>4.862896315</td>
-                </tr>
-                <tr>
-                  <td>11795650</td>
-                  <td>2213</td>
-                  <td>101</td>
-                  <td>4.563940352</td>
-                  <td>46</td>
-                  <td>64</td>
-                  <td>2.078626299</td>
-                  <td>2.892001808</td>
-                </tr>
-                <tr>
-                  <td>11795671</td>
-                  <td>4982</td>
-                  <td>1438</td>
-                  <td>28.863910076</td>
-                  <td>904</td>
-                  <td>882</td>
-                  <td>18.145323163</td>
-                  <td>17.703733440</td>
-                </tr>
-                <tr>
-                  <td>11796749</td>
-                  <td>6469</td>
-                  <td>1891</td>
-                  <td>29.231720513</td>
-                  <td>1494</td>
-                  <td>872</td>
-                  <td>23.094759623</td>
-                  <td>13.479672283</td>
-                </tr>
-                <tr>
-                  <td>11796756</td>
-                  <td>6249</td>
-                  <td>820</td>
-                  <td>13.122099536</td>
-                  <td>453</td>
-                  <td>540</td>
-                  <td>7.249159866</td>
-                  <td>8.641382621</td>
-                </tr>
-                <tr>
-                  <td>11796779</td>
-                  <td>5737</td>
-                  <td>253</td>
-                  <td>4.409970368</td>
-                  <td>125</td>
-                  <td>158</td>
-                  <td>2.178839115</td>
-                  <td>2.754052641</td>
-                </tr>
-        </tbody>
-      </table>
-    </div>
-<!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
 </section>
@@ -1046,17 +721,17 @@ Y: 2.75%</code></pre>
 <h4 class="anchored" data-anchor-id="quadrant-approach">Quadrant Approach</h4>
 <p>One way is to make the AOIs as big as possible and place them in the four quadrants of the screen. What we will need to first is create a dataframe with location of the AOI (e.g., TL, TR, BL, BR), x and y normalized coordinates and width and height normalized. In addition, we will get the xmin, xmanx, and ymax and ymin of the AOIs.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for the quadrants with an added column for the quadrant labels</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>aoi_loc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">loc =</span> <span class="fu">c</span>(<span class="st">'TL'</span>, <span class="st">'TR'</span>, <span class="st">'BL'</span>, <span class="st">'BR'</span>), </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_normalized =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>),</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">y_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">width_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">xmin =</span> x_normalized, <span class="at">ymin =</span> y_normalized,</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">xmax =</span> x_normalized<span class="sc">+</span>width_normalized,</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">ymax =</span> y_normalized<span class="sc">+</span>height_normalized)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for the quadrants with an added column for the quadrant labels</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>aoi_loc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">loc =</span> <span class="fu">c</span>(<span class="st">'TL'</span>, <span class="st">'TR'</span>, <span class="st">'BL'</span>, <span class="st">'BR'</span>), </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_normalized =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">y_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">width_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height_normalized =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">xmin =</span> x_normalized, <span class="at">ymin =</span> y_normalized,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">xmax =</span> x_normalized<span class="sc">+</span>width_normalized,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">ymax =</span> y_normalized<span class="sc">+</span>height_normalized)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -1138,11 +813,11 @@ Y: 2.75%</code></pre>
 <h5 class="anchored" data-anchor-id="clean-up-eye-data">Clean-up eye data</h5>
 <p>Here we are going to remove poor convergence scales and confidence. We will also remove coordinates that are 0 in our data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>edat_1 <span class="ot">&lt;-</span> edat <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">filter</span>(convergence <span class="sc">&lt;=</span> .<span class="dv">5</span>, face_conf <span class="sc">&gt;=</span> .<span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove rows without gaze information</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>,</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>edat_1 <span class="ot">&lt;-</span> edat <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">filter</span>(convergence <span class="sc">&lt;=</span> .<span class="dv">5</span>, face_conf <span class="sc">&gt;=</span> .<span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove rows without gaze information</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -1150,22 +825,22 @@ Y: 2.75%</code></pre>
 <h4 class="anchored" data-anchor-id="combining-eye-and-trial-level-data">Combining Eye and Trial-level data</h4>
 <p>Next we are going to combine the eye-tracking data and behavioral data by using the <code>left_join</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>subject<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>subject)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>trial<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>trial)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(edat_1, filter_edat, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"subject"</span>,<span class="st">"trial"</span>))</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="co"># make sure to remove duplicate rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>subject<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>subject)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>edat_1<span class="sc">$</span>trial<span class="ot">&lt;-</span><span class="fu">as.factor</span>(edat_1<span class="sc">$</span>trial)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(edat_1, filter_edat, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"subject"</span>,<span class="st">"trial"</span>))</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="co"># make sure to remove duplicate rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s verify our AOIs look how they are suppose to.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="webgazeR_vignette_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1183,545 +858,521 @@ Y: 2.75%</code></pre>
 </ol>
 <p>We will first match the pictures in the TL, TR, BL, BR columns to the correct code condition (T,C, R, U, U2, U3).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming your data is in a data frame called df</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Target =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> TL,</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> TR,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> BL,</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> BR,</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>  <span class="co"># Default to NA if no match</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> TL,</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> TR,</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> BL,</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> BR,</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated2 =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> TL,</span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> TR,</span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> BL,</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> BR,</span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated3 =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> TL,</span>
-<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> TR,</span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> BL,</span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> BR,</span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">Rhyme =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> TL,</span>
-<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> TR,</span>
-<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> BL,</span>
-<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> BR,</span>
-<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">Cohort =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> TL,</span>
-<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> TR,</span>
-<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> BL,</span>
-<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> BR,</span>
-<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming your data is in a data frame called df</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Target =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> TL,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> TR,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> BL,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> BR,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>  <span class="co"># Default to NA if no match</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> TL,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> TR,</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> BL,</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> BR,</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated2 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> TL,</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> TR,</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> BL,</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U2"</span> <span class="sc">~</span> BR,</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unrelated3 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> TL,</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> TR,</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> BL,</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"U3"</span> <span class="sc">~</span> BR,</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">Rhyme =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> TL,</span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> TR,</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> BL,</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"R"</span> <span class="sc">~</span> BR,</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">Cohort =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>      tlcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> TL,</span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>      trcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> TR,</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>      blcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> BL,</span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>      brcode <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">~</span> BR,</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<!-- preamble start -->
-
-    <script>
-
-      function styleCell_38jxtfl0vz9mo049lmnj(i, j, css_id) {
-          var table = document.getElementById("tinytable_38jxtfl0vz9mo049lmnj");
-          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
-          if (cell) {
-              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
-              cell.classList.add(css_id);
-          } else {
-              console.warn(`Cell at (${i}, ${j}) not found.`);
-          }
-      }
-      function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_38jxtfl0vz9mo049lmnj');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
-      function spanCell_38jxtfl0vz9mo049lmnj(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_38jxtfl0vz9mo049lmnj");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
-        for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
-            }
-          }
-        }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
-      }
-      // tinytable span after
-      window.addEventListener('load', function () {
-          var cellsToStyle = [
-            // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 7 }, { i: 0, j: 1 }, { i: 0, j: 8 }, { i: 0, j: 2 }, { i: 0, j: 9 }, { i: 0, j: 3 }, { i: 0, j: 10 }, { i: 0, j: 4 }, { i: 0, j: 11 }, { i: 0, j: 5 }, { i: 0, j: 12 }, { i: 0, j: 6 }, { i: 0, j: 13 }, { i: 0, j: 20 }, { i: 0, j: 14 }, { i: 0, j: 21 }, { i: 0, j: 15 }, { i: 0, j: 22 }, { i: 0, j: 16 }, { i: 0, j: 23 }, { i: 0, j: 17 }, { i: 0, j: 24 }, { i: 0, j: 18 }, { i: 0, j: 25 }, { i: 0, j: 19 }, { i: 0, j: 26 }, { i: 0, j: 33 }, { i: 0, j: 27 }, { i: 0, j: 34 }, { i: 0, j: 28 }, { i: 0, j: 35 }, { i: 0, j: 29 }, { i: 0, j: 36 }, { i: 0, j: 30 }, { i: 0, j: 37 }, { i: 0, j: 31 }, { i: 0, j: 38 }, { i: 0, j: 32 }, { i: 0, j: 39 }, { i: 0, j: 46 }, { i: 0, j: 40 }, { i: 0, j: 47 }, { i: 0, j: 41 }, { i: 0, j: 48 }, { i: 0, j: 42 }, { i: 0, j: 49 }, { i: 0, j: 43 }, { i: 0, j: 50 }, { i: 0, j: 44 }, { i: 0, j: 45 },  ], css_id: 'tinytable_css_icfz8dkbvfwjs55wo459',}, 
-          { positions: [ { i: 6, j: 5 }, { i: 6, j: 6 }, { i: 6, j: 0 }, { i: 6, j: 7 }, { i: 6, j: 1 }, { i: 6, j: 8 }, { i: 6, j: 2 }, { i: 6, j: 9 }, { i: 6, j: 3 }, { i: 6, j: 10 }, { i: 6, j: 4 }, { i: 6, j: 11 }, { i: 6, j: 18 }, { i: 6, j: 12 }, { i: 6, j: 19 }, { i: 6, j: 13 }, { i: 6, j: 20 }, { i: 6, j: 14 }, { i: 6, j: 21 }, { i: 6, j: 15 }, { i: 6, j: 22 }, { i: 6, j: 16 }, { i: 6, j: 23 }, { i: 6, j: 17 }, { i: 6, j: 24 }, { i: 6, j: 31 }, { i: 6, j: 25 }, { i: 6, j: 32 }, { i: 6, j: 26 }, { i: 6, j: 33 }, { i: 6, j: 27 }, { i: 6, j: 34 }, { i: 6, j: 28 }, { i: 6, j: 35 }, { i: 6, j: 29 }, { i: 6, j: 36 }, { i: 6, j: 30 }, { i: 6, j: 37 }, { i: 6, j: 44 }, { i: 6, j: 38 }, { i: 6, j: 45 }, { i: 6, j: 39 }, { i: 6, j: 46 }, { i: 6, j: 40 }, { i: 6, j: 47 }, { i: 6, j: 41 }, { i: 6, j: 48 }, { i: 6, j: 42 }, { i: 6, j: 49 }, { i: 6, j: 43 }, { i: 6, j: 50 },  ], css_id: 'tinytable_css_05qt9v3gm22xczlo95x9',}, 
-          ];
-
-          // Loop over the arrays to style the cells
-          cellsToStyle.forEach(function (group) {
-              group.positions.forEach(function (cell) {
-                  styleCell_38jxtfl0vz9mo049lmnj(cell.i, cell.j, group.css_id);
-              });
-          });
-      });
-    </script>
-
-    <style>
-      /* tinytable css entries after */
-      .table td.tinytable_css_icfz8dkbvfwjs55wo459, .table th.tinytable_css_icfz8dkbvfwjs55wo459 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_05qt9v3gm22xczlo95x9, .table th.tinytable_css_05qt9v3gm22xczlo95x9 { border-bottom: solid #d3d8dc 0.1em; }
-    </style>
-    <div class="container">
-      <table class="table table-borderless" id="tinytable_38jxtfl0vz9mo049lmnj" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-        <thead>
-        
-              <tr>
-                <th scope="col">X</th>
-                <th scope="col">x0</th>
-                <th scope="col">filename</th>
-                <th scope="col">trial</th>
-                <th scope="col">time_stamp</th>
-                <th scope="col">time</th>
-                <th scope="col">type</th>
-                <th scope="col">screen_index</th>
-                <th scope="col">x_pred</th>
-                <th scope="col">y_pred</th>
-                <th scope="col">x_pred_normalised</th>
-                <th scope="col">y_pred_normalised</th>
-                <th scope="col">convergence</th>
-                <th scope="col">face_conf</th>
-                <th scope="col">zone_name</th>
-                <th scope="col">zone_x</th>
-                <th scope="col">zone_y</th>
-                <th scope="col">zone_width</th>
-                <th scope="col">zone_height</th>
-                <th scope="col">zone_x_normalised</th>
-                <th scope="col">zone_y_normalised</th>
-                <th scope="col">zone_width_normalised</th>
-                <th scope="col">zone_height_normalised</th>
-                <th scope="col">subject</th>
-                <th scope="col">acc</th>
-                <th scope="col">TL</th>
-                <th scope="col">TR</th>
-                <th scope="col">BL</th>
-                <th scope="col">BR</th>
-                <th scope="col">trialtype</th>
-                <th scope="col">targetword</th>
-                <th scope="col">tlcode</th>
-                <th scope="col">trcode</th>
-                <th scope="col">blcode</th>
-                <th scope="col">brcode</th>
-                <th scope="col">targ_loc</th>
-                <th scope="col">zone_type</th>
-                <th scope="col">RT</th>
-                <th scope="col">response.x</th>
-                <th scope="col">RT_audio</th>
-                <th scope="col">response.y</th>
-                <th scope="col">sampling_rate_subject</th>
-                <th scope="col">max_time</th>
-                <th scope="col">n_times</th>
-                <th scope="col">sampling_rate_trial</th>
-                <th scope="col">Target</th>
-                <th scope="col">Unrelated</th>
-                <th scope="col">Unrelated2</th>
-                <th scope="col">Unrelated3</th>
-                <th scope="col">Rhyme</th>
-                <th scope="col">Cohort</th>
-              </tr>
-        </thead>
-        
-        <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868218964</td>
-                  <td>0.00000000</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>921.5823073</td>
-                  <td>-61.68745669</td>
-                  <td>0.4717325812</td>
-                  <td>-0.06077581940</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.57322764</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868218999</td>
-                  <td>34.00000000</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>958.2899489</td>
-                  <td>78.26706763</td>
-                  <td>0.4988631366</td>
-                  <td>0.07711041146</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.57322764</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868219039</td>
-                  <td>73.30000019</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>1036.1006719</td>
-                  <td>247.37493626</td>
-                  <td>0.5563729098</td>
-                  <td>0.24371914902</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.57322764</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868219076</td>
-                  <td>113.09999990</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>1048.4626414</td>
-                  <td>383.69717600</td>
-                  <td>0.5655096204</td>
-                  <td>0.37802677438</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.57322764</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868219111</td>
-                  <td>148.40000010</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>1018.1750413</td>
-                  <td>433.21330043</td>
-                  <td>0.5431241067</td>
-                  <td>0.42681113343</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.57322764</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>NA</td>
-                  <td>eyetracking_collection</td>
-                  <td>153</td>
-                  <td>1727868219145</td>
-                  <td>182.00000000</td>
-                  <td>prediction</td>
-                  <td>4</td>
-                  <td>1040.6113826</td>
-                  <td>514.57934044</td>
-                  <td>0.5597067684</td>
-                  <td>0.50697471965</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>NA</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>11788555</td>
-                  <td>1</td>
-                  <td>candle.jpg</td>
-                  <td>sandal.jpg</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>TCUU</td>
-                  <td>sandwich.jpg</td>
-                  <td>U2</td>
-                  <td>C</td>
-                  <td>T</td>
-                  <td>U</td>
-                  <td>BL</td>
-                  <td>response_button_image</td>
-                  <td>1997.8</td>
-                  <td>sandwich.jpg</td>
-                  <td>13.0999999</td>
-                  <td>AUDIO PLAY EVENT FIRED</td>
-                  <td>29.57322764</td>
-                  <td>1922.4</td>
-                  <td>57</td>
-                  <td>29.65043695</td>
-                  <td>sandwich.jpg</td>
-                  <td>building.jpg</td>
-                  <td>candle.jpg</td>
-                  <td>NA</td>
-                  <td>NA</td>
-                  <td>sandal.jpg</td>
-                </tr>
-        </tbody>
-      </table>
-    </div>
-<!-- hack to avoid NA insertion in last line -->
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 3%">
+<col style="width: 0%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 1%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: left;">x0</th>
+<th style="text-align: left;">filename</th>
+<th style="text-align: left;">trial</th>
+<th style="text-align: right;">time_stamp</th>
+<th style="text-align: right;">time</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">screen_index</th>
+<th style="text-align: right;">x_pred</th>
+<th style="text-align: right;">y_pred</th>
+<th style="text-align: right;">x_pred_normalised</th>
+<th style="text-align: right;">y_pred_normalised</th>
+<th style="text-align: right;">convergence</th>
+<th style="text-align: right;">face_conf</th>
+<th style="text-align: left;">zone_name</th>
+<th style="text-align: right;">zone_x</th>
+<th style="text-align: right;">zone_y</th>
+<th style="text-align: right;">zone_width</th>
+<th style="text-align: right;">zone_height</th>
+<th style="text-align: right;">zone_x_normalised</th>
+<th style="text-align: right;">zone_y_normalised</th>
+<th style="text-align: right;">zone_width_normalised</th>
+<th style="text-align: right;">zone_height_normalised</th>
+<th style="text-align: left;">subject</th>
+<th style="text-align: right;">acc</th>
+<th style="text-align: left;">TL</th>
+<th style="text-align: left;">TR</th>
+<th style="text-align: left;">BL</th>
+<th style="text-align: left;">BR</th>
+<th style="text-align: left;">trialtype</th>
+<th style="text-align: left;">targetword</th>
+<th style="text-align: left;">tlcode</th>
+<th style="text-align: left;">trcode</th>
+<th style="text-align: left;">blcode</th>
+<th style="text-align: left;">brcode</th>
+<th style="text-align: left;">targ_loc</th>
+<th style="text-align: left;">zone_type</th>
+<th style="text-align: right;">RT</th>
+<th style="text-align: left;">response.x</th>
+<th style="text-align: right;">RT_audio</th>
+<th style="text-align: left;">response.y</th>
+<th style="text-align: right;">sampling_rate_subject</th>
+<th style="text-align: right;">max_time</th>
+<th style="text-align: right;">n_times</th>
+<th style="text-align: right;">sampling_rate_trial</th>
+<th style="text-align: left;">Target</th>
+<th style="text-align: left;">Unrelated</th>
+<th style="text-align: left;">Unrelated2</th>
+<th style="text-align: left;">Unrelated3</th>
+<th style="text-align: left;">Rhyme</th>
+<th style="text-align: left;">Cohort</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868218964</td>
+<td style="text-align: right;">0.00000000</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">921.5823073</td>
+<td style="text-align: right;">-61.68745669</td>
+<td style="text-align: right;">0.4717325812</td>
+<td style="text-align: right;">-0.0607758194</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.57322764</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868218999</td>
+<td style="text-align: right;">34.00000000</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">958.2899489</td>
+<td style="text-align: right;">78.26706763</td>
+<td style="text-align: right;">0.4988631366</td>
+<td style="text-align: right;">0.0771104115</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.57322764</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219039</td>
+<td style="text-align: right;">73.30000019</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1036.1006719</td>
+<td style="text-align: right;">247.37493626</td>
+<td style="text-align: right;">0.5563729098</td>
+<td style="text-align: right;">0.2437191490</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.57322764</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219076</td>
+<td style="text-align: right;">113.09999990</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1048.4626414</td>
+<td style="text-align: right;">383.69717600</td>
+<td style="text-align: right;">0.5655096204</td>
+<td style="text-align: right;">0.3780267744</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.57322764</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219111</td>
+<td style="text-align: right;">148.40000010</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1018.1750413</td>
+<td style="text-align: right;">433.21330043</td>
+<td style="text-align: right;">0.5431241067</td>
+<td style="text-align: right;">0.4268111334</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.57322764</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219145</td>
+<td style="text-align: right;">182.00000000</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1040.6113826</td>
+<td style="text-align: right;">514.57934044</td>
+<td style="text-align: right;">0.5597067684</td>
+<td style="text-align: right;">0.5069747196</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.57322764</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <p>In our study, we need to track not only the condition of each image shown (such as Target, Cohort, Rhyme, or Unrelated) but also where each image is located on the screen during each trial as they are randomized on each trial. To do this, we use a function named <code>find_location</code>. This function is designed to determine the location of a specific image on the screen by comparing the image with the list of possible locations.</p>
 <p>The function <code>find_location</code> first checks if the image is NA (missing). If the image is NA, the function returns NA, meaning that there’s no location to find for this image. If the image is not NA, the function creates a vector loc_names that lists the names of the possible locations. It then attempts to match the given image with the locations. If a match is found, it returns the name of the location (e.g., TL, TR, BL, or BR) where the image is located. If there is no match, the function returns NA.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to each of the targ, cohort, rhyme, and unrelated columns</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>dat_colnames <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">targ_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Target),</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cohort_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Cohort),</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">rhyme_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Rhyme),</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrelated_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated), </span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrealted2_loc=</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated2), </span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrelated3_loc=</span><span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated3)</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to each of the targ, cohort, rhyme, and unrelated columns</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dat_colnames <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">targ_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Target),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cohort_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Cohort),</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">rhyme_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Rhyme),</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrelated_loc =</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated), </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrealted2_loc=</span> <span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated2), </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">unrelated3_loc=</span><span class="fu">find_location</span>(<span class="fu">c</span>(TL, TR, BL, BR), Unrelated3)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is where we are going to use our coordinate information from above. We use the <code>assign_aoi</code> that is adaopted from the <code>gazeR</code> package (Geller et al., 2020) to loop through our object <code>dat_colnames</code> and assign locations (i.e., TR, TL, BL, BR) to our normalized <code>x</code> and <code>y</code> coordinates. This function will label non-looks and off screen coordinates with NA. To make it easier to read we change the numerals assigned by the function to actual screen locations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> <span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aoi_loc)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>AOI <span class="ot">&lt;-</span> assign <span class="sc">%&gt;%</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">loc1 =</span> <span class="fu">case_when</span>(</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"TL"</span>, </span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">"TR"</span>, </span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">3</span> <span class="sc">~</span> <span class="st">"BL"</span>, </span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">4</span> <span class="sc">~</span> <span class="st">"BR"</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>assign <span class="ot">&lt;-</span> <span class="fu">assign_aoi</span>(dat_colnames,<span class="at">X=</span><span class="st">"x_pred_normalised"</span>, <span class="at">Y=</span><span class="st">"y_pred_normalised"</span>,<span class="at">aoi_loc =</span> aoi_loc)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>AOI <span class="ot">&lt;-</span> assign <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">loc1 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">"TL"</span>, </span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">"TR"</span>, </span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">3</span> <span class="sc">~</span> <span class="st">"BL"</span>, </span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    AOI<span class="sc">==</span><span class="dv">4</span> <span class="sc">~</span> <span class="st">"BR"</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -2215,18 +1866,18 @@ Y: 2.75%</code></pre>
 </div>
 <p>In the <code>AOI</code> object we have our condition variables as columns. For this example, the fixation locations need to be “gathered” from separate columns into a single column and “NA” values need to be re-coded as non-fixations (0). We logically evaluate these below so we know which item was fixated each sample and what was not.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>target <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1<span class="sc">==</span>AOI<span class="sc">$</span>targ_loc, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrealted2_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated3 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated3_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>rhyme <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>rhyme_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>cohort <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>cohort_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>target <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1<span class="sc">==</span>AOI<span class="sc">$</span>targ_loc, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrealted2_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>unrelated3 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>unrelated3_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>rhyme <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>rhyme_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>AOI<span class="sc">$</span>cohort <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(AOI<span class="sc">$</span>loc1 <span class="sc">==</span> AOI<span class="sc">$</span>cohort_loc, <span class="dv">1</span>, <span class="dv">0</span>)<span class="co"># if in coordinates 1, if not 0. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -2768,13 +2419,13 @@ Y: 2.75%</code></pre>
 </div>
 <p>Now we pivot so instead of each condition being an individual column it is one column. This helps with visualization. We <code>pivot_longer</code> or make longer the target, unrelated, unrealted2, unrelated3, rhyme, and cohort columns. We put them into a column called condition and place the values of 0 and 1 into a column called <code>look</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me <span class="ot">&lt;-</span> AOI  <span class="sc">%&gt;%</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) <span class="sc">%&gt;%</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">c</span>(target, unrelated, unrelated2, unrelated3, rhyme, cohort),</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"condition"</span>,</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"Looks"</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me <span class="ot">&lt;-</span> AOI  <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">c</span>(target, unrelated, unrelated2, unrelated3, rhyme, cohort),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"condition"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"Looks"</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2798,25 +2449,86 @@ Non-looks
 <p>We will be looking at the target, cohort, rhyme, unrelated condition for the vignette.</p>
 <p>With the presentation of audio there is a delay in when it was played. We coded that above as <code>RT_audio</code>. Below we change time to correspond to <code>audio_onset</code>. We can do this by subtracting <code>RT_audio</code> from <code>time</code>. we also remove coordinates outside the standardized window.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me_TCRU <span class="ot">&lt;-</span> dat_long_aoi_me <span class="sc">%&gt;%</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trialtype<span class="sc">==</span><span class="st">"TCRU"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dat_long_aoi_me_TCRU <span class="ot">&lt;-</span> dat_long_aoi_me <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trialtype<span class="sc">==</span><span class="st">"TCRU"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span>dat_long_aoi_me_TCRU<span class="sc">%&gt;%</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(subject, trial) <span class="sc">%&gt;%</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> (time<span class="sc">-</span>RT_audio)<span class="sc">-</span><span class="dv">300</span>) <span class="sc">%&gt;%</span> <span class="co"># subtract audio rt onset for each</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(time <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">100</span>, time <span class="sc">&lt;</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> <span class="co"># start -100 to 2000 ms </span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                x_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>,</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span>dat_long_aoi_me_TCRU<span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(subject, trial) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> (time<span class="sc">-</span>RT_audio)<span class="sc">-</span><span class="dv">300</span>) <span class="sc">%&gt;%</span> <span class="co"># subtract audio rt onset for each</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(time <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">100</span>, time <span class="sc">&lt;</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> <span class="co"># start -100 to 2000 ms </span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                x_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">&lt;</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="downsampling" class="level2">
 <h2 class="anchored" data-anchor-id="downsampling">Downsampling</h2>
 <p>We also downsampled our data into 100 ms bins using the <code>downsample_gaze</code> function from the webgazeR package. In this process, we read in our <code>gaze_sub</code> object, specified the <code>bin.length</code> argument as 200, and set the time variable as <code>time</code>. We also indicated the variables to aggregate on, such as <code>condition</code> and <code>timebins</code>. The <code>time_bin</code> variable is created by the function and represents the bins we are aggregating across. There is no clear consensus on binning, so we cannot provide a concrete rule of thumb here.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span><span class="fu">downsample_gaze</span>(gaze_sub, <span class="at">bin.length=</span><span class="dv">100</span>, <span class="at">timevar=</span><span class="st">"time"</span>, <span class="at">aggvars=</span><span class="fu">c</span>(<span class="st">"condition"</span>, <span class="st">"time_bin"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>gaze_sub <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span><span class="fu">downsample_gaze</span>(gaze_sub, <span class="at">bin.length=</span><span class="dv">100</span>, <span class="at">timevar=</span><span class="st">"time"</span>, <span class="at">aggvars=</span><span class="fu">c</span>(<span class="st">"condition"</span>, <span class="st">"time_bin"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="upsampling" class="level2">
+<h2 class="anchored" data-anchor-id="upsampling">Upsampling</h2>
+<p>You might also want to upsample your data. If this is the case you can use the <code>upsample_gaze</code> function which will upsample the data to 1000Hz (or whatever sampling rate you want). After you upsample your data you can use <code>smooth_gaze</code> to apply a moving average of the gaze samples skipping over NA values. Finally, you can use <code>interpolate_gaze</code> to perform linear interpolation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>AOI_upsample <span class="ot">&lt;-</span> AOI <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(subject, trial) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">upsample_gaze</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">gaze_cols =</span> <span class="fu">c</span>(<span class="st">"x_pred_normalised"</span>, <span class="st">"y_pred_normalised"</span>),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">upsample_pupil =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">target_hz =</span> <span class="dv">250</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>AOI_upsample <span class="sc">%&gt;%</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, trial, time) <span class="sc">%&gt;%</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">subject</th>
+<th style="text-align: left;">trial</th>
+<th style="text-align: right;">time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">11788555</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">11788555</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">11788555</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">11788555</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">11788555</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">11788555</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: right;">20</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <section id="plotting" class="level3">
 <h3 class="anchored" data-anchor-id="plotting">Plotting</h3>
