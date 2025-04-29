@@ -197,6 +197,10 @@ samp_rate <- analyze_sampling_rate(edat, summary_stat = "mean")
 ::: {.to-webr}
 ```{r}
 
+samp_rate$subject <- as.factor(samp_rate$subject)
+samp_rate$trial <- as.factor(samp_rate$trial)
+
+
 trial_data <- left_join(trial_data_rt, samp_rate, by=c("subject", "trial"))
 
 ```
