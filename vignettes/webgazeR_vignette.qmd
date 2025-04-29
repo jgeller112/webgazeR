@@ -239,8 +239,12 @@ It is important that we do not include points that fall outside the standardized
 
 ```{r}
 
-oob_data <- gaze_oob(edat)
-
+oob_data <- gaze_oob(data=edat, subject_col = "subject",
+                      trial_col = "trial",
+                      x_col = "x_pred_normalised",
+                      y_col = "y_pred_normalised",
+                     screen_size = c(1, 1), # standardized coordinates have screen size 1,1
+                      remove = TRUE)
 ```
 
 ### Zone coordinates
@@ -272,8 +276,6 @@ aoi_loc <- data.frame(
 aoi_loc %>%
   kable()
 
-
-
 ```
 
 ##### Clean-up eye data
@@ -281,11 +283,8 @@ aoi_loc %>%
 Here we are going to remove poor convergence scales and confidence. We will also remove coordinates that are 0 in our data.
 
 ```{r}
-edat_1 <- edat %>%
- dplyr::filter(convergence <= .5, face_conf >= .5) %>%
-  # remove rows without gaze information
-  dplyr::filter(x_pred_normalised != 0,
-                y_pred_normalised != 0) 
+edat_1 <- oob_data$data_clean  %>%
+ dplyr::filter(convergence <= .5, face_conf >= .5)
 ```
 
 #### Combining Eye and Trial-level data

@@ -403,7 +403,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"options(stringsAsFactors = F)          # no automatic data transformation\noptions(\"scipen\" = 100, \"digits\" = 10) # suppress math annotation\nlibrary(tidyverse) \nlibrary(here) # relative paths instead of abosoulte aids in reproduce\nlibrary(tinytable) # nice tables\nlibrary(janitor)# functions for cleaning up your column names\nlibrary(easystats)\nlibrary(knitr)\nlibrary(ggokabeito)\n#install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))\nlibrary(webgazeR)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# do not run interactively\nremotes::install_github(\"https://github.com/jgeller112/webgazeR\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# load the package\nlibrary(webgazeR)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Get the list of all files in the folder\nvwp_files  <- list.files(here::here(\"data\", \"monolinguals\", \"raw\"), pattern = \"\\\\.xlsx$\", full.names = TRUE)\n\n# Exclude files that contain \"calibration\" in their filename\nvwp_paths_filtered <- vwp_files[!grepl(\"calibration\", vwp_files)]","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"setwd(here::here(\"data\", \"monolinguals\", \"raw\")) # set working directory to raw data folder\n\nedat <- merge_webcam_files(vwp_paths_filtered, screen_index=4) # eye tracking occured ons creen index 4","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"edat <- webgazeR::eyedata","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# load in trial level data\nagg_eye_data <- webgazeR::behav_data","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"emstr <- agg_eye_data %>%\n  \n  janitor::clean_names() %>%\n  \n  # Select specific columns to keep in the dataset\n  dplyr::select(participant_private_id,  correct, tlpic, trpic, blpic, brpic, trialtype, targetword, tlcode, trcode, blcode, brcode, zone_name, zone_type,reaction_time, spreadsheet_row, response) %>%\n  \n  # Filter the rows where 'Zone.Type' equals \"response_button_image\"\n  dplyr::filter(zone_type == \"response_button_image\") %>%\n  \n  # Rename columns for easier use and readability\n  dplyr::rename(\n    \"TL\" = \"tlpic\",              # Rename 'tlpic' to 'TL'\n    \"TR\" = \"trpic\",             # Rename 'trpic' to 'TR'\n    \"BL\" = \"blpic\",            # Rename 'blpic' to 'BL'\n    \"BR\" = \"brpic\",                # Rename 'brpic' to 'BR'\n    \"targ_loc\" = \"zone_name\",       # Rename 'Zone.Name' to 'targ_loc'\n    \"subject\" = \"participant_private_id\",  # Rename 'Participant.Private.ID' to 'subject'\n    \"trial\" = \"spreadsheet_row\",    # Rename 'spreadsheet_row' to 'trial'\n    \"acc\" = \"correct\",              # Rename 'Correct' to 'acc' (accuracy)\n    \"RT\" = \"reaction_time\"          # Rename 'Reaction.Time' to 'RT'\n  ) %>%\n  \n  # Convert the 'RT' (Reaction Time) column to numeric type\n  mutate(RT = as.numeric(RT), \n         subject=as.factor(subject), \n         trial=as.factor(trial))","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"audio_rt <- agg_eye_data %>%\n  \n  janitor::clean_names()%>% \n\nselect(participant_private_id,zone_type, spreadsheet_row, reaction_time, response) %>%\n\n  filter(zone_type==\"content_web_audio\", response==\"AUDIO PLAY EVENT FIRED\")%>%\n  distinct() %>%\nrename(\"subject\" = \"participant_private_id\", \n       \"trial\" =\"spreadsheet_row\",  \n       \"RT_audio\" = \"reaction_time\") %>%\nselect(-zone_type) %>%\nmutate(RT_audio=as.numeric(RT_audio))","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"trial_data_rt <- merge(emstr, audio_rt, by=c(\"subject\", \"trial\"))\n\nhead(trial_data_rt) %>%\n  head() %>%\n  kable()","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"samp_rate <- analyze_sampling_rate(edat, summary_stat = \"mean\")","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Extract by-subject and by-trial sampling rates from the result\nsubject_sampling_rate <- samp_rate$summary_SR_by_subject  # Sampling rate by subject\ntrial_sampling_rate <- samp_rate$SR_by_trial  # Sampling rate by trial\n\n# Ensure subject and trial are factors for proper merging\ntrial_sampling_rate$subject <- as.factor(trial_sampling_rate$subject)\ntrial_sampling_rate$trial <- as.factor(trial_sampling_rate$trial)\n\nsubject_sampling_rate$subject <- as.factor(subject_sampling_rate$subject)\n\n# Rename column dynamically based on function output (summary_stat can be \"mean\" or \"median\")\ncolnames(subject_sampling_rate)[colnames(subject_sampling_rate) == \"summary_SR\"] <- \"sampling_rate_subject\"\ncolnames(trial_sampling_rate)[colnames(trial_sampling_rate) == \"SR\"] <- \"sampling_rate_trial\"\n\n# Merge by-subject sampling rate with target data\ntarget_data_with_subject_SR <- trial_data_rt %>%\n  left_join(subject_sampling_rate, by = \"subject\")\n\n# Merge by-trial sampling rate with target data\ntarget_data_with_full_SR <- target_data_with_subject_SR %>%\n  select(subject, trial, sampling_rate_subject) %>%\n  left_join(trial_sampling_rate, by = c(\"subject\", \"trial\"))","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"trial_data <- left_join(trial_data_rt, target_data_with_full_SR, by=c(\"subject\", \"trial\"))","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"filter_edat <- filter_sampling_rate(trial_data,threshold = 5, \n                                         action = \"remove\", \n                                         by = \"both\")","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"filter_edat_label <- filter_sampling_rate(trial_data,threshold = 5, \n                                         action = \"label\", \n                                         by=\"both\")","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"oob_data <- gaze_oob(edat)","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Create a data frame for the quadrants with an added column for the quadrant labels\naoi_loc <- data.frame(\n  loc = c('TL', 'TR', 'BL', 'BR'), \n  x_normalized = c(0, 0.5, 0, 0.5),\n   y_normalized = c(0.5, 0.5, 0, 0),\n  width_normalized = c(0.5, 0.5, 0.5, 0.5),\n  height_normalized = c(0.5, 0.5, 0.5, 0.5)) %>% \n  \n  mutate(xmin = x_normalized, ymin = y_normalized,\n         xmax = x_normalized+width_normalized,\n         ymax = y_normalized+height_normalized)","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"edat_1 <- edat %>%\n dplyr::filter(convergence <= .5, face_conf >= .5) %>%\n  # remove rows without gaze information\n  dplyr::filter(x_pred_normalised != 0,\n                y_pred_normalised != 0) ","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"edat_1$subject<-as.factor(edat_1$subject)\nedat_1$trial<-as.factor(edat_1$trial)\n\n\n\ndat <- left_join(edat_1, filter_edat, by = c(\"subject\",\"trial\"))\n\ndat <- dat %>%\n  distinct() # make sure to remove duplicate rows","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Assuming your data is in a data frame called df\ndat <- dat %>%\n  mutate(\n    Target = case_when(\n      tlcode == \"T\" ~ TL,\n      trcode == \"T\" ~ TR,\n      blcode == \"T\" ~ BL,\n      brcode == \"T\" ~ BR,\n      TRUE ~ NA_character_  # Default to NA if no match\n    ),\n    Unrelated = case_when(\n      tlcode == \"U\" ~ TL,\n      trcode == \"U\" ~ TR,\n      blcode == \"U\" ~ BL,\n      brcode == \"U\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Unrelated2 = case_when(\n      tlcode == \"U2\" ~ TL,\n      trcode == \"U2\" ~ TR,\n      blcode == \"U2\" ~ BL,\n      brcode == \"U2\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Unrelated3 = case_when(\n      tlcode == \"U3\" ~ TL,\n      trcode == \"U3\" ~ TR,\n      blcode == \"U3\" ~ BL,\n      brcode == \"U3\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Rhyme = case_when(\n      tlcode == \"R\" ~ TL,\n      trcode == \"R\" ~ TR,\n      blcode == \"R\" ~ BL,\n      brcode == \"R\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Cohort = case_when(\n      tlcode == \"C\" ~ TL,\n      trcode == \"C\" ~ TR,\n      blcode == \"C\" ~ BL,\n      brcode == \"C\" ~ BR,\n      TRUE ~ NA_character_\n    )\n  )","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Apply the function to each of the targ, cohort, rhyme, and unrelated columns\ndat_colnames <- dat %>%\n  rowwise() %>%\n  mutate(\n    targ_loc = find_location(c(TL, TR, BL, BR), Target),\n    cohort_loc = find_location(c(TL, TR, BL, BR), Cohort),\n    rhyme_loc = find_location(c(TL, TR, BL, BR), Rhyme),\n    unrelated_loc = find_location(c(TL, TR, BL, BR), Unrelated), \n    unrealted2_loc= find_location(c(TL, TR, BL, BR), Unrelated2), \n    unrelated3_loc=find_location(c(TL, TR, BL, BR), Unrelated3)\n  ) %>%\n  ungroup()","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"assign <- assign_aoi(dat_colnames,X=\"x_pred_normalised\", Y=\"y_pred_normalised\",aoi_loc = aoi_loc)\n\n\nAOI <- assign %>%\n\n  mutate(loc1 = case_when(\n\n    AOI==1 ~ \"TL\", \n\n    AOI==2 ~ \"TR\", \n\n    AOI==3 ~ \"BL\", \n\n    AOI==4 ~ \"BR\"\n\n  ))","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"AOI$target <- ifelse(AOI$loc1==AOI$targ_loc, 1, 0) # if in coordinates 1, if not 0. \n\nAOI$unrelated <- ifelse(AOI$loc1 == AOI$unrelated_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated2 <- ifelse(AOI$loc1 == AOI$unrealted2_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated3 <- ifelse(AOI$loc1 == AOI$unrelated3_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$rhyme <- ifelse(AOI$loc1 == AOI$rhyme_loc, 1, 0)# if in coordinates 1, if not 0. \n\n\nAOI$cohort <- ifelse(AOI$loc1 == AOI$cohort_loc, 1, 0)# if in coordinates 1, if not 0. ","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat_long_aoi_me <- AOI  %>%\n  select(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) %>%\n    pivot_longer(\n        cols = c(target, unrelated, unrelated2, unrelated3, rhyme, cohort),\n        names_to = \"condition\",\n        values_to = \"Looks\"\n    )","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%\n  filter(trialtype==\"TCRU\") %>%\n  na.omit()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <-dat_long_aoi_me_TCRU%>% \ngroup_by(subject, trial) %>%\n  mutate(time = (time-RT_audio)-300) %>% # subtract audio rt onset for each\n filter(time >= -100, time < 2000) %>% # start -100 to 2000 ms \n   dplyr::filter(x_pred_normalised > 0,\n                x_pred_normalised < 1,\n                y_pred_normalised > 0,\n                y_pred_normalised < 1) ","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=100, timevar=\"time\", aggvars=c(\"condition\", \"time_bin\"))","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"AOI_upsample <- AOI %>%\n  group_by(subject, trial) %>%\n  upsample_gaze(\n    gaze_cols = c(\"x_pred_normalised\", \"y_pred_normalised\"),\n    upsample_pupil = FALSE, \n    target_hz = 250)\n\n\nAOI_upsample %>%\n  head() %>%\n  select(subject, trial, time, x_pred_normalised, y_pred_normalised) %>%\n  kable()","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"plot_IA_proportions(gaze_sub, \n                     ia_column = \"condition\", \n                     time_column = \"time_bin\", \n                     proportion_column = \"Fix\", \n                   ia_mapping = list(target = \"Target\", cohort = \"Cohort\", rhyme = \"Rhyme\", unrelated = \"Unrelated\"), use_color=TRUE)","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"plot_IA_proportions(gaze_sub, \n                     ia_column = \"condition\", \n                     time_column = \"time_bin\", \n                     proportion_column = \"Fix\", \n                   ia_mapping = list(target = \"Target\", cohort = \"Cohort\", rhyme = \"Rhyme\", unrelated = \"Unrelated\"), use_color=FALSE)","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"aois <- extract_aois(vwp_paths_filtered, zone_names =  c(\"TL\", \"BR\", \"TR\", \"BL\"))","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Define the data\naois <- data.frame(\n  loc = c(\"BL\", \"TL\", \"TR\", \"BR\"),\n  x_normalized = c(0.03, 0.02, 0.73, 0.73),\n  y_normalized = c(0.04, 0.74, 0.75, 0.06),\n  width_normalized = c(0.26, 0.26, 0.24, 0.23),\n  height_normalized = c(0.25, 0.25, 0.24, 0.25),\n  xmin = c(0.03, 0.02, 0.73, 0.73),\n  ymin = c(0.04, 0.74, 0.75, 0.06),\n  xmax = c(0.29, 0.28, 0.97, 0.96),\n  ymax = c(0.29, 0.99, 0.99, 0.31)\n)","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"aois %>%\n  kable()","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"assign <- assign_aoi(dat_colnames,X=\"x_pred_normalised\", Y=\"y_pred_normalised\",aoi_loc = aois)\n\n\nAOI <- assign %>%\n\n  mutate(loc1 = case_when(\n\n    AOI==1 ~ \"BL\", \n\n    AOI==2 ~ \"TL\", \n\n    AOI==3 ~ \"TR\", \n\n    AOI==4 ~ \"BR\"\n\n  ))","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"AOI$target <- ifelse(AOI$loc1==AOI$targ_loc, 1, 0) # if in coordinates 1, if not 0. \n\nAOI$unrelated <- ifelse(AOI$loc1 == AOI$unrelated_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated2 <- ifelse(AOI$loc1 == AOI$unrealted2_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated3 <- ifelse(AOI$loc1 == AOI$unrelated3_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$rhyme <- ifelse(AOI$loc1 == AOI$rhyme_loc, 1, 0)# if in coordinates 1, if not 0. \n\n\nAOI$cohort <- ifelse(AOI$loc1 == AOI$cohort_loc, 1, 0)# if in coordinates 1, if not 0. ","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%\n  filter(trialtype==\"TCRU\") %>%\n  na.omit()","id":36,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-36","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <-dat_long_aoi_me_TCRU %>% \ngroup_by(subject, trial) %>%\n  mutate(time = (time-RT_audio)-300) %>% # subtract audio rt onset for each\n filter(time >= 0, time < 2000) %>% \n   dplyr::filter(x_pred_normalised > 0,\n                x_pred_normalised < 1,\n                y_pred_normalised > 0,\n                y_pred_normalised < 1)","id":37,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-37","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <- downsample_gaze(gaze_sub, bin.length=100, timevar=\"time\", aggvars=c(\"condition\", \"time_bin\"))","id":38,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-38","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gor <- plot_IA_proportions(gaze_sub, \n                     ia_column = \"condition\", \n                     time_column = \"time_bin\", \n                     proportion_column = \"Fix\", \n                   ia_mapping = list(target = \"Target\", cohort = \"Cohort\", rhyme = \"Rhyme\", unrelated = \"Unrelated\"))\n\ngor","id":39,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-39","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"options(stringsAsFactors = F)          # no automatic data transformation\noptions(\"scipen\" = 100, \"digits\" = 10) # suppress math annotation\nlibrary(tidyverse) \nlibrary(here) # relative paths instead of abosoulte aids in reproduce\nlibrary(tinytable) # nice tables\nlibrary(janitor)# functions for cleaning up your column names\nlibrary(easystats)\nlibrary(knitr)\nlibrary(ggokabeito)\n#install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))\nlibrary(webgazeR)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# do not run interactively\nremotes::install_github(\"https://github.com/jgeller112/webgazeR\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# load the package\nlibrary(webgazeR)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Get the list of all files in the folder\nvwp_files  <- list.files(here::here(\"data\", \"monolinguals\", \"raw\"), pattern = \"\\\\.xlsx$\", full.names = TRUE)\n\n# Exclude files that contain \"calibration\" in their filename\nvwp_paths_filtered <- vwp_files[!grepl(\"calibration\", vwp_files)]","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"setwd(here::here(\"data\", \"monolinguals\", \"raw\")) # set working directory to raw data folder\n\nedat <- merge_webcam_files(vwp_paths_filtered, screen_index=4) # eye tracking occured ons creen index 4","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"edat <- webgazeR::eyedata","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# load in trial level data\nagg_eye_data <- webgazeR::behav_data","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"emstr <- agg_eye_data %>%\n  \n  janitor::clean_names() %>%\n  \n  # Select specific columns to keep in the dataset\n  dplyr::select(participant_private_id,  correct, tlpic, trpic, blpic, brpic, trialtype, targetword, tlcode, trcode, blcode, brcode, zone_name, zone_type,reaction_time, spreadsheet_row, response) %>%\n  \n  # Filter the rows where 'Zone.Type' equals \"response_button_image\"\n  dplyr::filter(zone_type == \"response_button_image\") %>%\n  \n  # Rename columns for easier use and readability\n  dplyr::rename(\n    \"TL\" = \"tlpic\",              # Rename 'tlpic' to 'TL'\n    \"TR\" = \"trpic\",             # Rename 'trpic' to 'TR'\n    \"BL\" = \"blpic\",            # Rename 'blpic' to 'BL'\n    \"BR\" = \"brpic\",                # Rename 'brpic' to 'BR'\n    \"targ_loc\" = \"zone_name\",       # Rename 'Zone.Name' to 'targ_loc'\n    \"subject\" = \"participant_private_id\",  # Rename 'Participant.Private.ID' to 'subject'\n    \"trial\" = \"spreadsheet_row\",    # Rename 'spreadsheet_row' to 'trial'\n    \"acc\" = \"correct\",              # Rename 'Correct' to 'acc' (accuracy)\n    \"RT\" = \"reaction_time\"          # Rename 'Reaction.Time' to 'RT'\n  ) %>%\n  \n  # Convert the 'RT' (Reaction Time) column to numeric type\n  mutate(RT = as.numeric(RT), \n         subject=as.factor(subject), \n         trial=as.factor(trial))","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"audio_rt <- agg_eye_data %>%\n  \n  janitor::clean_names()%>% \n\nselect(participant_private_id,zone_type, spreadsheet_row, reaction_time, response) %>%\n\n  filter(zone_type==\"content_web_audio\", response==\"AUDIO PLAY EVENT FIRED\")%>%\n  distinct() %>%\nrename(\"subject\" = \"participant_private_id\", \n       \"trial\" =\"spreadsheet_row\",  \n       \"RT_audio\" = \"reaction_time\") %>%\nselect(-zone_type) %>%\nmutate(RT_audio=as.numeric(RT_audio))","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"trial_data_rt <- merge(emstr, audio_rt, by=c(\"subject\", \"trial\"))\n\nhead(trial_data_rt) %>%\n  head() %>%\n  kable()","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"samp_rate <- analyze_sampling_rate(edat, summary_stat = \"mean\")","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Extract by-subject and by-trial sampling rates from the result\nsubject_sampling_rate <- samp_rate$summary_SR_by_subject  # Sampling rate by subject\ntrial_sampling_rate <- samp_rate$SR_by_trial  # Sampling rate by trial\n\n# Ensure subject and trial are factors for proper merging\ntrial_sampling_rate$subject <- as.factor(trial_sampling_rate$subject)\ntrial_sampling_rate$trial <- as.factor(trial_sampling_rate$trial)\n\nsubject_sampling_rate$subject <- as.factor(subject_sampling_rate$subject)\n\n# Rename column dynamically based on function output (summary_stat can be \"mean\" or \"median\")\ncolnames(subject_sampling_rate)[colnames(subject_sampling_rate) == \"summary_SR\"] <- \"sampling_rate_subject\"\ncolnames(trial_sampling_rate)[colnames(trial_sampling_rate) == \"SR\"] <- \"sampling_rate_trial\"\n\n# Merge by-subject sampling rate with target data\ntarget_data_with_subject_SR <- trial_data_rt %>%\n  left_join(subject_sampling_rate, by = \"subject\")\n\n# Merge by-trial sampling rate with target data\ntarget_data_with_full_SR <- target_data_with_subject_SR %>%\n  select(subject, trial, sampling_rate_subject) %>%\n  left_join(trial_sampling_rate, by = c(\"subject\", \"trial\"))","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"trial_data <- left_join(trial_data_rt, target_data_with_full_SR, by=c(\"subject\", \"trial\"))","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"filter_edat <- filter_sampling_rate(trial_data,threshold = 5, \n                                         action = \"remove\", \n                                         by = \"both\")","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"filter_edat_label <- filter_sampling_rate(trial_data,threshold = 5, \n                                         action = \"label\", \n                                         by=\"both\")","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"oob_data <- gaze_oob(data=edat, subject_col = \"subject\",\n                      trial_col = \"trial\",\n                      x_col = \"x_pred_normalised\",\n                      y_col = \"y_pred_normalised\",\n                     screen_size = c(1, 1), # standardized coordinates have screen size 1,1\n                      remove = TRUE)","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Create a data frame for the quadrants with an added column for the quadrant labels\naoi_loc <- data.frame(\n  loc = c('TL', 'TR', 'BL', 'BR'), \n  x_normalized = c(0, 0.5, 0, 0.5),\n   y_normalized = c(0.5, 0.5, 0, 0),\n  width_normalized = c(0.5, 0.5, 0.5, 0.5),\n  height_normalized = c(0.5, 0.5, 0.5, 0.5)) %>% \n  \n  mutate(xmin = x_normalized, ymin = y_normalized,\n         xmax = x_normalized+width_normalized,\n         ymax = y_normalized+height_normalized)","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"edat_1 <- oob_data$data_clean  %>%\n dplyr::filter(convergence <= .5, face_conf >= .5)","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"edat_1$subject<-as.factor(edat_1$subject)\nedat_1$trial<-as.factor(edat_1$trial)\n\n\n\ndat <- left_join(edat_1, filter_edat, by = c(\"subject\",\"trial\"))\n\ndat <- dat %>%\n  distinct() # make sure to remove duplicate rows","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Assuming your data is in a data frame called df\ndat <- dat %>%\n  mutate(\n    Target = case_when(\n      tlcode == \"T\" ~ TL,\n      trcode == \"T\" ~ TR,\n      blcode == \"T\" ~ BL,\n      brcode == \"T\" ~ BR,\n      TRUE ~ NA_character_  # Default to NA if no match\n    ),\n    Unrelated = case_when(\n      tlcode == \"U\" ~ TL,\n      trcode == \"U\" ~ TR,\n      blcode == \"U\" ~ BL,\n      brcode == \"U\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Unrelated2 = case_when(\n      tlcode == \"U2\" ~ TL,\n      trcode == \"U2\" ~ TR,\n      blcode == \"U2\" ~ BL,\n      brcode == \"U2\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Unrelated3 = case_when(\n      tlcode == \"U3\" ~ TL,\n      trcode == \"U3\" ~ TR,\n      blcode == \"U3\" ~ BL,\n      brcode == \"U3\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Rhyme = case_when(\n      tlcode == \"R\" ~ TL,\n      trcode == \"R\" ~ TR,\n      blcode == \"R\" ~ BL,\n      brcode == \"R\" ~ BR,\n      TRUE ~ NA_character_\n    ),\n    Cohort = case_when(\n      tlcode == \"C\" ~ TL,\n      trcode == \"C\" ~ TR,\n      blcode == \"C\" ~ BL,\n      brcode == \"C\" ~ BR,\n      TRUE ~ NA_character_\n    )\n  )","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Apply the function to each of the targ, cohort, rhyme, and unrelated columns\ndat_colnames <- dat %>%\n  rowwise() %>%\n  mutate(\n    targ_loc = find_location(c(TL, TR, BL, BR), Target),\n    cohort_loc = find_location(c(TL, TR, BL, BR), Cohort),\n    rhyme_loc = find_location(c(TL, TR, BL, BR), Rhyme),\n    unrelated_loc = find_location(c(TL, TR, BL, BR), Unrelated), \n    unrealted2_loc= find_location(c(TL, TR, BL, BR), Unrelated2), \n    unrelated3_loc=find_location(c(TL, TR, BL, BR), Unrelated3)\n  ) %>%\n  ungroup()","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"assign <- assign_aoi(dat_colnames,X=\"x_pred_normalised\", Y=\"y_pred_normalised\",aoi_loc = aoi_loc)\n\n\nAOI <- assign %>%\n\n  mutate(loc1 = case_when(\n\n    AOI==1 ~ \"TL\", \n\n    AOI==2 ~ \"TR\", \n\n    AOI==3 ~ \"BL\", \n\n    AOI==4 ~ \"BR\"\n\n  ))","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"AOI$target <- ifelse(AOI$loc1==AOI$targ_loc, 1, 0) # if in coordinates 1, if not 0. \n\nAOI$unrelated <- ifelse(AOI$loc1 == AOI$unrelated_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated2 <- ifelse(AOI$loc1 == AOI$unrealted2_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated3 <- ifelse(AOI$loc1 == AOI$unrelated3_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$rhyme <- ifelse(AOI$loc1 == AOI$rhyme_loc, 1, 0)# if in coordinates 1, if not 0. \n\n\nAOI$cohort <- ifelse(AOI$loc1 == AOI$cohort_loc, 1, 0)# if in coordinates 1, if not 0. ","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat_long_aoi_me <- AOI  %>%\n  select(subject, trial, trialtype, target, cohort, unrelated, unrelated2, unrelated3,  rhyme, time, x_pred_normalised, y_pred_normalised, RT_audio) %>%\n    pivot_longer(\n        cols = c(target, unrelated, unrelated2, unrelated3, rhyme, cohort),\n        names_to = \"condition\",\n        values_to = \"Looks\"\n    )","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%\n  filter(trialtype==\"TCRU\") %>%\n  na.omit()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <-dat_long_aoi_me_TCRU%>% \ngroup_by(subject, trial) %>%\n  mutate(time = (time-RT_audio)-300) %>% # subtract audio rt onset for each\n filter(time >= -100, time < 2000) %>% # start -100 to 2000 ms \n   dplyr::filter(x_pred_normalised > 0,\n                x_pred_normalised < 1,\n                y_pred_normalised > 0,\n                y_pred_normalised < 1) ","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <- webgazeR::downsample_gaze(gaze_sub, bin.length=100, timevar=\"time\", aggvars=c(\"condition\", \"time_bin\"))","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"AOI_upsample <- AOI %>%\n  group_by(subject, trial) %>%\n  upsample_gaze(\n    gaze_cols = c(\"x_pred_normalised\", \"y_pred_normalised\"),\n    upsample_pupil = FALSE, \n    target_hz = 250)\n\n\nAOI_upsample %>%\n  head() %>%\n  select(subject, trial, time, x_pred_normalised, y_pred_normalised) %>%\n  kable()","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"plot_IA_proportions(gaze_sub, \n                     ia_column = \"condition\", \n                     time_column = \"time_bin\", \n                     proportion_column = \"Fix\", \n                   ia_mapping = list(target = \"Target\", cohort = \"Cohort\", rhyme = \"Rhyme\", unrelated = \"Unrelated\"), use_color=TRUE)","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"plot_IA_proportions(gaze_sub, \n                     ia_column = \"condition\", \n                     time_column = \"time_bin\", \n                     proportion_column = \"Fix\", \n                   ia_mapping = list(target = \"Target\", cohort = \"Cohort\", rhyme = \"Rhyme\", unrelated = \"Unrelated\"), use_color=FALSE)","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"aois <- extract_aois(vwp_paths_filtered, zone_names =  c(\"TL\", \"BR\", \"TR\", \"BL\"))","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Define the data\naois <- data.frame(\n  loc = c(\"BL\", \"TL\", \"TR\", \"BR\"),\n  x_normalized = c(0.03, 0.02, 0.73, 0.73),\n  y_normalized = c(0.04, 0.74, 0.75, 0.06),\n  width_normalized = c(0.26, 0.26, 0.24, 0.23),\n  height_normalized = c(0.25, 0.25, 0.24, 0.25),\n  xmin = c(0.03, 0.02, 0.73, 0.73),\n  ymin = c(0.04, 0.74, 0.75, 0.06),\n  xmax = c(0.29, 0.28, 0.97, 0.96),\n  ymax = c(0.29, 0.99, 0.99, 0.31)\n)","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"aois %>%\n  kable()","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"assign <- assign_aoi(dat_colnames,X=\"x_pred_normalised\", Y=\"y_pred_normalised\",aoi_loc = aois)\n\n\nAOI <- assign %>%\n\n  mutate(loc1 = case_when(\n\n    AOI==1 ~ \"BL\", \n\n    AOI==2 ~ \"TL\", \n\n    AOI==3 ~ \"TR\", \n\n    AOI==4 ~ \"BR\"\n\n  ))","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"AOI$target <- ifelse(AOI$loc1==AOI$targ_loc, 1, 0) # if in coordinates 1, if not 0. \n\nAOI$unrelated <- ifelse(AOI$loc1 == AOI$unrelated_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated2 <- ifelse(AOI$loc1 == AOI$unrealted2_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$unrelated3 <- ifelse(AOI$loc1 == AOI$unrelated3_loc, 1, 0)# if in coordinates 1, if not 0. \n\nAOI$rhyme <- ifelse(AOI$loc1 == AOI$rhyme_loc, 1, 0)# if in coordinates 1, if not 0. \n\n\nAOI$cohort <- ifelse(AOI$loc1 == AOI$cohort_loc, 1, 0)# if in coordinates 1, if not 0. ","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%\n  filter(trialtype==\"TCRU\") %>%\n  na.omit()","id":36,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-36","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <-dat_long_aoi_me_TCRU %>% \ngroup_by(subject, trial) %>%\n  mutate(time = (time-RT_audio)-300) %>% # subtract audio rt onset for each\n filter(time >= 0, time < 2000) %>% \n   dplyr::filter(x_pred_normalised > 0,\n                x_pred_normalised < 1,\n                y_pred_normalised > 0,\n                y_pred_normalised < 1)","id":37,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-37","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gaze_sub <- downsample_gaze(gaze_sub, bin.length=100, timevar=\"time\", aggvars=c(\"condition\", \"time_bin\"))","id":38,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-38","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gor <- plot_IA_proportions(gaze_sub, \n                     ia_column = \"condition\", \n                     time_column = \"time_bin\", \n                     proportion_column = \"Fix\", \n                   ia_mapping = list(target = \"Target\", cohort = \"Cohort\", rhyme = \"Rhyme\", unrelated = \"Unrelated\"))\n\ngor","id":39,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-39","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -2577,23 +2577,23 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="tabset-11-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-11-1-tab">
 <div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>samp_rate <span class="ot">&lt;-</span> <span class="fu">analyze_sampling_rate</span>(edat, <span class="at">summary_stat =</span> <span class="st">"mean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Overall mean Sampling Rate (Hz): 22.76296 
-Overall Standard Deviation of Sampling Rate (Hz): 7.831290938 
+<pre><code>Overall mean Sampling Rate (Hz): 22.70874715 
+Overall Standard Deviation of Sampling Rate (Hz): 7.854993476 
 
 Sampling Rate by Trial:
 # A tibble: 3,122 × 5
-    subject trial max_time n_times    SR
-      &lt;int&gt; &lt;int&gt;    &lt;dbl&gt;   &lt;int&gt; &lt;dbl&gt;
- 1 11788555     7    3664.     107  29.2
- 2 11788555     8    1295       39  30.1
- 3 11788555     9    2298.      68  29.6
- 4 11788555    10    1743.      52  29.8
- 5 11788555    12    1741.      52  29.9
- 6 11788555    13    1365.      40  29.3
- 7 11788555    15    1404.      40  28.5
- 8 11788555    16    1714.      51  29.8
- 9 11788555    21    1584.      47  29.7
-10 11788555    27    2103.      62  29.5
+    subject trial max_time n_unique_times    SR
+      &lt;int&gt; &lt;int&gt;    &lt;dbl&gt;          &lt;int&gt; &lt;dbl&gt;
+ 1 11788555     7    3664.            107  29.2
+ 2 11788555     8    1295              39  30.1
+ 3 11788555     9    2298.             68  29.6
+ 4 11788555    10    1743.             52  29.8
+ 5 11788555    12    1741.             52  29.9
+ 6 11788555    13    1365.             40  29.3
+ 7 11788555    15    1404.             40  28.5
+ 8 11788555    16    1714.             51  29.8
+ 9 11788555    21    1584.             47  29.7
+10 11788555    27    2103.             62  29.5
 # ℹ 3,112 more rows
 
  mean Sampling Rate by Subject:
@@ -2603,12 +2603,12 @@ Sampling Rate by Trial:
  1 11788555      29.6 
  2 11788682      29.7 
  3 11788824      23.7 
- 4 11788857       8.78
- 5 11789574      11.0 
- 6 11795362      22.6 
+ 4 11788857       8.77
+ 5 11789574      10.8 
+ 6 11795362      22.5 
  7 11795372      24.9 
  8 11795375      28.4 
- 9 11795376      29.9 
+ 9 11795376      29.4 
 10 11795379      30.4 
 # ℹ 13 more rows</code></pre>
 </div>
@@ -2714,7 +2714,12 @@ Sampling Rate by Trial:
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-16-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-16-1" role="tab" aria-controls="tabset-16-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-16-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-16-2" role="tab" aria-controls="tabset-16-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-16-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-16-1-tab">
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>oob_data <span class="ot">&lt;-</span> <span class="fu">gaze_oob</span>(edat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>oob_data <span class="ot">&lt;-</span> <span class="fu">gaze_oob</span>(<span class="at">data=</span>edat, <span class="at">subject_col =</span> <span class="st">"subject"</span>,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">trial_col =</span> <span class="st">"trial"</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">x_col =</span> <span class="st">"x_pred_normalised"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">y_col =</span> <span class="st">"y_pred_normalised"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">screen_size =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="co"># standardized coordinates have screen size 1,1</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">remove =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Subject: 11788555
 Total trials: 54
@@ -3020,11 +3025,8 @@ Y: 2.75%</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-18-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-18-1" role="tab" aria-controls="tabset-18-1" aria-selected="true">Result</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-18-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-18-2" role="tab" aria-controls="tabset-18-2" aria-selected="false">Interactive</a></li></ul>
 <div class="tab-content">
 <div id="tabset-18-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-18-1-tab">
-<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>edat_1 <span class="ot">&lt;-</span> edat <span class="sc">%&gt;%</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">filter</span>(convergence <span class="sc">&lt;=</span> .<span class="dv">5</span>, face_conf <span class="sc">&gt;=</span> .<span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove rows without gaze information</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(x_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                y_pred_normalised <span class="sc">!=</span> <span class="dv">0</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>edat_1 <span class="ot">&lt;-</span> oob_data<span class="sc">$</span>data_clean  <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">filter</span>(convergence <span class="sc">&lt;=</span> .<span class="dv">5</span>, face_conf <span class="sc">&gt;=</span> .<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-18-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-18-2-tab">
 <div id="qwebr-insertion-location-18"></div>
@@ -3148,11 +3150,11 @@ Y: 2.75%</code></pre>
 <col style="width: 3%">
 <col style="width: 0%">
 <col style="width: 2%">
-<col style="width: 2%">
 <col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
 <col style="width: 2%">
 <col style="width: 2%">
 <col style="width: 1%">
@@ -3167,29 +3169,31 @@ Y: 2.75%</code></pre>
 <col style="width: 3%">
 <col style="width: 3%">
 <col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 3%">
 <col style="width: 0%">
 <col style="width: 1%">
 <col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 2%">
 <col style="width: 1%">
 <col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 3%">
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 3%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 3%">
 <col style="width: 3%">
 <col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
 <col style="width: 1%">
-<col style="width: 3%">
-<col style="width: 2%">
-<col style="width: 2%">
+<col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 0%">
@@ -3221,6 +3225,8 @@ Y: 2.75%</code></pre>
 <th style="text-align: right;">zone_width_normalised</th>
 <th style="text-align: right;">zone_height_normalised</th>
 <th style="text-align: left;">subject</th>
+<th style="text-align: right;">trial_missing_percentage</th>
+<th style="text-align: right;">subject_missing_percentage</th>
 <th style="text-align: right;">acc</th>
 <th style="text-align: left;">TL</th>
 <th style="text-align: left;">TR</th>
@@ -3240,7 +3246,7 @@ Y: 2.75%</code></pre>
 <th style="text-align: left;">response.y</th>
 <th style="text-align: right;">sampling_rate_subject</th>
 <th style="text-align: right;">max_time</th>
-<th style="text-align: right;">n_times</th>
+<th style="text-align: right;">n_unique_times</th>
 <th style="text-align: right;">sampling_rate_trial</th>
 <th style="text-align: left;">Target</th>
 <th style="text-align: left;">Unrelated</th>
@@ -3252,59 +3258,6 @@ Y: 2.75%</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">eyetracking_collection</td>
-<td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868218964</td>
-<td style="text-align: right;">0.00000000</td>
-<td style="text-align: left;">prediction</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">921.5823073</td>
-<td style="text-align: right;">-61.68745669</td>
-<td style="text-align: right;">0.4717325812</td>
-<td style="text-align: right;">-0.0607758194</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">11788555</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">TCUU</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">U2</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">BL</td>
-<td style="text-align: left;">response_button_image</td>
-<td style="text-align: right;">1997.8</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: right;">13.0999999</td>
-<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.57322764</td>
-<td style="text-align: right;">1922.4</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">29.65043695</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sandal.jpg</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">2</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">eyetracking_collection</td>
@@ -3329,6 +3282,8 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">candle.jpg</td>
 <td style="text-align: left;">sandal.jpg</td>
@@ -3357,7 +3312,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">sandal.jpg</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">3</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">eyetracking_collection</td>
@@ -3382,59 +3337,8 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">11788555</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">TCUU</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">U2</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">BL</td>
-<td style="text-align: left;">response_button_image</td>
-<td style="text-align: right;">1997.8</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: right;">13.0999999</td>
-<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.57322764</td>
-<td style="text-align: right;">1922.4</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">29.65043695</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sandal.jpg</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">4</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">eyetracking_collection</td>
-<td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868219076</td>
-<td style="text-align: right;">113.09999990</td>
-<td style="text-align: left;">prediction</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">1048.4626414</td>
-<td style="text-align: right;">383.69717600</td>
-<td style="text-align: right;">0.5655096204</td>
-<td style="text-align: right;">0.3780267744</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">candle.jpg</td>
 <td style="text-align: left;">sandal.jpg</td>
@@ -3464,18 +3368,18 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandal.jpg</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">eyetracking_collection</td>
 <td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868219111</td>
-<td style="text-align: right;">148.40000010</td>
+<td style="text-align: right;">1727868219076</td>
+<td style="text-align: right;">113.09999990</td>
 <td style="text-align: left;">prediction</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">1018.1750413</td>
-<td style="text-align: right;">433.21330043</td>
-<td style="text-align: right;">0.5431241067</td>
-<td style="text-align: right;">0.4268111334</td>
+<td style="text-align: right;">1048.4626414</td>
+<td style="text-align: right;">383.69717600</td>
+<td style="text-align: right;">0.5655096204</td>
+<td style="text-align: right;">0.3780267744</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">NA</td>
@@ -3488,6 +3392,8 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">candle.jpg</td>
 <td style="text-align: left;">sandal.jpg</td>
@@ -3517,6 +3423,61 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">sandal.jpg</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219111</td>
+<td style="text-align: right;">148.40000010</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1018.1750413</td>
+<td style="text-align: right;">433.21330043</td>
+<td style="text-align: right;">0.5431241067</td>
+<td style="text-align: right;">0.4268111334</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.57322764</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+<tr class="odd">
 <td style="text-align: right;">6</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">eyetracking_collection</td>
@@ -3541,6 +3502,63 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.57322764</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219177</td>
+<td style="text-align: right;">214.59999990</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1022.8150845</td>
+<td style="text-align: right;">634.36924699</td>
+<td style="text-align: right;">0.5465535547</td>
+<td style="text-align: right;">0.6249943320</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">candle.jpg</td>
 <td style="text-align: left;">sandal.jpg</td>
@@ -3636,25 +3654,52 @@ Y: 2.75%</code></pre>
 <col style="width: 0%">
 <col style="width: 3%">
 <col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
 <col style="width: 2%">
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 0%">
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
 <col style="width: 2%">
 <col style="width: 2%">
 <col style="width: 3%">
+<col style="width: 1%">
 <col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 0%">
 <col style="width: 1%">
@@ -3663,31 +3708,6 @@ Y: 2.75%</code></pre>
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 3%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 0%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 2%">
 <col style="width: 0%">
 <col style="width: 0%">
 </colgroup>
@@ -3717,6 +3737,8 @@ Y: 2.75%</code></pre>
 <th style="text-align: right;">zone_width_normalised</th>
 <th style="text-align: right;">zone_height_normalised</th>
 <th style="text-align: left;">subject</th>
+<th style="text-align: right;">trial_missing_percentage</th>
+<th style="text-align: right;">subject_missing_percentage</th>
 <th style="text-align: right;">acc</th>
 <th style="text-align: left;">TL</th>
 <th style="text-align: left;">TR</th>
@@ -3736,7 +3758,7 @@ Y: 2.75%</code></pre>
 <th style="text-align: left;">response.y</th>
 <th style="text-align: right;">sampling_rate_subject</th>
 <th style="text-align: right;">max_time</th>
-<th style="text-align: right;">n_times</th>
+<th style="text-align: right;">n_unique_times</th>
 <th style="text-align: right;">sampling_rate_trial</th>
 <th style="text-align: left;">Target</th>
 <th style="text-align: left;">Unrelated</th>
@@ -3755,66 +3777,6 @@ Y: 2.75%</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">eyetracking_collection</td>
-<td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868218964</td>
-<td style="text-align: right;">0.00000000</td>
-<td style="text-align: left;">prediction</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">921.5823073</td>
-<td style="text-align: right;">-61.68745669</td>
-<td style="text-align: right;">0.4717325812</td>
-<td style="text-align: right;">-0.0607758194</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">11788555</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">TCUU</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">U2</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">BL</td>
-<td style="text-align: left;">response_button_image</td>
-<td style="text-align: right;">1997.8</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: right;">13.0999999</td>
-<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.57322764</td>
-<td style="text-align: right;">1922.4</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">29.65043695</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">TR</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">BR</td>
-<td style="text-align: left;">TL</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: left;">NA</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">2</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">eyetracking_collection</td>
@@ -3839,6 +3801,8 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">candle.jpg</td>
 <td style="text-align: left;">sandal.jpg</td>
@@ -3874,7 +3838,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">3</td>
 <td style="text-align: left;">BL</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">3</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">eyetracking_collection</td>
@@ -3899,66 +3863,8 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">11788555</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">TCUU</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">U2</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">BL</td>
-<td style="text-align: left;">response_button_image</td>
-<td style="text-align: right;">1997.8</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: right;">13.0999999</td>
-<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.57322764</td>
-<td style="text-align: right;">1922.4</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">29.65043695</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">TR</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">BR</td>
-<td style="text-align: left;">TL</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: left;">BR</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">4</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">eyetracking_collection</td>
-<td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868219076</td>
-<td style="text-align: right;">113.09999990</td>
-<td style="text-align: left;">prediction</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">1048.4626414</td>
-<td style="text-align: right;">383.69717600</td>
-<td style="text-align: right;">0.5655096204</td>
-<td style="text-align: right;">0.3780267744</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">candle.jpg</td>
 <td style="text-align: left;">sandal.jpg</td>
@@ -3995,18 +3901,18 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">BR</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">eyetracking_collection</td>
 <td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868219111</td>
-<td style="text-align: right;">148.40000010</td>
+<td style="text-align: right;">1727868219076</td>
+<td style="text-align: right;">113.09999990</td>
 <td style="text-align: left;">prediction</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">1018.1750413</td>
-<td style="text-align: right;">433.21330043</td>
-<td style="text-align: right;">0.5431241067</td>
-<td style="text-align: right;">0.4268111334</td>
+<td style="text-align: right;">1048.4626414</td>
+<td style="text-align: right;">383.69717600</td>
+<td style="text-align: right;">0.5655096204</td>
+<td style="text-align: right;">0.3780267744</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">NA</td>
@@ -4019,6 +3925,8 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">candle.jpg</td>
 <td style="text-align: left;">sandal.jpg</td>
@@ -4055,6 +3963,68 @@ Y: 2.75%</code></pre>
 <td style="text-align: left;">BR</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219111</td>
+<td style="text-align: right;">148.40000010</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1018.1750413</td>
+<td style="text-align: right;">433.21330043</td>
+<td style="text-align: right;">0.5431241067</td>
+<td style="text-align: right;">0.4268111334</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.57322764</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">BR</td>
+</tr>
+<tr class="odd">
 <td style="text-align: right;">6</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">eyetracking_collection</td>
@@ -4079,6 +4049,70 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.57322764</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">TR</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219177</td>
+<td style="text-align: right;">214.59999990</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1022.8150845</td>
+<td style="text-align: right;">634.36924699</td>
+<td style="text-align: right;">0.5465535547</td>
+<td style="text-align: right;">0.6249943320</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">candle.jpg</td>
 <td style="text-align: left;">sandal.jpg</td>
@@ -4150,6 +4184,29 @@ Y: 2.75%</code></pre>
 <colgroup>
 <col style="width: 0%">
 <col style="width: 0%">
+<col style="width: 2%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 3%">
 <col style="width: 3%">
 <col style="width: 0%">
 <col style="width: 1%">
@@ -4158,27 +4215,6 @@ Y: 2.75%</code></pre>
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 0%">
-<col style="width: 0%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 3%">
-<col style="width: 1%">
-<col style="width: 0%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
 <col style="width: 0%">
 <col style="width: 0%">
 <col style="width: 0%">
@@ -4188,7 +4224,7 @@ Y: 2.75%</code></pre>
 <col style="width: 0%">
 <col style="width: 1%">
 <col style="width: 1%">
-<col style="width: 3%">
+<col style="width: 2%">
 <col style="width: 2%">
 <col style="width: 1%">
 <col style="width: 1%">
@@ -4202,8 +4238,8 @@ Y: 2.75%</code></pre>
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
 <col style="width: 0%">
 <col style="width: 0%">
 <col style="width: 0%">
@@ -4239,6 +4275,8 @@ Y: 2.75%</code></pre>
 <th style="text-align: right;">zone_width_normalised</th>
 <th style="text-align: right;">zone_height_normalised</th>
 <th style="text-align: left;">subject</th>
+<th style="text-align: right;">trial_missing_percentage</th>
+<th style="text-align: right;">subject_missing_percentage</th>
 <th style="text-align: right;">acc</th>
 <th style="text-align: left;">TL</th>
 <th style="text-align: left;">TR</th>
@@ -4258,7 +4296,7 @@ Y: 2.75%</code></pre>
 <th style="text-align: left;">response.y</th>
 <th style="text-align: right;">sampling_rate_subject</th>
 <th style="text-align: right;">max_time</th>
-<th style="text-align: right;">n_times</th>
+<th style="text-align: right;">n_unique_times</th>
 <th style="text-align: right;">sampling_rate_trial</th>
 <th style="text-align: left;">Target</th>
 <th style="text-align: left;">Unrelated</th>
@@ -4283,72 +4321,6 @@ Y: 2.75%</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">eyetracking_collection</td>
-<td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868218964</td>
-<td style="text-align: right;">0.00000000</td>
-<td style="text-align: left;">prediction</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">921.5823073</td>
-<td style="text-align: right;">-61.68745669</td>
-<td style="text-align: right;">0.4717325812</td>
-<td style="text-align: right;">-0.0607758194</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">11788555</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">TCUU</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">U2</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">BL</td>
-<td style="text-align: left;">response_button_image</td>
-<td style="text-align: right;">1997.8</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: right;">13.0999999</td>
-<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.57322764</td>
-<td style="text-align: right;">1922.4</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">29.65043695</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">TR</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">BR</td>
-<td style="text-align: left;">TL</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">2</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">eyetracking_collection</td>
@@ -4373,6 +4345,8 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">candle.jpg</td>
 <td style="text-align: left;">sandal.jpg</td>
@@ -4414,7 +4388,7 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">3</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">eyetracking_collection</td>
@@ -4439,72 +4413,8 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">11788555</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">TCUU</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">U2</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">BL</td>
-<td style="text-align: left;">response_button_image</td>
-<td style="text-align: right;">1997.8</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: right;">13.0999999</td>
-<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
-<td style="text-align: right;">29.57322764</td>
-<td style="text-align: right;">1922.4</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">29.65043695</td>
-<td style="text-align: left;">sandwich.jpg</td>
-<td style="text-align: left;">building.jpg</td>
-<td style="text-align: left;">candle.jpg</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sandal.jpg</td>
-<td style="text-align: left;">TR</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">BR</td>
-<td style="text-align: left;">TL</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: left;">BR</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">4</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">eyetracking_collection</td>
-<td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868219076</td>
-<td style="text-align: right;">113.09999990</td>
-<td style="text-align: left;">prediction</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">1048.4626414</td>
-<td style="text-align: right;">383.69717600</td>
-<td style="text-align: right;">0.5655096204</td>
-<td style="text-align: right;">0.3780267744</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">candle.jpg</td>
 <td style="text-align: left;">sandal.jpg</td>
@@ -4547,18 +4457,18 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">eyetracking_collection</td>
 <td style="text-align: left;">153</td>
-<td style="text-align: right;">1727868219111</td>
-<td style="text-align: right;">148.40000010</td>
+<td style="text-align: right;">1727868219076</td>
+<td style="text-align: right;">113.09999990</td>
 <td style="text-align: left;">prediction</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">1018.1750413</td>
-<td style="text-align: right;">433.21330043</td>
-<td style="text-align: right;">0.5431241067</td>
-<td style="text-align: right;">0.4268111334</td>
+<td style="text-align: right;">1048.4626414</td>
+<td style="text-align: right;">383.69717600</td>
+<td style="text-align: right;">0.5655096204</td>
+<td style="text-align: right;">0.3780267744</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">NA</td>
@@ -4571,6 +4481,8 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">candle.jpg</td>
 <td style="text-align: left;">sandal.jpg</td>
@@ -4613,6 +4525,74 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219111</td>
+<td style="text-align: right;">148.40000010</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1018.1750413</td>
+<td style="text-align: right;">433.21330043</td>
+<td style="text-align: right;">0.5431241067</td>
+<td style="text-align: right;">0.4268111334</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.57322764</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
 <td style="text-align: right;">6</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">eyetracking_collection</td>
@@ -4637,6 +4617,76 @@ Y: 2.75%</code></pre>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">TCUU</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">U2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">BL</td>
+<td style="text-align: left;">response_button_image</td>
+<td style="text-align: right;">1997.8</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: right;">13.0999999</td>
+<td style="text-align: left;">AUDIO PLAY EVENT FIRED</td>
+<td style="text-align: right;">29.57322764</td>
+<td style="text-align: right;">1922.4</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">29.65043695</td>
+<td style="text-align: left;">sandwich.jpg</td>
+<td style="text-align: left;">building.jpg</td>
+<td style="text-align: left;">candle.jpg</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sandal.jpg</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">BR</td>
+<td style="text-align: left;">TL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">TR</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">eyetracking_collection</td>
+<td style="text-align: left;">153</td>
+<td style="text-align: right;">1727868219177</td>
+<td style="text-align: right;">214.59999990</td>
+<td style="text-align: left;">prediction</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1022.8150845</td>
+<td style="text-align: right;">634.36924699</td>
+<td style="text-align: right;">0.5465535547</td>
+<td style="text-align: right;">0.6249943320</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">11788555</td>
+<td style="text-align: right;">10.52631579</td>
+<td style="text-align: right;">24.48650826</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">candle.jpg</td>
 <td style="text-align: left;">sandal.jpg</td>
