@@ -104,10 +104,10 @@ emstr <- agg_eye_data %>%
   janitor::clean_names() %>%
   
   # Select specific columns to keep in the dataset
-  dplyr::select(participant_private_id,  correct, tlpic, trpic, blpic, brpic, trialtype, targetword, tlcode, trcode, blcode, brcode, zone_name, zone_type,reaction_time, spreadsheet_row, response) %>%
+  dplyr::select(participant_private_id,  correct, tlpic, trpic, blpic, brpic, trialtype, targetword, screen_name, tlcode, trcode, blcode, brcode, zone_name, zone_type,reaction_time, spreadsheet_row, response) %>%
   
   # Filter the rows where 'Zone.Type' equals "response_button_image"
-  dplyr::filter(zone_type == "response_button_image") %>%
+  dplyr::filter(screen_name == "VWP", zone_type == "response_button_image") %>%
   
   # Rename columns for easier use and readability
   dplyr::rename(
@@ -300,8 +300,6 @@ edat_1$trial<-as.factor(edat_1$trial)
 
 dat <- left_join(edat_1, filter_edat, by = c("subject","trial"))
 
-dat <- dat %>%
-  distinct() # make sure to remove duplicate rows
 ```
 
 Let's verify our AOIs look how they are suppose to.
@@ -533,11 +531,8 @@ dat_long_aoi_me_TCRU <- dat_long_aoi_me %>%
 gaze_sub <-dat_long_aoi_me_TCRU%>% 
 group_by(subject, trial) %>%
   mutate(time = (time-RT_audio)-300) %>% # subtract audio rt onset for each
- filter(time >= -100, time < 2000) %>% # start -100 to 2000 ms 
-   dplyr::filter(x_pred_normalised > 0,
-                x_pred_normalised < 1,
-                y_pred_normalised > 0,
-                y_pred_normalised < 1) 
+ filter(time >= -100, time < 2000) # start -100 to 2000 ms 
+
 
 ```
 

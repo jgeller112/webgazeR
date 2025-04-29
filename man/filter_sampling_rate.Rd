@@ -12,47 +12,18 @@ filter_sampling_rate(
 )
 }
 \arguments{
-\item{data}{A dataframe that contains the data to be processed. The dataframe
-should include the columns:
-\describe{
-  \item{`subject`}{Unique identifier for each participant in the dataset.}
-  \item{`med_SR`}{Subject-level median sampling rate (Hz). This represents the median sampling rate for a subject across trials.}
-  \item{`SR`}{Trial-level sampling rate (Hz). This represents the sampling rate for each specific trial.}
-}}
+\item{data}{A dataframe with columns: subject, trial, SR_subject, SR_trial.}
 
-\item{threshold}{Numeric value specifying the sampling rate threshold. Data falling below this threshold will either be removed or labeled as "bad".}
+\item{threshold}{Numeric. Sampling rate threshold to apply.}
 
-\item{action}{Character string specifying whether to "remove" data that falls below the threshold or "label" it as bad. Acceptable values are `"remove"` or `"label"`.
-\describe{
-  \item{`"remove"`}{Removes rows from the dataset where the sampling rate falls below the threshold.}
-  \item{`"label"`}{Adds new columns `is_bad_subject` and/or `is_bad_trial` that flag rows where the sampling rate falls below the threshold.}
-}}
+\item{action}{"remove" (default) to delete bad data or "label" to flag bad data.}
 
-\item{by}{Character string specifying whether the threshold should be applied
-at the "subject" level, the "trial" level, or "both". Acceptable values are
-`"subject"`, `"trial"`, or `"both"`.
-\describe{
-  \item{`"subject"`}{Applies the threshold to the subject-level median sampling rate (`med_SR`).}
-  \item{`"trial"`}{Applies the threshold to the trial-level sampling rate (`SR`).}
-  \item{`"both"`}{Applies the threshold to both the subject-level (`med_SR`) and trial-level (`SR`) rates. Data is removed/labeled if either rate falls below the threshold.}
-}}
+\item{by}{"subject", "trial", or "both" to specify where to apply the threshold.}
 }
 \value{
-A dataframe with either rows removed or new columns (`is_bad_subject`, `is_bad_trial`) added
-to indicate whether the data is below the threshold. Additionally, messages will inform the user how many subjects and trials were removed or labeled as "bad."
+A dataframe with either rows removed or bad subjects/trials labeled.
 }
 \description{
-This function allows users to set a sampling rate threshold and choose to
-either remove the data that falls below the threshold or label it as "bad."
-Users can apply this threshold either at the subject level, the trial level,
-or both.
+This function applies a sampling rate threshold and either removes
+or labels "bad" subjects/trials based on their sampling rates.
 }
-\section{Output}{
-
-
-The function will either return a dataset with rows removed based on the
-sampling rate threshold or add new columns, `is_bad_subject` and/or `is_bad_trial` to the dataset,
-which indicates whether the data is considered "bad" (i.e., below the
-sampling rate threshold).
-}
-

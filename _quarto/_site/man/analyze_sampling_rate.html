@@ -258,11 +258,11 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="analyze-sampling-rates-for-eye-tracking-data-removes-duplicate-times" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="analyze-sampling-rates-for-eye-tracking-data-removes-duplicate-times">Analyze Sampling Rates for Eye-Tracking Data (Removes Duplicate Times)</h2>
+<section id="analyze-sampling-rates-trial-and-subject-levels-with-histogram" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="analyze-sampling-rates-trial-and-subject-levels-with-histogram">Analyze Sampling Rates (Trial and Subject Levels, with Histogram)</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Calculates the sampling rate for each subject and trial using distinct timepoints, ignoring duplicates. Provides overall summary statistics and histogram.</p>
+<p>Computes sampling rate for each trial (subject × trial) and summarizes at the subject level. Uses distinct timepoints to avoid duplicate time values. Plots histogram of subject-level sampling rates.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -277,7 +277,7 @@ ul.task-list li input[type="checkbox"] {
 <code id="eye_data">eye_data</code>
 </td>
 <td>
-A dataframe with columns: ‘subject’, ‘trial’, and ‘time’ (in ms).
+A dataframe with subject, trial, time columns.
 </td>
 </tr>
 <tr>
@@ -285,40 +285,14 @@ A dataframe with columns: ‘subject’, ‘trial’, and ‘time’ (in ms).
 <code id="summary_stat">summary_stat</code>
 </td>
 <td>
-Either "median" (default) or "mean" to summarize subject-level SR.
+Either "median" (default) or "mean".
 </td>
 </tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A list with:</p>
-<dl>
-<dt>
-overall_summary_SR
-</dt>
-<dd>
-Overall median or mean sampling rate.
-</dd>
-<dt>
-overall_sd_SR
-</dt>
-<dd>
-Standard deviation of subject-level SR.
-</dd>
-<dt>
-summary_SR_by_subject
-</dt>
-<dd>
-Summary SR by subject.
-</dd>
-<dt>
-SR_by_trial
-</dt>
-<dd>
-Trial-level SR estimates.
-</dd>
-</dl>
+<p>A tibble with subject, trial, SR_trial, SR_subject</p>
 
 
 </section>

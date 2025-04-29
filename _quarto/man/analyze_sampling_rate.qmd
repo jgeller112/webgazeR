@@ -1,11 +1,11 @@
 
-## Analyze Sampling Rates for Eye-Tracking Data (Removes Duplicate Times) {.unnumbered}
+## Analyze Sampling Rates (Trial and Subject Levels, with Histogram) {.unnumbered}
 
 
 ### Description
 
-Calculates the sampling rate for each subject and trial using distinct timepoints,
-ignoring duplicates. Provides overall summary statistics and histogram.
+Computes sampling rate for each trial (subject × trial) and summarizes at the subject level.
+Uses distinct timepoints to avoid duplicate time values. Plots histogram of subject-level sampling rates.
 
 
 
@@ -20,29 +20,17 @@ ignoring duplicates. Provides overall summary statistics and histogram.
 <table>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="eye_data">eye_data</code></td>
 <td>
-A dataframe with columns: 'subject', 'trial', and 'time' (in ms).
+A dataframe with subject, trial, time columns.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="summary_stat">summary_stat</code></td>
 <td>
-Either &quot;median&quot; (default) or &quot;mean&quot; to summarize subject-level SR.
+Either &quot;median&quot; (default) or &quot;mean&quot;.
 </td></tr>
 </table>
 
 
 ### Value
 
-A list with:
-
-
-<dl>
-<dt>overall_summary_SR</dt><dd>Overall median or mean sampling rate.
-</dd>
-<dt>overall_sd_SR</dt><dd>Standard deviation of subject-level SR.
-</dd>
-<dt>summary_SR_by_subject</dt><dd>Summary SR by subject.
-</dd>
-<dt>SR_by_trial</dt><dd>Trial-level SR estimates.
-</dd>
-</dl>
+A tibble with subject, trial, SR_trial, SR_subject
 
 

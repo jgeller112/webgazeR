@@ -262,7 +262,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="unnumbered anchored" data-anchor-id="filter-or-label-data-based-on-sampling-rate-threshold">Filter or Label Data Based on Sampling Rate Threshold</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>This function allows users to set a sampling rate threshold and choose to either remove the data that falls below the threshold or label it as "bad." Users can apply this threshold either at the subject level, the trial level, or both.</p>
+<p>This function applies a sampling rate threshold and either removes or labels "bad" subjects/trials based on their sampling rates.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -282,27 +282,7 @@ ul.task-list li input[type="checkbox"] {
 <code id="data">data</code>
 </td>
 <td>
-<p>A dataframe that contains the data to be processed. The dataframe should include the columns:</p>
-<dl>
-<dt>
-‘subject’
-</dt>
-<dd>
-Unique identifier for each participant in the dataset.
-</dd>
-<dt>
-‘med_SR’
-</dt>
-<dd>
-Subject-level median sampling rate (Hz). This represents the median sampling rate for a subject across trials.
-</dd>
-<dt>
-‘SR’
-</dt>
-<dd>
-Trial-level sampling rate (Hz). This represents the sampling rate for each specific trial.
-</dd>
-</dl>
+A dataframe with columns: subject, trial, SR_subject, SR_trial.
 </td>
 </tr>
 <tr>
@@ -310,7 +290,7 @@ Trial-level sampling rate (Hz). This represents the sampling rate for each speci
 <code id="threshold">threshold</code>
 </td>
 <td>
-Numeric value specifying the sampling rate threshold. Data falling below this threshold will either be removed or labeled as "bad".
+Numeric. Sampling rate threshold to apply.
 </td>
 </tr>
 <tr>
@@ -318,21 +298,7 @@ Numeric value specifying the sampling rate threshold. Data falling below this th
 <code id="action">action</code>
 </td>
 <td>
-<p>Character string specifying whether to "remove" data that falls below the threshold or "label" it as bad. Acceptable values are ‘"remove"’ or ‘"label"’.</p>
-<dl>
-<dt>
-‘"remove"’
-</dt>
-<dd>
-Removes rows from the dataset where the sampling rate falls below the threshold.
-</dd>
-<dt>
-‘"label"’
-</dt>
-<dd>
-Adds new columns ‘is_bad_subject’ and/or ‘is_bad_trial’ that flag rows where the sampling rate falls below the threshold.
-</dd>
-</dl>
+"remove" (default) to delete bad data or "label" to flag bad data.
 </td>
 </tr>
 <tr>
@@ -340,38 +306,14 @@ Adds new columns ‘is_bad_subject’ and/or ‘is_bad_trial’ that flag rows w
 <code id="by">by</code>
 </td>
 <td>
-<p>Character string specifying whether the threshold should be applied at the "subject" level, the "trial" level, or "both". Acceptable values are ‘"subject"’, ‘"trial"’, or ‘"both"’.</p>
-<dl>
-<dt>
-‘"subject"’
-</dt>
-<dd>
-Applies the threshold to the subject-level median sampling rate (‘med_SR’).
-</dd>
-<dt>
-‘"trial"’
-</dt>
-<dd>
-Applies the threshold to the trial-level sampling rate (‘SR’).
-</dd>
-<dt>
-‘"both"’
-</dt>
-<dd>
-Applies the threshold to both the subject-level (‘med_SR’) and trial-level (‘SR’) rates. Data is removed/labeled if either rate falls below the threshold.
-</dd>
-</dl>
+"subject", "trial", or "both" to specify where to apply the threshold.
 </td>
 </tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A dataframe with either rows removed or new columns (‘is_bad_subject’, ‘is_bad_trial’) added to indicate whether the data is below the threshold. Additionally, messages will inform the user how many subjects and trials were removed or labeled as "bad."</p>
-</section>
-<section id="output" class="level3">
-<h3 class="anchored" data-anchor-id="output">Output</h3>
-<p>The function will either return a dataset with rows removed based on the sampling rate threshold or add new columns, ‘is_bad_subject’ and/or ‘is_bad_trial’ to the dataset, which indicates whether the data is considered "bad" (i.e., below the sampling rate threshold).</p>
+<p>A dataframe with either rows removed or bad subjects/trials labeled.</p>
 
 
 </section>
