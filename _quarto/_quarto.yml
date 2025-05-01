@@ -2,7 +2,7 @@ project:
   type: website
   pre-render: panelize-code-cells-for-quarto-webr.R
 website:
-  title: webgazeR v0.4.1
+  title: webgazeR v0.5.1
   navbar:
     search: true
     right:
@@ -38,6 +38,8 @@ website:
             file: man/gaze_dispersion.qmd
           - text: gaze_oob
             file: man/gaze_oob.qmd
+          - text: interpolate_gaze
+            file: man/interpolate_gaze.qmd
           - text: merge_webcam_files
             file: man/merge_webcam_files.qmd
           - text: plot_IA_proportions
