@@ -1,0 +1,63 @@
+
+## Interpolate missing gaze data (X and Y) within trials, with optional max gap {.unnumbered}
+
+
+### Description
+
+Interpolate missing gaze data (X and Y) within trials, with optional max gap
+
+
+
+### Usage
+
+<pre><code class='language-R'>interpolate_gaze(
+  x,
+  x_col = "Gaze_X",
+  y_col = "Gaze_Y",
+  trial_col = "Trial",
+  subject_col = "Subject",
+  time_col = "Time",
+  max_gap = Inf
+)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<td>
+A data frame containing gaze data.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x_col">x_col</code></td>
+<td>
+The name of the X gaze column (as string).
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="y_col">y_col</code></td>
+<td>
+The name of the Y gaze column (as string).
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="trial_col">trial_col</code></td>
+<td>
+The name of the trial column (default = &quot;Trial&quot;).
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="subject_col">subject_col</code></td>
+<td>
+The name of the subject column (default = &quot;Subject&quot;).
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="time_col">time_col</code></td>
+<td>
+The name of the time column used for sorting (default = &quot;Time&quot;).
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="max_gap">max_gap</code></td>
+<td>
+Maximum number of consecutive missing samples to interpolate. Gaps larger than this remain NA (default = Inf).
+</td></tr>
+</table>
+
+
+### Value
+
+A tibble with interpolated gaze X and Y columns (replacing originals).
+
+

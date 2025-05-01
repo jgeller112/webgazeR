@@ -33,6 +33,7 @@ library(knitr)
 library(ggokabeito)
 #install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))
 library(webgazeR)
+library(zoo)# interpolation
 
 ```
 
