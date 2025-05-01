@@ -602,7 +602,39 @@ AOI_upsample %>%
 ```
 :::
 
-### Plotting
+### Smoothing and Interpolation
+
+We can also smooth the data
+
+::: {.to-webr}
+```{r}
+
+
+AOI_smooth=smooth_gaze(AOI_upsample, n = 5, x_col = "x_pred_normalised", y_col = "y_pred_normalised",
+                        trial_col = "trial", subject_col = "subject")
+
+```
+:::
+
+
+and then interpolate it
+
+::: {.to-webr}
+```{r}
+
+deduplicated_data <- AOI_smooth %>%
+  group_by(subject, trial, time) %>%
+  slice(1) %>%
+  ungroup()
+
+
+aoi_interp <- interpolate_gaze(deduplicated_data,x_col = "x_pred_normalised", y_col = "y_pred_normalised",
+                        trial_col = "trial", subject_col = "subject", time_col="time" )
+
+```
+:::
+
+## Plotting
 
 To simplify plotting your time-course data, we have created the `plot_IA_proportions` function. This function takes several arguments. The ia_column argument specifies the column containing your Interest Area (IA) labels. The `time_column` argument requires the name of your time bin column, and the `proportion_column` argument specifies the column containing fixation or look proportions. Additional arguments allow you to specify custom names for each IA in the ia_column, enabling you to label them as desired.
 

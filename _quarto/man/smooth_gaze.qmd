@@ -1,16 +1,24 @@
 
-## Apply a moving average smoothing function to gaze data (X and Y). This is generally reccomended after up-sampling the data. {.unnumbered}
-
+Apply a moving average smoothing function to gaze data (X and Y).
+This is generally recommended after up-sampling the data.
 
 ### Description
 
-Apply a moving average smoothing function to gaze data (X and Y). This is generally reccomended after up-sampling the data.
+Apply a moving average smoothing function to gaze data (X and Y).
+This is generally recommended after up-sampling the data.
 
 
 
 ### Usage
 
-<pre><code class='language-R'>smooth_gaze(x, n = 5, x_col = "Gaze_X", y_col = "Gaze_Y", trial_col = "Trial")
+<pre><code class='language-R'>smooth_gaze(
+  x,
+  n = 5,
+  x_col = "Gaze_X",
+  y_col = "Gaze_Y",
+  trial_col = "Trial",
+  subject_col = "Subject"
+)
 </code></pre>
 
 
@@ -36,6 +44,10 @@ The name of the Y gaze column (as string).
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="trial_col">trial_col</code></td>
 <td>
 The name of the trial column used for grouping (default = &quot;Trial&quot;).
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="subject_col">subject_col</code></td>
+<td>
+The name of the subject column used for grouping (default = &quot;Subject&quot;).
 </td></tr>
 </table>
 

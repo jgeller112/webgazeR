@@ -2,9 +2,17 @@
 % Please edit documentation in R/smooth_gaze.R
 \name{smooth_gaze}
 \alias{smooth_gaze}
-\title{Apply a moving average smoothing function to gaze data (X and Y). This is generally reccomended after up-sampling the data.}
+\title{Apply a moving average smoothing function to gaze data (X and Y).
+This is generally recommended after up-sampling the data.}
 \usage{
-smooth_gaze(x, n = 5, x_col = "Gaze_X", y_col = "Gaze_Y", trial_col = "Trial")
+smooth_gaze(
+  x,
+  n = 5,
+  x_col = "Gaze_X",
+  y_col = "Gaze_Y",
+  trial_col = "Trial",
+  subject_col = "Subject"
+)
 }
 \arguments{
 \item{x}{A data frame containing gaze data.}
@@ -16,10 +24,13 @@ smooth_gaze(x, n = 5, x_col = "Gaze_X", y_col = "Gaze_Y", trial_col = "Trial")
 \item{y_col}{The name of the Y gaze column (as string).}
 
 \item{trial_col}{The name of the trial column used for grouping (default = "Trial").}
+
+\item{subject_col}{The name of the subject column used for grouping (default = "Subject").}
 }
 \value{
 A tibble with smoothed gaze X and Y columns (replacing originals).
 }
 \description{
-Apply a moving average smoothing function to gaze data (X and Y). This is generally reccomended after up-sampling the data.
+Apply a moving average smoothing function to gaze data (X and Y).
+This is generally recommended after up-sampling the data.
 }
