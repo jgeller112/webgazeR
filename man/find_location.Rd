@@ -7,22 +7,13 @@
 find_location(locations, image)
 }
 \arguments{
-\item{locations}{A character vector representing the possible locations (e.g., `c("TL", "TR", "BL", "BR")`).}
+\item{locations}{A character vector of image names at each location.}
 
-\item{image}{A character value representing the image to find in the locations.}
+\item{image}{A character string: the image to locate.#'}
 }
 \value{
-A character string representing the location of the image, or `NA` if the image is not found or is missing.
+A character string representing the location name or NA if not found.
 }
 \description{
-This function determines the location of an image within a set of locations.
-The function accepts a vector of locations (such as "TL", "TR", "BL", "BR") and an image identifier.
-It returns the corresponding location name if the image is found, or `NA` if the image is not present or is `NA`.
-}
-\examples{
-# Example usage of the find_location function
-locations <- c("apple", "banana", "cherry", "date")
-find_location(locations, "banana")  # Returns "TR" if locations follow c("TL", "TR", "BL", "BR")
-find_location(locations, "orange")  # Returns NA
-
+Find Image Location in a Given Set of Locations
 }

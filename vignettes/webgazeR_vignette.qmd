@@ -397,7 +397,6 @@ dat_colnames <- dat %>%
     unrelated3_loc=find_location(c(TL, TR, BL, BR), Unrelated3)
   ) %>%
   ungroup()
-
 ```
 
 Here is where we are going to use our coordinate information from above. We use the `assign_aoi` that is adaopted from the `gazeR` package (Geller et al., 2020) to loop through our object `dat_colnames` and assign locations (i.e., TR, TL, BL, BR) to our normalized `x` and `y` coordinates. This function will label non-looks and off screen coordinates with NA. To make it easier to read we change the numerals assigned by the function to actual screen locations.
