@@ -694,7 +694,7 @@ AOI$target <- ifelse(AOI$loc1==AOI$targ_loc, 1, 0) # if in coordinates 1, if not
 
 AOI$unrelated <- ifelse(AOI$loc1 == AOI$unrelated_loc, 1, 0)# if in coordinates 1, if not 0. 
 
-AOI$unrelated2 <- ifelse(AOI$loc1 == AOI$unrealted2_loc, 1, 0)# if in coordinates 1, if not 0. 
+AOI$unrelated2 <- ifelse(AOI$loc1 == AOI$unrelated2_loc, 1, 0)# if in coordinates 1, if not 0. 
 
 AOI$unrelated3 <- ifelse(AOI$loc1 == AOI$unrelated3_loc, 1, 0)# if in coordinates 1, if not 0. 
 
