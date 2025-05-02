@@ -34,6 +34,7 @@ library(knitr)
 library(ggokabeito)
 #install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))
 library(webgazeR)
+library(zoo)# interpolation
 
 ```
 :::
@@ -433,15 +434,14 @@ The function `find_location` first checks if the image is NA (missing). If the i
 dat_colnames <- dat %>%
   rowwise() %>%
   mutate(
-    targ_loc = find_location(c(TL, TR, BL, BR), Target),
-    cohort_loc = find_location(c(TL, TR, BL, BR), Cohort),
-    rhyme_loc = find_location(c(TL, TR, BL, BR), Rhyme),
-    unrelated_loc = find_location(c(TL, TR, BL, BR), Unrelated), 
-    unrealted2_loc= find_location(c(TL, TR, BL, BR), Unrelated2), 
-    unrelated3_loc=find_location(c(TL, TR, BL, BR), Unrelated3)
+    targ_loc = find_location(c(TL = TL, TR = TR, BL = BL, BR = BR), Target),
+    cohort_loc = find_location(c(TL = TL, TR = TR, BL = BL, BR = BR), Cohort),
+    rhyme_loc = find_location(c(TL = TL, TR = TR, BL = BL, BR = BR), Rhyme),
+    unrelated_loc = find_location(c(TL = TL, TR = TR, BL = BL, BR = BR), Unrelated),
+    unrelated2_loc = find_location(c(TL = TL, TR = TR, BL = BL, BR = BR), Unrelated2),
+    unrelated3_loc = find_location(c(TL = TL, TR = TR, BL = BL, BR = BR), Unrelated3)
   ) %>%
   ungroup()
-
 ```
 :::
 
@@ -491,7 +491,7 @@ AOI$target <- ifelse(AOI$loc1==AOI$targ_loc, 1, 0) # if in coordinates 1, if not
 
 AOI$unrelated <- ifelse(AOI$loc1 == AOI$unrelated_loc, 1, 0)# if in coordinates 1, if not 0. 
 
-AOI$unrelated2 <- ifelse(AOI$loc1 == AOI$unrealted2_loc, 1, 0)# if in coordinates 1, if not 0. 
+AOI$unrelated2 <- ifelse(AOI$loc1 == AOI$unrelated2_loc, 1, 0)# if in coordinates 1, if not 0. 
 
 AOI$unrelated3 <- ifelse(AOI$loc1 == AOI$unrelated3_loc, 1, 0)# if in coordinates 1, if not 0. 
 

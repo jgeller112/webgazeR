@@ -1,11 +1,10 @@
+
 ## Find Image Location in a Given Set of Locations {.unnumbered}
 
 
 ### Description
 
-This function determines the location of an image within a set of locations.
-The function accepts a vector of locations (such as &quot;TL&quot;, &quot;TR&quot;, &quot;BL&quot;, &quot;BR&quot;) and an image identifier.
-It returns the corresponding location name if the image is found, or 'NA' if the image is not present or is 'NA'.
+Find Image Location in a Given Set of Locations
 
 
 
@@ -20,35 +19,17 @@ It returns the corresponding location name if the image is found, or 'NA' if the
 <table>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="locations">locations</code></td>
 <td>
-A character vector representing the possible locations (e.g., 'c(&quot;TL&quot;, &quot;TR&quot;, &quot;BL&quot;, &quot;BR&quot;)').
+A character vector of image names at each location.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="image">image</code></td>
 <td>
-A character value representing the image to find in the locations.
+A character string: the image to locate.#'
 </td></tr>
 </table>
 
 
 ### Value
 
-A character string representing the location of the image, or 'NA' if the image is not found or is missing.
+A character string representing the location name or NA if not found.
 
 
-
-### Examples
-::: {.to-webr}
-```{r}
-#| warning: false
-#| message: false
-#| eval: true
-library("webgazeR")
-
-# Example usage of the find_location function
-locations <- c("apple", "banana", "cherry", "date")
-find_location(locations, "banana")  # Returns "TR" if locations follow c("TL", "TR", "BL", "BR")
-find_location(locations, "orange")  # Returns NA
-
-
-
-```
-:::
