@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>merge_webcam_files – webgazeR v0.7.2</title>
+<title>make_webgazer – webgazeR v0.7.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,7 +104,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/merge_webcam_files.html">merge_webcam_files</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/make_webgazer.html">make_webgazer</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -216,13 +216,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/make_webgazer.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/make_webgazer.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">make_webgazer</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/merge_webcam_files.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/merge_webcam_files.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">merge_webcam_files</span></a>
   </div>
 </li>
@@ -265,25 +265,22 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/merge_webcam_files.html">merge_webcam_files</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/make_webgazer.html">make_webgazer</a></li></ol></nav></header>
 
 
 
 
-<section id="merge-and-process-webcam-eye-tracking-files" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="merge-and-process-webcam-eye-tracking-files">Merge and Process Webcam Eye-Tracking Files</h2>
+<section id="standardize-a-dataframe-to-webgazer-conventions" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="standardize-a-dataframe-to-webgazer-conventions">Standardize a Dataframe to WebGazer Conventions</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>This function reads, merges, and processes webcam eye-tracking files. It standardizes column names (subject, trial, time, x, y) for universal use. Supports .csv, .tsv, and .xlsx formats.</p>
+<p>This function takes a dataframe and renames columns to match WebGazer conventions: subject, trial, time, x, y. All other columns are preserved. Standardize a Dataframe to WebGazer Conventions</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">merge_webcam_files(
-  file_paths,
-  screen_index = NULL,
-  kind = "gorilla",
-  col_map = list(subject = "participant_id", trial = "spreadsheet_row", time =
-    "time_elapsed", x = "x", y = "y")
+<pre><code class="language-R">make_webgazer(
+  data,
+  col_map = list(subject = "subject", trial = "trial", time = "time", x = "x", y = "y")
 )
 </code></pre>
 </section>
@@ -292,26 +289,10 @@ ul.task-list li input[type="checkbox"] {
 <table>
 <tbody><tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="file_paths">file_paths</code>
+<code id="data">data</code>
 </td>
 <td>
-A list of file paths to webcam files.
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="screen_index">screen_index</code>
-</td>
-<td>
-Optional. If provided, filters data by one or more screen indices (for Gorilla).
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="kind">kind</code>
-</td>
-<td>
-The data collection platform. Options: "gorilla" (default), "labvanced".
+A dataframe containing gaze data.
 </td>
 </tr>
 <tr>
@@ -324,9 +305,13 @@ A named list mapping your current columns to WebGazer names: ‘subject’, ‘t
 </tr>
 </tbody></table>
 </section>
+<section id="details" class="level3">
+<h3 class="anchored" data-anchor-id="details">Details</h3>
+<p>This function takes a dataframe and renames columns to match WebGazer conventions: subject, trial, time, x, y. All other columns are preserved.</p>
+</section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A dataframe with standardized columns depending on the platform.</p>
+<p>A dataframe with renamed columns but preserves all other original columns.</p>
 
 
 </section>
