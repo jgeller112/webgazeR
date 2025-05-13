@@ -168,7 +168,7 @@ While most commercial eye-trackers sample at a constant rate, webcam eye-tracker
 
 ```{r}
 
-samp_rate <- analyze_sampling_rate(edat, summary_stat = "mean")
+samp_rate <- analyze_sampling_rate(edat, summary_stat = "Mean")
 
 ```
 

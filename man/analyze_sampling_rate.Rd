@@ -4,7 +4,7 @@
 \alias{analyze_sampling_rate}
 \title{Analyze Sampling Rates (Trial and Subject Levels, with Histogram)}
 \usage{
-analyze_sampling_rate(eye_data, summary_stat = "median")
+analyze_sampling_rate(eye_data, summary_stat = "Median")
 }
 \arguments{
 \item{eye_data}{A dataframe with subject, trial, time columns.}

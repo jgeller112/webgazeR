@@ -1,0 +1,47 @@
+
+## Standardize a Dataframe to WebGazer Conventions {.unnumbered}
+
+
+### Description
+
+This function takes a dataframe and renames columns to match WebGazer conventions:
+subject, trial, time, x, y. All other columns are preserved.
+Standardize a Dataframe to WebGazer Conventions
+
+
+
+### Usage
+
+<pre><code class='language-R'>make_webgazer(
+  data,
+  col_map = list(subject = "subject", trial = "trial", time = "time", x = "x", y = "y")
+)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
+<td>
+A dataframe containing gaze data.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="col_map">col_map</code></td>
+<td>
+A named list mapping your current columns to WebGazer names: 'subject', 'trial', 'time', 'x', 'y'.
+</td></tr>
+</table>
+
+
+### Details
+
+This function takes a dataframe and renames columns to match WebGazer conventions:
+subject, trial, time, x, y. All other columns are preserved.
+
+
+
+### Value
+
+A dataframe with renamed columns but preserves all other original columns.
+
+
