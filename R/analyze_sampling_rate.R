@@ -8,11 +8,11 @@
 #'
 #' @return A tibble with subject, trial, SR_trial, SR_subject
 #' @export
-analyze_sampling_rate <- function(eye_data, summary_stat = "median") {
+analyze_sampling_rate <- function(eye_data, summary_stat = "Median") {
 
   # Check input
-  if (!summary_stat %in% c("median", "mean")) {
-    stop("summary_stat must be 'median' or 'mean'.")
+  if (!summary_stat %in% c("Median", "Mean")) {
+    stop("summary_stat must be 'Median' or 'Mean'.")
   }
 
   SR_by_trial <- eye_data %>%
@@ -39,9 +39,9 @@ analyze_sampling_rate <- function(eye_data, summary_stat = "median") {
   final_SR <- SR_by_trial %>%
     dplyr::left_join(SR_by_subject, by = "subject")
 
-  if (summary_stat == "median") {
+  if (summary_stat == "Median") {
     overall_summary <- median(SR_by_subject$SR_subject, na.rm = TRUE)
-  } else if (summary_stat == "mean") {
+  } else if (summary_stat == "Mean") {
     overall_summary <- mean(SR_by_subject$SR_subject, na.rm = TRUE)
   }
   overall_sd <- sd(SR_by_subject$SR_subject, na.rm = TRUE)
@@ -49,7 +49,7 @@ analyze_sampling_rate <- function(eye_data, summary_stat = "median") {
   cat("Overall", summary_stat, "Sampling Rate (Hz):", round(overall_summary, 2), "\n")
   cat("Overall SD of Sampling Rate (Hz):", round(overall_sd, 2), "\n\n")
 
-  # Step 5: Plot histogram
+
   plot_hist <- ggplot(SR_by_subject, aes(x = SR_subject)) +
     geom_histogram(binwidth = 1, fill = "skyblue", color = "black", alpha = 0.7) +
     geom_density(aes(y = after_stat(count)), fill = "orange", alpha = 0.3) +
