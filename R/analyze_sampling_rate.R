@@ -26,11 +26,11 @@ analyze_sampling_rate <- function(eye_data, summary_stat = "Median") {
     ) %>%
     dplyr::filter(!is.na(SR_trial))
 
-  if (summary_stat == "median") {
+  if (summary_stat == "Median") {
     SR_by_subject <- SR_by_trial %>%
       dplyr::group_by(subject) %>%
       dplyr::summarise(SR_subject = median(SR_trial, na.rm = TRUE), .groups = "drop")
-  } else if (summary_stat == "mean") {
+  } else if (summary_stat == "Mean") {
     SR_by_subject <- SR_by_trial %>%
       dplyr::group_by(subject) %>%
       dplyr::summarise(SR_subject = mean(SR_trial, na.rm = TRUE), .groups = "drop")

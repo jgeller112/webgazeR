@@ -11,7 +11,7 @@ Uses distinct timepoints to avoid duplicate time values. Plots histogram of subj
 
 ### Usage
 
-<pre><code class='language-R'>analyze_sampling_rate(eye_data, summary_stat = "median")
+<pre><code class='language-R'>analyze_sampling_rate(eye_data, summary_stat = "Median")
 </code></pre>
 
 
