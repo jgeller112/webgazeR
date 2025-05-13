@@ -15,7 +15,6 @@ analyze_sampling_rate <- function(eye_data, summary_stat = "median") {
     stop("summary_stat must be 'median' or 'mean'.")
   }
 
-  # Step 1: Compute trial-level sampling rate
   SR_by_trial <- eye_data %>%
     dplyr::distinct(subject, trial, time, .keep_all = TRUE) %>%
     dplyr::group_by(subject, trial) %>%
@@ -27,7 +26,6 @@ analyze_sampling_rate <- function(eye_data, summary_stat = "median") {
     ) %>%
     dplyr::filter(!is.na(SR_trial))
 
-  # Step 2: Compute subject-level summary of trial SRs
   if (summary_stat == "median") {
     SR_by_subject <- SR_by_trial %>%
       dplyr::group_by(subject) %>%
@@ -38,11 +36,9 @@ analyze_sampling_rate <- function(eye_data, summary_stat = "median") {
       dplyr::summarise(SR_subject = mean(SR_trial, na.rm = TRUE), .groups = "drop")
   }
 
-  # Step 3: Merge trial and subject summaries
   final_SR <- SR_by_trial %>%
     dplyr::left_join(SR_by_subject, by = "subject")
 
-  # Step 4: Calculate and print overall summary
   if (summary_stat == "median") {
     overall_summary <- median(SR_by_subject$SR_subject, na.rm = TRUE)
   } else if (summary_stat == "mean") {
@@ -75,6 +71,5 @@ analyze_sampling_rate <- function(eye_data, summary_stat = "median") {
 
   print(plot_hist)
 
-  # Step 6: Return final data
   return(final_SR)
 }
