@@ -10,39 +10,8 @@ on:
 
 name: altdoc
 
-jobs:
-  rwasmbuild:
-    concurrency:
-      group: altdoc-webr-${{ github.event_name != 'pull_request' || github.run_id }}
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    permissions:
-      contents: write
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # Build the local R package and structure the CRAN repository
-      - name: Build WASM R packages
-        uses: r-wasm/actions/build-rwasm@v1
-        with:
-          packages: "."
-          repo-path: "_site"
-          webr-image: "ghcr.io/r-wasm/webr:v0.4.4"
-        # NOTE: You may need a custom image with -sFORCE_FILESYSTEM if file_packager continues to fail
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: rwasmrepo
-          path: |
-            _site
-          retention-days: 1
-
   altdoc:
     runs-on: ubuntu-latest
-    needs: rwasmbuild
     environment:
       name: github-pages
     env:
