@@ -10,6 +10,7 @@ on:
 
 name: altdoc
 
+jobs:
   altdoc:
     runs-on: ubuntu-latest
     environment:
@@ -51,12 +52,13 @@ name: altdoc
           mkdir -p _site
           cp -r *quarto/*site/* _site/
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: rwasmrepo
-          path: _site
-          merge-multiple: true
+      # Removed or comment this if you don't have rwasmbuild
+      # - name: Download build artifact
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: rwasmrepo
+      #     path: _site
+      #     merge-multiple: true
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
