@@ -29,7 +29,7 @@ jobs:
         with:
           packages: "."
           repo-path: "_site"
-          webr-image: "ghcr.io/r-wasm/webr:v0.4.2"
+          webr-image: "ghcr.io/r-wasm/webr:v0.4.4"
         # NOTE: You may need a custom image with -sFORCE_FILESYSTEM if file_packager continues to fail
 
       - name: Upload build artifact
