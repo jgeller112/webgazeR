@@ -24,35 +24,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      # Restore cache if available
-      - name: Cache WASM Build
-        id: cache-wasm
-        uses: actions/cache@v3
-        with:
-          path: _site
-          key: ${{ runner.os }}-rwasm-${{ hashFiles('DESCRIPTION') }}
-          restore-keys: |
-            ${{ runner.os }}-rwasm-
-
-      # Conditionally build only if cache is not found
-      - name: Check if WASM Build Exists
-        id: check_build
-        run: |
-          if [ -d "_site" ]; then
-            echo "build_exists=true" >> $GITHUB_ENV
-          else
-            echo "build_exists=false" >> $GITHUB_ENV
-          fi
-
+        
+      # Build the local R package and structure the CRAN repository
       - name: Build WASM R packages
-        if: env.build_exists == 'false'
         uses: r-wasm/actions/build-rwasm@v1
         with:
           packages: "."
           repo-path: "_site"
           webr-image: "ghcr.io/r-wasm/webr:v0.4.2"
-
+      
       # Upload the CRAN repository for use in the next step
       # Make sure to set a retention day to avoid running into a cap
       - name: Upload build artifact
