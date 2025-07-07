@@ -1,3 +1,5 @@
+name: altdoc
+
 on:
   push:
     branches: [main, master]
@@ -5,65 +7,63 @@ on:
     branches: [main, master]
   release:
     types: [published]
-  workflow_dispatch: {}
-
-name: altdoc
+  workflow_dispatch:
 
 jobs:
   altdoc:
-  runs-on: ubuntu-latest
-environment:
-  name: github-pages
-env:
-  GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-permissions:
-  repository-projects: read
-pages: write
-id-token: write
-steps:
-  - uses: actions/checkout@v4
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      repository-projects: read
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
 
-- uses: quarto-dev/quarto-actions/setup@v2
+      - uses: quarto-dev/quarto-actions/setup@v2
 
-- name: Get Script
-run: curl -OLs https://eddelbuettel.github.io/r-ci/run.sh && chmod 0755 run.sh
+      - name: Get Script
+        run: curl -OLs https://eddelbuettel.github.io/r-ci/run.sh && chmod 0755 run.sh
 
-- name: Bootstrap
-run: ./run.sh bootstrap
+      - name: Bootstrap
+        run: ./run.sh bootstrap
 
-- name: Dependencies
-run: ./run.sh install_all
+      - name: Dependencies
+        run: ./run.sh install_all
 
-- name: Build site
-run: |
-  install.packages("pak")
-pak::pak(c(
-  "tidyverse", "janitor", "readxl", "ggokabeito",
-  "here", "knitr", "tinytable", "easystats", "zoo", "pkgload"
-))
-install.packages(".", repos = NULL, type = "source")
-pkgload::load_all()
-altdoc::render_docs(verbose = TRUE, parallel = FALSE, freeze = FALSE)
-shell: Rscript {0}
+      - name: Build site
+        run: |
+          install.packages("pak")
+          pak::pak(c(
+            "tidyverse", "janitor", "readxl", "ggokabeito",
+            "here", "knitr", "tinytable", "easystats", "zoo", "pkgload"
+          ))
+          install.packages(".", repos = NULL, type = "source")
+          pkgload::load_all()
+          altdoc::render_docs(verbose = TRUE, parallel = FALSE, freeze = FALSE)
+        shell: Rscript {0}
 
-- name: Copy to new directory
-run: |
-  mkdir -p _site
-cp -r *quarto/*site/* _site/
+      - name: Copy to new directory
+        run: |
+          mkdir -p _site
+          cp -r *quarto/*site/* _site/
 
-  # Removed or comment this if you don't have rwasmbuild
-  # - name: Download build artifact
-  #   uses: actions/download-artifact@v4
-  #   with:
-  #     name: rwasmrepo
-  #     path: _site
-  #     merge-multiple: true
+      # Remove or uncomment the block below if you use rwasmbuild artifacts
+      # - name: Download build artifact
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: rwasmrepo
+      #     path: _site
+      #     merge-multiple: true
 
-  - name: Upload Pages artifact
-uses: actions/upload-pages-artifact@v3
-with:
-  retention-days: 1
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          retention-days: 1
 
-- name: Deploy to GitHub Pages
-id: deployment
-uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
