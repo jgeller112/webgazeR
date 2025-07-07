@@ -39,6 +39,7 @@ jobs:
           retention-days: 1
 
   altdoc:
+    if: github.event_name != 'release'  # Prevent running on tag-based release to avoid GitHub Pages env protection rules
     runs-on: ubuntu-latest
     needs: rwasmbuild
     environment:
@@ -62,8 +63,18 @@ jobs:
       - name: Bootstrap
         run: ./run.sh bootstrap
 
-      - name: Dependencies
-        run: ./run.sh install_all
+      - name: Install R dependencies
+        run: |
+          install.packages("pak", repos = "https://cloud.r-project.org")
+          pak::pak(c(
+            "tidyverse", "janitor", "readxl", "ggokabeito",
+            "here", "knitr", "tinytable", "easystats", "zoo", "pkgload"
+          ))
+        shell: Rscript {0}
+
+      - name: Install local package
+        run: install.packages(".", repos = NULL, type = "source")
+        shell: Rscript {0}
 
       - name: Grab tagged versions of Quarto Extensions
         run: |
@@ -74,8 +85,6 @@ jobs:
 
       - name: Build site
         run: |
-          install.packages(".", repos = NULL, type = "source")
-          install.packages("pkgload")
           pkgload::load_all()
           altdoc::render_docs(verbose = TRUE, parallel = FALSE, freeze = FALSE)
         shell: Rscript {0}
