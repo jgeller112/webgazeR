@@ -1,3 +1,6 @@
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/jgeller112/webgazeR/graphs/commit-activity)
+
+
 # Webcam Eye-tracking R Package
 
 
@@ -12,10 +15,24 @@ Functions for analyzing webcam eye-tracking data
 
 Install the development version from GitHub with:
 
+``` r
+# Check if devtools is installed, if not install it
+if (!require("remotes", quietly = TRUE)) {
+  install.packages("remotes")
+}
+
+# Load devtools
+library(remotes)
+
+# Check if ConversationAlign is installed, if not install from GitHub
+if (!require("webgazeR", quietly = TRUE)) {
+  devtools::install_github("jgeller112/webgazeR")
+}
+
+# Load webgazeR
+library(webgazeR)
 ```
-# install.packages("remotes")
-devtools::install_github("jgeller112/webgazeR")
-```
+
 
 A vignette showing how to use the functions contained in here can be found: [https://jgeller112.github.io/webgazeR/](https://jgeller112.github.io/webgazeR/)
 
@@ -25,6 +42,7 @@ Please cite this paper when using webgazer:
 
 Geller, J., Prystauka, Y., Colby, S. E., & Drouin, J. R. (in press). Language without borders: A step-by-step guide to analyzing webcam eye-tracking data for L2 research. Research Methods in Applied Lingustics.
 
+```
 @article{geller2025language,
   author    = {Geller, Jason and Prystauka, Yana and Colby, Sarah E. and Drouin, Jonathan R.},
   title     = {Language without borders: A step-by-step guide to analyzing webcam eye-tracking data for L2 research},
@@ -32,5 +50,5 @@ Geller, J., Prystauka, Y., Colby, S. E., & Drouin, J. R. (in press). Language wi
   year      = {in press},
   note      = {In press},
 }
-
+```
 
