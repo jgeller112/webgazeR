@@ -1,4 +1,5 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/jgeller112/webgazeR/graphs/commit-activity)
+[![DOI](https://zenodo.org/badge/855968611.svg)](https://doi.org/10.5281/zenodo.15831767)
 
 
 # Webcam Eye-tracking R Package
