@@ -25,3 +25,12 @@ Please cite this paper when using webgazer:
 
 Geller, J., Prystauka, Y., Colby, S. E., & Drouin, J. R. (in press). Language without borders: A step-by-step guide to analyzing webcam eye-tracking data for L2 research. Research Methods in Applied Lingustics.
 
+@article{geller2025language,
+  author    = {Geller, Jason and Prystauka, Yana and Colby, Sarah E. and Drouin, Jonathan R.},
+  title     = {Language without borders: A step-by-step guide to analyzing webcam eye-tracking data for L2 research},
+  journal   = {Research Methods in Applied Linguistics},
+  year      = {in press},
+  note      = {In press},
+}
+
+
