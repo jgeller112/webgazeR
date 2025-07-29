@@ -23,6 +23,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Install R
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "devel"
+
       # Install GitHub version of pak
       - name: Install pak from GitHub
         run: |
@@ -76,13 +82,30 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
+
       - uses: quarto-dev/quarto-actions/setup@v2
+
+      # Install R
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "devel"
+
+      # Install GitHub version of pak
+      - name: Install pak from GitHub
+        run: |
+          Rscript -e 'install.packages("remotes")'
+          Rscript -e 'remotes::install_github("r-lib/pak")'
+
       - name: Get Script
         run: curl -OLs https://eddelbuettel.github.io/r-ci/run.sh && chmod 0755 run.sh
+
       - name: Bootstrap
         run: ./run.sh bootstrap
+
       - name: Dependencies
         run: ./run.sh install_all
+
       - name: Build site
         run: |
           install.packages(".", repos = NULL, type = "source")
@@ -90,20 +113,24 @@ jobs:
           pkgload::load_all()
           altdoc::render_docs(verbose = TRUE, parallel = FALSE, freeze = FALSE)
         shell: Rscript {0}
+
       - name: Copy to new directory
         run: |
          mkdir -p _site
          cp -r *quarto/*site/* _site/
+
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: rwasmrepo
           path: _site
           merge-multiple: true
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           retention-days: 1
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
