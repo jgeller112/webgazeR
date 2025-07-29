@@ -1,5 +1,4 @@
 ## Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
     branches: [main, master]
@@ -13,7 +12,6 @@ name: altdoc
 
 jobs:
   rwasmbuild:
-    # Only restrict concurrency for non-PR jobs
     concurrency:
       group: altdoc-webr-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
@@ -25,7 +23,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Restore cache if available
+      # Install GitHub version of pak
+      - name: Install pak from GitHub
+        run: |
+          Rscript -e 'install.packages("remotes")'
+          Rscript -e 'remotes::install_github("r-lib/pak")'
+
       - name: Cache WASM Build
         id: cache-wasm
         uses: actions/cache@v3
@@ -35,7 +38,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-rwasm-
 
-      # Conditionally build only if cache is not found
       - name: Check if WASM Build Exists
         id: check_build
         run: |
@@ -53,8 +55,6 @@ jobs:
           repo-path: "_site"
           webr-image: "ghcr.io/r-wasm/webr:v0.4.2"
 
-      # Upload the CRAN repository for use in the next step
-      # Make sure to set a retention day to avoid running into a cap
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -65,70 +65,45 @@ jobs:
 
   altdoc:
     runs-on: ubuntu-latest
-    # Add a dependency on the prior job completing
     needs: rwasmbuild
-    # Required for the gh-pages deployment action
     environment:
       name: github-pages
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     permissions:
-      # To download GitHub Packages within action
       repository-projects: read
-      # For publishing to pages environment
       pages: write
       id-token: write
     steps:
       - uses: actions/checkout@v4
-
       - uses: quarto-dev/quarto-actions/setup@v2
-
       - name: Get Script
         run: curl -OLs https://eddelbuettel.github.io/r-ci/run.sh && chmod 0755 run.sh
-
       - name: Bootstrap
         run: ./run.sh bootstrap
-
       - name: Dependencies
         run: ./run.sh install_all
-
       - name: Build site
         run: |
-          # If parallel = TRUE in render_docs()
-          # future::plan(future::multicore)
           install.packages(".", repos = NULL, type = "source")
           install.packages("pkgload")
           pkgload::load_all()
           altdoc::render_docs(verbose = TRUE, parallel = FALSE, freeze = FALSE)
         shell: Rscript {0}
-
       - name: Copy to new directory
         run: |
          mkdir -p _site
          cp -r *quarto/*site/* _site/
-
-      # New material ---
-
-      # Download the built R WASM CRAN repository from the prior step.
-      # Extract it into the `_site` directory
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: rwasmrepo
           path: _site
           merge-multiple: true
-
-      # Upload a tar file that will work with GitHub Pages
-      # Make sure to set a retention day to avoid running into a cap
-      # This artifact shouldn't be required after deployment onto pages was a success.
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           retention-days: 1
-
-      # Use an Action deploy to push the artifact onto GitHub Pages
-      # This requires the `Action` tab being structured to allow for deployment
-      # instead of using `docs/` or the `gh-pages` branch of the repository
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
