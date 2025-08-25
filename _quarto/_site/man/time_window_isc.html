@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>find_location – webgazeR v0.7.2</title>
+<title>time_window_isc – webgazeR v0.7.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,7 +104,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/find_location.html">find_location</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/time_window_isc.html">time_window_isc</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -192,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/find_location.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/find_location.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">find_location</span></a>
   </div>
 </li>
@@ -240,7 +240,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/time_window_isc.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/time_window_isc.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">time_window_isc</span></a>
   </div>
 </li>
@@ -271,20 +271,27 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/find_location.html">find_location</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/time_window_isc.html">time_window_isc</a></li></ol></nav></header>
 
 
 
 
-<section id="find-image-location-in-a-given-set-of-locations" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="find-image-location-in-a-given-set-of-locations">Find Image Location in a Given Set of Locations</h2>
+<section id="time-windowed-intersubject-correlation-isc-per-subject" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="time-windowed-intersubject-correlation-isc-per-subject">Time-windowed Intersubject Correlation (ISC) per subject</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Find Image Location in a Given Set of Locations</p>
+<p>Computes ISC for each subject by correlating that subject’s time series against the mean of all <em>other</em> subjects within sliding windows, then Fisher z-transforms correlations, averages them per subject, and converts back to r.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">find_location(locations, image)
+<pre><code class="language-R">time_window_isc(
+  data,
+  window_size = 10,
+  step = 1,
+  min_overlap = 3,
+  method = c("pearson", "spearman"),
+  return_per_window = FALSE
+)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -292,25 +299,57 @@ ul.task-list li input[type="checkbox"] {
 <table role="presentation">
 <tbody><tr>
 <td style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="locations">locations</code>
+<code id="data">data</code>
 </td>
 <td>
-A character vector of image names at each location.
+A numeric matrix or data.frame with rows = time points, columns = participants.
 </td>
 </tr>
 <tr>
 <td style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="image">image</code>
+<code id="window_size">window_size</code>
 </td>
 <td>
-A character string: the image to locate.#’
+Integer, window length in time points (default 10).
+</td>
+</tr>
+<tr>
+<td style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code id="step">step</code>
+</td>
+<td>
+Integer, step size between consecutive windows (default 1).
+</td>
+</tr>
+<tr>
+<td style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code id="min_overlap">min_overlap</code>
+</td>
+<td>
+Integer, minimum number of non-NA paired points within a window required to compute a correlation (default 3).
+</td>
+</tr>
+<tr>
+<td style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code id="method">method</code>
+</td>
+<td>
+Correlation method passed to [stats::cor()], usually "pearson" (default), or "spearman".
+</td>
+</tr>
+<tr>
+<td style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code id="return_per_window">return_per_window</code>
+</td>
+<td>
+Logical; if TRUE, also return a data.frame of per-window Fisher-z correlations per subject (default FALSE).
 </td>
 </tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A character string representing the location name or NA if not found.</p>
+<p>If ‘return_per_window = FALSE’, a named numeric vector of ISC values (length = n subjects). If ‘TRUE’, a list with: - ‘isc’: named numeric vector of per-subject ISC (as above) - ‘per_window’: data.frame with columns ‘window_start’, ‘window_end’, ‘subject’, ‘z’</p>
 
 
 </section>

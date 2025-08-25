@@ -48,6 +48,8 @@ website:
             file: man/plot_IA_proportions.qmd
           - text: smooth_gaze
             file: man/smooth_gaze.qmd
+          - text: time_window_isc
+            file: man/time_window_isc.qmd
           - text: upsample_gaze
             file: man/upsample_gaze.qmd
       - text: License
