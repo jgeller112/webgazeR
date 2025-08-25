@@ -25,33 +25,33 @@ and optionally removes only the out-of-bounds gaze points.
 
 ### Arguments
 
-<table>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
+<table role = "presentation">
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
 <td>
 A data frame containing gaze data.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="subject_col">subject_col</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="subject_col">subject_col</code></td>
 <td>
 A string specifying the name of the column that contains the subject identifier. Default is &quot;subject&quot;.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="trial_col">trial_col</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="trial_col">trial_col</code></td>
 <td>
 A string specifying the name of the column that contains the trial identifier. Default is &quot;trial&quot;.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x_col">x_col</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="x_col">x_col</code></td>
 <td>
 A string specifying the name of the column that contains the X coordinate. Default is &quot;x&quot;.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="y_col">y_col</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="y_col">y_col</code></td>
 <td>
 A string specifying the name of the column that contains the Y coordinate. Default is &quot;y&quot;.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="screen_size">screen_size</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="screen_size">screen_size</code></td>
 <td>
 A numeric vector of length 2 specifying the screen width and height.
 Default is c(1, 1) assuming normalized coordinates.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="remove">remove</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="remove">remove</code></td>
 <td>
 Logical; if TRUE, removes points outside of screen dimensions. Default is FALSE.
 </td></tr>

@@ -39,7 +39,9 @@ Below, we generate a 10 × 1000 matrix
 
 ```{r}
 library(tidyverse)
+install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))
 library(webgazeR)
+
 set.seed(123)
 
 data_matrix <- matrix(rnorm(10 * 1000), nrow = 1000, ncol = 10)

@@ -18,16 +18,16 @@ The leave-one-out method computes the correlation of each participant's time ser
 
 ### Arguments
 
-<table>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="data_matrix">data_matrix</code></td>
+<table role = "presentation">
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="data_matrix">data_matrix</code></td>
 <td>
 A numeric matrix where rows represent time points and columns represent participants.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="method">method</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="method">method</code></td>
 <td>
 A string specifying the ISC computation method. Options are '&quot;pairwise&quot;' (default) or '&quot;leave-one-out&quot;'.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="summary_statistic">summary_statistic</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="summary_statistic">summary_statistic</code></td>
 <td>
 A string specifying whether to return '&quot;mean&quot;', '&quot;median&quot;', or '&quot;raw&quot;' ISC values per participant.
 </td></tr>

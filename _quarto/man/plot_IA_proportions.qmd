@@ -26,34 +26,34 @@ through the 'ia_mapping' argument to define the display order.
 
 ### Arguments
 
-<table>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
+<table role = "presentation">
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
 <td>
 A data frame containing the data to plot.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="ia_column">ia_column</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="ia_column">ia_column</code></td>
 <td>
 The name of the column containing Interest Area (IA) identifiers.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="time_column">time_column</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="time_column">time_column</code></td>
 <td>
 The name of the column representing time (e.g., milliseconds).
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="proportion_column">proportion_column</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="proportion_column">proportion_column</code></td>
 <td>
 The name of the column with the proportion of looks for each IA.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="condition_column">condition_column</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="condition_column">condition_column</code></td>
 <td>
 Optional. The name of the column representing experimental conditions.
 If not provided, the plot will not be faceted by condition.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="ia_mapping">ia_mapping</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="ia_mapping">ia_mapping</code></td>
 <td>
 A named list specifying custom labels for each IA in the desired display order
 (e.g., 'list(IA1 = &quot;Target&quot;, IA2 = &quot;Cohort&quot;, IA3 = &quot;Rhyme&quot;, IA4 = &quot;Unrelated&quot;)').
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="use_color">use_color</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="use_color">use_color</code></td>
 <td>
 Logical. If 'TRUE' (default), the plot will use colors to differentiate Interest Areas.
 If 'FALSE', different line types, shapes, and line widths will be used instead.

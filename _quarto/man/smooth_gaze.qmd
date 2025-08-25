@@ -24,28 +24,28 @@ This is generally recommended after up-sampling the data.
 
 ### Arguments
 
-<table>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<table role = "presentation">
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
 <td>
 A data frame containing gaze data.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="n">n</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="n">n</code></td>
 <td>
 The window size (in samples) for the moving average.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x_col">x_col</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="x_col">x_col</code></td>
 <td>
 The name of the X gaze column (as string).
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="y_col">y_col</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="y_col">y_col</code></td>
 <td>
 The name of the Y gaze column (as string).
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="trial_col">trial_col</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="trial_col">trial_col</code></td>
 <td>
 The name of the trial column used for grouping (default = &quot;Trial&quot;).
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="subject_col">subject_col</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="subject_col">subject_col</code></td>
 <td>
 The name of the subject column used for grouping (default = &quot;Subject&quot;).
 </td></tr>

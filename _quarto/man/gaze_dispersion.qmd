@@ -16,20 +16,20 @@ Calculates centroid anddispersion from gaze data.
 
 ### Arguments
 
-<table>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
+<table role = "presentation">
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
 <td>
 A data frame or tibble.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
 <td>
 A string: name of the column with X gaze coordinates.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="y">y</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="y">y</code></td>
 <td>
 A string: name of the column with Y gaze coordinates.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="grouping_vars">grouping_vars</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="grouping_vars">grouping_vars</code></td>
 <td>
 A character vector of column names to group by (e.g., subject, condition, trial).
 </td></tr>

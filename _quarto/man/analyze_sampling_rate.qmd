@@ -17,12 +17,12 @@ Uses distinct timepoints to avoid duplicate time values. Plots histogram of subj
 
 ### Arguments
 
-<table>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="eye_data">eye_data</code></td>
+<table role = "presentation">
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="eye_data">eye_data</code></td>
 <td>
 A dataframe with subject, trial, time columns.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="summary_stat">summary_stat</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="summary_stat">summary_stat</code></td>
 <td>
 Either &quot;median&quot; (default) or &quot;mean&quot;.
 </td></tr>

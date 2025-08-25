@@ -16,12 +16,12 @@ Find Image Location in a Given Set of Locations
 
 ### Arguments
 
-<table>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="locations">locations</code></td>
+<table role = "presentation">
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="locations">locations</code></td>
 <td>
 A character vector of image names at each location.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="image">image</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="image">image</code></td>
 <td>
 A character string: the image to locate.#'
 </td></tr>

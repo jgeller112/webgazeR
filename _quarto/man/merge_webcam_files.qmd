@@ -24,20 +24,20 @@ Supports .csv, .tsv, and .xlsx formats.
 
 ### Arguments
 
-<table>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="file_paths">file_paths</code></td>
+<table role = "presentation">
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="file_paths">file_paths</code></td>
 <td>
 A list of file paths to webcam files.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="screen_index">screen_index</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="screen_index">screen_index</code></td>
 <td>
 Optional. If provided, filters data by one or more screen indices (for Gorilla).
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="kind">kind</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="kind">kind</code></td>
 <td>
 The data collection platform. Options: &quot;gorilla&quot; (default), &quot;labvanced&quot;.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="col_map">col_map</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="col_map">col_map</code></td>
 <td>
 A named list mapping your current columns to WebGazer names: 'subject', 'trial', 'time', 'x', 'y'.
 </td></tr>

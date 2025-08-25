@@ -22,20 +22,20 @@ or labels &quot;bad&quot; subjects/trials based on their sampling rates.
 
 ### Arguments
 
-<table>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
+<table role = "presentation">
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
 <td>
 A dataframe with columns: subject, trial, SR_subject, SR_trial.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="threshold">threshold</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="threshold">threshold</code></td>
 <td>
 Numeric. Sampling rate threshold to apply.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="action">action</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="action">action</code></td>
 <td>
 &quot;remove&quot; (default) to delete bad data or &quot;label&quot; to flag bad data.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="by">by</code></td>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="by">by</code></td>
 <td>
 &quot;subject&quot;, &quot;trial&quot;, or &quot;both&quot; to specify where to apply the threshold.
 </td></tr>
