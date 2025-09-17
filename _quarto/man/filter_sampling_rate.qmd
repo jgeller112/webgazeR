@@ -13,7 +13,7 @@ or labels &quot;bad&quot; subjects/trials based on their sampling rates.
 
 <pre><code class='language-R'>filter_sampling_rate(
   data,
-  threshold = NA,
+  threshold,
   action = c("remove", "label"),
   by = c("subject", "trial", "both")
 )

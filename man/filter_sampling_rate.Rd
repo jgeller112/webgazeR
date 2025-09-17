@@ -6,7 +6,7 @@
 \usage{
 filter_sampling_rate(
   data,
-  threshold = NA,
+  threshold,
   action = c("remove", "label"),
   by = c("subject", "trial", "both")
 )

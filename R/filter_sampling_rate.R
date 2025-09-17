@@ -10,81 +10,75 @@
 #'
 #' @return A dataframe with either rows removed or bad subjects/trials labeled.
 #' @export
+#'
+#'
+#'
+
 filter_sampling_rate <- function(data,
-                                 threshold = NA,
+                                 threshold,
                                  action = c("remove", "label"),
                                  by = c("subject", "trial", "both")) {
-
-  # Validate arguments
   action <- match.arg(action)
   by <- match.arg(by)
 
-  # Counts before filtering
-  total_subjects <- length(unique(data$subject))
-  total_trials <- nrow(data)
+  # Helpers
+  n_unique_trials <- function(df) dplyr::n_distinct(df$subject, df$trial)
 
-  # Perform action
+  # Totals (for consistent reporting)
+  total_subjects <- dplyr::n_distinct(data$subject)
+  total_trials <- n_unique_trials(data)
+
+  # Build flags ONCE so remove/label see the exact same logic
+  flagged <- data %>%
+    mutate(
+      is_bad_subject = case_when(
+        by %in% c("subject", "both") ~ is.na(SR_subject) | SR_subject < threshold,
+        TRUE ~ FALSE
+      ),
+      is_bad_trial = case_when(
+        by %in% c("trial", "both") ~ is.na(SR_trial) | SR_trial < threshold,
+        TRUE ~ FALSE
+      ),
+      # A row is bad if the relevant unit(s) are bad
+      is_bad_row = case_when(
+        by == "subject" ~ is_bad_subject,
+        by == "trial" ~ is_bad_trial,
+        by == "both" ~ (is_bad_subject | is_bad_trial)
+      )
+    )
+
   if (action == "remove") {
+    cleaned <- flagged %>% filter(!is_bad_row)
+
+    subjects_removed <- total_subjects - dplyr::n_distinct(cleaned$subject)
+    trials_removed <- total_trials - n_unique_trials(cleaned)
 
     if (by == "subject") {
-      cleaned_data <- data %>%
-        group_by(subject) %>%
-        filter(SR_subject >= threshold) %>%
-        ungroup()
-
-      subjects_removed <- total_subjects - length(unique(cleaned_data$subject))
       message(subjects_removed, " subjects have been removed due to sampling rate thresholds.")
-
     } else if (by == "trial") {
-      cleaned_data <- data %>%
-        group_by(subject, trial) %>%
-        filter(SR_trial >= threshold) %>%
-        ungroup()
-
-      trials_removed <- total_trials - nrow(cleaned_data)
       message(trials_removed, " trials have been removed due to sampling rate thresholds.")
-
-    } else if (by == "both") {
-      cleaned_data <- data %>%
-        group_by(subject, trial) %>%
-        filter(SR_subject >= threshold & SR_trial >= threshold) %>%
-        ungroup()
-
-      subjects_removed <- total_subjects - length(unique(cleaned_data$subject))
-      trials_removed <- total_trials - nrow(cleaned_data)
-      message(subjects_removed, " subjects and ", trials_removed, " trials have been removed due to sampling rate thresholds.")
+    } else { # both
+      message(
+        subjects_removed, " subjects and ", trials_removed,
+        " trials have been removed due to sampling rate thresholds."
+      )
     }
 
-    return(cleaned_data)
-
-  } else if (action == "label") {
-
-    if (by == "subject") {
-      flagged_data <- data %>%
-        mutate(is_bad_subject = SR_subject < threshold)
-
-      subjects_bad <- length(unique(flagged_data$subject[flagged_data$is_bad_subject]))
-      message(subjects_bad, " subjects have been flagged as 'bad'.")
-
-    } else if (by == "trial") {
-      flagged_data <- data %>%
-        mutate(is_bad_trial = SR_trial < threshold)
-
-      trials_bad <- sum(flagged_data$is_bad_trial, na.rm = TRUE)
-      message(trials_bad, " trials have been flagged as 'bad'.")
-
-    } else if (by == "both") {
-      flagged_data <- data %>%
-        mutate(
-          is_bad_subject = SR_subject < threshold,
-          is_bad_trial = SR_trial < threshold
-        )
-
-      subjects_bad <- length(unique(flagged_data$subject[flagged_data$is_bad_subject]))
-      trials_bad <- sum(flagged_data$is_bad_trial, na.rm = TRUE)
-      message(subjects_bad, " subjects and ", trials_bad, " trials have been flagged as 'bad'.")
-    }
-
-    return(flagged_data)
+    # Return the same columns as input (drop helper flags)
+    return(cleaned %>% select(-is_bad_subject, -is_bad_trial, -is_bad_row))
   }
+
+  # action == "label"
+  subjects_bad <- dplyr::n_distinct(flagged$subject[flagged$is_bad_subject])
+  trials_bad <- n_unique_trials(dplyr::filter(flagged, is_bad_row))
+
+  if (by == "subject") {
+    message(subjects_bad, " subjects have been flagged as 'bad'.")
+  } else if (by == "trial") {
+    message(trials_bad, " trials have been flagged as 'bad'.")
+  } else { # both
+    message(subjects_bad, " subjects and ", trials_bad, " trials have been flagged as 'bad'.")
+  }
+
+  return(flagged)
 }

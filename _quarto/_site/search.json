@@ -12,7 +12,7 @@
   {
     "objectID": "LICENSE.html",
     "href": "LICENSE.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "MIT License\nCopyright (c) 2025 Jason Geller\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
     "crumbs": [
@@ -35,7 +35,7 @@
     "href": "vignettes/webgazeR_vignette.html#packages",
     "title": "Introduction to webgazeR",
     "section": "Packages",
-    "text": "Packages\nBelow are the basic packages needed to run this vignette. The below code chunks will load in the packages needed.\n\nResultInteractive\n\n\noptions(stringsAsFactors = F)          # no automatic data transformation\noptions(\"scipen\" = 100, \"digits\" = 10) # suppress math annotation\nlibrary(tidyverse) \nlibrary(here) # relative paths instead of abosoulte aids in reproduce\nlibrary(tinytable) # nice tables\nlibrary(janitor)# functions for cleaning up your column names\nlibrary(easystats)\nlibrary(knitr)\nlibrary(ggokabeito)\ninstall.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))\n\n\nThe downloaded binary packages are in\n    /var/folders/b6/cndg9nj53jnfy45qtx6h533r0000gs/T//RtmpdAk127/downloaded_packages\n\nlibrary(webgazeR)\nlibrary(zoo)# interpolation\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\nLoad webgazeR\n\nFirst you must install it via Github.\n\n\nResultInteractive\n\n\n# do not run interactively\nremotes::install_github(\"https://github.com/jgeller112/webgazeR\")\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\nThen you can load it into your session\n\n\nResultInteractive\n\n\n# load the package\nlibrary(webgazeR)\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "text": "Packages\nBelow are the basic packages needed to run this vignette. The below code chunks will load in the packages needed.\n\nResultInteractive\n\n\noptions(stringsAsFactors = F)          # no automatic data transformation\noptions(\"scipen\" = 100, \"digits\" = 10) # suppress math annotation\nlibrary(tidyverse) \nlibrary(here) # relative paths instead of abosoulte aids in reproduce\nlibrary(tinytable) # nice tables\nlibrary(janitor)# functions for cleaning up your column names\nlibrary(easystats)\nlibrary(knitr)\nlibrary(ggokabeito)\ninstall.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))\n\n\nThe downloaded binary packages are in\n    /var/folders/b6/cndg9nj53jnfy45qtx6h533r0000gs/T//Rtmp91JFgh/downloaded_packages\n\nlibrary(webgazeR)\nlibrary(zoo)# interpolation\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\nLoad webgazeR\n\nFirst you must install it via Github.\n\n\nResultInteractive\n\n\n# do not run interactively\nremotes::install_github(\"https://github.com/jgeller112/webgazeR\")\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\nThen you can load it into your session\n\n\nResultInteractive\n\n\n# load the package\nlibrary(webgazeR)\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
     "crumbs": [
       "Articles",
       "Introduction to webgazeR"
@@ -99,7 +99,7 @@
   {
     "objectID": "man/smooth_gaze.html",
     "href": "man/smooth_gaze.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Apply a moving average smoothing function to gaze data (X and Y). This is generally recommended after up-sampling the data.\n\nDescription\nApply a moving average smoothing function to gaze data (X and Y). This is generally recommended after up-sampling the data.\n\n\nUsage\nsmooth_gaze(\n  x,\n  n = 5,\n  x_col = \"Gaze_X\",\n  y_col = \"Gaze_Y\",\n  trial_col = \"Trial\",\n  subject_col = \"Subject\"\n)\n\n\n\nArguments\n\n\n\nx\n\n\nA data frame containing gaze data.\n\n\n\n\nn\n\n\nThe window size (in samples) for the moving average.\n\n\n\n\nx_col\n\n\nThe name of the X gaze column (as string).\n\n\n\n\ny_col\n\n\nThe name of the Y gaze column (as string).\n\n\n\n\ntrial_col\n\n\nThe name of the trial column used for grouping (default = \"Trial\").\n\n\n\n\nsubject_col\n\n\nThe name of the subject column used for grouping (default = \"Subject\").\n\n\n\n\n\nValue\nA tibble with smoothed gaze X and Y columns (replacing originals).",
     "crumbs": [
@@ -110,7 +110,7 @@
   {
     "objectID": "man/gaze_dispersion.html",
     "href": "man/gaze_dispersion.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Calculates centroid anddispersion from gaze data.\n\n\n\ngaze_dispersion(data, x, y, grouping_vars)\n\n\n\n\n\n\n\ndata\n\n\nA data frame or tibble.\n\n\n\n\nx\n\n\nA string: name of the column with X gaze coordinates.\n\n\n\n\ny\n\n\nA string: name of the column with Y gaze coordinates.\n\n\n\n\ngrouping_vars\n\n\nA character vector of column names to group by (e.g., subject, condition, trial).\n\n\n\n\n\n\nA tibble with centroid_x, centroid_y, dispersion, and log_dispersion for each group.",
     "crumbs": [
@@ -121,7 +121,7 @@
   {
     "objectID": "man/gaze_dispersion.html#compute-gaze-dispersion",
     "href": "man/gaze_dispersion.html#compute-gaze-dispersion",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Calculates centroid anddispersion from gaze data.\n\n\n\ngaze_dispersion(data, x, y, grouping_vars)\n\n\n\n\n\n\n\ndata\n\n\nA data frame or tibble.\n\n\n\n\nx\n\n\nA string: name of the column with X gaze coordinates.\n\n\n\n\ny\n\n\nA string: name of the column with Y gaze coordinates.\n\n\n\n\ngrouping_vars\n\n\nA character vector of column names to group by (e.g., subject, condition, trial).\n\n\n\n\n\n\nA tibble with centroid_x, centroid_y, dispersion, and log_dispersion for each group.",
     "crumbs": [
@@ -132,7 +132,7 @@
   {
     "objectID": "man/calculate_isc.html",
     "href": "man/calculate_isc.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Computes ISC using either the pairwise correlation method or the leave-one-out method. The pairwise method computes a full correlation matrix and averages Fisher-transformed values. The leave-one-out method computes the correlation of each participant’s time series with the mean of all others.\n\n\n\ncalculate_isc(data_matrix, method = \"pairwise\", summary_statistic = \"mean\")\n\n\n\n\n\n\n\ndata_matrix\n\n\nA numeric matrix where rows represent time points and columns represent participants.\n\n\n\n\nmethod\n\n\nA string specifying the ISC computation method. Options are ‘\"pairwise\"’ (default) or ‘\"leave-one-out\"’.\n\n\n\n\nsummary_statistic\n\n\nA string specifying whether to return ‘\"mean\"’, ‘\"median\"’, or ‘\"raw\"’ ISC values per participant.\n\n\n\n\n\n\nA numeric vector of ISC values, one per participant.",
     "crumbs": [
@@ -143,7 +143,7 @@
   {
     "objectID": "man/calculate_isc.html#compute-intersubject-correlation-isc",
     "href": "man/calculate_isc.html#compute-intersubject-correlation-isc",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Computes ISC using either the pairwise correlation method or the leave-one-out method. The pairwise method computes a full correlation matrix and averages Fisher-transformed values. The leave-one-out method computes the correlation of each participant’s time series with the mean of all others.\n\n\n\ncalculate_isc(data_matrix, method = \"pairwise\", summary_statistic = \"mean\")\n\n\n\n\n\n\n\ndata_matrix\n\n\nA numeric matrix where rows represent time points and columns represent participants.\n\n\n\n\nmethod\n\n\nA string specifying the ISC computation method. Options are ‘\"pairwise\"’ (default) or ‘\"leave-one-out\"’.\n\n\n\n\nsummary_statistic\n\n\nA string specifying whether to return ‘\"mean\"’, ‘\"median\"’, or ‘\"raw\"’ ISC values per participant.\n\n\n\n\n\n\nA numeric vector of ISC values, one per participant.",
     "crumbs": [
@@ -154,7 +154,7 @@
   {
     "objectID": "man/downsample_gaze.html",
     "href": "man/downsample_gaze.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "This function combines gaze samples into time bins and optionally aggregates the data.\n\n\n\ndownsample_gaze(\n  dataframe,\n  bin.length = 50,\n  timevar = \"time\",\n  aggvars = c(\"subject\", \"condition\", \"target\", \"trial\", \"object\", \"time_bin\")\n)\n\n\n\n\n\n\n\ndataframe\n\n\nDataFrame containing gaze data.\n\n\n\n\nbin.length\n\n\nLength of time bins (in milliseconds).\n\n\n\n\ntimevar\n\n\nColumn name representing time.\n\n\n\n\naggvars\n\n\nVector of variable names to group by for aggregation. Use \"none\" to skip aggregation.\n\n\n\n\n\n\nDataFrame with time bins added and optionally aggregated data.",
     "crumbs": [
@@ -165,7 +165,7 @@
   {
     "objectID": "man/downsample_gaze.html#downsample-gaze-data",
     "href": "man/downsample_gaze.html#downsample-gaze-data",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "This function combines gaze samples into time bins and optionally aggregates the data.\n\n\n\ndownsample_gaze(\n  dataframe,\n  bin.length = 50,\n  timevar = \"time\",\n  aggvars = c(\"subject\", \"condition\", \"target\", \"trial\", \"object\", \"time_bin\")\n)\n\n\n\n\n\n\n\ndataframe\n\n\nDataFrame containing gaze data.\n\n\n\n\nbin.length\n\n\nLength of time bins (in milliseconds).\n\n\n\n\ntimevar\n\n\nColumn name representing time.\n\n\n\n\naggvars\n\n\nVector of variable names to group by for aggregation. Use \"none\" to skip aggregation.\n\n\n\n\n\n\nDataFrame with time bins added and optionally aggregated data.",
     "crumbs": [
@@ -176,7 +176,7 @@
   {
     "objectID": "man/time_window_isc.html",
     "href": "man/time_window_isc.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Computes ISC for each subject by correlating that subject’s time series against the mean of all other subjects within sliding windows, then Fisher z-transforms correlations, averages them per subject, and converts back to r.\n\n\n\ntime_window_isc(\n  data,\n  window_size = 10,\n  step = 1,\n  min_overlap = 3,\n  method = c(\"pearson\", \"spearman\"),\n  return_per_window = FALSE\n)\n\n\n\n\n\n\n\ndata\n\n\nA numeric matrix or data.frame with rows = time points, columns = participants.\n\n\n\n\nwindow_size\n\n\nInteger, window length in time points (default 10).\n\n\n\n\nstep\n\n\nInteger, step size between consecutive windows (default 1).\n\n\n\n\nmin_overlap\n\n\nInteger, minimum number of non-NA paired points within a window required to compute a correlation (default 3).\n\n\n\n\nmethod\n\n\nCorrelation method passed to [stats::cor()], usually \"pearson\" (default), or \"spearman\".\n\n\n\n\nreturn_per_window\n\n\nLogical; if TRUE, also return a data.frame of per-window Fisher-z correlations per subject (default FALSE).\n\n\n\n\n\n\nIf ‘return_per_window = FALSE’, a named numeric vector of ISC values (length = n subjects). If ‘TRUE’, a list with: - ‘isc’: named numeric vector of per-subject ISC (as above) - ‘per_window’: data.frame with columns ‘window_start’, ‘window_end’, ‘subject’, ‘z’",
     "crumbs": [
@@ -187,7 +187,7 @@
   {
     "objectID": "man/time_window_isc.html#time-windowed-intersubject-correlation-isc-per-subject",
     "href": "man/time_window_isc.html#time-windowed-intersubject-correlation-isc-per-subject",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Computes ISC for each subject by correlating that subject’s time series against the mean of all other subjects within sliding windows, then Fisher z-transforms correlations, averages them per subject, and converts back to r.\n\n\n\ntime_window_isc(\n  data,\n  window_size = 10,\n  step = 1,\n  min_overlap = 3,\n  method = c(\"pearson\", \"spearman\"),\n  return_per_window = FALSE\n)\n\n\n\n\n\n\n\ndata\n\n\nA numeric matrix or data.frame with rows = time points, columns = participants.\n\n\n\n\nwindow_size\n\n\nInteger, window length in time points (default 10).\n\n\n\n\nstep\n\n\nInteger, step size between consecutive windows (default 1).\n\n\n\n\nmin_overlap\n\n\nInteger, minimum number of non-NA paired points within a window required to compute a correlation (default 3).\n\n\n\n\nmethod\n\n\nCorrelation method passed to [stats::cor()], usually \"pearson\" (default), or \"spearman\".\n\n\n\n\nreturn_per_window\n\n\nLogical; if TRUE, also return a data.frame of per-window Fisher-z correlations per subject (default FALSE).\n\n\n\n\n\n\nIf ‘return_per_window = FALSE’, a named numeric vector of ISC values (length = n subjects). If ‘TRUE’, a list with: - ‘isc’: named numeric vector of per-subject ISC (as above) - ‘per_window’: data.frame with columns ‘window_start’, ‘window_end’, ‘subject’, ‘z’",
     "crumbs": [
@@ -198,7 +198,7 @@
   {
     "objectID": "man/analyze_sampling_rate.html",
     "href": "man/analyze_sampling_rate.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Computes sampling rate for each trial (subject × trial) and summarizes at the subject level. Uses distinct timepoints to avoid duplicate time values. Plots histogram of subject-level sampling rates.\n\n\n\nanalyze_sampling_rate(eye_data, summary_stat = \"Median\")\n\n\n\n\n\n\n\neye_data\n\n\nA dataframe with subject, trial, time columns.\n\n\n\n\nsummary_stat\n\n\nEither \"median\" (default) or \"mean\".\n\n\n\n\n\n\nA tibble with subject, trial, SR_trial, SR_subject",
     "crumbs": [
@@ -209,7 +209,7 @@
   {
     "objectID": "man/analyze_sampling_rate.html#analyze-sampling-rates-trial-and-subject-levels-with-histogram",
     "href": "man/analyze_sampling_rate.html#analyze-sampling-rates-trial-and-subject-levels-with-histogram",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Computes sampling rate for each trial (subject × trial) and summarizes at the subject level. Uses distinct timepoints to avoid duplicate time values. Plots histogram of subject-level sampling rates.\n\n\n\nanalyze_sampling_rate(eye_data, summary_stat = \"Median\")\n\n\n\n\n\n\n\neye_data\n\n\nA dataframe with subject, trial, time columns.\n\n\n\n\nsummary_stat\n\n\nEither \"median\" (default) or \"mean\".\n\n\n\n\n\n\nA tibble with subject, trial, SR_trial, SR_subject",
     "crumbs": [
@@ -220,7 +220,7 @@
   {
     "objectID": "man/merge_webcam_files.html",
     "href": "man/merge_webcam_files.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "This function reads, merges, and processes webcam eye-tracking files. It standardizes column names (subject, trial, time, x, y) for universal use. Supports .csv, .tsv, and .xlsx formats.\n\n\n\nmerge_webcam_files(\n  file_paths,\n  screen_index = NULL,\n  kind = \"gorilla\",\n  col_map = list(subject = \"participant_id\", trial = \"spreadsheet_row\", time =\n    \"time_elapsed\", x = \"x\", y = \"y\")\n)\n\n\n\n\n\n\n\nfile_paths\n\n\nA list of file paths to webcam files.\n\n\n\n\nscreen_index\n\n\nOptional. If provided, filters data by one or more screen indices (for Gorilla).\n\n\n\n\nkind\n\n\nThe data collection platform. Options: \"gorilla\" (default), \"labvanced\".\n\n\n\n\ncol_map\n\n\nA named list mapping your current columns to WebGazer names: ‘subject’, ‘trial’, ‘time’, ‘x’, ‘y’.\n\n\n\n\n\n\nA dataframe with standardized columns depending on the platform.",
     "crumbs": [
@@ -231,7 +231,7 @@
   {
     "objectID": "man/merge_webcam_files.html#merge-and-process-webcam-eye-tracking-files",
     "href": "man/merge_webcam_files.html#merge-and-process-webcam-eye-tracking-files",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "This function reads, merges, and processes webcam eye-tracking files. It standardizes column names (subject, trial, time, x, y) for universal use. Supports .csv, .tsv, and .xlsx formats.\n\n\n\nmerge_webcam_files(\n  file_paths,\n  screen_index = NULL,\n  kind = \"gorilla\",\n  col_map = list(subject = \"participant_id\", trial = \"spreadsheet_row\", time =\n    \"time_elapsed\", x = \"x\", y = \"y\")\n)\n\n\n\n\n\n\n\nfile_paths\n\n\nA list of file paths to webcam files.\n\n\n\n\nscreen_index\n\n\nOptional. If provided, filters data by one or more screen indices (for Gorilla).\n\n\n\n\nkind\n\n\nThe data collection platform. Options: \"gorilla\" (default), \"labvanced\".\n\n\n\n\ncol_map\n\n\nA named list mapping your current columns to WebGazer names: ‘subject’, ‘trial’, ‘time’, ‘x’, ‘y’.\n\n\n\n\n\n\nA dataframe with standardized columns depending on the platform.",
     "crumbs": [
@@ -242,7 +242,7 @@
   {
     "objectID": "man/gaze_oob.html",
     "href": "man/gaze_oob.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "This function calculates the number and percentage of gaze points that fall outside the screen dimensions, and optionally removes only the out-of-bounds gaze points.\n\n\n\ngaze_oob(\n  data,\n  subject_col = \"subject\",\n  trial_col = \"trial\",\n  x_col = \"x\",\n  y_col = \"y\",\n  screen_size = c(1, 1),\n  remove = FALSE\n)\n\n\n\n\n\n\n\ndata\n\n\nA data frame containing gaze data.\n\n\n\n\nsubject_col\n\n\nA string specifying the name of the column that contains the subject identifier. Default is \"subject\".\n\n\n\n\ntrial_col\n\n\nA string specifying the name of the column that contains the trial identifier. Default is \"trial\".\n\n\n\n\nx_col\n\n\nA string specifying the name of the column that contains the X coordinate. Default is \"x\".\n\n\n\n\ny_col\n\n\nA string specifying the name of the column that contains the Y coordinate. Default is \"y\".\n\n\n\n\nscreen_size\n\n\nA numeric vector of length 2 specifying the screen width and height. Default is c(1, 1) assuming normalized coordinates.\n\n\n\n\nremove\n\n\nLogical; if TRUE, removes points outside of screen dimensions. Default is FALSE.\n\n\n\n\n\n\nA list containing:\n\n\nsubject_results\n\n\nSummary of missingness at the subject level.\n\n\ntrial_results\n\n\nSummary of missingness at the trial level.\n\n\ndata_clean\n\n\nDataset with optional removal of out-of-bounds points and missingness annotations.",
     "crumbs": [
@@ -253,7 +253,7 @@
   {
     "objectID": "man/gaze_oob.html#calculate-out-of-bounds-proportion-by-subject-and-trial",
     "href": "man/gaze_oob.html#calculate-out-of-bounds-proportion-by-subject-and-trial",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "This function calculates the number and percentage of gaze points that fall outside the screen dimensions, and optionally removes only the out-of-bounds gaze points.\n\n\n\ngaze_oob(\n  data,\n  subject_col = \"subject\",\n  trial_col = \"trial\",\n  x_col = \"x\",\n  y_col = \"y\",\n  screen_size = c(1, 1),\n  remove = FALSE\n)\n\n\n\n\n\n\n\ndata\n\n\nA data frame containing gaze data.\n\n\n\n\nsubject_col\n\n\nA string specifying the name of the column that contains the subject identifier. Default is \"subject\".\n\n\n\n\ntrial_col\n\n\nA string specifying the name of the column that contains the trial identifier. Default is \"trial\".\n\n\n\n\nx_col\n\n\nA string specifying the name of the column that contains the X coordinate. Default is \"x\".\n\n\n\n\ny_col\n\n\nA string specifying the name of the column that contains the Y coordinate. Default is \"y\".\n\n\n\n\nscreen_size\n\n\nA numeric vector of length 2 specifying the screen width and height. Default is c(1, 1) assuming normalized coordinates.\n\n\n\n\nremove\n\n\nLogical; if TRUE, removes points outside of screen dimensions. Default is FALSE.\n\n\n\n\n\n\nA list containing:\n\n\nsubject_results\n\n\nSummary of missingness at the subject level.\n\n\ntrial_results\n\n\nSummary of missingness at the trial level.\n\n\ndata_clean\n\n\nDataset with optional removal of out-of-bounds points and missingness annotations.",
     "crumbs": [
@@ -264,7 +264,7 @@
   {
     "objectID": "man/find_location.html",
     "href": "man/find_location.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Find Image Location in a Given Set of Locations\n\n\n\nfind_location(locations, image)\n\n\n\n\n\n\n\nlocations\n\n\nA character vector of image names at each location.\n\n\n\n\nimage\n\n\nA character string: the image to locate.#’\n\n\n\n\n\n\nA character string representing the location name or NA if not found.",
     "crumbs": [
@@ -275,7 +275,7 @@
   {
     "objectID": "man/find_location.html#find-image-location-in-a-given-set-of-locations",
     "href": "man/find_location.html#find-image-location-in-a-given-set-of-locations",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Find Image Location in a Given Set of Locations\n\n\n\nfind_location(locations, image)\n\n\n\n\n\n\n\nlocations\n\n\nA character vector of image names at each location.\n\n\n\n\nimage\n\n\nA character string: the image to locate.#’\n\n\n\n\n\n\nA character string representing the location name or NA if not found.",
     "crumbs": [
@@ -286,7 +286,7 @@
   {
     "objectID": "man/upsample_gaze.html",
     "href": "man/upsample_gaze.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Increase the sampling frequency to ‘target_hz’ Hz by inserting additional rows. Missing values in gaze and pupil data will be preserved for later interpolation.\n\n\n\nupsample_gaze(\n  x,\n  pupil_cols = c(\"Pupil_Diameter\"),\n  gaze_cols = c(\"x_pred_normalised\", \"y_pred_normalised\"),\n  target_hz = 1000,\n  upsample_pupil = TRUE\n)\n\n\n\n\n\n\n\nx\n\n\nA dataframe containing gaze and pupil data with columns: ‘subject’, ‘trial’, and ‘time’.\n\n\n\n\npupil_cols\n\n\nCharacter vector of pupil diameter column names.\n\n\n\n\ngaze_cols\n\n\nCharacter vector of gaze position column names.\n\n\n\n\ntarget_hz\n\n\nTarget sampling frequency (default is 1000 Hz).\n\n\n\n\nupsample_pupil\n\n\nLogical; if ‘TRUE’, pupil data will also be upsampled.\n\n\n\n\n\n\nA dataframe with up-sampled time points and an ‘up_sampled’ column.",
     "crumbs": [
@@ -297,7 +297,7 @@
   {
     "objectID": "man/upsample_gaze.html#up-sample-gaze-and-pupil-data",
     "href": "man/upsample_gaze.html#up-sample-gaze-and-pupil-data",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Increase the sampling frequency to ‘target_hz’ Hz by inserting additional rows. Missing values in gaze and pupil data will be preserved for later interpolation.\n\n\n\nupsample_gaze(\n  x,\n  pupil_cols = c(\"Pupil_Diameter\"),\n  gaze_cols = c(\"x_pred_normalised\", \"y_pred_normalised\"),\n  target_hz = 1000,\n  upsample_pupil = TRUE\n)\n\n\n\n\n\n\n\nx\n\n\nA dataframe containing gaze and pupil data with columns: ‘subject’, ‘trial’, and ‘time’.\n\n\n\n\npupil_cols\n\n\nCharacter vector of pupil diameter column names.\n\n\n\n\ngaze_cols\n\n\nCharacter vector of gaze position column names.\n\n\n\n\ntarget_hz\n\n\nTarget sampling frequency (default is 1000 Hz).\n\n\n\n\nupsample_pupil\n\n\nLogical; if ‘TRUE’, pupil data will also be upsampled.\n\n\n\n\n\n\nA dataframe with up-sampled time points and an ‘up_sampled’ column.",
     "crumbs": [
@@ -308,7 +308,7 @@
   {
     "objectID": "man/interpolate_gaze.html",
     "href": "man/interpolate_gaze.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Interpolate missing gaze data (X and Y) within trials, with optional max gap\n\n\n\ninterpolate_gaze(\n  x,\n  x_col = \"Gaze_X\",\n  y_col = \"Gaze_Y\",\n  trial_col = \"Trial\",\n  subject_col = \"Subject\",\n  time_col = \"Time\",\n  max_gap = Inf\n)\n\n\n\n\n\n\n\nx\n\n\nA data frame containing gaze data.\n\n\n\n\nx_col\n\n\nThe name of the X gaze column (as string).\n\n\n\n\ny_col\n\n\nThe name of the Y gaze column (as string).\n\n\n\n\ntrial_col\n\n\nThe name of the trial column (default = \"Trial\").\n\n\n\n\nsubject_col\n\n\nThe name of the subject column (default = \"Subject\").\n\n\n\n\ntime_col\n\n\nThe name of the time column used for sorting (default = \"Time\").\n\n\n\n\nmax_gap\n\n\nMaximum number of consecutive missing samples to interpolate. Gaps larger than this remain NA (default = Inf).\n\n\n\n\n\n\nA tibble with interpolated gaze X and Y columns (replacing originals).",
     "crumbs": [
@@ -319,7 +319,7 @@
   {
     "objectID": "man/interpolate_gaze.html#interpolate-missing-gaze-data-x-and-y-within-trials-with-optional-max-gap",
     "href": "man/interpolate_gaze.html#interpolate-missing-gaze-data-x-and-y-within-trials-with-optional-max-gap",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Interpolate missing gaze data (X and Y) within trials, with optional max gap\n\n\n\ninterpolate_gaze(\n  x,\n  x_col = \"Gaze_X\",\n  y_col = \"Gaze_Y\",\n  trial_col = \"Trial\",\n  subject_col = \"Subject\",\n  time_col = \"Time\",\n  max_gap = Inf\n)\n\n\n\n\n\n\n\nx\n\n\nA data frame containing gaze data.\n\n\n\n\nx_col\n\n\nThe name of the X gaze column (as string).\n\n\n\n\ny_col\n\n\nThe name of the Y gaze column (as string).\n\n\n\n\ntrial_col\n\n\nThe name of the trial column (default = \"Trial\").\n\n\n\n\nsubject_col\n\n\nThe name of the subject column (default = \"Subject\").\n\n\n\n\ntime_col\n\n\nThe name of the time column used for sorting (default = \"Time\").\n\n\n\n\nmax_gap\n\n\nMaximum number of consecutive missing samples to interpolate. Gaps larger than this remain NA (default = Inf).\n\n\n\n\n\n\nA tibble with interpolated gaze X and Y columns (replacing originals).",
     "crumbs": [
@@ -330,7 +330,7 @@
   {
     "objectID": "man/make_webgazer.html",
     "href": "man/make_webgazer.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "This function takes a dataframe and renames columns to match WebGazer conventions: subject, trial, time, x, y. All other columns are preserved. Standardize a Dataframe to WebGazer Conventions\n\n\n\nmake_webgazer(\n  data,\n  col_map = list(subject = \"subject\", trial = \"trial\", time = \"time\", x = \"x\", y = \"y\")\n)\n\n\n\n\n\n\n\ndata\n\n\nA dataframe containing gaze data.\n\n\n\n\ncol_map\n\n\nA named list mapping your current columns to WebGazer names: ‘subject’, ‘trial’, ‘time’, ‘x’, ‘y’.\n\n\n\n\n\n\nThis function takes a dataframe and renames columns to match WebGazer conventions: subject, trial, time, x, y. All other columns are preserved.\n\n\n\nA dataframe with renamed columns but preserves all other original columns.",
     "crumbs": [
@@ -341,7 +341,7 @@
   {
     "objectID": "man/make_webgazer.html#standardize-a-dataframe-to-webgazer-conventions",
     "href": "man/make_webgazer.html#standardize-a-dataframe-to-webgazer-conventions",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "This function takes a dataframe and renames columns to match WebGazer conventions: subject, trial, time, x, y. All other columns are preserved. Standardize a Dataframe to WebGazer Conventions\n\n\n\nmake_webgazer(\n  data,\n  col_map = list(subject = \"subject\", trial = \"trial\", time = \"time\", x = \"x\", y = \"y\")\n)\n\n\n\n\n\n\n\ndata\n\n\nA dataframe containing gaze data.\n\n\n\n\ncol_map\n\n\nA named list mapping your current columns to WebGazer names: ‘subject’, ‘trial’, ‘time’, ‘x’, ‘y’.\n\n\n\n\n\n\nThis function takes a dataframe and renames columns to match WebGazer conventions: subject, trial, time, x, y. All other columns are preserved.\n\n\n\nA dataframe with renamed columns but preserves all other original columns.",
     "crumbs": [
@@ -352,7 +352,7 @@
   {
     "objectID": "man/assign_aoi.html",
     "href": "man/assign_aoi.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Takes a data frame of gaze positions (or other locations), plus screen size and aoi size (or location), and computes the area of interest (AOI) for each location. Defaults assume standard four-corner design.\n\n\n\nassign_aoi(\n  gaze,\n  screen_size = c(1024, 768),\n  aoi_size = c(400, 300),\n  aoi_loc = NULL,\n  X = \"CURRENT_FIX_X\",\n  Y = \"CURRENT_FIX_Y\"\n)\n\n\n\n\n\n\n\ngaze\n\n\ndata frame containing positions\n\n\n\n\nscreen_size\n\n\nsize of the screen in pixels. Defaults to c(1024, 768) and assumes reversed vertical (i.e., [0,0] is top left).\n\n\n\n\naoi_size\n\n\nsize of AOIs in pixels. Defaults to a c(400, 300) width-height pair and assumes AOIs are in screen corners. AOIs will be coded numerically 1 to 4 in reading order (left to right, top to bottom), with 0 as center location.\n\n\n\n\naoi_loc\n\n\nlocation of rectangular AOIs. Use as alternative to aoi_size for non-corner AOIs. Each AOI location should be a separate row in a data frame that has variables xmin, xmax, ymin, and ymax. Assumes reversed vertical (i.e., [0,0] is top left). AOIs will be coded numerically in row order.\n\n\n\n\nX\n\n\nname of variable containing X coordinates. Defaults to \"CURRENT_FIX_X\"\n\n\n\n\nY\n\n\nname of variable containing Y coordinates. Defaults to \"CURRENT_FIX_Y\"\n\n\n\n\n\n\nOriginal gaze data frame with AOI column added. Non-AOI and off-screen gazes are marked NA.",
     "crumbs": [
@@ -363,7 +363,7 @@
   {
     "objectID": "man/assign_aoi.html#assign-coordinates-to-areas-of-interest",
     "href": "man/assign_aoi.html#assign-coordinates-to-areas-of-interest",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "Takes a data frame of gaze positions (or other locations), plus screen size and aoi size (or location), and computes the area of interest (AOI) for each location. Defaults assume standard four-corner design.\n\n\n\nassign_aoi(\n  gaze,\n  screen_size = c(1024, 768),\n  aoi_size = c(400, 300),\n  aoi_loc = NULL,\n  X = \"CURRENT_FIX_X\",\n  Y = \"CURRENT_FIX_Y\"\n)\n\n\n\n\n\n\n\ngaze\n\n\ndata frame containing positions\n\n\n\n\nscreen_size\n\n\nsize of the screen in pixels. Defaults to c(1024, 768) and assumes reversed vertical (i.e., [0,0] is top left).\n\n\n\n\naoi_size\n\n\nsize of AOIs in pixels. Defaults to a c(400, 300) width-height pair and assumes AOIs are in screen corners. AOIs will be coded numerically 1 to 4 in reading order (left to right, top to bottom), with 0 as center location.\n\n\n\n\naoi_loc\n\n\nlocation of rectangular AOIs. Use as alternative to aoi_size for non-corner AOIs. Each AOI location should be a separate row in a data frame that has variables xmin, xmax, ymin, and ymax. Assumes reversed vertical (i.e., [0,0] is top left). AOIs will be coded numerically in row order.\n\n\n\n\nX\n\n\nname of variable containing X coordinates. Defaults to \"CURRENT_FIX_X\"\n\n\n\n\nY\n\n\nname of variable containing Y coordinates. Defaults to \"CURRENT_FIX_Y\"\n\n\n\n\n\n\nOriginal gaze data frame with AOI column added. Non-AOI and off-screen gazes are marked NA.",
     "crumbs": [
@@ -374,7 +374,7 @@
   {
     "objectID": "man/extract_aois.html",
     "href": "man/extract_aois.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "This function reads in multiple Gorilla webcam files, extracts the ‘loc’, ‘x_normalised’, ‘y_normalised’, ‘width_normalised’, and ‘height_normalised’ columns, and calculates the bounding box coordinates for the AOIs. It also rounds all numeric columns to 3 decimal places.\n\n\n\nextract_aois(file_paths, zone_names = NULL)\n\n\n\n\n\n\n\nfile_paths\n\n\nA list of file paths to webcam files (in .xlsx format).\n\n\n\n\n\n\nA dataframe containing distinct rows with AOI-related columns and calculated coordinates.",
     "crumbs": [
@@ -385,7 +385,7 @@
   {
     "objectID": "man/extract_aois.html#extract-aoi-related-columns-from-webcam-files-and-calculate-locations",
     "href": "man/extract_aois.html#extract-aoi-related-columns-from-webcam-files-and-calculate-locations",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "This function reads in multiple Gorilla webcam files, extracts the ‘loc’, ‘x_normalised’, ‘y_normalised’, ‘width_normalised’, and ‘height_normalised’ columns, and calculates the bounding box coordinates for the AOIs. It also rounds all numeric columns to 3 decimal places.\n\n\n\nextract_aois(file_paths, zone_names = NULL)\n\n\n\n\n\n\n\nfile_paths\n\n\nA list of file paths to webcam files (in .xlsx format).\n\n\n\n\n\n\nA dataframe containing distinct rows with AOI-related columns and calculated coordinates.",
     "crumbs": [
@@ -396,7 +396,7 @@
   {
     "objectID": "man/plot_IA_proportions.html",
     "href": "man/plot_IA_proportions.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "This function creates a time-course plot of the proportion of looks to specified Interest Areas (IAs). Optionally, it can facet the plot by an experimental condition. Custom labels for each IA can be specified through the ‘ia_mapping’ argument to define the display order.\n\n\n\nplot_IA_proportions(\n  data,\n  ia_column,\n  time_column,\n  proportion_column,\n  condition_column = NULL,\n  ia_mapping,\n  use_color = TRUE\n)\n\n\n\n\n\n\n\ndata\n\n\nA data frame containing the data to plot.\n\n\n\n\nia_column\n\n\nThe name of the column containing Interest Area (IA) identifiers.\n\n\n\n\ntime_column\n\n\nThe name of the column representing time (e.g., milliseconds).\n\n\n\n\nproportion_column\n\n\nThe name of the column with the proportion of looks for each IA.\n\n\n\n\ncondition_column\n\n\nOptional. The name of the column representing experimental conditions. If not provided, the plot will not be faceted by condition.\n\n\n\n\nia_mapping\n\n\nA named list specifying custom labels for each IA in the desired display order (e.g., ‘list(IA1 = \"Target\", IA2 = \"Cohort\", IA3 = \"Rhyme\", IA4 = \"Unrelated\")’).\n\n\n\n\nuse_color\n\n\nLogical. If ‘TRUE’ (default), the plot will use colors to differentiate Interest Areas. If ‘FALSE’, different line types, shapes, and line widths will be used instead.\n\n\n\n\n\n\nA ggplot2 plot of the proportion of looks over time for each IA, optionally faceted by condition.",
     "crumbs": [
@@ -407,7 +407,7 @@
   {
     "objectID": "man/plot_IA_proportions.html#plot-proportion-of-looks-over-time-for-interest-areas-ias",
     "href": "man/plot_IA_proportions.html#plot-proportion-of-looks-over-time-for-interest-areas-ias",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
     "text": "This function creates a time-course plot of the proportion of looks to specified Interest Areas (IAs). Optionally, it can facet the plot by an experimental condition. Custom labels for each IA can be specified through the ‘ia_mapping’ argument to define the display order.\n\n\n\nplot_IA_proportions(\n  data,\n  ia_column,\n  time_column,\n  proportion_column,\n  condition_column = NULL,\n  ia_mapping,\n  use_color = TRUE\n)\n\n\n\n\n\n\n\ndata\n\n\nA data frame containing the data to plot.\n\n\n\n\nia_column\n\n\nThe name of the column containing Interest Area (IA) identifiers.\n\n\n\n\ntime_column\n\n\nThe name of the column representing time (e.g., milliseconds).\n\n\n\n\nproportion_column\n\n\nThe name of the column with the proportion of looks for each IA.\n\n\n\n\ncondition_column\n\n\nOptional. The name of the column representing experimental conditions. If not provided, the plot will not be faceted by condition.\n\n\n\n\nia_mapping\n\n\nA named list specifying custom labels for each IA in the desired display order (e.g., ‘list(IA1 = \"Target\", IA2 = \"Cohort\", IA3 = \"Rhyme\", IA4 = \"Unrelated\")’).\n\n\n\n\nuse_color\n\n\nLogical. If ‘TRUE’ (default), the plot will use colors to differentiate Interest Areas. If ‘FALSE’, different line types, shapes, and line widths will be used instead.\n\n\n\n\n\n\nA ggplot2 plot of the proportion of looks over time for each IA, optionally faceted by condition.",
     "crumbs": [
@@ -418,9 +418,9 @@
   {
     "objectID": "man/filter_sampling_rate.html",
     "href": "man/filter_sampling_rate.html",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
-    "text": "This function applies a sampling rate threshold and either removes or labels \"bad\" subjects/trials based on their sampling rates.\n\n\n\nfilter_sampling_rate(\n  data,\n  threshold = NA,\n  action = c(\"remove\", \"label\"),\n  by = c(\"subject\", \"trial\", \"both\")\n)\n\n\n\n\n\n\n\ndata\n\n\nA dataframe with columns: subject, trial, SR_subject, SR_trial.\n\n\n\n\nthreshold\n\n\nNumeric. Sampling rate threshold to apply.\n\n\n\n\naction\n\n\n\"remove\" (default) to delete bad data or \"label\" to flag bad data.\n\n\n\n\nby\n\n\n\"subject\", \"trial\", or \"both\" to specify where to apply the threshold.\n\n\n\n\n\n\nA dataframe with either rows removed or bad subjects/trials labeled.",
+    "text": "This function applies a sampling rate threshold and either removes or labels \"bad\" subjects/trials based on their sampling rates.\n\n\n\nfilter_sampling_rate(\n  data,\n  threshold,\n  action = c(\"remove\", \"label\"),\n  by = c(\"subject\", \"trial\", \"both\")\n)\n\n\n\n\n\n\n\ndata\n\n\nA dataframe with columns: subject, trial, SR_subject, SR_trial.\n\n\n\n\nthreshold\n\n\nNumeric. Sampling rate threshold to apply.\n\n\n\n\naction\n\n\n\"remove\" (default) to delete bad data or \"label\" to flag bad data.\n\n\n\n\nby\n\n\n\"subject\", \"trial\", or \"both\" to specify where to apply the threshold.\n\n\n\n\n\n\nA dataframe with either rows removed or bad subjects/trials labeled.",
     "crumbs": [
       "Reference",
       "filter_sampling_rate"
@@ -429,9 +429,9 @@
   {
     "objectID": "man/filter_sampling_rate.html#filter-or-label-data-based-on-sampling-rate-threshold",
     "href": "man/filter_sampling_rate.html#filter-or-label-data-based-on-sampling-rate-threshold",
-    "title": "webgazeR v0.7.2",
+    "title": "webgazeR v0.8.3",
     "section": "",
-    "text": "This function applies a sampling rate threshold and either removes or labels \"bad\" subjects/trials based on their sampling rates.\n\n\n\nfilter_sampling_rate(\n  data,\n  threshold = NA,\n  action = c(\"remove\", \"label\"),\n  by = c(\"subject\", \"trial\", \"both\")\n)\n\n\n\n\n\n\n\ndata\n\n\nA dataframe with columns: subject, trial, SR_subject, SR_trial.\n\n\n\n\nthreshold\n\n\nNumeric. Sampling rate threshold to apply.\n\n\n\n\naction\n\n\n\"remove\" (default) to delete bad data or \"label\" to flag bad data.\n\n\n\n\nby\n\n\n\"subject\", \"trial\", or \"both\" to specify where to apply the threshold.\n\n\n\n\n\n\nA dataframe with either rows removed or bad subjects/trials labeled.",
+    "text": "This function applies a sampling rate threshold and either removes or labels \"bad\" subjects/trials based on their sampling rates.\n\n\n\nfilter_sampling_rate(\n  data,\n  threshold,\n  action = c(\"remove\", \"label\"),\n  by = c(\"subject\", \"trial\", \"both\")\n)\n\n\n\n\n\n\n\ndata\n\n\nA dataframe with columns: subject, trial, SR_subject, SR_trial.\n\n\n\n\nthreshold\n\n\nNumeric. Sampling rate threshold to apply.\n\n\n\n\naction\n\n\n\"remove\" (default) to delete bad data or \"label\" to flag bad data.\n\n\n\n\nby\n\n\n\"subject\", \"trial\", or \"both\" to specify where to apply the threshold.\n\n\n\n\n\n\nA dataframe with either rows removed or bad subjects/trials labeled.",
     "crumbs": [
       "Reference",
       "filter_sampling_rate"
@@ -453,7 +453,7 @@
     "href": "vignettes/ISC.html#pairwise-isc",
     "title": "Calculating Intersubject Correlations",
     "section": "Pairwise ISC",
-    "text": "Pairwise ISC\nBelow, we generate a 10 × 1000 matrix\n\nResultInteractive\n\n\nlibrary(tidyverse)\ninstall.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))\n\n\nThe downloaded binary packages are in\n    /var/folders/b6/cndg9nj53jnfy45qtx6h533r0000gs/T//Rtmp3sZExA/downloaded_packages\n\nlibrary(webgazeR)\n\nset.seed(123)\n\ndata_matrix &lt;- matrix(rnorm(10 * 1000), nrow = 1000, ncol = 10)\n\ndata_matrix %&gt;% \n  head()\n\n            [,1]        [,2]       [,3]        [,4]       [,5]       [,6]\n[1,] -0.56047565 -0.99579872 -0.5116037 -0.15030748  0.1965498 -0.4941739\n[2,] -0.23017749 -1.03995504  0.2369379 -0.32775713  0.6501132  1.1275935\n[3,]  1.55870831 -0.01798024 -0.5415892 -1.44816529  0.6710042 -1.1469495\n[4,]  0.07050839 -0.13217513  1.2192276 -0.69728458 -1.2841578  1.4810186\n[5,]  0.12928774 -2.54934277  0.1741359  2.59849023 -2.0261096  0.9161912\n[6,]  1.71506499  1.04057346 -0.6152683 -0.03741501  2.2053261  0.3351310\n           [,7]       [,8]       [,9]      [,10]\n[1,] -0.6992281 -1.6180367  0.5110004  1.9315759\n[2,]  0.9964515  0.3791812  1.8079928 -0.6164747\n[3,] -0.6927454  1.9022505 -1.7026150 -0.5625675\n[4,] -0.1034830  0.6018743  0.2874488 -0.9899631\n[5,]  0.6038661  1.7323497 -0.2691142  2.7312276\n[6,] -0.6080450 -0.1468696 -0.3795247 -0.7216662\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nWe use the cor() function to compute pairwise correlations between each participant’s time-binned data and that of every other participant.\nWe specify use = “pairwise.complete.obs” to ensure that:\n\nIf any missing values (NA) exist for a participant, those time points are excluded from the correlation for all comparisons involving that participant.\nThis allows us to retain all participants in the dataset while ensuring that correlations are computed using only available data.\n\n\nResultInteractive\n\n\ncorrelation_matrix &lt;- cor(data_matrix, use = \"pairwise.complete.obs\")\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nSince the diagonal of the correlation matrix represents self-correlations (i.e., each participant correlated with themselves), we replace those values with NA, as they are not meaningful for intersubject correlation (ISC):\n\nResultInteractive\n\n\ndiag(correlation_matrix) &lt;- NA\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\nResultInteractive\n\n\ncorrelation_matrix\n\n              [,1]         [,2]         [,3]          [,4]          [,5]\n [1,]           NA  0.086479441 -0.019329537 -0.0029947104  0.0322973377\n [2,]  0.086479441           NA  0.026503334 -0.0070290755  0.0924646624\n [3,] -0.019329537  0.026503334           NA  0.0505608499 -0.0150195347\n [4,] -0.002994710 -0.007029076  0.050560850            NA -0.0004005193\n [5,]  0.032297338  0.092464662 -0.015019535 -0.0004005193            NA\n [6,] -0.018267991 -0.055292983 -0.033003346  0.0438457353  0.0138042312\n [7,] -0.034340849  0.024316458  0.005282974 -0.0200855749 -0.0090534146\n [8,] -0.030156049  0.031077180 -0.025946806 -0.0055278737 -0.0777495779\n [9,] -0.009370688  0.022155213  0.058417535 -0.0064371559  0.0470798891\n[10,]  0.022344953  0.022481121  0.029148322  0.0459001272 -0.0047210318\n               [,6]         [,7]         [,8]          [,9]        [,10]\n [1,] -0.0182679912 -0.034340849 -0.030156049 -0.0093706879  0.022344953\n [2,] -0.0552929834  0.024316458  0.031077180  0.0221552128  0.022481121\n [3,] -0.0330033458  0.005282974 -0.025946806  0.0584175347  0.029148322\n [4,]  0.0438457353 -0.020085575 -0.005527874 -0.0064371559  0.045900127\n [5,]  0.0138042312 -0.009053415 -0.077749578  0.0470798891 -0.004721032\n [6,]            NA -0.016497452 -0.016411441 -0.0006214018 -0.010177844\n [7,] -0.0164974516           NA  0.037173511  0.0791431861  0.002523005\n [8,] -0.0164114415  0.037173511           NA -0.0422433679  0.010503101\n [9,] -0.0006214018  0.079143186 -0.042243368            NA -0.006174781\n[10,] -0.0101778437  0.002523005  0.010503101 -0.0061747810           NA\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nNext, we apply Fisher’s Z-transformation using atanh() to convert the correlation coefficients into Z-scores before averaging.\nAveraging correlation scores directly is bad practice because:\n\nCorrelations are bounded between -1 and 1, which skews their distribution.\nFisher’s Z-transformation normalizes correlation values, making them more suitable for averaging.\n\nYou can also choose to use the median instead (if this is the case you do not need to apply Fisher transformation)\n\nResultInteractive\n\n\nz_values &lt;- atanh(correlation_matrix)  # Fisher's Z transformation\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nOnce transformed, we compute the average ISC per participant and transform back to r.\n\nResultInteractive\n\n\nisc_values &lt;- tanh(rowMeans(z_values, na.rm = TRUE))  # Convert back to r\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nthe calculate_isc() function with method=“pairwise” does all this for us.\n\nResultInteractive\n\n\nisc_pairwise &lt;- calculate_isc(data_matrix, method = \"pairwise\", summary_statistic = \"mean\")\n\nisc_pairwise\n\n [1]  0.002985107  0.027061018  0.008523871  0.010880947  0.008761466\n [6] -0.010296001  0.007625601 -0.013271741  0.015797990  0.012429909\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "text": "Pairwise ISC\nBelow, we generate a 10 × 1000 matrix\n\nResultInteractive\n\n\nlibrary(tidyverse)\ninstall.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))\n\n\nThe downloaded binary packages are in\n    /var/folders/b6/cndg9nj53jnfy45qtx6h533r0000gs/T//RtmpqH5rO6/downloaded_packages\n\nlibrary(webgazeR)\n\nset.seed(123)\n\ndata_matrix &lt;- matrix(rnorm(10 * 1000), nrow = 1000, ncol = 10)\n\ndata_matrix %&gt;% \n  head()\n\n            [,1]        [,2]       [,3]        [,4]       [,5]       [,6]\n[1,] -0.56047565 -0.99579872 -0.5116037 -0.15030748  0.1965498 -0.4941739\n[2,] -0.23017749 -1.03995504  0.2369379 -0.32775713  0.6501132  1.1275935\n[3,]  1.55870831 -0.01798024 -0.5415892 -1.44816529  0.6710042 -1.1469495\n[4,]  0.07050839 -0.13217513  1.2192276 -0.69728458 -1.2841578  1.4810186\n[5,]  0.12928774 -2.54934277  0.1741359  2.59849023 -2.0261096  0.9161912\n[6,]  1.71506499  1.04057346 -0.6152683 -0.03741501  2.2053261  0.3351310\n           [,7]       [,8]       [,9]      [,10]\n[1,] -0.6992281 -1.6180367  0.5110004  1.9315759\n[2,]  0.9964515  0.3791812  1.8079928 -0.6164747\n[3,] -0.6927454  1.9022505 -1.7026150 -0.5625675\n[4,] -0.1034830  0.6018743  0.2874488 -0.9899631\n[5,]  0.6038661  1.7323497 -0.2691142  2.7312276\n[6,] -0.6080450 -0.1468696 -0.3795247 -0.7216662\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nWe use the cor() function to compute pairwise correlations between each participant’s time-binned data and that of every other participant.\nWe specify use = “pairwise.complete.obs” to ensure that:\n\nIf any missing values (NA) exist for a participant, those time points are excluded from the correlation for all comparisons involving that participant.\nThis allows us to retain all participants in the dataset while ensuring that correlations are computed using only available data.\n\n\nResultInteractive\n\n\ncorrelation_matrix &lt;- cor(data_matrix, use = \"pairwise.complete.obs\")\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nSince the diagonal of the correlation matrix represents self-correlations (i.e., each participant correlated with themselves), we replace those values with NA, as they are not meaningful for intersubject correlation (ISC):\n\nResultInteractive\n\n\ndiag(correlation_matrix) &lt;- NA\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\nResultInteractive\n\n\ncorrelation_matrix\n\n              [,1]         [,2]         [,3]          [,4]          [,5]\n [1,]           NA  0.086479441 -0.019329537 -0.0029947104  0.0322973377\n [2,]  0.086479441           NA  0.026503334 -0.0070290755  0.0924646624\n [3,] -0.019329537  0.026503334           NA  0.0505608499 -0.0150195347\n [4,] -0.002994710 -0.007029076  0.050560850            NA -0.0004005193\n [5,]  0.032297338  0.092464662 -0.015019535 -0.0004005193            NA\n [6,] -0.018267991 -0.055292983 -0.033003346  0.0438457353  0.0138042312\n [7,] -0.034340849  0.024316458  0.005282974 -0.0200855749 -0.0090534146\n [8,] -0.030156049  0.031077180 -0.025946806 -0.0055278737 -0.0777495779\n [9,] -0.009370688  0.022155213  0.058417535 -0.0064371559  0.0470798891\n[10,]  0.022344953  0.022481121  0.029148322  0.0459001272 -0.0047210318\n               [,6]         [,7]         [,8]          [,9]        [,10]\n [1,] -0.0182679912 -0.034340849 -0.030156049 -0.0093706879  0.022344953\n [2,] -0.0552929834  0.024316458  0.031077180  0.0221552128  0.022481121\n [3,] -0.0330033458  0.005282974 -0.025946806  0.0584175347  0.029148322\n [4,]  0.0438457353 -0.020085575 -0.005527874 -0.0064371559  0.045900127\n [5,]  0.0138042312 -0.009053415 -0.077749578  0.0470798891 -0.004721032\n [6,]            NA -0.016497452 -0.016411441 -0.0006214018 -0.010177844\n [7,] -0.0164974516           NA  0.037173511  0.0791431861  0.002523005\n [8,] -0.0164114415  0.037173511           NA -0.0422433679  0.010503101\n [9,] -0.0006214018  0.079143186 -0.042243368            NA -0.006174781\n[10,] -0.0101778437  0.002523005  0.010503101 -0.0061747810           NA\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nNext, we apply Fisher’s Z-transformation using atanh() to convert the correlation coefficients into Z-scores before averaging.\nAveraging correlation scores directly is bad practice because:\n\nCorrelations are bounded between -1 and 1, which skews their distribution.\nFisher’s Z-transformation normalizes correlation values, making them more suitable for averaging.\n\nYou can also choose to use the median instead (if this is the case you do not need to apply Fisher transformation)\n\nResultInteractive\n\n\nz_values &lt;- atanh(correlation_matrix)  # Fisher's Z transformation\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nOnce transformed, we compute the average ISC per participant and transform back to r.\n\nResultInteractive\n\n\nisc_values &lt;- tanh(rowMeans(z_values, na.rm = TRUE))  # Convert back to r\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nthe calculate_isc() function with method=“pairwise” does all this for us.\n\nResultInteractive\n\n\nisc_pairwise &lt;- calculate_isc(data_matrix, method = \"pairwise\", summary_statistic = \"mean\")\n\nisc_pairwise\n\n [1]  0.002985107  0.027061018  0.008523871  0.010880947  0.008761466\n [6] -0.010296001  0.007625601 -0.013271741  0.015797990  0.012429909\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
     "crumbs": [
       "Articles",
       "Calculating Intersubject Correlations"
