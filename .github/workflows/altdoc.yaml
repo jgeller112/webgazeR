@@ -11,6 +11,7 @@ on:
 name: altdoc
 
 jobs:
+
   rwasmbuild:
     concurrency:
       group: altdoc-webr-${{ github.event_name != 'pull_request' || github.run_id }}
@@ -19,6 +20,7 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -53,33 +55,48 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: rwasmrepo
-          path: |
-            _site
+          path: _site
           retention-days: 1
+
 
   altdoc:
     runs-on: ubuntu-latest
     needs: rwasmbuild
     environment:
       name: github-pages
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     permissions:
       repository-projects: read
       pages: write
       id-token: write
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: quarto-dev/quarto-actions/setup@v2
 
+      # --------------------------------------------------------
       # Install R
+      # --------------------------------------------------------
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: "devel"
 
+      # --------------------------------------------------------
+      # Install system dependencies (FIXES curl/curl.h error)
+      # --------------------------------------------------------
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
+
+      # --------------------------------------------------------
       # Install GitHub version of pak
+      # --------------------------------------------------------
       - name: Install pak from GitHub
         run: |
           Rscript -e 'install.packages("remotes")'
@@ -94,6 +111,9 @@ jobs:
       - name: Dependencies
         run: ./run.sh install_all
 
+      # --------------------------------------------------------
+      # Build the site
+      # --------------------------------------------------------
       - name: Build site
         run: |
           install.packages(".", repos = NULL, type = "source")
@@ -102,10 +122,11 @@ jobs:
           altdoc::render_docs(verbose = TRUE, parallel = FALSE, freeze = FALSE)
         shell: Rscript {0}
 
+      # Move rendered site into _site
       - name: Copy to new directory
         run: |
-         mkdir -p _site
-         cp -r *quarto/*site/* _site/
+          mkdir -p _site
+          cp -r *quarto/*site/* _site/
 
       - name: Download build artifact
         uses: actions/download-artifact@v4
