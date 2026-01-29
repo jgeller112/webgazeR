@@ -12,4 +12,4 @@ Functions for analyzing webcam eye-tracking data
 
 
 01-29-26
-📢 **Updates:** See [news.md](wews.md)
+📢 **Updates:** See [NEWS](news.md)
