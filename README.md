@@ -11,4 +11,5 @@ Functions for analyzing webcam eye-tracking data
 <img src="webgazeR.png" data-fig-align="center" width="329" />
 
 
-📢 **Updates:** See [news.md](News.md)
+01-29-26
+📢 **Updates:** See [news.md](wews.md)
