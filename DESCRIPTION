@@ -19,7 +19,8 @@ Imports:
     knitr, 
     tinytable, 
     easystats, 
-    zoo
+    zoo, 
+    jsonlite
 RoxygenNote: 7.3.2
 Depends: 
     R (>= 4.0)
