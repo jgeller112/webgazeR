@@ -1,12 +1,11 @@
-
 ## Merge and Process Webcam Eye-Tracking Files {.unnumbered}
 
 
 ### Description
 
-This function reads, merges, and processes webcam eye-tracking files.
-It standardizes column names (subject, trial, time, x, y) for universal use.
-Supports .csv, .tsv, and .xlsx formats.
+Read, merge, and standardize webcam eye-tracking data from multiple platforms
+into a single **long-format** data frame with columns:
+'subject', 'trial', 'time', 'x', 'y' (+ any retained trial-level metadata).
 
 
 
@@ -15,9 +14,15 @@ Supports .csv, .tsv, and .xlsx formats.
 <pre><code class='language-R'>merge_webcam_files(
   file_paths,
   screen_index = NULL,
-  kind = "gorilla",
+  kind = c("gorilla", "jspsych", "psychopy"),
   col_map = list(subject = "participant_id", trial = "spreadsheet_row", time =
-    "time_elapsed", x = "x", y = "y")
+    "time_elapsed", x = "x", y = "y"),
+  array_col = NULL,
+  array_key = TRUE,
+  trial_filter = NULL,
+  out_dir = NULL,
+  overwrite = FALSE,
+  file_prefix = "eye_long"
 )
 </code></pre>
 
@@ -27,25 +32,126 @@ Supports .csv, .tsv, and .xlsx formats.
 <table role = "presentation">
 <tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="file_paths">file_paths</code></td>
 <td>
-A list of file paths to webcam files.
+Character vector of paths to files to read.
 </td></tr>
 <tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="screen_index">screen_index</code></td>
 <td>
-Optional. If provided, filters data by one or more screen indices (for Gorilla).
+Optional. If provided, filters Gorilla data by one or more screen indices
+(requires a 'screen_index' column in the data).
 </td></tr>
 <tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="kind">kind</code></td>
 <td>
-The data collection platform. Options: &quot;gorilla&quot; (default), &quot;labvanced&quot;.
+Data collection platform. One of '&quot;gorilla&quot;', '&quot;jspsych&quot;', '&quot;psychopy&quot;'.
 </td></tr>
 <tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="col_map">col_map</code></td>
 <td>
-A named list mapping your current columns to WebGazer names: 'subject', 'trial', 'time', 'x', 'y'.
+Named list mapping your file's column names to standardized names:
+'subject', 'trial', 'time', 'x', 'y'. For jsPsych/PsychoPy you usually only need
+'subject' and 'trial' because 'time/x/y' are read from the sample arrays.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="array_col">array_col</code></td>
+<td>
+For 'kind = &quot;jspsych&quot;' or '&quot;psychopy&quot;': name of the column containing
+per-trial eye samples (list-column or JSON string). Required for these kinds.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="array_key">array_key</code></td>
+<td>
+Logical. If 'FALSE', assume unkeyed triplets '(t,x,y)'. If 'TRUE', use keys
+when present.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="trial_filter">trial_filter</code></td>
+<td>
+Optional function 'f(df) -&gt; df' to filter trial rows before parsing
+(useful for jsPsych; e.g., keep only trials that contain WebGazer samples).
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="out_dir">out_dir</code></td>
+<td>
+Optional. If not 'NULL', writes one CSV per participant (subject) into this folder.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="overwrite">overwrite</code></td>
+<td>
+Logical. If 'TRUE', overwrite existing per-participant files in 'out_dir'.
+</td></tr>
+<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="file_prefix">file_prefix</code></td>
+<td>
+Character. Prefix for per-participant output files written to 'out_dir'.
 </td></tr>
 </table>
 
 
+### Details
+
+The function supports:
+
+- **Gorilla** ('kind = &quot;gorilla&quot;'): expects already-long data where 'type == &quot;prediction&quot;',
+then renames columns to the standardized schema using 'col_map'.
+
+- **jsPsych** ('kind = &quot;jspsych&quot;'): supports either
+(a) jsPsych **JSON trials exports** that contain a top-level 'data' object
+(e.g., 'subject-&lt;id&gt;.json'), or
+(b) tabular files (.csv/.tsv/.xlsx) where each row is a trial and 'array_col'
+contains per-trial eye samples (as a JSON string).
+For JSON files, if the subject column is missing, the function will infer it
+from the filename pattern 'subject-&lt;id&gt;.json'.
+
+- **PsychoPy** ('kind = &quot;psychopy&quot;'): expects tabular trial-level data where 'array_col'
+contains per-trial eye samples (list-column or JSON string).
+
+## Eye sample formats in 'array_col'
+The per-trial sample array can be any of:
+- **Unkeyed triplets**: '[[t, x, y], ...]' (or a 3-column matrix/data.frame)
+- **Keyed objects**: '[t=..., x=..., y=..., ...]' or '[time=..., x=..., y=..., ...]'
+
+If 'array_key = FALSE', samples are treated as positional '(t, x, y)' and field
+names are ignored. If 'array_key = TRUE', the parser uses keys (preferring
+'col_map\$time/x/y', then falling back to '&quot;time&quot;/&quot;t&quot;', '&quot;x&quot;', '&quot;y&quot;').
+
+
+
 ### Value
 
-A dataframe with standardized columns depending on the platform.
+A data frame containing aggregated long-format eye data across all files.
 
 
+
+### Examples
+::: {.to-webr}
+```{r}
+#| warning: false
+#| message: false
+#| eval: false
+library("webgazeR")
+
+# Gorilla (already-long predictions)
+df <- merge_webcam_files(
+  file_paths = "gorilla_export.csv",
+  kind = "gorilla",
+  col_map = list(
+    subject = "participant_id", trial = "spreadsheet_row",
+    time = "time_elapsed", x = "x", y = "y"
+  )
+)
+
+# jsPsych JSON trials export (subject inferred from filename if needed)
+df <- merge_webcam_files(
+  file_paths = "subject-6085bd39a5358.json",
+  kind = "jspsych",
+  col_map = list(subject = "subject_id", trial = "trial_index"),
+  array_col = "webgazer_data",
+  array_key = TRUE
+)
+
+# jsPsych CSV (requires subject_id column in the CSV)
+df <- merge_webcam_files(
+  file_paths = "jspsych_export.csv",
+  kind = "jspsych",
+  col_map = list(subject = "subject_id", trial = "trial_index"),
+  array_col = "webgazer_data",
+  array_key = TRUE
+)
+
+
+
+
+```
+:::

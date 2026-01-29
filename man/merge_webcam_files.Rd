@@ -7,25 +7,107 @@
 merge_webcam_files(
   file_paths,
   screen_index = NULL,
-  kind = "gorilla",
+  kind = c("gorilla", "jspsych", "psychopy"),
   col_map = list(subject = "participant_id", trial = "spreadsheet_row", time =
-    "time_elapsed", x = "x", y = "y")
+    "time_elapsed", x = "x", y = "y"),
+  array_col = NULL,
+  array_key = TRUE,
+  trial_filter = NULL,
+  out_dir = NULL,
+  overwrite = FALSE,
+  file_prefix = "eye_long"
 )
 }
 \arguments{
-\item{file_paths}{A list of file paths to webcam files.}
+\item{file_paths}{Character vector of paths to files to read.}
 
-\item{screen_index}{Optional. If provided, filters data by one or more screen indices (for Gorilla).}
+\item{screen_index}{Optional. If provided, filters Gorilla data by one or more screen indices
+(requires a `screen_index` column in the data).}
 
-\item{kind}{The data collection platform. Options: "gorilla" (default), "labvanced".}
+\item{kind}{Data collection platform. One of `"gorilla"`, `"jspsych"`, `"psychopy"`.}
 
-\item{col_map}{A named list mapping your current columns to WebGazer names: `subject`, `trial`, `time`, `x`, `y`.}
+\item{col_map}{Named list mapping your file's column names to standardized names:
+`subject`, `trial`, `time`, `x`, `y`. For jsPsych/PsychoPy you usually only need
+`subject` and `trial` because `time/x/y` are read from the sample arrays.}
+
+\item{array_col}{For `kind = "jspsych"` or `"psychopy"`: name of the column containing
+per-trial eye samples (list-column or JSON string). Required for these kinds.}
+
+\item{array_key}{Logical. If `FALSE`, assume unkeyed triplets `(t,x,y)`. If `TRUE`, use keys
+when present.}
+
+\item{trial_filter}{Optional function `f(df) -> df` to filter trial rows before parsing
+(useful for jsPsych; e.g., keep only trials that contain WebGazer samples).}
+
+\item{out_dir}{Optional. If not `NULL`, writes one CSV per participant (subject) into this folder.}
+
+\item{overwrite}{Logical. If `TRUE`, overwrite existing per-participant files in `out_dir`.}
+
+\item{file_prefix}{Character. Prefix for per-participant output files written to `out_dir`.}
 }
 \value{
-A dataframe with standardized columns depending on the platform.
+A data frame containing aggregated long-format eye data across all files.
 }
 \description{
-This function reads, merges, and processes webcam eye-tracking files.
-It standardizes column names (subject, trial, time, x, y) for universal use.
-Supports .csv, .tsv, and .xlsx formats.
+Read, merge, and standardize webcam eye-tracking data from multiple platforms
+into a single **long-format** data frame with columns:
+`subject`, `trial`, `time`, `x`, `y` (+ any retained trial-level metadata).
+}
+\details{
+The function supports:
+
+- **Gorilla** (`kind = "gorilla"`): expects already-long data where `type == "prediction"`,
+  then renames columns to the standardized schema using `col_map`.
+
+- **jsPsych** (`kind = "jspsych"`): supports either
+  (a) jsPsych **JSON trials exports** that contain a top-level `data` object
+  (e.g., `subject-<id>.json`), or
+  (b) tabular files (.csv/.tsv/.xlsx) where each row is a trial and `array_col`
+  contains per-trial eye samples (as a JSON string).
+  For JSON files, if the subject column is missing, the function will infer it
+  from the filename pattern `subject-<id>.json`.
+
+- **PsychoPy** (`kind = "psychopy"`): expects tabular trial-level data where `array_col`
+  contains per-trial eye samples (list-column or JSON string).
+
+## Eye sample formats in `array_col`
+The per-trial sample array can be any of:
+- **Unkeyed triplets**: `[[t, x, y], ...]` (or a 3-column matrix/data.frame)
+- **Keyed objects**: `[{t=..., x=..., y=...}, ...]` or `[{time=..., x=..., y=...}, ...]`
+
+If `array_key = FALSE`, samples are treated as positional `(t, x, y)` and field
+names are ignored. If `array_key = TRUE`, the parser uses keys (preferring
+`col_map$time/x/y`, then falling back to `"time"/"t"`, `"x"`, `"y"`).
+}
+\examples{
+\dontrun{
+# Gorilla (already-long predictions)
+df <- merge_webcam_files(
+  file_paths = "gorilla_export.csv",
+  kind = "gorilla",
+  col_map = list(
+    subject = "participant_id", trial = "spreadsheet_row",
+    time = "time_elapsed", x = "x", y = "y"
+  )
+)
+
+# jsPsych JSON trials export (subject inferred from filename if needed)
+df <- merge_webcam_files(
+  file_paths = "subject-6085bd39a5358.json",
+  kind = "jspsych",
+  col_map = list(subject = "subject_id", trial = "trial_index"),
+  array_col = "webgazer_data",
+  array_key = TRUE
+)
+
+# jsPsych CSV (requires subject_id column in the CSV)
+df <- merge_webcam_files(
+  file_paths = "jspsych_export.csv",
+  kind = "jspsych",
+  col_map = list(subject = "subject_id", trial = "trial_index"),
+  array_col = "webgazer_data",
+  array_key = TRUE
+)
+}
+
 }
