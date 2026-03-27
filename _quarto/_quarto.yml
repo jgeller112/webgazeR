@@ -2,7 +2,7 @@ project:
   type: website
   pre-render: panelize-code-cells-for-quarto-webr.R
 website:
-  title: webgazeR v0.9.3
+  title: webgazeR v0.10.3
   navbar:
     search: true
     right:

@@ -254,12 +254,12 @@ merge_webcam_files <- function(
   }
 
   # ---------- read + merge (now always returns a data frame per file) ----------
-  merged_data <- purrr::map_dfr(
+  merged_data <- purrr::map(
     file_paths,
     read_any,
     kind = kind,
     col_map = col_map
-  ) %>%
+  ) |> purrr::list_rbind() %>%
     janitor::clean_names()
 
   # Optional pre-filter

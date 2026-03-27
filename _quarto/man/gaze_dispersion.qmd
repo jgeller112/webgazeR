@@ -3,7 +3,7 @@
 
 ### Description
 
-Calculates centroid anddispersion from gaze data.
+Calculates centroid and dispersion from gaze data.
 
 
 

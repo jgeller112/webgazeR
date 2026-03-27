@@ -56,6 +56,14 @@ Fisher-z correlations per subject (default FALSE).
 </table>
 
 
+### Details
+
+Correlations of exactly +/-1 are clamped to +/-0.9999999 before Fisher
+z-transformation so they are included in the average rather than silently
+dropped.
+
+
+
 ### Value
 
 If 'return_per_window = FALSE', a named numeric vector of ISC values (length = n subjects).

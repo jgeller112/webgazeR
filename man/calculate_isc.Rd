@@ -4,20 +4,30 @@
 \alias{calculate_isc}
 \title{Compute Intersubject Correlation (ISC)}
 \usage{
-calculate_isc(data_matrix, method = "pairwise", summary_statistic = "mean")
+calculate_isc(
+  data_matrix,
+  method = c("pairwise", "leave-one-out"),
+  cor_method = c("pearson", "spearman"),
+  return_matrix = FALSE
+)
 }
 \arguments{
-\item{data_matrix}{A numeric matrix where rows represent time points and columns represent participants.}
+\item{data_matrix}{A numeric matrix or data.frame where rows represent time points and columns represent participants.}
 
 \item{method}{A string specifying the ISC computation method. Options are `"pairwise"` (default) or `"leave-one-out"`.}
 
-\item{summary_statistic}{A string specifying whether to return `"mean"`, `"median"`, or `"raw"` ISC values per participant.}
+\item{cor_method}{Correlation type passed to [stats::cor()]. One of `"pearson"` (default) or `"spearman"`.}
+
+\item{return_matrix}{Logical. If `TRUE` and `method = "pairwise"`, return the full
+participant-by-participant correlation matrix (self-correlations set to NA) instead of
+a summary vector. Ignored for `method = "leave-one-out"`.}
 }
 \value{
-A numeric vector of ISC values, one per participant.
+A named numeric vector of ISC values (one per participant), or a correlation matrix
+  if `return_matrix = TRUE`.
 }
 \description{
 Computes ISC using either the **pairwise correlation** method or the **leave-one-out** method.
-The pairwise method computes a full correlation matrix and averages Fisher-transformed values.
+The pairwise method computes a full correlation matrix and averages Fisher z-transformed values.
 The leave-one-out method computes the correlation of each participant's time series with the mean of all others.
 }

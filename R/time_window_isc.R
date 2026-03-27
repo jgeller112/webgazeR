@@ -5,6 +5,10 @@
 #' Fisher z-transforms correlations, averages them per subject, and converts
 #' back to r.
 #'
+#' Correlations of exactly +/-1 are clamped to +/-0.9999999 before Fisher
+#' z-transformation so they are included in the average rather than silently
+#' dropped.
+#'
 #' @param data A numeric matrix or data.frame with rows = time points, columns = participants.
 #' @param window_size Integer, window length in time points (default 10).
 #' @param step Integer, step size between consecutive windows (default 1).
@@ -59,27 +63,24 @@ time_window_isc <- function(data,
   }
 
   # Storage
+  p_names <- .participant_names(data)
   isc_values <- rep(NA_real_, n_participants)
-  names(isc_values) <- colnames(data) %||% paste0("S", seq_len(n_participants))
+  names(isc_values) <- p_names
 
+  # Pre-allocate per-window storage
   if (return_per_window) {
-    per_win_list <- vector("list", n_participants)
+    pw_window_start <- integer(n_participants * n_windows)
+    pw_window_end   <- integer(n_participants * n_windows)
+    pw_subject      <- character(n_participants * n_windows)
+    pw_z            <- numeric(n_participants * n_windows)
+    pw_idx <- 0L
   }
 
   # Loop over subjects
   for (subject in seq_len(n_participants)) {
-    z_vals <- numeric(0)
-
-    # Optional per-window capture
-    if (return_per_window) {
-      per_sub_win <- data.frame(
-        window_start = integer(0),
-        window_end = integer(0),
-        subject = character(0),
-        z = numeric(0),
-        stringsAsFactors = FALSE
-      )
-    }
+    # Pre-allocate z_vals for this subject
+    z_vals <- numeric(n_windows)
+    z_count <- 0L
 
     for (w in seq_len(n_windows)) {
       i1 <- starts[w]
@@ -88,7 +89,6 @@ time_window_isc <- function(data,
 
       # Mean of other subjects, row-wise, ignoring NA
       if (n_participants == 2) {
-        # Fast path: "others" is just the other single subject
         other_subjects_mean <- window_data[, -subject, drop = TRUE]
       } else {
         other_subjects_mean <- rowMeans(window_data[, -subject, drop = FALSE], na.rm = TRUE)
@@ -108,35 +108,34 @@ time_window_isc <- function(data,
       if (sd(x_ok) == 0 || sd(y_ok) == 0) next
 
       r <- suppressWarnings(cor(x_ok, y_ok, method = method))
-      if (!is.na(r) && is.finite(r) && r > -1 && r < 1) {
-        z <- atanh(r) # Fisher z
-        z_vals <- c(z_vals, z)
+      if (!is.na(r) && is.finite(r)) {
+        z <- atanh(.clamp_r(r))
+        z_count <- z_count + 1L
+        z_vals[z_count] <- z
 
         if (return_per_window) {
-          per_sub_win <- rbind(per_sub_win, data.frame(
-            window_start = i1,
-            window_end = i2,
-            subject = names(isc_values)[subject],
-            z = z,
-            stringsAsFactors = FALSE
-          ))
+          pw_idx <- pw_idx + 1L
+          pw_window_start[pw_idx] <- i1
+          pw_window_end[pw_idx]   <- i2
+          pw_subject[pw_idx]      <- p_names[subject]
+          pw_z[pw_idx]            <- z
         }
       }
     }
 
-    if (length(z_vals) > 0) {
-      isc_values[subject] <- tanh(mean(z_vals))
-    } else {
-      isc_values[subject] <- NA_real_
-    }
-
-    if (return_per_window) {
-      per_win_list[[subject]] <- per_sub_win
+    if (z_count > 0) {
+      isc_values[subject] <- tanh(mean(z_vals[seq_len(z_count)]))
     }
   }
 
   if (return_per_window) {
-    per_window_df <- do.call(rbind, per_win_list)
+    per_window_df <- data.frame(
+      window_start = pw_window_start[seq_len(pw_idx)],
+      window_end   = pw_window_end[seq_len(pw_idx)],
+      subject      = pw_subject[seq_len(pw_idx)],
+      z            = pw_z[seq_len(pw_idx)],
+      stringsAsFactors = FALSE
+    )
     return(list(isc = isc_values, per_window = per_window_df))
   } else {
     return(isc_values)

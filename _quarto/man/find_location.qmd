@@ -22,7 +22,7 @@ A character vector of image names at each location.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="image">image</code></td>
 <td>
-A character string: the image to locate.#'
+A character string: the image to locate.
 </td></tr>
 </table>
 

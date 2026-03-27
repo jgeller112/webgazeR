@@ -20,9 +20,4 @@ A dataframe with renamed columns but preserves all other original columns.
 \description{
 This function takes a dataframe and renames columns to match WebGazer conventions:
 subject, trial, time, x, y. All other columns are preserved.
-Standardize a Dataframe to WebGazer Conventions
-}
-\details{
-This function takes a dataframe and renames columns to match WebGazer conventions:
-subject, trial, time, x, y. All other columns are preserved.
 }

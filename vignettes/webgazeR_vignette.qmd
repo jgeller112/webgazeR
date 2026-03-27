@@ -21,39 +21,14 @@ Below are the basic packages needed to run this vignette. The below code chunks 
 
 ```{r}
 #| label: load
-#| 
-options(stringsAsFactors = F)          # no automatic data transformation
-options("scipen" = 100, "digits" = 10) # suppress math annotation
-library(tidyverse) 
-library(here) # relative paths instead of abosoulte aids in reproduce
-library(tinytable) # nice tables
-library(janitor)# functions for cleaning up your column names
-library(easystats)
+#|
+options(stringsAsFactors = FALSE)
+options("scipen" = 100, "digits" = 10)
+library(webgazeR)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
 library(knitr)
-library(ggokabeito)
-install.packages('webgazeR', repos = c('https://jgeller112.r-universe.dev', 'https://cloud.r-project.org'))
-library(webgazeR)
-library(zoo)# interpolation
-
-```
-
-### Load webgazeR
-
-- First you must install it via Github. 
-
-```{r}
-#| eval: false
-
-# do not run interactively
-remotes::install_github("https://github.com/jgeller112/webgazeR")
-
-```
-
-- Then you can load it into your session
-
-```{r}
-# load the package
-library(webgazeR)
 
 ```
 

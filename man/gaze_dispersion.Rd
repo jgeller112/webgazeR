@@ -19,5 +19,5 @@ gaze_dispersion(data, x, y, grouping_vars)
 A tibble with centroid_x, centroid_y, dispersion, and log_dispersion for each group.
 }
 \description{
-Calculates centroid anddispersion from gaze data.
+Calculates centroid and dispersion from gaze data.
 }

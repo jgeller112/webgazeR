@@ -9,7 +9,7 @@ find_location(locations, image)
 \arguments{
 \item{locations}{A character vector of image names at each location.}
 
-\item{image}{A character string: the image to locate.#'}
+\item{image}{A character string: the image to locate.}
 }
 \value{
 A character string representing the location name or NA if not found.

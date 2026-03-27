@@ -1,6 +1,6 @@
 #' Compute Gaze Dispersion
 #'
-#' Calculates centroid anddispersion from gaze data.
+#' Calculates centroid and dispersion from gaze data.
 #'
 #' @param data A data frame or tibble.
 #' @param x A string: name of the column with X gaze coordinates.

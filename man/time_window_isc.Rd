@@ -41,3 +41,8 @@ against the mean of all *other* subjects within sliding windows, then
 Fisher z-transforms correlations, averages them per subject, and converts
 back to r.
 }
+\details{
+Correlations of exactly +/-1 are clamped to +/-0.9999999 before Fisher
+z-transformation so they are included in the average rather than silently
+dropped.
+}

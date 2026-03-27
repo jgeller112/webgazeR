@@ -29,7 +29,7 @@ upsample_gaze <- function(x,
   upsampled_data <- x %>%
     group_by(subject, trial) %>%  # Ensure processing per subject-trial
     group_split() %>%  # Split the data into subject-trial groups
-    map_dfr(~ {
+    purrr::map(\(.x) {
       min_time <- min(.x$time, na.rm = TRUE)
       max_time <- max(.x$time, na.rm = TRUE)
 
@@ -48,7 +48,7 @@ upsample_gaze <- function(x,
         mutate(up_sampled = TRUE)
 
       return(.x)
-    })
+    }) |> purrr::list_rbind()
 
   # Ensure 'Subject' column is at the beginning
   upsampled_data <- upsampled_data %>%

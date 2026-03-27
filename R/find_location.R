@@ -1,9 +1,9 @@
 #' Find Image Location in a Given Set of Locations
 #'
 #' @param locations A character vector of image names at each location.
-#' @param image A character string: the image to locate.#'
+#' @param image A character string: the image to locate.
 #' @return A character string representing the location name or NA if not found.
-#'
+#' @export
 find_location <- function(locations, image) {
   if (is.na(image)) return(NA_character_)
 

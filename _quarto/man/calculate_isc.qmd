@@ -4,14 +4,19 @@
 ### Description
 
 Computes ISC using either the **pairwise correlation** method or the **leave-one-out** method.
-The pairwise method computes a full correlation matrix and averages Fisher-transformed values.
+The pairwise method computes a full correlation matrix and averages Fisher z-transformed values.
 The leave-one-out method computes the correlation of each participant's time series with the mean of all others.
 
 
 
 ### Usage
 
-<pre><code class='language-R'>calculate_isc(data_matrix, method = "pairwise", summary_statistic = "mean")
+<pre><code class='language-R'>calculate_isc(
+  data_matrix,
+  method = c("pairwise", "leave-one-out"),
+  cor_method = c("pearson", "spearman"),
+  return_matrix = FALSE
+)
 </code></pre>
 
 
@@ -20,21 +25,28 @@ The leave-one-out method computes the correlation of each participant's time ser
 <table role = "presentation">
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="data_matrix">data_matrix</code></td>
 <td>
-A numeric matrix where rows represent time points and columns represent participants.
+A numeric matrix or data.frame where rows represent time points and columns represent participants.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="method">method</code></td>
 <td>
 A string specifying the ISC computation method. Options are '&quot;pairwise&quot;' (default) or '&quot;leave-one-out&quot;'.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="summary_statistic">summary_statistic</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="cor_method">cor_method</code></td>
 <td>
-A string specifying whether to return '&quot;mean&quot;', '&quot;median&quot;', or '&quot;raw&quot;' ISC values per participant.
+Correlation type passed to [stats::cor()]. One of '&quot;pearson&quot;' (default) or '&quot;spearman&quot;'.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="return_matrix">return_matrix</code></td>
+<td>
+Logical. If 'TRUE' and 'method = &quot;pairwise&quot;', return the full
+participant-by-participant correlation matrix (self-correlations set to NA) instead of
+a summary vector. Ignored for 'method = &quot;leave-one-out&quot;'.
 </td></tr>
 </table>
 
 
 ### Value
 
-A numeric vector of ISC values, one per participant.
+A named numeric vector of ISC values (one per participant), or a correlation matrix
+if 'return_matrix = TRUE'.
 
 
