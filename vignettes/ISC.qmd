@@ -107,7 +107,7 @@ the `calculate_isc()` function with method="pairwise" does all this for us.
 
 ```{r}
 
-isc_pairwise <- calculate_isc(data_matrix, method = "pairwise", summary_statistic = "mean")
+isc_pairwise <- calculate_isc(data_matrix, method = "pairwise")
 
 isc_pairwise
 ```

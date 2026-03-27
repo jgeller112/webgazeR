@@ -1,4 +1,3 @@
-
 ## Time-windowed Intersubject Correlation (ISC) per subject {.unnumbered}
 
 
@@ -27,29 +26,29 @@ back to r.
 ### Arguments
 
 <table role = "presentation">
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="data">data</code></td>
 <td>
 A numeric matrix or data.frame with rows = time points, columns = participants.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="window_size">window_size</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="window_size">window_size</code></td>
 <td>
 Integer, window length in time points (default 10).
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="step">step</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="step">step</code></td>
 <td>
 Integer, step size between consecutive windows (default 1).
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="min_overlap">min_overlap</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="min_overlap">min_overlap</code></td>
 <td>
 Integer, minimum number of non-NA paired points within a window
 required to compute a correlation (default 3).
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="method">method</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="method">method</code></td>
 <td>
 Correlation method passed to [stats::cor()], usually &quot;pearson&quot; (default),
 or &quot;spearman&quot;.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="return_per_window">return_per_window</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="return_per_window">return_per_window</code></td>
 <td>
 Logical; if TRUE, also return a data.frame of per-window
 Fisher-z correlations per subject (default FALSE).

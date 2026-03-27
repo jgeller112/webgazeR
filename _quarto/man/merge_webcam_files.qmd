@@ -30,49 +30,49 @@ into a single **long-format** data frame with columns:
 ### Arguments
 
 <table role = "presentation">
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="file_paths">file_paths</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="file_paths">file_paths</code></td>
 <td>
 Character vector of paths to files to read.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="screen_index">screen_index</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="screen_index">screen_index</code></td>
 <td>
 Optional. If provided, filters Gorilla data by one or more screen indices
 (requires a 'screen_index' column in the data).
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="kind">kind</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="kind">kind</code></td>
 <td>
 Data collection platform. One of '&quot;gorilla&quot;', '&quot;jspsych&quot;', '&quot;psychopy&quot;'.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="col_map">col_map</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="col_map">col_map</code></td>
 <td>
 Named list mapping your file's column names to standardized names:
 'subject', 'trial', 'time', 'x', 'y'. For jsPsych/PsychoPy you usually only need
 'subject' and 'trial' because 'time/x/y' are read from the sample arrays.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="array_col">array_col</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="array_col">array_col</code></td>
 <td>
 For 'kind = &quot;jspsych&quot;' or '&quot;psychopy&quot;': name of the column containing
 per-trial eye samples (list-column or JSON string). Required for these kinds.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="array_key">array_key</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="array_key">array_key</code></td>
 <td>
 Logical. If 'FALSE', assume unkeyed triplets '(t,x,y)'. If 'TRUE', use keys
 when present.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="trial_filter">trial_filter</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="trial_filter">trial_filter</code></td>
 <td>
 Optional function 'f(df) -&gt; df' to filter trial rows before parsing
 (useful for jsPsych; e.g., keep only trials that contain WebGazer samples).
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="out_dir">out_dir</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="out_dir">out_dir</code></td>
 <td>
 Optional. If not 'NULL', writes one CSV per participant (subject) into this folder.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="overwrite">overwrite</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="overwrite">overwrite</code></td>
 <td>
 Logical. If 'TRUE', overwrite existing per-participant files in 'out_dir'.
 </td></tr>
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="file_prefix">file_prefix</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="file_prefix">file_prefix</code></td>
 <td>
 Character. Prefix for per-participant output files written to 'out_dir'.
 </td></tr>

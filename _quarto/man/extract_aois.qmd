@@ -1,4 +1,3 @@
-
 ## Extract AOI-related Columns from Webcam Files and Calculate Locations {.unnumbered}
 
 
@@ -20,7 +19,7 @@ for the AOIs. It also rounds all numeric columns to 3 decimal places.
 ### Arguments
 
 <table role = "presentation">
-<tr><td style = "white-space: nowrap; font-family: monospace; vertical-align: top"><code id="file_paths">file_paths</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="file_paths">file_paths</code></td>
 <td>
 A list of file paths to webcam files (in .xlsx format).
 </td></tr>
