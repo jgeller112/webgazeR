@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>assign_aoi – webgazeR v0.10.3</title>
+<title>gaze_oob – webgazeR v0.10.3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/assign_aoi.html">assign_aoi</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/gaze_oob.html">gaze_oob</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -169,7 +169,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/assign_aoi.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/assign_aoi.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">assign_aoi</span></a>
   </div>
 </li>
@@ -211,7 +211,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/gaze_oob.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/gaze_oob.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">gaze_oob</span></a>
   </div>
 </li>
@@ -271,12 +271,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">License</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../CITATION.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Citation</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -284,26 +278,27 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/assign_aoi.html">assign_aoi</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/gaze_oob.html">gaze_oob</a></li></ol></nav></header>
 
 
 
 
-<section id="assign-coordinates-to-areas-of-interest" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="assign-coordinates-to-areas-of-interest">Assign coordinates to areas of interest</h2>
+<section id="calculate-out-of-bounds-proportion-by-subject-and-trial" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="calculate-out-of-bounds-proportion-by-subject-and-trial">Calculate Out-of-Bounds Proportion by Subject and Trial</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Takes a data frame of gaze positions (or other locations), plus screen size and aoi size (or location), and computes the area of interest (AOI) for each location. Defaults assume standard four-corner design.</p>
+<p>This function calculates the number and percentage of gaze points that fall outside the screen dimensions, and optionally removes only the out-of-bounds gaze points.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">assign_aoi(
-  gaze,
-  screen_size = c(1024, 768),
-  aoi_size = c(400, 300),
-  aoi_loc = NULL,
-  X = "CURRENT_FIX_X",
-  Y = "CURRENT_FIX_Y"
+<pre><code class="language-R">gaze_oob(
+  data,
+  subject_col = "subject",
+  trial_col = "trial",
+  x_col = "x",
+  y_col = "y",
+  screen_size = c(1, 1),
+  remove = FALSE
 )
 </code></pre>
 </section>
@@ -312,10 +307,42 @@ ul.task-list li input[type="checkbox"] {
 <table role="presentation">
 <tbody><tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="gaze">gaze</code>
+<code id="data">data</code>
 </td>
 <td>
-data frame containing positions
+A data frame containing gaze data.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="subject_col">subject_col</code>
+</td>
+<td>
+A string specifying the name of the column that contains the subject identifier. Default is "subject".
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="trial_col">trial_col</code>
+</td>
+<td>
+A string specifying the name of the column that contains the trial identifier. Default is "trial".
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="x_col">x_col</code>
+</td>
+<td>
+A string specifying the name of the column that contains the X coordinate. Default is "x".
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="y_col">y_col</code>
+</td>
+<td>
+A string specifying the name of the column that contains the Y coordinate. Default is "y".
 </td>
 </tr>
 <tr>
@@ -323,46 +350,42 @@ data frame containing positions
 <code id="screen_size">screen_size</code>
 </td>
 <td>
-size of the screen in pixels. Defaults to c(1024, 768) and assumes reversed vertical (i.e., [0,0] is top left).
+A numeric vector of length 2 specifying the screen width and height. Default is c(1, 1) assuming normalized coordinates.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="aoi_size">aoi_size</code>
+<code id="remove">remove</code>
 </td>
 <td>
-size of AOIs in pixels. Defaults to a c(400, 300) width-height pair and assumes AOIs are in screen corners. AOIs will be coded numerically 1 to 4 in reading order (left to right, top to bottom), with 0 as center location.
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="aoi_loc">aoi_loc</code>
-</td>
-<td>
-location of rectangular AOIs. Use as alternative to aoi_size for non-corner AOIs. Each AOI location should be a separate row in a data frame that has variables xmin, xmax, ymin, and ymax. Assumes reversed vertical (i.e., [0,0] is top left). AOIs will be coded numerically in row order.
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="X">X</code>
-</td>
-<td>
-name of variable containing X coordinates. Defaults to "CURRENT_FIX_X"
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="Y">Y</code>
-</td>
-<td>
-name of variable containing Y coordinates. Defaults to "CURRENT_FIX_Y"
+Logical; if TRUE, removes points outside of screen dimensions. Default is FALSE.
 </td>
 </tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>Original gaze data frame with AOI column added. Non-AOI and off-screen gazes are marked NA.</p>
+<p>A list containing:</p>
+<dl>
+<dt>
+subject_results
+</dt>
+<dd>
+Summary of missingness at the subject level.
+</dd>
+<dt>
+trial_results
+</dt>
+<dd>
+Summary of missingness at the trial level.
+</dd>
+<dt>
+data_clean
+</dt>
+<dd>
+Dataset with optional removal of out-of-bounds points and missingness annotations.
+</dd>
+</dl>
 
 
 </section>

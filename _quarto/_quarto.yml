@@ -56,8 +56,6 @@ website:
         file: NEWS.md
       - text: License
         file: LICENSE.md
-      - text: Citation
-        file: CITATION.md
 webr:
   packages: webgazeR
   repos: https://jgeller112.github.io/webgazeR/

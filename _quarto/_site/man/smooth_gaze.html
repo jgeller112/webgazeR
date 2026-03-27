@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>filter_sampling_rate – webgazeR v0.10.3</title>
+<title>smooth_gaze – webgazeR v0.10.3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/filter_sampling_rate.html">filter_sampling_rate</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/smooth_gaze.html">smooth_gaze</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -193,7 +193,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/filter_sampling_rate.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/filter_sampling_rate.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_sampling_rate</span></a>
   </div>
 </li>
@@ -241,7 +241,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/smooth_gaze.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/smooth_gaze.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">smooth_gaze</span></a>
   </div>
 </li>
@@ -271,12 +271,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">License</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../CITATION.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Citation</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -284,24 +278,26 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/filter_sampling_rate.html">filter_sampling_rate</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/smooth_gaze.html">smooth_gaze</a></li></ol></nav></header>
 
 
 
 
-<section id="filter-or-label-data-based-on-sampling-rate-threshold" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="filter-or-label-data-based-on-sampling-rate-threshold">Filter or Label Data Based on Sampling Rate Threshold</h2>
+<section id="apply-a-moving-average-smoothing-function-to-gaze-data-x-and-y.-this-is-generally-recommended-after-up-sampling-the-data." class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="apply-a-moving-average-smoothing-function-to-gaze-data-x-and-y.-this-is-generally-recommended-after-up-sampling-the-data.">Apply a moving average smoothing function to gaze data (X and Y). This is generally recommended after up-sampling the data.</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>This function applies a sampling rate threshold and either removes or labels "bad" subjects/trials based on their sampling rates.</p>
+<p>Apply a moving average smoothing function to gaze data (X and Y). This is generally recommended after up-sampling the data.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">filter_sampling_rate(
-  data,
-  threshold,
-  action = c("remove", "label"),
-  by = c("subject", "trial", "both")
+<pre><code class="language-R">smooth_gaze(
+  x,
+  n = 5,
+  x_col = "Gaze_X",
+  y_col = "Gaze_Y",
+  trial_col = "Trial",
+  subject_col = "Subject"
 )
 </code></pre>
 </section>
@@ -310,41 +306,57 @@ ul.task-list li input[type="checkbox"] {
 <table role="presentation">
 <tbody><tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="data">data</code>
+<code id="x">x</code>
 </td>
 <td>
-A dataframe with columns: subject, trial, SR_subject, SR_trial.
+A data frame containing gaze data.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="threshold">threshold</code>
+<code id="n">n</code>
 </td>
 <td>
-Numeric. Sampling rate threshold to apply.
+The window size (in samples) for the moving average.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="action">action</code>
+<code id="x_col">x_col</code>
 </td>
 <td>
-"remove" (default) to delete bad data or "label" to flag bad data.
+The name of the X gaze column (as string).
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="by">by</code>
+<code id="y_col">y_col</code>
 </td>
 <td>
-"subject", "trial", or "both" to specify where to apply the threshold.
+The name of the Y gaze column (as string).
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="trial_col">trial_col</code>
+</td>
+<td>
+The name of the trial column used for grouping (default = "Trial").
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="subject_col">subject_col</code>
+</td>
+<td>
+The name of the subject column used for grouping (default = "Subject").
 </td>
 </tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A dataframe with either rows removed or bad subjects/trials labeled.</p>
+<p>A tibble with smoothed gaze X and Y columns (replacing originals).</p>
 
 
 </section>

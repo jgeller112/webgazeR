@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>calculate_isc – webgazeR v0.10.3</title>
+<title>filter_sampling_rate – webgazeR v0.10.3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/calculate_isc.html">calculate_isc</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/filter_sampling_rate.html">filter_sampling_rate</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -175,7 +175,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/calculate_isc.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/calculate_isc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">calculate_isc</span></a>
   </div>
 </li>
@@ -193,7 +193,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/filter_sampling_rate.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/filter_sampling_rate.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">filter_sampling_rate</span></a>
   </div>
 </li>
@@ -271,12 +271,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">License</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../CITATION.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Citation</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -284,24 +278,24 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/calculate_isc.html">calculate_isc</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/filter_sampling_rate.html">filter_sampling_rate</a></li></ol></nav></header>
 
 
 
 
-<section id="compute-intersubject-correlation-isc" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="compute-intersubject-correlation-isc">Compute Intersubject Correlation (ISC)</h2>
+<section id="filter-or-label-data-based-on-sampling-rate-threshold" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="filter-or-label-data-based-on-sampling-rate-threshold">Filter or Label Data Based on Sampling Rate Threshold</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Computes ISC using either the <strong>pairwise correlation</strong> method or the <strong>leave-one-out</strong> method. The pairwise method computes a full correlation matrix and averages Fisher z-transformed values. The leave-one-out method computes the correlation of each participant’s time series with the mean of all others.</p>
+<p>This function applies a sampling rate threshold and either removes or labels "bad" subjects/trials based on their sampling rates.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">calculate_isc(
-  data_matrix,
-  method = c("pairwise", "leave-one-out"),
-  cor_method = c("pearson", "spearman"),
-  return_matrix = FALSE
+<pre><code class="language-R">filter_sampling_rate(
+  data,
+  threshold,
+  action = c("remove", "label"),
+  by = c("subject", "trial", "both")
 )
 </code></pre>
 </section>
@@ -310,41 +304,41 @@ ul.task-list li input[type="checkbox"] {
 <table role="presentation">
 <tbody><tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="data_matrix">data_matrix</code>
+<code id="data">data</code>
 </td>
 <td>
-A numeric matrix or data.frame where rows represent time points and columns represent participants.
+A dataframe with columns: subject, trial, SR_subject, SR_trial.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="method">method</code>
+<code id="threshold">threshold</code>
 </td>
 <td>
-A string specifying the ISC computation method. Options are ‘"pairwise"’ (default) or ‘"leave-one-out"’.
+Numeric. Sampling rate threshold to apply.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="cor_method">cor_method</code>
+<code id="action">action</code>
 </td>
 <td>
-Correlation type passed to [stats::cor()]. One of ‘"pearson"’ (default) or ‘"spearman"’.
+"remove" (default) to delete bad data or "label" to flag bad data.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="return_matrix">return_matrix</code>
+<code id="by">by</code>
 </td>
 <td>
-Logical. If ‘TRUE’ and ‘method = "pairwise"’, return the full participant-by-participant correlation matrix (self-correlations set to NA) instead of a summary vector. Ignored for ‘method = "leave-one-out"’.
+"subject", "trial", or "both" to specify where to apply the threshold.
 </td>
 </tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A named numeric vector of ISC values (one per participant), or a correlation matrix if ‘return_matrix = TRUE’.</p>
+<p>A dataframe with either rows removed or bad subjects/trials labeled.</p>
 
 
 </section>

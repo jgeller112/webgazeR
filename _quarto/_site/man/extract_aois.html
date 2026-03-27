@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>time_window_isc – webgazeR v0.10.3</title>
+<title>extract_aois – webgazeR v0.10.3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/time_window_isc.html">time_window_isc</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/extract_aois.html">extract_aois</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -187,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/extract_aois.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/extract_aois.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">extract_aois</span></a>
   </div>
 </li>
@@ -247,7 +247,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/time_window_isc.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/time_window_isc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">time_window_isc</span></a>
   </div>
 </li>
@@ -271,12 +271,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">License</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../CITATION.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Citation</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -284,27 +278,20 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/time_window_isc.html">time_window_isc</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/extract_aois.html">extract_aois</a></li></ol></nav></header>
 
 
 
 
-<section id="time-windowed-intersubject-correlation-isc-per-subject" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="time-windowed-intersubject-correlation-isc-per-subject">Time-windowed Intersubject Correlation (ISC) per subject</h2>
+<section id="extract-aoi-related-columns-from-webcam-files-and-calculate-locations" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="extract-aoi-related-columns-from-webcam-files-and-calculate-locations">Extract AOI-related Columns from Webcam Files and Calculate Locations</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Computes ISC for each subject by correlating that subject’s time series against the mean of all <em>other</em> subjects within sliding windows, then Fisher z-transforms correlations, averages them per subject, and converts back to r.</p>
+<p>This function reads in multiple Gorilla webcam files, extracts the ‘loc’, ‘x_normalised’, ‘y_normalised’, ‘width_normalised’, and ‘height_normalised’ columns, and calculates the bounding box coordinates for the AOIs. It also rounds all numeric columns to 3 decimal places.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">time_window_isc(
-  data,
-  window_size = 10,
-  step = 1,
-  min_overlap = 3,
-  method = c("pearson", "spearman"),
-  return_per_window = FALSE
-)
+<pre><code class="language-R">extract_aois(file_paths, zone_names = NULL)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -312,61 +299,17 @@ ul.task-list li input[type="checkbox"] {
 <table role="presentation">
 <tbody><tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="data">data</code>
+<code id="file_paths">file_paths</code>
 </td>
 <td>
-A numeric matrix or data.frame with rows = time points, columns = participants.
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="window_size">window_size</code>
-</td>
-<td>
-Integer, window length in time points (default 10).
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="step">step</code>
-</td>
-<td>
-Integer, step size between consecutive windows (default 1).
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="min_overlap">min_overlap</code>
-</td>
-<td>
-Integer, minimum number of non-NA paired points within a window required to compute a correlation (default 3).
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="method">method</code>
-</td>
-<td>
-Correlation method passed to [stats::cor()], usually "pearson" (default), or "spearman".
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="return_per_window">return_per_window</code>
-</td>
-<td>
-Logical; if TRUE, also return a data.frame of per-window Fisher-z correlations per subject (default FALSE).
+A list of file paths to webcam files (in .xlsx format).
 </td>
 </tr>
 </tbody></table>
 </section>
-<section id="details" class="level3">
-<h3 class="anchored" data-anchor-id="details">Details</h3>
-<p>Correlations of exactly +/-1 are clamped to +/-0.9999999 before Fisher z-transformation so they are included in the average rather than silently dropped.</p>
-</section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>If ‘return_per_window = FALSE’, a named numeric vector of ISC values (length = n subjects). If ‘TRUE’, a list with: - ‘isc’: named numeric vector of per-subject ISC (as above) - ‘per_window’: data.frame with columns ‘window_start’, ‘window_end’, ‘subject’, ‘z’</p>
+<p>A dataframe containing distinct rows with AOI-related columns and calculated coordinates.</p>
 
 
 </section>

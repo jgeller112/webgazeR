@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>find_location – webgazeR v0.10.3</title>
+<title>gaze_dispersion – webgazeR v0.10.3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/find_location.html">find_location</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/gaze_dispersion.html">gaze_dispersion</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -199,13 +199,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/find_location.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/find_location.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">find_location</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/gaze_dispersion.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/gaze_dispersion.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">gaze_dispersion</span></a>
   </div>
 </li>
@@ -271,12 +271,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">License</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../CITATION.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Citation</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -284,20 +278,20 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/find_location.html">find_location</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/gaze_dispersion.html">gaze_dispersion</a></li></ol></nav></header>
 
 
 
 
-<section id="find-image-location-in-a-given-set-of-locations" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="find-image-location-in-a-given-set-of-locations">Find Image Location in a Given Set of Locations</h2>
+<section id="compute-gaze-dispersion" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="compute-gaze-dispersion">Compute Gaze Dispersion</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Find Image Location in a Given Set of Locations</p>
+<p>Calculates centroid and dispersion from gaze data.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">find_location(locations, image)
+<pre><code class="language-R">gaze_dispersion(data, x, y, grouping_vars)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -305,25 +299,41 @@ ul.task-list li input[type="checkbox"] {
 <table role="presentation">
 <tbody><tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="locations">locations</code>
+<code id="data">data</code>
 </td>
 <td>
-A character vector of image names at each location.
+A data frame or tibble.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="image">image</code>
+<code id="x">x</code>
 </td>
 <td>
-A character string: the image to locate.
+A string: name of the column with X gaze coordinates.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="y">y</code>
+</td>
+<td>
+A string: name of the column with Y gaze coordinates.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="grouping_vars">grouping_vars</code>
+</td>
+<td>
+A character vector of column names to group by (e.g., subject, condition, trial).
 </td>
 </tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A character string representing the location name or NA if not found.</p>
+<p>A tibble with centroid_x, centroid_y, dispersion, and log_dispersion for each group.</p>
 
 
 </section>

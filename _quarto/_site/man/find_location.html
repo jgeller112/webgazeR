@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>gaze_oob – webgazeR v0.10.3</title>
+<title>find_location – webgazeR v0.10.3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/gaze_oob.html">gaze_oob</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/find_location.html">find_location</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -199,7 +199,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/find_location.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/find_location.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">find_location</span></a>
   </div>
 </li>
@@ -211,7 +211,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/gaze_oob.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/gaze_oob.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">gaze_oob</span></a>
   </div>
 </li>
@@ -271,12 +271,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">License</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../CITATION.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Citation</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -284,28 +278,20 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/gaze_oob.html">gaze_oob</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/find_location.html">find_location</a></li></ol></nav></header>
 
 
 
 
-<section id="calculate-out-of-bounds-proportion-by-subject-and-trial" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="calculate-out-of-bounds-proportion-by-subject-and-trial">Calculate Out-of-Bounds Proportion by Subject and Trial</h2>
+<section id="find-image-location-in-a-given-set-of-locations" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="find-image-location-in-a-given-set-of-locations">Find Image Location in a Given Set of Locations</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>This function calculates the number and percentage of gaze points that fall outside the screen dimensions, and optionally removes only the out-of-bounds gaze points.</p>
+<p>Find Image Location in a Given Set of Locations</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">gaze_oob(
-  data,
-  subject_col = "subject",
-  trial_col = "trial",
-  x_col = "x",
-  y_col = "y",
-  screen_size = c(1, 1),
-  remove = FALSE
-)
+<pre><code class="language-R">find_location(locations, image)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -313,85 +299,25 @@ ul.task-list li input[type="checkbox"] {
 <table role="presentation">
 <tbody><tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="data">data</code>
+<code id="locations">locations</code>
 </td>
 <td>
-A data frame containing gaze data.
+A character vector of image names at each location.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="subject_col">subject_col</code>
+<code id="image">image</code>
 </td>
 <td>
-A string specifying the name of the column that contains the subject identifier. Default is "subject".
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="trial_col">trial_col</code>
-</td>
-<td>
-A string specifying the name of the column that contains the trial identifier. Default is "trial".
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="x_col">x_col</code>
-</td>
-<td>
-A string specifying the name of the column that contains the X coordinate. Default is "x".
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="y_col">y_col</code>
-</td>
-<td>
-A string specifying the name of the column that contains the Y coordinate. Default is "y".
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="screen_size">screen_size</code>
-</td>
-<td>
-A numeric vector of length 2 specifying the screen width and height. Default is c(1, 1) assuming normalized coordinates.
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="remove">remove</code>
-</td>
-<td>
-Logical; if TRUE, removes points outside of screen dimensions. Default is FALSE.
+A character string: the image to locate.
 </td>
 </tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A list containing:</p>
-<dl>
-<dt>
-subject_results
-</dt>
-<dd>
-Summary of missingness at the subject level.
-</dd>
-<dt>
-trial_results
-</dt>
-<dd>
-Summary of missingness at the trial level.
-</dd>
-<dt>
-data_clean
-</dt>
-<dd>
-Dataset with optional removal of out-of-bounds points and missingness annotations.
-</dd>
-</dl>
+<p>A character string representing the location name or NA if not found.</p>
 
 
 </section>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>plot_ia_proportions – webgazeR v0.10.3</title>
+<title>interpolate_gaze – webgazeR v0.10.3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/plot_IA_proportions.html">plot_IA_proportions</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/interpolate_gaze.html">interpolate_gaze</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -217,7 +217,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/interpolate_gaze.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/interpolate_gaze.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">interpolate_gaze</span></a>
   </div>
 </li>
@@ -235,7 +235,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/plot_IA_proportions.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/plot_IA_proportions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_IA_proportions</span></a>
   </div>
 </li>
@@ -271,12 +271,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">License</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../CITATION.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Citation</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -284,27 +278,27 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/plot_IA_proportions.html">plot_IA_proportions</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/interpolate_gaze.html">interpolate_gaze</a></li></ol></nav></header>
 
 
 
 
-<section id="plot-proportion-of-looks-over-time-for-interest-areas-ias" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="plot-proportion-of-looks-over-time-for-interest-areas-ias">Plot Proportion of Looks Over Time for Interest Areas (IAs)</h2>
+<section id="interpolate-missing-gaze-data-x-and-y-within-trials-with-optional-max-gap" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="interpolate-missing-gaze-data-x-and-y-within-trials-with-optional-max-gap">Interpolate missing gaze data (X and Y) within trials, with optional max gap</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>This function creates a time-course plot of the proportion of looks to specified Interest Areas (IAs). Optionally, it can facet the plot by an experimental condition. Custom labels for each IA can be specified through the ‘ia_mapping’ argument to define the display order.</p>
+<p>Interpolate missing gaze data (X and Y) within trials, with optional max gap</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">plot_IA_proportions(
-  data,
-  ia_column,
-  time_column,
-  proportion_column,
-  condition_column = NULL,
-  ia_mapping,
-  use_color = TRUE
+<pre><code class="language-R">interpolate_gaze(
+  x,
+  x_col = "Gaze_X",
+  y_col = "Gaze_Y",
+  trial_col = "Trial",
+  subject_col = "Subject",
+  time_col = "Time",
+  max_gap = Inf
 )
 </code></pre>
 </section>
@@ -313,65 +307,65 @@ ul.task-list li input[type="checkbox"] {
 <table role="presentation">
 <tbody><tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="data">data</code>
+<code id="x">x</code>
 </td>
 <td>
-A data frame containing the data to plot.
+A data frame containing gaze data.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="ia_column">ia_column</code>
+<code id="x_col">x_col</code>
 </td>
 <td>
-The name of the column containing Interest Area (IA) identifiers.
+The name of the X gaze column (as string).
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="time_column">time_column</code>
+<code id="y_col">y_col</code>
 </td>
 <td>
-The name of the column representing time (e.g., milliseconds).
+The name of the Y gaze column (as string).
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="proportion_column">proportion_column</code>
+<code id="trial_col">trial_col</code>
 </td>
 <td>
-The name of the column with the proportion of looks for each IA.
+The name of the trial column (default = "Trial").
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="condition_column">condition_column</code>
+<code id="subject_col">subject_col</code>
 </td>
 <td>
-Optional. The name of the column representing experimental conditions. If not provided, the plot will not be faceted by condition.
+The name of the subject column (default = "Subject").
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="ia_mapping">ia_mapping</code>
+<code id="time_col">time_col</code>
 </td>
 <td>
-A named list specifying custom labels for each IA in the desired display order (e.g., ‘list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated")’).
+The name of the time column used for sorting (default = "Time").
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="use_color">use_color</code>
+<code id="max_gap">max_gap</code>
 </td>
 <td>
-Logical. If ‘TRUE’ (default), the plot will use colors to differentiate Interest Areas. If ‘FALSE’, different line types, shapes, and line widths will be used instead.
+Maximum number of consecutive missing samples to interpolate. Gaps larger than this remain NA (default = Inf).
 </td>
 </tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A ggplot2 plot of the proportion of looks over time for each IA, optionally faceted by condition.</p>
+<p>A tibble with interpolated gaze X and Y columns (replacing originals).</p>
 
 
 </section>

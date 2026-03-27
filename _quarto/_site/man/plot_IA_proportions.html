@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>extract_aois – webgazeR v0.10.3</title>
+<title>plot_ia_proportions – webgazeR v0.10.3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/extract_aois.html">extract_aois</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/plot_IA_proportions.html">plot_IA_proportions</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -187,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/extract_aois.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/extract_aois.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_aois</span></a>
   </div>
 </li>
@@ -235,7 +235,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/plot_IA_proportions.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/plot_IA_proportions.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">plot_IA_proportions</span></a>
   </div>
 </li>
@@ -271,12 +271,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">License</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../CITATION.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Citation</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -284,20 +278,28 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/extract_aois.html">extract_aois</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/plot_IA_proportions.html">plot_IA_proportions</a></li></ol></nav></header>
 
 
 
 
-<section id="extract-aoi-related-columns-from-webcam-files-and-calculate-locations" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="extract-aoi-related-columns-from-webcam-files-and-calculate-locations">Extract AOI-related Columns from Webcam Files and Calculate Locations</h2>
+<section id="plot-proportion-of-looks-over-time-for-interest-areas-ias" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="plot-proportion-of-looks-over-time-for-interest-areas-ias">Plot Proportion of Looks Over Time for Interest Areas (IAs)</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>This function reads in multiple Gorilla webcam files, extracts the ‘loc’, ‘x_normalised’, ‘y_normalised’, ‘width_normalised’, and ‘height_normalised’ columns, and calculates the bounding box coordinates for the AOIs. It also rounds all numeric columns to 3 decimal places.</p>
+<p>This function creates a time-course plot of the proportion of looks to specified Interest Areas (IAs). Optionally, it can facet the plot by an experimental condition. Custom labels for each IA can be specified through the ‘ia_mapping’ argument to define the display order.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">extract_aois(file_paths, zone_names = NULL)
+<pre><code class="language-R">plot_IA_proportions(
+  data,
+  ia_column,
+  time_column,
+  proportion_column,
+  condition_column = NULL,
+  ia_mapping,
+  use_color = TRUE
+)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -305,17 +307,65 @@ ul.task-list li input[type="checkbox"] {
 <table role="presentation">
 <tbody><tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="file_paths">file_paths</code>
+<code id="data">data</code>
 </td>
 <td>
-A list of file paths to webcam files (in .xlsx format).
+A data frame containing the data to plot.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="ia_column">ia_column</code>
+</td>
+<td>
+The name of the column containing Interest Area (IA) identifiers.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="time_column">time_column</code>
+</td>
+<td>
+The name of the column representing time (e.g., milliseconds).
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="proportion_column">proportion_column</code>
+</td>
+<td>
+The name of the column with the proportion of looks for each IA.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="condition_column">condition_column</code>
+</td>
+<td>
+Optional. The name of the column representing experimental conditions. If not provided, the plot will not be faceted by condition.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="ia_mapping">ia_mapping</code>
+</td>
+<td>
+A named list specifying custom labels for each IA in the desired display order (e.g., ‘list(IA1 = "Target", IA2 = "Cohort", IA3 = "Rhyme", IA4 = "Unrelated")’).
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="use_color">use_color</code>
+</td>
+<td>
+Logical. If ‘TRUE’ (default), the plot will use colors to differentiate Interest Areas. If ‘FALSE’, different line types, shapes, and line widths will be used instead.
 </td>
 </tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A dataframe containing distinct rows with AOI-related columns and calculated coordinates.</p>
+<p>A ggplot2 plot of the proportion of looks over time for each IA, optionally faceted by condition.</p>
 
 
 </section>

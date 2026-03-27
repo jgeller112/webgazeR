@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>smooth_gaze – webgazeR v0.10.3</title>
+<title>upsample_gaze – webgazeR v0.10.3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/smooth_gaze.html">smooth_gaze</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/upsample_gaze.html">upsample_gaze</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -241,7 +241,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/smooth_gaze.html" class="sidebar-item-text sidebar-link active">
+  <a href="../man/smooth_gaze.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">smooth_gaze</span></a>
   </div>
 </li>
@@ -253,7 +253,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/upsample_gaze.html" class="sidebar-item-text sidebar-link">
+  <a href="../man/upsample_gaze.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">upsample_gaze</span></a>
   </div>
 </li>
@@ -271,12 +271,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">License</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../CITATION.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Citation</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -284,26 +278,25 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/smooth_gaze.html">smooth_gaze</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/analyze_sampling_rate.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/upsample_gaze.html">upsample_gaze</a></li></ol></nav></header>
 
 
 
 
-<section id="apply-a-moving-average-smoothing-function-to-gaze-data-x-and-y.-this-is-generally-recommended-after-up-sampling-the-data." class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="apply-a-moving-average-smoothing-function-to-gaze-data-x-and-y.-this-is-generally-recommended-after-up-sampling-the-data.">Apply a moving average smoothing function to gaze data (X and Y). This is generally recommended after up-sampling the data.</h2>
+<section id="up-sample-gaze-and-pupil-data" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="up-sample-gaze-and-pupil-data">Up-sample gaze and pupil data</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Apply a moving average smoothing function to gaze data (X and Y). This is generally recommended after up-sampling the data.</p>
+<p>Increase the sampling frequency to ‘target_hz’ Hz by inserting additional rows. Missing values in gaze and pupil data will be preserved for later interpolation.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">smooth_gaze(
+<pre><code class="language-R">upsample_gaze(
   x,
-  n = 5,
-  x_col = "Gaze_X",
-  y_col = "Gaze_Y",
-  trial_col = "Trial",
-  subject_col = "Subject"
+  pupil_cols = c("Pupil_Diameter"),
+  gaze_cols = c("x_pred_normalised", "y_pred_normalised"),
+  target_hz = 1000,
+  upsample_pupil = TRUE
 )
 </code></pre>
 </section>
@@ -315,54 +308,46 @@ ul.task-list li input[type="checkbox"] {
 <code id="x">x</code>
 </td>
 <td>
-A data frame containing gaze data.
+A dataframe containing gaze and pupil data with columns: ‘subject’, ‘trial’, and ‘time’.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="n">n</code>
+<code id="pupil_cols">pupil_cols</code>
 </td>
 <td>
-The window size (in samples) for the moving average.
+Character vector of pupil diameter column names.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="x_col">x_col</code>
+<code id="gaze_cols">gaze_cols</code>
 </td>
 <td>
-The name of the X gaze column (as string).
+Character vector of gaze position column names.
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="y_col">y_col</code>
+<code id="target_hz">target_hz</code>
 </td>
 <td>
-The name of the Y gaze column (as string).
+Target sampling frequency (default is 1000 Hz).
 </td>
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="trial_col">trial_col</code>
+<code id="upsample_pupil">upsample_pupil</code>
 </td>
 <td>
-The name of the trial column used for grouping (default = "Trial").
-</td>
-</tr>
-<tr>
-<td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="subject_col">subject_col</code>
-</td>
-<td>
-The name of the subject column used for grouping (default = "Subject").
+Logical; if ‘TRUE’, pupil data will also be upsampled.
 </td>
 </tr>
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>A tibble with smoothed gaze X and Y columns (replacing originals).</p>
+<p>A dataframe with up-sampled time points and an ‘up_sampled’ column.</p>
 
 
 </section>
