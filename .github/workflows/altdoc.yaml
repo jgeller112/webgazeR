@@ -25,17 +25,44 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    container:
+      image: ghcr.io/r-wasm/webr:v0.5.2
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Build the local R package and structure the CRAN repository
+      - name: Install stable pak and rwasm
+        run: |
+          install.packages(
+            "pak",
+            repos = "https://cloud.r-project.org"
+          )
+
+          pak::pak(
+            "r-wasm/rwasm",
+            upgrade = FALSE
+          )
+        shell: Rscript {0}
+
       - name: Build WASM R packages
-        uses: r-wasm/actions/build-rwasm@v2
-        with:
-          packages: "."
-          repo-path: "_site"
-          webr-image: "ghcr.io/r-wasm/webr:v0.5.2"
+        run: |
+          dir.create("_site", showWarnings = FALSE, recursive = TRUE)
+
+          rwasm::add_pkg(
+            ".",
+            repo_dir = "_site",
+            dependencies = FALSE,
+            compress = FALSE
+          )
+
+          rwasm::make_vfs_library(
+            out_dir = ".",
+            repo_dir = "_site",
+            strip = NULL,
+            compress = FALSE
+          )
+        shell: Rscript {0}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -43,6 +70,8 @@ jobs:
           name: rwasmrepo
           path: |
             _site
+            library.data
+            library.js.metadata
           retention-days: 1
 
   altdoc:
@@ -75,7 +104,6 @@ jobs:
         with:
           use-public-rspm: true
 
-      # Avoid pak here because pak is where the res_one_row_df error is coming from
       - name: Install R dependencies without pak
         run: |
           install.packages(
@@ -83,7 +111,10 @@ jobs:
             repos = "https://cloud.r-project.org"
           )
 
-          remotes::install_github("ropensci-org/rotemplate", upgrade = "never")
+          remotes::install_github(
+            "ropensci-org/rotemplate",
+            upgrade = "never"
+          )
 
           remotes::install_deps(
             dependencies = c("Depends", "Imports", "LinkingTo", "Suggests"),
@@ -93,7 +124,6 @@ jobs:
           install.packages(".", repos = NULL, type = "source")
         shell: Rscript {0}
 
-      # Tagged quarto extension versions to work with webR
       - name: Grab tagged versions of Quarto Extensions
         run: |
           cd altdoc
