@@ -14,7 +14,6 @@ name: altdoc
 
 jobs:
   rwasmbuild:
-    # Only restrict concurrency for non-PR jobs
     concurrency:
       group: altdoc-webr-${{ github.event_name != 'pull_request' || github.run_id }}
 
@@ -32,14 +31,12 @@ jobs:
 
       # Build the local R package and structure the CRAN repository
       - name: Build WASM R packages
-        uses: r-wasm/actions/build-rwasm@v1
+        uses: r-wasm/actions/build-rwasm@v2
         with:
           packages: "."
           repo-path: "_site"
           webr-image: "ghcr.io/r-wasm/webr:v0.5.2"
 
-      # Upload the CRAN repository for use in the next step
-      # Make sure to set a retention day to avoid running into a cap
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -51,10 +48,8 @@ jobs:
   altdoc:
     runs-on: ubuntu-latest
 
-    # Add a dependency on the prior job completing
     needs: rwasmbuild
 
-    # Required for the gh-pages deployment action
     environment:
       name: github-pages
 
@@ -62,10 +57,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     permissions:
-      # To download GitHub Packages within action
       repository-projects: read
-
-      # For publishing to pages environment
       pages: write
       id-token: write
 
@@ -83,16 +75,23 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Install R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          pak-version: 'devel'
-          extra-packages: |
-            any::pkgdown
-            ropensci-org/rotemplate
-            local::.
-            *=?ignore-unavailable
-          needs: website
+      # Avoid pak here because pak is where the res_one_row_df error is coming from
+      - name: Install R dependencies without pak
+        run: |
+          install.packages(
+            c("remotes", "pkgload", "pkgdown", "altdoc"),
+            repos = "https://cloud.r-project.org"
+          )
+
+          remotes::install_github("ropensci-org/rotemplate", upgrade = "never")
+
+          remotes::install_deps(
+            dependencies = c("Depends", "Imports", "LinkingTo", "Suggests"),
+            upgrade = "never"
+          )
+
+          install.packages(".", repos = NULL, type = "source")
+        shell: Rscript {0}
 
       # Tagged quarto extension versions to work with webR
       - name: Grab tagged versions of Quarto Extensions
@@ -117,8 +116,6 @@ jobs:
           mkdir -p _site
           cp -r *quarto/*site/* _site/
 
-      # Download the built R WASM CRAN repository from the prior step.
-      # Extract it into the `_site` directory
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
@@ -126,17 +123,11 @@ jobs:
           path: _site
           merge-multiple: true
 
-      # Upload a tar file that will work with GitHub Pages
-      # Make sure to set a retention day to avoid running into a cap
-      # This artifact shouldn't be required after deployment onto pages was a success.
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           retention-days: 1
 
-      # Use an Action deploy to push the artifact onto GitHub Pages
-      # This requires the `Action` tab being structured to allow for deployment
-      # instead of using `docs/` or the `gh-pages` branch of the repository
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
