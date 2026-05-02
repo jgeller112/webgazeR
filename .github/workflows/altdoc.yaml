@@ -1,5 +1,6 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+
 on:
   push:
     branches: [main, master]
@@ -13,28 +14,46 @@ name: altdoc
 
 jobs:
   rwasmbuild:
-    # Only restrict concurrency for non-PR jobs
     concurrency:
       group: altdoc-webr-${{ github.event_name != 'pull_request' || github.run_id }}
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     permissions:
       contents: write
+
     runs-on: ubuntu-latest
+
+    container:
+      image: ghcr.io/r-wasm/webr:v0.5.2
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Build the local R package and structure the CRAN repository
-      - name: Build WASM R packages
-        uses: r-wasm/actions/build-rwasm@v1
-        with:
-          packages: "."
-          repo-path: "_site"
-          webr-image: "ghcr.io/r-wasm/webr:v0.5.2"
+      - name: Install stable pak and rwasm
+        run: |
+          install.packages("pak", repos = "https://cloud.r-project.org")
 
-      # Upload the CRAN repository for use in the next step
-      # Make sure to set a retention day to avoid running into a cap
+          pak::pak(
+            "r-wasm/rwasm",
+            upgrade = FALSE
+          )
+        shell: Rscript {0}
+
+      - name: Build WASM R packages
+        run: |
+          dir.create("_site", showWarnings = FALSE, recursive = TRUE)
+
+          rwasm::add_pkg(
+            ".",
+            repo_dir = "_site",
+            dependencies = FALSE,
+            compress = FALSE
+          )
+        shell: Rscript {0}
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -43,26 +62,28 @@ jobs:
             _site
           retention-days: 1
 
-
   altdoc:
     runs-on: ubuntu-latest
-    # Add a dependency on the prior job completing
+
     needs: rwasmbuild
-    # Required for the gh-pages deployment action
+
     environment:
       name: github-pages
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     permissions:
-      # To download GitHub Packages within action
       repository-projects: read
-      # For publishing to pages environment
       pages: write
       id-token: write
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: quarto-dev/quarto-actions/setup@v2
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
         with:
           version: "1.6.40"
 
@@ -75,33 +96,30 @@ jobs:
       - name: Dependencies
         run: ./run.sh install_all
 
-      # Tagged quarto extension versions to work with webR ---
       - name: Grab tagged versions of Quarto Extensions
         run: |
-         cd altdoc
-         quarto add --no-prompt coatless/quarto-webr@0.4.3
-         quarto add --no-prompt coatless-quarto/panelize@0.0.2
-         cd ../
+          cd altdoc
+          quarto add --no-prompt coatless/quarto-webr@0.4.3
+          quarto add --no-prompt coatless-quarto/panelize@0.0.2
+          cd ../
 
       - name: Build site
         run: |
-          # If parallel = TRUE in render_docs()
-          # future::plan(future::multicore)
           install.packages(".", repos = NULL, type = "source")
           install.packages("pkgload")
           pkgload::load_all()
-          altdoc::render_docs(verbose = TRUE, parallel = FALSE, freeze = FALSE)
+          altdoc::render_docs(
+            verbose = TRUE,
+            parallel = FALSE,
+            freeze = FALSE
+          )
         shell: Rscript {0}
 
       - name: Copy to new directory
         run: |
-         mkdir -p _site
-         cp -r *quarto/*site/* _site/
-  
-      # New material ---
+          mkdir -p _site
+          cp -r *quarto/*site/* _site/
 
-      # Download the built R WASM CRAN repository from the prior step.
-      # Extract it into the `_site` directory
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
@@ -109,17 +127,11 @@ jobs:
           path: _site
           merge-multiple: true
 
-      # Upload a tar file that will work with GitHub Pages
-      # Make sure to set a retention day to avoid running into a cap
-      # This artifact shouldn't be required after deployment onto pages was a success.
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
-        with: 
+        with:
           retention-days: 1
 
-      # Use an Action deploy to push the artifact onto GitHub Pages
-      # This requires the `Action` tab being structured to allow for deployment
-      # instead of using `docs/` or the `gh-pages` branch of the repository
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
