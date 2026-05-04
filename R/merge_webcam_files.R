@@ -23,7 +23,7 @@
 #' ## Eye sample formats in `array_col`
 #' The per-trial sample array can be any of:
 #' - **Unkeyed triplets**: `[[t, x, y], ...]` (or a 3-column matrix/data.frame)
-#' - **Keyed objects**: `[{t=..., x=..., y=...}, ...]` or `[{time=..., x=..., y=...}, ...]`
+#' - **Keyed objects**: \verb{[\{t=..., x=..., y=...\}, ...]} or \verb{[\{time=..., x=..., y=...\}, ...]}
 #'
 #' If `array_key = FALSE`, samples are treated as positional `(t, x, y)` and field
 #' names are ignored. If `array_key = TRUE`, the parser uses keys (preferring
