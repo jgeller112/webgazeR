@@ -45,6 +45,18 @@
 #' @param out_dir Optional. If not `NULL`, writes one CSV per participant (subject) into this folder.
 #' @param overwrite Logical. If `TRUE`, overwrite existing per-participant files in `out_dir`.
 #' @param file_prefix Character. Prefix for per-participant output files written to `out_dir`.
+#' @param webgazer_target_names Optional named character vector for `kind = "jspsych"` JSON
+#'   files that used the webgazer extension's `targets` parameter. jsPsych records these as
+#'   `webgazer_targets`, a nested object keyed by the CSS selector(s) you passed to `targets`
+#'   (e.g. `"#scenes"`), where each selector's value is itself a nested object of `x`, `y`,
+#'   `width`, `height`, `top`, `right`, `bottom`, `left`. This function always unpacks
+#'   `webgazer_targets` and then flattens each selector fully into flat columns, e.g.
+#'   `scene_roi_x`, `scene_roi_y`, `scene_roi_width`, etc. By default each selector column is
+#'   named from the selector via `janitor::clean_names()` (e.g. `"#scenes"` becomes
+#'   `number_scenes`, giving `number_scenes_x`, `number_scenes_y`, ...). Supply a vector where
+#'   names are the raw selectors and values are the desired column names, e.g.
+#'   `c("#scenes" = "scene_roi")`, to control that naming instead. Selectors not present in
+#'   `webgazer_target_names` keep the default cleaned name.
 #'
 #' @return A data frame containing aggregated long-format eye data across all files.
 #'
@@ -69,12 +81,12 @@
 #'   array_key = TRUE
 #' )
 #'
-#' # jsPsych CSV (requires subject_id column in the CSV)
+#' # PsychoPy CSV (requires subject_id column in the CSV)
 #' df <- merge_webcam_files(
-#'   file_paths = "jspsych_export.csv",
-#'   kind = "jspsych",
+#'   file_paths = "psychopy_export.csv",
+#'   kind = "psychopy",
 #'   col_map = list(subject = "subject_id", trial = "trial_index"),
-#'   array_col = "webgazer_data",
+#'   array_col = "gaze_data",
 #'   array_key = TRUE
 #' )
 #' }
@@ -98,7 +110,8 @@ merge_webcam_files <- function(
     trial_filter = NULL,
     out_dir = NULL,
     overwrite = FALSE,
-    file_prefix = "eye_long") {
+    file_prefix = "eye_long",
+    webgazer_target_names = NULL) {
   kind <- match.arg(kind)
 
   # ---- make col_map robust (allow named vector or list) ----
@@ -132,7 +145,7 @@ merge_webcam_files <- function(
   }
 
   # ---------- file readers (KIND-AWARE) ----------
-  read_any <- function(path, kind, col_map) {
+  read_any <- function(path, kind, col_map, webgazer_target_names = NULL) {
     ext <- tolower(tools::file_ext(path))
 
     if (ext == "csv") {
@@ -144,9 +157,18 @@ merge_webcam_files <- function(
     } else if (ext == "json") {
       x <- jsonlite::fromJSON(path, simplifyVector = TRUE)
 
-      # --- jsPsych "subject-*.json" format: list(data=..., metadata=...) ---
-      if (identical(kind, "jspsych") && is.list(x) && "data" %in% names(x)) {
-        df <- tibble::as_tibble(x$data)
+      # --- jsPsych JSON export: either a bare array of trials, or
+      # list(data = <array of trials>, metadata = ...) ---
+      if (identical(kind, "jspsych")) {
+        trials <- if (is.data.frame(x)) {
+          x
+        } else if (is.list(x) && "data" %in% names(x)) {
+          x$data
+        } else {
+          stop("Unsupported JSON structure for kind='jspsych': ", path)
+        }
+
+        df <- tibble::as_tibble(trials)
 
         # Add subject id from filename if not present
         subj_col_clean <- janitor::make_clean_names(col_map$subject)
@@ -154,6 +176,25 @@ merge_webcam_files <- function(
           # subject-6085bd39a5358.json -> 6085bd39a5358
           subj_from_name <- sub("^subject-", "", tools::file_path_sans_ext(basename(path)))
           df[[subj_col_clean]] <- subj_from_name
+        }
+
+        if ("webgazer_targets" %in% names(df)) {
+          df <- df %>% tidyr::unpack(webgazer_targets)
+
+          if (!is.null(webgazer_target_names)) {
+            rename_map <- webgazer_target_names[names(webgazer_target_names) %in% names(df)]
+            if (length(rename_map) > 0) {
+              df <- df %>% dplyr::rename(!!!stats::setNames(names(rename_map), rename_map))
+            }
+          }
+
+          # Flatten each target's nested x/y/width/... into flat columns
+          # (e.g. scene_roi -> scene_roi_x, scene_roi_y, ...), so the result
+          # has no remaining nested data-frame columns.
+          target_cols <- names(df)[purrr::map_lgl(df, is.data.frame)]
+          if (length(target_cols) > 0) {
+            df <- df %>% tidyr::unpack(dplyr::all_of(target_cols), names_sep = "_")
+          }
         }
 
         return(df)
@@ -258,7 +299,8 @@ merge_webcam_files <- function(
     file_paths,
     read_any,
     kind = kind,
-    col_map = col_map
+    col_map = col_map,
+    webgazer_target_names = webgazer_target_names
   ) |> purrr::list_rbind() %>%
     janitor::clean_names()
 
@@ -347,6 +389,20 @@ merge_webcam_files <- function(
         subject, trial, time, x, y,
         dplyr::any_of(setdiff(trial_cols, c(col_map$subject, col_map$trial)))
       )
+  }
+
+  # Collapse any remaining list-columns (e.g. jsPsych validation-trial fields
+  # like raw_gaze, percent_in_roi, average_offset, validation_points, or
+  # preload's failed_images/failed_audio/failed_video) into pipe-delimited
+  # text, so the result is always a single flat, CSV-writable data frame with
+  # nothing dropped.
+  list_cols <- names(out)[purrr::map_lgl(out, is.list)]
+  if (length(list_cols) > 0) {
+    out <- out %>%
+      dplyr::mutate(dplyr::across(
+        dplyr::all_of(list_cols),
+        ~ purrr::map_chr(.x, ~ paste(unlist(.x), collapse = "|"))
+      ))
   }
 
   # ============================================================
