@@ -15,7 +15,8 @@ merge_webcam_files(
   trial_filter = NULL,
   out_dir = NULL,
   overwrite = FALSE,
-  file_prefix = "eye_long"
+  file_prefix = "eye_long",
+  webgazer_target_names = NULL
 )
 }
 \arguments{
@@ -44,6 +45,19 @@ when present.}
 \item{overwrite}{Logical. If `TRUE`, overwrite existing per-participant files in `out_dir`.}
 
 \item{file_prefix}{Character. Prefix for per-participant output files written to `out_dir`.}
+
+\item{webgazer_target_names}{Optional named character vector for `kind = "jspsych"` JSON
+files that used the webgazer extension's `targets` parameter. jsPsych records these as
+`webgazer_targets`, a nested object keyed by the CSS selector(s) you passed to `targets`
+(e.g. `"#scenes"`), where each selector's value is itself a nested object of `x`, `y`,
+`width`, `height`, `top`, `right`, `bottom`, `left`. This function always unpacks
+`webgazer_targets` and then flattens each selector fully into flat columns, e.g.
+`scene_roi_x`, `scene_roi_y`, `scene_roi_width`, etc. By default each selector column is
+named from the selector via `janitor::clean_names()` (e.g. `"#scenes"` becomes
+`number_scenes`, giving `number_scenes_x`, `number_scenes_y`, ...). Supply a vector where
+names are the raw selectors and values are the desired column names, e.g.
+`c("#scenes" = "scene_roi")`, to control that naming instead. Selectors not present in
+`webgazer_target_names` keep the default cleaned name.}
 }
 \value{
 A data frame containing aggregated long-format eye data across all files.
@@ -100,12 +114,12 @@ df <- merge_webcam_files(
   array_key = TRUE
 )
 
-# jsPsych CSV (requires subject_id column in the CSV)
+# PsychoPy CSV (requires subject_id column in the CSV)
 df <- merge_webcam_files(
-  file_paths = "jspsych_export.csv",
-  kind = "jspsych",
+  file_paths = "psychopy_export.csv",
+  kind = "psychopy",
   col_map = list(subject = "subject_id", trial = "trial_index"),
-  array_col = "webgazer_data",
+  array_col = "gaze_data",
   array_key = TRUE
 )
 }
