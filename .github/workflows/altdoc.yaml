@@ -12,44 +12,47 @@
   name: altdoc
 
   jobs:
-    # WASM build temporarily disabled — upstream regression in pkgdepends 0.9.1
-    # breaks `r-wasm/actions/build-rwasm` with `nrow(out) must equal 1`.
-    # Tracking: https://github.com/r-wasm/rwasm/issues/56
-    # Re-enable this job (and `needs: rwasmbuild` + the Download build artifact
-    # step below) once the upstream fix is on CRAN.
-    # rwasmbuild:
-    #   # Only restrict concurrency for non-PR jobs
-    #   concurrency:
-    #     group: altdoc-webr-${{ github.event_name != 'pull_request' || github.run_id }}
-    #   env:
-    #     GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    #   permissions:
-    #     contents: write
-    #   runs-on: ubuntu-latest
-    #   steps:
-    #     - name: Checkout repository
-    #       uses: actions/checkout@v4
-    #
-    #     # Build the local R package and structure the CRAN repository
-    #     - name: Build WASM R packages
-    #       uses: r-wasm/actions/build-rwasm@v1
-    #       with:
-    #         packages: "."
-    #         repo-path: "_site"
-    #         webr-image: "ghcr.io/r-wasm/webr:v0.5.2"
-    #
-    #     # Upload the CRAN repository for use in the next step
-    #     # Make sure to set a retention day to avoid running into a cap
-    #     - name: Upload build artifact
-    #       uses: actions/upload-artifact@v4
-    #       with:
-    #         name: rwasmrepo
-    #         path: |
-    #           _site
-    #         retention-days: 1
+    # WASM build re-enabled — the upstream regression (pkgdepends 0.9.1 breaking
+    # `r-wasm/actions/build-rwasm` with `nrow(out) must equal 1`, tracked at
+    # https://github.com/r-wasm/rwasm/issues/56 / https://github.com/r-lib/pkgdepends/issues/462)
+    # was worked around by pinning `pkgdepends@v0.9.0-patched` in the webR Docker image.
+    # That fix landed on the r-wasm/webr `main` branch after the v0.6.0 tag was cut, so
+    # there is no stable versioned image with the fix yet — use the `:main` webr-image
+    # tag until a new webR release ships, then switch to that tagged version.
+    rwasmbuild:
+      # Only restrict concurrency for non-PR jobs
+      concurrency:
+        group: altdoc-webr-${{ github.event_name != 'pull_request' || github.run_id }}
+      env:
+        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      permissions:
+        contents: write
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        # Build the local R package and structure the CRAN repository
+        - name: Build WASM R packages
+          uses: r-wasm/actions/build-rwasm@v3
+          with:
+            packages: "."
+            repo-path: "_site"
+            webr-image: "ghcr.io/r-wasm/webr:main"
+
+        # Upload the CRAN repository for use in the next step
+        # Make sure to set a retention day to avoid running into a cap
+        - name: Upload build artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: rwasmrepo
+            path: |
+              _site
+            retention-days: 1
 
 
     altdoc:
+      needs: rwasmbuild
       runs-on: ubuntu-latest
       # Required for the gh-pages deployment action
       environment:
@@ -103,14 +106,12 @@
 
         # New material ---
 
-        # WASM artifact download disabled along with rwasmbuild job above.
-        # Tracking: https://github.com/r-wasm/rwasm/issues/56
-        # - name: Download build artifact
-        #   uses: actions/download-artifact@v4
-        #   with:
-        #     name: rwasmrepo
-        #     path: _site
-        #     merge-multiple: true
+        - name: Download build artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: rwasmrepo
+            path: _site
+            merge-multiple: true
 
         # Upload a tar file that will work with GitHub Pages
         # Make sure to set a retention day to avoid running into a cap
