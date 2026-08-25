@@ -6,7 +6,7 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/jgeller112/webgazeR)](https://github.com/jgeller112/webgazeR)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-brightgreen.svg)](https://github.com/jgeller112/webgazeR)
 
-An R package for reading, preprocessing, and analyzing **webcam-based eye-tracking data**. A companion to [gazeR](https://github.com/dmirman/gazer), webgazeR provides a complete pipeline from raw files to analysis-ready data for experiments run on Gorilla, jsPsych, or PsychoPy.
+An R package for reading, preprocessing, and analyzing **webcam-based eye-tracking data**. A companion to [gazeR](https://github.com/dmirman/gazer), webgazeR provides a complete pipeline from raw files to analysis-ready data for experiments run on Gorilla, jsPsych, PsychoPy, or Labvanced.
 
 ## Installation
 
@@ -25,14 +25,18 @@ remotes::install_github("jgeller112/webgazeR")
 | Platform | Input format | Notes |
 |----------|-------------|-------|
 | **Gorilla** | `.xlsx` / `.csv` | Filters `type == "prediction"` rows; supports screen index selection |
-| **jsPsych** | `.json` / `.csv` / `.tsv` | Handles JSON trials exports and tabular formats with nested gaze arrays |
-| **PsychoPy** | `.csv` / `.tsv` | Tabular trial-level data with nested eye sample arrays |
+| **jsPsych** | `.json` / `.csv` / `.tsv` | Handles JSON trials exports and tabular formats with nested gaze arrays; flattens `webgazer_targets` into columns regardless of shape |
+| **PsychoPy** | `.csv` / `.tsv` | Tabular trial-level data with nested eye sample arrays; converts time from seconds to milliseconds |
+| **Labvanced** | `.csv` | Combines a timeseries export with its optional trials/sessions exports; supports multi-participant folders |
 
 ## Documentation
 
 - [Package website](https://jgeller112.github.io/webgazeR/)
 - [Introduction vignette](https://jgeller112.github.io/webgazeR/vignettes/webgazeR_vignette.html) -- Full walkthrough with interactive code
 - [ISC guide](https://jgeller112.github.io/webgazeR/vignettes/ISC.html) -- Intersubject correlation methods
+- [Using webgazeR with Labvanced](https://jgeller112.github.io/webgazeR/vignettes/Labvanced.html)
+- [Using webgazeR with jsPsych](https://jgeller112.github.io/webgazeR/vignettes/jsPsych.html)
+- [Using webgazeR with PsychoPy](https://jgeller112.github.io/webgazeR/vignettes/PsychoPy.html)
 
 ## Citation
 

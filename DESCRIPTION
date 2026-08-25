@@ -31,5 +31,4 @@ URL: https://jgeller112.github.io/webgazeR/, https://github.com/jgeller112/webga
 Suggests:
     altdoc,
     knitr,
-    rprojroot,
     tinytable

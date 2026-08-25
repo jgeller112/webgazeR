@@ -128,9 +128,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="st">"scipen"</span> <span class="ot">=</span> <span class="dv">100</span>, <span class="st">"digits"</span> <span class="ot">=</span> <span class="dv">10</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(webgazeR)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>pkg_root <span class="ot">&lt;-</span> rprojroot<span class="sc">::</span><span class="fu">find_root</span>(rprojroot<span class="sc">::</span><span class="fu">has_file</span>(<span class="st">"DESCRIPTION"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="what-jspsych-exports" class="level2">
@@ -148,27 +146,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="merging">Merging</h2>
 <p>This vignette uses two separate real experiments, each merged completely on its own – never combined into one <code>merge_webcam_files()</code> call, since they’re different studies with different designs, subjects, and even different <code>webgazer_targets</code> shapes (more on that below). We start with the first one:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>jspsych_files <span class="ot">&lt;-</span> <span class="fu">file.path</span>(pkg_root, <span class="st">"data-raw"</span>, <span class="st">"jspsych"</span>, <span class="st">"subject-6085a5370e7aa.json"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>jspsych_files</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "/Users/jasongeller/webgazeR/data-raw/jspsych/subject-6085a5370e7aa.json"</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>jspsych_files <span class="ot">&lt;-</span> <span class="st">"data-raw/jspsych/subject-6085a5370e7aa.json"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This experiment’s trials log target/AOI zones per trial via <code>webgazer_targets</code>, one per draggable item (<code>webgazer_target_names</code> gives them readable names instead of the raw CSS selectors – see below):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>edat_js <span class="ot">&lt;-</span> <span class="fu">merge_webcam_files</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file_paths =</span> jspsych_files,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">kind =</span> <span class="st">"jspsych"</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_map =</span> <span class="fu">list</span>(<span class="at">subject =</span> <span class="st">"subject"</span>, <span class="at">trial =</span> <span class="st">"trial_index"</span>),</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">array_col =</span> <span class="st">"webgazer_data"</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">array_key =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">webgazer_target_names =</span> <span class="fu">c</span>(</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#jspsych-free-sort-draggable-0"</span> <span class="ot">=</span> <span class="st">"target_0"</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#jspsych-free-sort-draggable-1"</span> <span class="ot">=</span> <span class="st">"target_1"</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#jspsych-free-sort-draggable-2"</span> <span class="ot">=</span> <span class="st">"target_2"</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#jspsych-free-sort-draggable-3"</span> <span class="ot">=</span> <span class="st">"target_3"</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>edat_js <span class="ot">&lt;-</span> <span class="fu">merge_webcam_files</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file_paths =</span> jspsych_files,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">kind =</span> <span class="st">"jspsych"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_map =</span> <span class="fu">list</span>(<span class="at">subject =</span> <span class="st">"subject"</span>, <span class="at">trial =</span> <span class="st">"trial_index"</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">array_col =</span> <span class="st">"webgazer_data"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">array_key =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">webgazer_target_names =</span> <span class="fu">c</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#jspsych-free-sort-draggable-0"</span> <span class="ot">=</span> <span class="st">"target_0"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#jspsych-free-sort-draggable-1"</span> <span class="ot">=</span> <span class="st">"target_1"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#jspsych-free-sort-draggable-2"</span> <span class="ot">=</span> <span class="st">"target_2"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#jspsych-free-sort-draggable-3"</span> <span class="ot">=</span> <span class="st">"target_3"</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>webgazeR</code> ships this example already merged as <code>jspsych_eyedata</code>, so the rest of this vignette uses that directly rather than needing the raw JSON on disk:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>edat_js <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span>jspsych_eyedata</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The result is the same standardized <code>subject</code>/<code>trial</code>/<code>time</code>/<code>x</code>/<code>y</code> long format as Gorilla or Labvanced, plus whatever other trial-level fields your experiment recorded – including <code>webgazer_targets</code>, always flattened into columns rather than left nested (more on that below):</p>
 <div class="cell">
@@ -318,9 +316,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">array_col =</span> <span class="st">"webgazer_data"</span>,</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">array_key =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">trial_filter =</span> <span class="cf">function</span>(df) dplyr<span class="sc">::</span><span class="fu">filter</span>(df, trial_type <span class="sc">==</span> <span class="st">"eye-track-image-sort"</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">nrow</span>(edat_js), <span class="fu">nrow</span>(edat_js_explicit))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Confirmed equivalent to the automatic blank-filtering above: every row in <code>edat_js</code> already has <code>trial_type == "eye-track-image-sort"</code>, so an explicit <code>trial_filter</code> for it wouldn’t change anything.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(edat_js<span class="sc">$</span>trial_type <span class="sc">==</span> <span class="st">"eye-track-image-sort"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
@@ -340,12 +340,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>webgazer_targets</code> shows up in two different shapes depending on the experiment: the webgazer extension’s own <code>targets</code> parameter records a single object keyed by CSS selector (e.g.&nbsp;<code>{"#scenes": {x, y, width, height, ...}}</code>), while a plugin like <a href="https://www.jspsych.org/latest/plugins/free-sort/"><code>jspsych-free-sort</code></a> instead logs one row per target with a <code>selector</code> column identifying it. <code>merge_webcam_files</code> recognizes and flattens <em>either</em> shape into <code>&lt;selector&gt;_&lt;field&gt;</code> columns – never left as a nested object – so it works the same way regardless of which one your experiment used.</p>
 <p>By default each selector’s columns are named from its raw CSS selector via <code>janitor::clean_names()</code>, which is why we passed <code>webgazer_target_names</code> above to get <code>target_0</code>, <code>target_1</code>, … instead of <code>number_jspsych_free_sort_draggable_0</code>, etc. Every target gets its own boundary columns, genuinely different from the others (here, the four drop zones sit in the four corners of the screen):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>edat_js <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(<span class="fu">across</span>(<span class="fu">matches</span>(<span class="st">"^target_[0-3]_(top|bottom|left|right)$"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"column"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate</span>(column, <span class="at">into =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">"target"</span>, <span class="st">"side"</span>), <span class="at">sep =</span> <span class="st">"_"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> side, <span class="at">values_from =</span> value) <span class="sc">%&gt;%</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>edat_js <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(<span class="fu">across</span>(<span class="fu">matches</span>(<span class="st">"^target_[0-3]_(top|bottom|left|right)$"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"column"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate</span>(column, <span class="at">into =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">"target"</span>, <span class="st">"side"</span>), <span class="at">sep =</span> <span class="st">"_"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> side, <span class="at">values_from =</span> value) <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -406,12 +406,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Plenty of jsPsych plugins record more than flat scalars per trial – e.g.&nbsp;one row per mouse event. Flattening that naively (<code>unlist()</code> + join) would interleave every record’s fields with no way to tell which value belongs to which field or record. For anything that isn’t <code>webgazer_targets</code>, <code>merge_webcam_files</code> instead serializes any such structured column (a data frame or named/nested list) as JSON text per trial, keeping field names and row grouping intact; a plain, unnamed vector (e.g.&nbsp;a flat list of validation-point numbers) still collapses to simpler pipe-delimited text.</p>
 <p>This experiment’s free-sort trials log <code>mouse_events</code>, one record per mouse enter/click/release/exit, which comes through as valid, parseable JSON:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>edat_js <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">nzchar</span>(mouse_events)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(mouse_events) <span class="sc">%&gt;%</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>edat_js <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">nzchar</span>(mouse_events)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(mouse_events) <span class="sc">%&gt;%</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -453,18 +453,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="a-different-experiment-a-different-webgazer_targets-shape">A different experiment, a different <code>webgazer_targets</code> shape</h2>
 <p>Not every jsPsych + webgazer experiment logs target zones the same way. This second file, from a separate experiment in James et al.&nbsp;(2025), uses the webgazer extension’s own <code>targets</code> parameter directly – a single object keyed by CSS selector – rather than the free-sort plugin’s per-row format above. It’s merged completely separately from the first file, not combined with it:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>jspsych_file_2 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(pkg_root, <span class="st">"data-raw"</span>, <span class="st">"jspsych"</span>, <span class="st">"subject-6085bd39a5358.json"</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>edat_js2 <span class="ot">&lt;-</span> <span class="fu">merge_webcam_files</span>(</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">file_paths =</span> jspsych_file_2,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">kind =</span> <span class="st">"jspsych"</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_map =</span> <span class="fu">list</span>(<span class="at">subject =</span> <span class="st">"subject_id"</span>, <span class="at">trial =</span> <span class="st">"trial_index"</span>),</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">array_col =</span> <span class="st">"webgazer_data"</span>,</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">array_key =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">webgazer_target_names =</span> <span class="fu">c</span>(<span class="st">"#scenes"</span> <span class="ot">=</span> <span class="st">"scene_roi"</span>)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>jspsych_file_2 <span class="ot">&lt;-</span> <span class="st">"data-raw/jspsych/subject-6085bd39a5358.json"</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>edat_js2 <span class="ot">&lt;-</span> <span class="fu">merge_webcam_files</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">file_paths =</span> jspsych_file_2,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">kind =</span> <span class="st">"jspsych"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_map =</span> <span class="fu">list</span>(<span class="at">subject =</span> <span class="st">"subject_id"</span>, <span class="at">trial =</span> <span class="st">"trial_index"</span>),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">array_col =</span> <span class="st">"webgazer_data"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">array_key =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">webgazer_target_names =</span> <span class="fu">c</span>(<span class="st">"#scenes"</span> <span class="ot">=</span> <span class="st">"scene_roi"</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The single <code>#scenes</code> target flattens into <code>scene_roi_x</code>/<code>scene_roi_y</code>/<code>scene_roi_width</code>/<code>scene_roi_height</code> (plus <code>_top</code>/<code>_right</code>/<code>_bottom</code>/<code>_left</code>) – the exact example from <code>?merge_webcam_files</code>’s <code>webgazer_target_names</code> documentation, now shown against real data:</p>
+<p><code>webgazeR</code> ships this second example already merged too, as <code>jspsych_eyedata2</code>. The single <code>#scenes</code> target flattens into <code>scene_roi_x</code>/<code>scene_roi_y</code>/<code>scene_roi_width</code>/<code>scene_roi_height</code> (plus <code>_top</code>/<code>_right</code>/<code>_bottom</code>/<code>_left</code>) – the exact example from <code>?merge_webcam_files</code>’s <code>webgazer_target_names</code> documentation, now shown against real data:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>edat_js2 <span class="ot">&lt;-</span> webgazeR<span class="sc">::</span>jspsych_eyedata2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">

@@ -24,8 +24,6 @@ options("scipen" = 100, "digits" = 10)
 library(webgazeR)
 library(dplyr)
 library(knitr)
-
-pkg_root <- rprojroot::find_root(rprojroot::has_file("DESCRIPTION"))
 ```
 
 ## What PsychoPy exports
@@ -39,7 +37,8 @@ Unlike Gorilla, jsPsych, or Labvanced, PsychoPy has no fixed export schema -- a 
 ## Merging
 
 ```{r}
-psychopy_file <- file.path(pkg_root, "data-raw", "psychopy", "STU172607h07554f66.csv")
+#| eval: false
+psychopy_file <- "data-raw/psychopy/STU172607h07554f66.csv"
 
 edat_pp <- merge_webcam_files(
   file_paths = psychopy_file,
@@ -48,6 +47,12 @@ edat_pp <- merge_webcam_files(
   array_col = "TaskGazeArray",
   array_key = FALSE
 )
+```
+
+`webgazeR` ships this example already merged as `psychopy_eyedata`, so the rest of this vignette uses that directly rather than needing the raw CSV on disk:
+
+```{r}
+edat_pp <- webgazeR::psychopy_eyedata
 ```
 
 The result is the same standardized `subject`/`trial`/`time`/`x`/`y` long format as the other platforms, plus whatever other trial-level fields the experiment recorded:

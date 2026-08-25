@@ -66,3 +66,92 @@
 #' @source Aggregated from the example webcam eye-tracking data shipped with
 #'   this package.
 "vwp_counts"
+
+#' Example Labvanced webcam eye-tracking data
+#'
+#' The output of \code{merge_webcam_files(kind = "labvanced")} run on two
+#' participants' Labvanced timeseries, trials, and sessions exports. Used in
+#' the \code{Labvanced} vignette to demonstrate the merging pipeline without
+#' requiring the raw export files (which aren't available in the browser-based
+#' interactive code chunks the package website runs).
+#'
+#' @format A data frame with 75,958 rows and 27 columns, in the standardized
+#'   long format \code{merge_webcam_files()} returns
+#'   (\code{subject}/\code{trial}/\code{time}/\code{x}/\code{y}), plus
+#'   \code{confidence}, trial-level metadata from the trials export (e.g.
+#'   \code{task_name}, \code{condition_id}), and screen/window size from the
+#'   sessions export.
+#' @source Labvanced (\url{https://www.labvanced.com/}).
+"labvanced_eyedata"
+
+#' Example Labvanced webcam eye-tracking data, scoped to one task
+#'
+#' The same data as \code{\link{labvanced_eyedata}}, but merged with
+#' \code{merge_webcam_files(kind = "labvanced", task = "sentence")} instead of
+#' the default call -- so \code{trial} is a plain numeral (e.g. \code{"1"},
+#' \code{"2"}, ...) rather than the safe-but-verbose default composite id.
+#' Used in the \code{Labvanced} vignette wherever a numeral trial id is
+#' convenient (e.g. filtering/sorting, or the gaze-trace plot).
+#'
+#' @format A data frame with 55,114 rows and 27 columns, in the same
+#'   standardized long format as \code{\link{labvanced_eyedata}}.
+#' @source Labvanced (\url{https://www.labvanced.com/}).
+"labvanced_eyedata_sentence"
+
+#' Example jsPsych webcam eye-tracking data (free-sort experiment)
+#'
+#' The output of \code{merge_webcam_files(kind = "jspsych")} run on a jsPsych
+#' + webgazer extension export from an eye-tracking free-sort experiment in
+#' Serrano-Carot, Angele, Xu, & Vasilev (2025). Used in the \code{jsPsych}
+#' vignette to demonstrate the merging pipeline, including flattening a
+#' free-sort-plugin-style \code{webgazer_targets} field, without requiring the
+#' raw JSON export (which isn't available in the browser-based interactive
+#' code chunks the package website runs).
+#'
+#' @format A data frame with 9,279 rows and 47 columns, in the standardized
+#'   long format \code{merge_webcam_files()} returns
+#'   (\code{subject}/\code{trial}/\code{time}/\code{x}/\code{y}), plus
+#'   trial-level fields (e.g. \code{trial_type}, \code{rt}) and the flattened
+#'   \code{target_0}-\code{target_3} boundary columns.
+#' @source James, Ryskin, Hartshorne, et al. (2025). \emph{What Paradigms Can
+#'   Webcam Eye-Tracking Be Used For? Attempted Replications of Five Cognitive
+#'   Science Experiments}. Collabra: Psychology, 11(1), 140755.
+#'   \url{https://doi.org/10.1525/collabra.140755}
+"jspsych_eyedata"
+
+#' Example jsPsych webcam eye-tracking data (webgazer extension `targets`)
+#'
+#' The output of \code{merge_webcam_files(kind = "jspsych")} run on a second,
+#' separate jsPsych + webgazer extension export from Serrano-Carot, Angele,
+#' Xu, & Vasilev (2025), which records \code{webgazer_targets} in the
+#' extension's own keyed-by-selector shape (\code{"#scenes"}) rather than the
+#' free-sort plugin shape in \code{\link{jspsych_eyedata}}. Kept as a separate
+#' dataset -- not merged with \code{jspsych_eyedata} -- since it's a distinct
+#' experiment with its own subject and design.
+#'
+#' @format A data frame with 3,686 rows and 36 columns, in the standardized
+#'   long format \code{merge_webcam_files()} returns
+#'   (\code{subject}/\code{trial}/\code{time}/\code{x}/\code{y}), plus
+#'   trial-level fields and the flattened \code{scene_roi_*} boundary columns.
+#' @source James, Ryskin, Hartshorne, et al. (2025). \emph{What Paradigms Can
+#'   Webcam Eye-Tracking Be Used For? Attempted Replications of Five Cognitive
+#'   Science Experiments}. Collabra: Psychology, 11(1), 140755.
+#'   \url{https://doi.org/10.1525/collabra.140755}
+"jspsych_eyedata2"
+
+#' Example PsychoPy webcam eye-tracking data
+#'
+#' The output of \code{merge_webcam_files(kind = "psychopy")} run on a
+#' PsychoPy export with per-trial gaze arrays. Used in the \code{PsychoPy}
+#' vignette to demonstrate the merging pipeline, including the
+#' seconds-to-milliseconds \code{time} conversion, without requiring the raw
+#' CSV export (which isn't available in the browser-based interactive code
+#' chunks the package website runs).
+#'
+#' @format A data frame with 13,006 rows and 19 columns, in the standardized
+#'   long format \code{merge_webcam_files()} returns
+#'   (\code{subject}/\code{trial}/\code{time}/\code{x}/\code{y}), plus
+#'   trial-level fields (e.g. \code{task_correct}, \code{hoo_id},
+#'   \code{win_width}, \code{win_height}).
+#' @source PsychoPy (\url{https://www.psychopy.org/}).
+"psychopy_eyedata"

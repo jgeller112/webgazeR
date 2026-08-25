@@ -27,12 +27,6 @@ library(webgazeR)
 library(dplyr)
 library(ggplot2)
 library(knitr)
-
-# find the package root explicitly by its DESCRIPTION file rather than with
-# here::here(), which can anchor on the wrong directory when this vignette is
-# rendered from a nested Quarto project (e.g. altdoc's staging tree, which has
-# its own _quarto.yml but no DESCRIPTION of its own)
-pkg_root <- rprojroot::find_root(rprojroot::has_file("DESCRIPTION"))
 ```
 
 ## What Labvanced exports
@@ -63,17 +57,21 @@ This is the natural layout if you download each participant's data separately fr
 Point `merge_webcam_files` at every file across every participant's folder -- `list.files(..., recursive = TRUE)` is the easiest way to do that -- and set `kind = "labvanced"`. You don't need to separate out timeseries files from trials/sessions files yourself, or worry about the order.
 
 ```{r}
+#| eval: false
 labvanced_files <- list.files(
-  file.path(pkg_root, "data-raw", "labvanced"),
+  "data-raw/labvanced",
   pattern = "\\.csv$",
   recursive = TRUE,
   full.names = TRUE
 )
-labvanced_files
+
+edat_lab <- merge_webcam_files(file_paths = labvanced_files, kind = "labvanced")
 ```
 
+`webgazeR` ships this example already merged as `labvanced_eyedata` (from two real participants' Labvanced exports), so the rest of this vignette uses that directly rather than needing the raw files on disk:
+
 ```{r}
-edat_lab <- merge_webcam_files(file_paths = labvanced_files, kind = "labvanced")
+edat_lab <- webgazeR::labvanced_eyedata
 ```
 
 The result is a single long-format tibble with the same `subject`, `trial`, `time`, `x`, `y` columns you'd get from Gorilla or jsPsych, plus `confidence`, whatever trial-level metadata was in the trials export (condition, block, accuracy, etc.), and screen/window size where a sessions export was available:
@@ -121,11 +119,16 @@ Rather than bet on exactly which level of that hierarchy resets the trial counte
 If your analysis only cares about one task -- often the case, since a task like `wait` may not even carry gaze data, and a downstream `sentence_DC` task may be a separate analysis entirely -- pass `task` to sidestep the composite id and get a plain numeral trial instead:
 
 ```{r}
+#| eval: false
 edat_sentence <- merge_webcam_files(
   file_paths = labvanced_files,
   kind = "labvanced",
   task = "sentence"
 )
+```
+
+```{r}
+edat_sentence <- webgazeR::labvanced_eyedata_sentence
 
 edat_sentence %>%
   distinct(trial) %>%

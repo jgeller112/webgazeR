@@ -26,8 +26,6 @@ options("scipen" = 100, "digits" = 10)
 library(webgazeR)
 library(dplyr)
 library(knitr)
-
-pkg_root <- rprojroot::find_root(rprojroot::has_file("DESCRIPTION"))
 ```
 
 ## What jsPsych exports
@@ -46,13 +44,14 @@ Only trials that actually have webgazer samples matter for the eye-tracking merg
 This vignette uses two separate real experiments, each merged completely on its own -- never combined into one `merge_webcam_files()` call, since they're different studies with different designs, subjects, and even different `webgazer_targets` shapes (more on that below). We start with the first one:
 
 ```{r}
-jspsych_files <- file.path(pkg_root, "data-raw", "jspsych", "subject-6085a5370e7aa.json")
-jspsych_files
+#| eval: false
+jspsych_files <- "data-raw/jspsych/subject-6085a5370e7aa.json"
 ```
 
 This experiment's trials log target/AOI zones per trial via `webgazer_targets`, one per draggable item (`webgazer_target_names` gives them readable names instead of the raw CSS selectors -- see below):
 
 ```{r}
+#| eval: false
 edat_js <- merge_webcam_files(
   file_paths = jspsych_files,
   kind = "jspsych",
@@ -66,6 +65,12 @@ edat_js <- merge_webcam_files(
     "#jspsych-free-sort-draggable-3" = "target_3"
   )
 )
+```
+
+`webgazeR` ships this example already merged as `jspsych_eyedata`, so the rest of this vignette uses that directly rather than needing the raw JSON on disk:
+
+```{r}
+edat_js <- webgazeR::jspsych_eyedata
 ```
 
 The result is the same standardized `subject`/`trial`/`time`/`x`/`y` long format as Gorilla or Labvanced, plus whatever other trial-level fields your experiment recorded -- including `webgazer_targets`, always flattened into columns rather than left nested (more on that below):
@@ -93,6 +98,7 @@ Only 78 of this file's 196 logged events made it into the merge -- exactly the `
 `merge_webcam_files` filters out any trial whose `array_col` (`webgazer_data` here) is missing, `NULL`, or an empty array before parsing, so you don't need to pre-filter calibration/validation trials yourself. If you'd rather be explicit about which trials to include -- e.g. to also exclude a specific `trial_type` you don't trust -- pass a function via `trial_filter`, which runs on the raw trial-level data before parsing:
 
 ```{r}
+#| eval: false
 edat_js_explicit <- merge_webcam_files(
   file_paths = jspsych_files,
   kind = "jspsych",
@@ -101,8 +107,12 @@ edat_js_explicit <- merge_webcam_files(
   array_key = TRUE,
   trial_filter = function(df) dplyr::filter(df, trial_type == "eye-track-image-sort")
 )
+```
 
-identical(nrow(edat_js), nrow(edat_js_explicit))
+Confirmed equivalent to the automatic blank-filtering above: every row in `edat_js` already has `trial_type == "eye-track-image-sort"`, so an explicit `trial_filter` for it wouldn't change anything.
+
+```{r}
+all(edat_js$trial_type == "eye-track-image-sort")
 ```
 :::
 
@@ -147,7 +157,8 @@ edat_js %>%
 Not every jsPsych + webgazer experiment logs target zones the same way. This second file, from a separate experiment in James et al. (2025), uses the webgazer extension's own `targets` parameter directly -- a single object keyed by CSS selector -- rather than the free-sort plugin's per-row format above. It's merged completely separately from the first file, not combined with it:
 
 ```{r}
-jspsych_file_2 <- file.path(pkg_root, "data-raw", "jspsych", "subject-6085bd39a5358.json")
+#| eval: false
+jspsych_file_2 <- "data-raw/jspsych/subject-6085bd39a5358.json"
 
 edat_js2 <- merge_webcam_files(
   file_paths = jspsych_file_2,
@@ -159,7 +170,11 @@ edat_js2 <- merge_webcam_files(
 )
 ```
 
-The single `#scenes` target flattens into `scene_roi_x`/`scene_roi_y`/`scene_roi_width`/`scene_roi_height` (plus `_top`/`_right`/`_bottom`/`_left`) -- the exact example from `?merge_webcam_files`'s `webgazer_target_names` documentation, now shown against real data:
+`webgazeR` ships this second example already merged too, as `jspsych_eyedata2`. The single `#scenes` target flattens into `scene_roi_x`/`scene_roi_y`/`scene_roi_width`/`scene_roi_height` (plus `_top`/`_right`/`_bottom`/`_left`) -- the exact example from `?merge_webcam_files`'s `webgazer_target_names` documentation, now shown against real data:
+
+```{r}
+edat_js2 <- webgazeR::jspsych_eyedata2
+```
 
 ```{r}
 #| echo: false
