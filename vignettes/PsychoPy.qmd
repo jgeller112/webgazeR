@@ -1,0 +1,84 @@
+---
+title: "Using webgazeR with PsychoPy"
+author: "Jason Geller"
+format:
+  html:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Using webgazeR with PsychoPy}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  warning: false
+  message: false
+---
+
+[PsychoPy](https://www.psychopy.org/) is another platform `webgazeR` can read webcam eye-tracking data from via `merge_webcam_files(kind = "psychopy")`. This vignette walks through what a PsychoPy export looks like, how to merge it, and a real timing issue worth knowing about.
+
+## Packages
+
+```{r}
+#| label: load
+options(stringsAsFactors = FALSE)
+options("scipen" = 100, "digits" = 10)
+library(webgazeR)
+library(dplyr)
+library(knitr)
+
+pkg_root <- rprojroot::find_root(rprojroot::has_file("DESCRIPTION"))
+```
+
+## What PsychoPy exports
+
+Unlike Gorilla, jsPsych, or Labvanced, PsychoPy has no fixed export schema -- a PsychoPy experiment's CSV is just whatever columns the experiment's own code logged, one row per trial. That means there's no standard column name for subject or trial id to infer automatically; you tell `merge_webcam_files` which columns to use via `col_map`. What does matter for merging:
+
+-   Some participant id column (here, `pid`)
+-   Some trial id column -- PsychoPy doesn't require one to be named `trial_index` like jsPsych does, so use whatever your experiment logged as long as it's unique per row (here, `Problem_id`, a label like `"4_NSNC_L"`)
+-   `array_col`: the column holding per-trial gaze samples, as **unkeyed triplets** `[[t, x, y], ...]` rather than jsPsych's keyed `{x, y, t}` objects -- so `array_key = FALSE`
+
+## Merging
+
+```{r}
+psychopy_file <- file.path(pkg_root, "data-raw", "psychopy", "STU172607h07554f66.csv")
+
+edat_pp <- merge_webcam_files(
+  file_paths = psychopy_file,
+  kind = "psychopy",
+  col_map = list(subject = "pid", trial = "Problem_id"),
+  array_col = "TaskGazeArray",
+  array_key = FALSE
+)
+```
+
+The result is the same standardized `subject`/`trial`/`time`/`x`/`y` long format as the other platforms, plus whatever other trial-level fields the experiment recorded:
+
+```{r}
+#| echo: false
+edat_pp %>%
+  select(subject, trial, time, x, y, task_correct, hoo_id, hoo_pos, color, space) %>%
+  head() %>%
+  kable()
+```
+
+```{r}
+dim(edat_pp)
+n_distinct(edat_pp$trial)
+```
+
+## What's happening under the hood
+
+::: callout-note
+### `time` is converted from seconds to milliseconds
+
+This is the one thing worth knowing about PsychoPy specifically. PsychoPy's clocks report elapsed time in **seconds** -- confirmed directly in this file's raw `TaskGazeArray`, where a trial's timestamps run from `0.0008` to `5.04`. Every other `kind` in this package (Gorilla, jsPsych, Labvanced) reports `time` in **milliseconds**, and so does the rest of the pipeline (e.g. binning functions that expect ms). Left unconverted, that mismatch doesn't error -- it just silently inflates any time-based statistic downstream by ~1000x.
+
+`merge_webcam_files` now always multiplies PsychoPy's `time` by 1000, so it's consistent with every other platform:
+
+```{r}
+range(edat_pp$time)
+```
+:::
+
+## Next steps
+
+From here, everything in the main [`webgazeR` vignette](webgazeR_vignette.qmd) applies the same way it would to Gorilla, Labvanced, or jsPsych data -- AOI assignment (`assign_aoi()`), downsampling/upsampling (`downsample_gaze()`, `upsample_gaze()`), smoothing and interpolation (`smooth_gaze()`, `interpolate_gaze()`), and plotting (`plot_IA_proportions()`) are all platform-agnostic once your data is in this standardized `subject`/`trial`/`time`/`x`/`y` form. As with Labvanced and jsPsych, `x`/`y` here are raw pixel coordinates, not Gorilla's normalized 0-1 coordinates -- this experiment's `win_width`/`win_height` columns are what you'd use to normalize them or define AOI boundaries in the same units.

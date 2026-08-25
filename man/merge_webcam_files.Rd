@@ -7,7 +7,7 @@
 merge_webcam_files(
   file_paths,
   screen_index = NULL,
-  kind = c("gorilla", "jspsych", "psychopy"),
+  kind = c("gorilla", "jspsych", "psychopy", "labvanced"),
   col_map = list(subject = "participant_id", trial = "spreadsheet_row", time =
     "time_elapsed", x = "x", y = "y"),
   array_col = NULL,
@@ -16,7 +16,8 @@ merge_webcam_files(
   out_dir = NULL,
   overwrite = FALSE,
   file_prefix = "eye_long",
-  webgazer_target_names = NULL
+  webgazer_target_names = NULL,
+  task = NULL
 )
 }
 \arguments{
@@ -25,7 +26,7 @@ merge_webcam_files(
 \item{screen_index}{Optional. If provided, filters Gorilla data by one or more screen indices
 (requires a `screen_index` column in the data).}
 
-\item{kind}{Data collection platform. One of `"gorilla"`, `"jspsych"`, `"psychopy"`.}
+\item{kind}{Data collection platform. One of `"gorilla"`, `"jspsych"`, `"psychopy"`, `"labvanced"`.}
 
 \item{col_map}{Named list mapping your file's column names to standardized names:
 `subject`, `trial`, `time`, `x`, `y`. For jsPsych/PsychoPy you usually only need
@@ -47,20 +48,38 @@ when present.}
 \item{file_prefix}{Character. Prefix for per-participant output files written to `out_dir`.}
 
 \item{webgazer_target_names}{Optional named character vector for `kind = "jspsych"` JSON
-files that used the webgazer extension's `targets` parameter. jsPsych records these as
-`webgazer_targets`, a nested object keyed by the CSS selector(s) you passed to `targets`
-(e.g. `"#scenes"`), where each selector's value is itself a nested object of `x`, `y`,
-`width`, `height`, `top`, `right`, `bottom`, `left`. This function always unpacks
-`webgazer_targets` and then flattens each selector fully into flat columns, e.g.
-`scene_roi_x`, `scene_roi_y`, `scene_roi_width`, etc. By default each selector column is
-named from the selector via `janitor::clean_names()` (e.g. `"#scenes"` becomes
-`number_scenes`, giving `number_scenes_x`, `number_scenes_y`, ...). Supply a vector where
-names are the raw selectors and values are the desired column names, e.g.
-`c("#scenes" = "scene_roi")`, to control that naming instead. Selectors not present in
-`webgazer_target_names` keep the default cleaned name.}
+files that recorded per-trial target/AOI zones in a `webgazer_targets` field -- either
+the webgazer extension's own `targets` parameter (a nested object keyed by CSS selector,
+e.g. `"#scenes"`, each value itself `x`/`y`/`width`/`height`/`top`/`right`/`bottom`/`left`),
+or a plugin that logs one row per target with an identifying column instead (e.g.
+`jspsych-free-sort`'s draggable zones, keyed by `selector`; `id`, `name`, `target`, `roi`,
+`label`, and `aoi` are also recognized). This function always flattens `webgazer_targets`,
+whichever shape it's in, into flat `<selector>_<field>` columns, e.g. `scene_roi_x`,
+`scene_roi_y`, `scene_roi_width`, etc. -- never left as a nested object, and works the same
+way even if different trials use different shapes, selector sets, or omit `webgazer_targets`
+entirely. By default each selector's columns are named from the raw selector string via
+`janitor::clean_names()` (e.g. `"#scenes"` becomes `number_scenes`, giving `number_scenes_x`,
+`number_scenes_y`, ...). Supply a vector where names are the raw selectors and values are
+the desired column names, e.g. `c("#scenes" = "scene_roi")`, to control that naming instead.
+Selectors not present in `webgazer_target_names` keep the default cleaned name.}
+
+\item{task}{For `kind = "labvanced"` only: optionally restrict to a single Labvanced
+`Task_Name` (e.g. `"sentence"`). Within one task, `Trial_Nr` alone is a stable,
+familiar numeral trial id, so supplying `task` makes `trial` just that numeral
+(e.g. `"1"`, `"2"`, ...) instead of the safe-but-verbose default composite id.
+Errors if the task spans more than one block (where `Trial_Nr` alone wouldn't be
+unique) or if `task` doesn't match any `Task_Name` in the data.}
 }
 \value{
 A data frame containing aggregated long-format eye data across all files.
+`webgazer_targets` is always flattened into flat columns (see
+`webgazer_target_names`), never left nested. Any \emph{other} remaining
+nested column (e.g. jsPsych fields like `mouse_events`, `final_locations`,
+`raw_gaze`, `validation_points`) is collapsed into a single string per row
+so the result is always flat and CSV-writable: a flat, unnamed vector
+becomes pipe-delimited text, while a data frame or named/nested list
+(structured, per-record data) is serialized as JSON so its field names and
+row grouping survive instead of being scrambled by a plain `unlist()`.
 }
 \description{
 Read, merge, and standardize webcam eye-tracking data from multiple platforms
@@ -82,7 +101,68 @@ The function supports:
   from the filename pattern `subject-<id>.json`.
 
 - **PsychoPy** (`kind = "psychopy"`): expects tabular trial-level data where `array_col`
-  contains per-trial eye samples (list-column or JSON string).
+  contains per-trial eye samples (list-column or JSON string). `time` is always converted
+  from seconds to milliseconds, since PsychoPy's clocks report elapsed time in seconds.
+
+- **Labvanced** (`kind = "labvanced"`): combines Labvanced's per-experiment
+  **timeseries export** (one row per logged event, long-format, with columns
+  including `Trial_Nr`, `Trial_Id`, `Task_Name`, `Exp_Subject_Id`,
+  `variable_name`, `timestamp`, `value`) with its **trials export** (one row
+  per trial, containing trial-level metadata) and, if present, its
+  **sessions export** (one row per recording session, with screen/window size
+  in pixels). Files are told apart automatically by their columns, so
+  `file_paths` can list them in any order, the trials and sessions files are
+  each optional (with no trials file, only the standardized
+  `subject`/`trial`/`time`/`x`/`y`/`confidence` columns are returned), and any
+  file that's none of the three is ignored with a message rather than
+  silently merged in. You can pass every subject's files together in one call
+  (e.g. everything under a study folder via `list.files(..., recursive = TRUE)`).
+  Only `variable_name == "gaze_data"` rows are kept.
+
+  If a sessions export is supplied, `Screen_Width_In_Pixels`,
+  `Screen_Height_In_Pixels`, `Window_Width_In_Pixels`, and
+  `Window_Height_In_Pixels` (whichever are present -- not the rest of the
+  file, which carries mostly browser/timing metadata unrelated to gaze data)
+  are joined onto every matching row by `Rec_Session_Id`. Since
+  `Rec_Session_Id` is the join key, a sessions file doesn't need to live in
+  the same folder as the participant it describes.
+
+  Labvanced's `Trial_Nr` is at least a \emph{per-task} counter, not a
+  session-global one: a `sentence` task and a later `sentence_DC` task each
+  have their own `Trial_Nr` sequence starting back at 1, so the same
+  `Trial_Nr` (and even the same `Trial_Id`, which turns out to be a per-task
+  randomized item-order id rather than a stable identity) can land on
+  unrelated trials across different tasks or different subjects' sessions --
+  and since a task can be reused across multiple blocks, `Trial_Nr` isn't
+  guaranteed not to also reset per block in some study designs. Rather than
+  bet on exactly which level of Labvanced's session > block > task > trial
+  hierarchy resets the counter, `trial` defaults to
+  `"<Block_Name>_<Task_Name>_<Trial_Nr>"` (using whichever of those three
+  columns are actually present), and trial metadata is joined on
+  `Rec_Session_Id` + `Block_Name` + `Task_Name` + `Trial_Nr` -- so a trial can
+  never be confused with an unrelated one from another block, task, session,
+  or subject.
+
+  Labvanced's timeseries CSV only names columns through `value`, but each
+  `gaze_data` row packs three further, unnamed values onto the end of the
+  line. This function always splits those four trailing values into
+  `x`, `y`, `t` (a high-precision per-sample timestamp), and `c` (a gaze
+  confidence score, kept as `confidence`). Some `gaze_data` events (e.g.
+  right as tracking starts up for a trial) carry no sample at all -- those
+  rows are dropped rather than kept as `NA`, so the returned data only ever
+  contains rows with real `x`/`y`/`time`/`confidence` values.
+
+  `t` itself is an absolute Unix epoch timestamp in ms (confirmed in
+  Labvanced's own docs: it's the raw camera-capture timestamp, not
+  trial-relative on its own), so it's re-expressed as `time`: milliseconds
+  elapsed from 0 at that trial's first \emph{actual} gaze sample, matching
+  how Gorilla/jsPsych report `time`. This deliberately doesn't anchor to the
+  trials export's `trial_start` instead: `Trial_Start` isn't an official
+  Labvanced system variable, so a `trial_start` column is whatever a given
+  study's own condition table happened to define it as, not something
+  guaranteed to exist or mean the same thing across studies. Anchoring to
+  the first gaze sample only ever needs the timeseries export itself, so it
+  works the same way for every Labvanced study.
 
 ## Eye sample formats in `array_col`
 The per-trial sample array can be any of:
@@ -114,13 +194,29 @@ df <- merge_webcam_files(
   array_key = TRUE
 )
 
-# PsychoPy CSV (requires subject_id column in the CSV)
+# PsychoPy CSV (requires subject_id column in the CSV); `time` is always
+# converted from seconds to ms, since PsychoPy's clocks log seconds
 df <- merge_webcam_files(
   file_paths = "psychopy_export.csv",
   kind = "psychopy",
   col_map = list(subject = "subject_id", trial = "trial_index"),
   array_col = "gaze_data",
   array_key = TRUE
+)
+
+# Labvanced: combine a timeseries export with a trials export
+# (order doesn't matter, and the trials file is optional)
+df <- merge_webcam_files(
+  file_paths = c("timeseries.csv", "trials.csv"),
+  kind = "labvanced"
+)
+
+# Labvanced, restricted to one task: `trial` becomes a plain numeral
+# ("1", "2", ...) instead of the default "<block>_<task>_<trial_nr>" id
+df <- merge_webcam_files(
+  file_paths = c("timeseries.csv", "trials.csv"),
+  kind = "labvanced",
+  task = "sentence"
 )
 }
 

@@ -1,0 +1,174 @@
+---
+title: "Using webgazeR with jsPsych"
+author: "Jason Geller"
+format:
+  html:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Using webgazeR with jsPsych}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  warning: false
+  message: false
+---
+
+[jsPsych](https://www.jspsych.org/), combined with the [webgazer extension](https://www.jspsych.org/latest/extensions/webgazer/), is another platform `webgazeR` can read webcam eye-tracking data from via `merge_webcam_files(kind = "jspsych")`. This vignette walks through what a jsPsych + webgazer JSON export looks like, how to merge it, and what to expect from trial-level fields that don't fit neatly into a flat table.
+
+The example data used here comes from two different real experiments in James, Ryskin, Hartshorne, et al. (2025), [*What Paradigms Can Webcam Eye-Tracking Be Used For? Attempted Replications of Five Cognitive Science Experiments*](https://online.ucpress.edu/collabra/article/11/1/140755/), *Collabra: Psychology*, 11(1), 140755 -- a useful reference in its own right for what webcam eye-tracking is (and isn't yet) well-suited for.
+
+## Packages
+
+```{r}
+#| label: load
+options(stringsAsFactors = FALSE)
+options("scipen" = 100, "digits" = 10)
+library(webgazeR)
+library(dplyr)
+library(knitr)
+
+pkg_root <- rprojroot::find_root(rprojroot::has_file("DESCRIPTION"))
+```
+
+## What jsPsych exports
+
+jsPsych's `jsPsych.data.get().json()` (or the webgazer extension's built-in save routine) typically produces one JSON file per participant, often named by subject id, e.g. `subject-6085a5370e7aa.json`. Each file is a JSON array with one object per trial -- every jsPsych plugin/trial adds its own fields, so the exact columns vary by experiment, but a few matter for merging:
+
+-   `subject` (or a `subject-<id>.json` filename, if there's no `subject` column -- `merge_webcam_files` infers it from the filename in that case)
+-   `trial_index`: jsPsych's own running trial counter
+-   `webgazer_data`: the per-trial array of gaze samples the webgazer extension records, usually `{x, y, t}` per sample
+-   whatever else your trials carry (`trial_type`, `phase`, `rt`, `stimulus`, `response`, plugin-specific fields, ...)
+
+Only trials that actually have webgazer samples matter for the eye-tracking merge -- calibration/validation trials (`trial_type` starting with `webgazer-`), instruction screens, and so on typically have an empty or missing `webgazer_data` and are dropped automatically.
+
+## Merging
+
+This vignette uses two separate real experiments, each merged completely on its own -- never combined into one `merge_webcam_files()` call, since they're different studies with different designs, subjects, and even different `webgazer_targets` shapes (more on that below). We start with the first one:
+
+```{r}
+jspsych_files <- file.path(pkg_root, "data-raw", "jspsych", "subject-6085a5370e7aa.json")
+jspsych_files
+```
+
+This experiment's trials log target/AOI zones per trial via `webgazer_targets`, one per draggable item (`webgazer_target_names` gives them readable names instead of the raw CSS selectors -- see below):
+
+```{r}
+edat_js <- merge_webcam_files(
+  file_paths = jspsych_files,
+  kind = "jspsych",
+  col_map = list(subject = "subject", trial = "trial_index"),
+  array_col = "webgazer_data",
+  array_key = TRUE,
+  webgazer_target_names = c(
+    "#jspsych-free-sort-draggable-0" = "target_0",
+    "#jspsych-free-sort-draggable-1" = "target_1",
+    "#jspsych-free-sort-draggable-2" = "target_2",
+    "#jspsych-free-sort-draggable-3" = "target_3"
+  )
+)
+```
+
+The result is the same standardized `subject`/`trial`/`time`/`x`/`y` long format as Gorilla or Labvanced, plus whatever other trial-level fields your experiment recorded -- including `webgazer_targets`, always flattened into columns rather than left nested (more on that below):
+
+```{r}
+#| echo: false
+edat_js %>%
+  select(subject, trial, time, x, y, trial_type, rt, target_0_top, target_0_bottom, target_0_left, target_0_right) %>%
+  head() %>%
+  kable()
+```
+
+```{r}
+dim(edat_js)
+n_distinct(edat_js$trial)
+```
+
+Only 78 of this file's 196 logged events made it into the merge -- exactly the `eye-track-image-sort` trials that actually carried gaze samples; calibration, validation, and instruction trials were dropped automatically.
+
+## What's happening under the hood
+
+::: callout-note
+### Only trials with real samples are kept
+
+`merge_webcam_files` filters out any trial whose `array_col` (`webgazer_data` here) is missing, `NULL`, or an empty array before parsing, so you don't need to pre-filter calibration/validation trials yourself. If you'd rather be explicit about which trials to include -- e.g. to also exclude a specific `trial_type` you don't trust -- pass a function via `trial_filter`, which runs on the raw trial-level data before parsing:
+
+```{r}
+edat_js_explicit <- merge_webcam_files(
+  file_paths = jspsych_files,
+  kind = "jspsych",
+  col_map = list(subject = "subject", trial = "trial_index"),
+  array_col = "webgazer_data",
+  array_key = TRUE,
+  trial_filter = function(df) dplyr::filter(df, trial_type == "eye-track-image-sort")
+)
+
+identical(nrow(edat_js), nrow(edat_js_explicit))
+```
+:::
+
+::: callout-note
+### `webgazer_targets` is always flattened into columns
+
+`webgazer_targets` shows up in two different shapes depending on the experiment: the webgazer extension's own `targets` parameter records a single object keyed by CSS selector (e.g. `{"#scenes": {x, y, width, height, ...}}`), while a plugin like [`jspsych-free-sort`](https://www.jspsych.org/latest/plugins/free-sort/) instead logs one row per target with a `selector` column identifying it. `merge_webcam_files` recognizes and flattens *either* shape into `<selector>_<field>` columns -- never left as a nested object -- so it works the same way regardless of which one your experiment used.
+
+By default each selector's columns are named from its raw CSS selector via `janitor::clean_names()`, which is why we passed `webgazer_target_names` above to get `target_0`, `target_1`, ... instead of `number_jspsych_free_sort_draggable_0`, etc. Every target gets its own boundary columns, genuinely different from the others (here, the four drop zones sit in the four corners of the screen):
+
+```{r}
+edat_js %>%
+  distinct(across(matches("^target_[0-3]_(top|bottom|left|right)$"))) %>%
+  tidyr::pivot_longer(everything(), names_to = "column", values_to = "value") %>%
+  tidyr::separate(column, into = c(NA, "target", "side"), sep = "_") %>%
+  tidyr::pivot_wider(names_from = side, values_from = value) %>%
+  kable()
+```
+
+In this particular experiment these four boxes are fixed screen positions used on every trial (only which image sits in each one changes), so there's a single distinct set of values across all 78 trials -- but if your experiment repositions targets per trial, each trial would show its own values here instead.
+:::
+
+::: callout-note
+### Other structured nested fields are serialized as JSON, not scrambled
+
+Plenty of jsPsych plugins record more than flat scalars per trial -- e.g. one row per mouse event. Flattening that naively (`unlist()` + join) would interleave every record's fields with no way to tell which value belongs to which field or record. For anything that isn't `webgazer_targets`, `merge_webcam_files` instead serializes any such structured column (a data frame or named/nested list) as JSON text per trial, keeping field names and row grouping intact; a plain, unnamed vector (e.g. a flat list of validation-point numbers) still collapses to simpler pipe-delimited text.
+
+This experiment's free-sort trials log `mouse_events`, one record per mouse enter/click/release/exit, which comes through as valid, parseable JSON:
+
+```{r}
+edat_js %>%
+  filter(nzchar(mouse_events)) %>%
+  slice(1) %>%
+  pull(mouse_events) %>%
+  jsonlite::fromJSON() %>%
+  kable()
+```
+:::
+
+## A different experiment, a different `webgazer_targets` shape
+
+Not every jsPsych + webgazer experiment logs target zones the same way. This second file, from a separate experiment in James et al. (2025), uses the webgazer extension's own `targets` parameter directly -- a single object keyed by CSS selector -- rather than the free-sort plugin's per-row format above. It's merged completely separately from the first file, not combined with it:
+
+```{r}
+jspsych_file_2 <- file.path(pkg_root, "data-raw", "jspsych", "subject-6085bd39a5358.json")
+
+edat_js2 <- merge_webcam_files(
+  file_paths = jspsych_file_2,
+  kind = "jspsych",
+  col_map = list(subject = "subject_id", trial = "trial_index"),
+  array_col = "webgazer_data",
+  array_key = TRUE,
+  webgazer_target_names = c("#scenes" = "scene_roi")
+)
+```
+
+The single `#scenes` target flattens into `scene_roi_x`/`scene_roi_y`/`scene_roi_width`/`scene_roi_height` (plus `_top`/`_right`/`_bottom`/`_left`) -- the exact example from `?merge_webcam_files`'s `webgazer_target_names` documentation, now shown against real data:
+
+```{r}
+#| echo: false
+edat_js2 %>%
+  select(subject, trial, time, x, y, trial_type, rt, scene_roi_x, scene_roi_y, scene_roi_width, scene_roi_height) %>%
+  head() %>%
+  kable()
+```
+
+## Next steps
+
+From here, everything in the main [`webgazeR` vignette](webgazeR_vignette.qmd) applies the same way it would to Gorilla or Labvanced data -- AOI assignment (`assign_aoi()`), downsampling/upsampling (`downsample_gaze()`, `upsample_gaze()`), smoothing and interpolation (`smooth_gaze()`, `interpolate_gaze()`), and plotting (`plot_IA_proportions()`) are all platform-agnostic once your data is in this standardized `subject`/`trial`/`time`/`x`/`y` form. As with Labvanced, keep in mind that `x`/`y` are raw pixel coordinates here, not Gorilla's normalized 0-1 coordinates -- the first experiment's `screen_width`/`screen_height` columns (recorded by a browser-check trial and carried through onto every row) are what you'd use to normalize them or define AOI boundaries in the same units, when your experiment records them.

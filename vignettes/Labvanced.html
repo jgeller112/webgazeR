@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jason Geller">
+
+<title>Using webgazeR with Labvanced</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Labvanced_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Labvanced_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Labvanced_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Labvanced_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Labvanced_files/libs/quarto-html/popper.min.js"></script>
+<script src="Labvanced_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Labvanced_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Labvanced_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Labvanced_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Labvanced_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Labvanced_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Labvanced_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#packages" id="toc-packages" class="nav-link active" data-scroll-target="#packages">Packages</a></li>
+  <li><a href="#what-labvanced-exports" id="toc-what-labvanced-exports" class="nav-link" data-scroll-target="#what-labvanced-exports">What Labvanced exports</a></li>
+  <li><a href="#merging" id="toc-merging" class="nav-link" data-scroll-target="#merging">Merging</a></li>
+  <li><a href="#whats-happening-under-the-hood" id="toc-whats-happening-under-the-hood" class="nav-link" data-scroll-target="#whats-happening-under-the-hood">What’s happening under the hood</a></li>
+  <li><a href="#a-quick-look-at-the-raw-gaze-data" id="toc-a-quick-look-at-the-raw-gaze-data" class="nav-link" data-scroll-target="#a-quick-look-at-the-raw-gaze-data">A quick look at the raw gaze data</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Using webgazeR with Labvanced</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jason Geller </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://www.labvanced.com/">Labvanced</a> is another platform (alongside Gorilla, jsPsych, and PsychoPy) that <code>webgazeR</code> can read webcam eye-tracking data from via <code>merge_webcam_files(kind = "labvanced")</code>. This vignette walks through what Labvanced’s exports look like, how to point <code>merge_webcam_files</code> at them, and what it does under the hood so the output can be trusted.</p>
+<p>For a look at webcam-based eye tracking’s validity for a genuinely demanding paradigm, see Serrano-Carot, Angele, Xu, &amp; Vasilev (2025), <a href="https://martin-vasilev.github.io/papers/Webeye_manuscript_preprint.pdf"><em>Webcams can be used to study eye movements during reading</em></a> (<a href="https://doi.org/10.31234/osf.io/bzt2h_v1" class="uri">https://doi.org/10.31234/osf.io/bzt2h_v1</a>).</p>
+<section id="packages" class="level2">
+<h2 class="anchored" data-anchor-id="packages">Packages</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="st">"scipen"</span> <span class="ot">=</span> <span class="dv">100</span>, <span class="st">"digits"</span> <span class="ot">=</span> <span class="dv">10</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(webgazeR)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># find the package root explicitly by its DESCRIPTION file rather than with</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># here::here(), which can anchor on the wrong directory when this vignette is</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># rendered from a nested Quarto project (e.g. altdoc's staging tree, which has</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># its own _quarto.yml but no DESCRIPTION of its own)</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>pkg_root <span class="ot">&lt;-</span> rprojroot<span class="sc">::</span><span class="fu">find_root</span>(rprojroot<span class="sc">::</span><span class="fu">has_file</span>(<span class="st">"DESCRIPTION"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="what-labvanced-exports" class="level2">
+<h2 class="anchored" data-anchor-id="what-labvanced-exports">What Labvanced exports</h2>
+<p>For each participant, Labvanced’s dashboard lets you download up to three relevant files:</p>
+<ul>
+<li>A <strong>timeseries export</strong> (e.g.&nbsp;<code>timeseries.csv</code>): one row per logged event (gaze samples, drift corrections, calibration errors, etc.), in long format. Required.</li>
+<li>A <strong>trials export</strong> (e.g.&nbsp;<code>trials.csv</code>): one row per trial, with trial-level metadata (condition, accuracy, timing, etc.). Optional, but recommended.</li>
+<li>A <strong>sessions export</strong> (e.g.&nbsp;<code>sessions.csv</code>): one row per recording session, with session-level metadata – including each participant’s screen and browser-window size in pixels. Optional; <code>merge_webcam_files</code> only pulls in the screen/window size columns from it (not the browser/timing metadata that makes up the rest of the file).</li>
+</ul>
+<p>We assume each participant’s files live together in their own folder, e.g.:</p>
+<pre><code>data-raw/labvanced/
+├── sub1/
+│   ├── timeseries.csv
+│   ├── trials.csv
+│   └── sessions.csv
+└── sub2/
+    ├── timeseries.csv
+    └── trials.csv</code></pre>
+<p>This is the natural layout if you download each participant’s data separately from Labvanced, and it’s how <code>merge_webcam_files</code> figures out which timeseries file belongs with which trials file. A sessions file is different: it’s matched to participants by its <code>Rec_Session_Id</code> column, not by which folder it’s sitting in, so it doesn’t need to live alongside the participant it describes at all – more on that below. If no sessions file covers a given participant, that participant’s rows simply get <code>NA</code> for screen/window size rather than an error.</p>
+</section>
+<section id="merging" class="level2">
+<h2 class="anchored" data-anchor-id="merging">Merging</h2>
+<p>Point <code>merge_webcam_files</code> at every file across every participant’s folder – <code>list.files(..., recursive = TRUE)</code> is the easiest way to do that – and set <code>kind = "labvanced"</code>. You don’t need to separate out timeseries files from trials/sessions files yourself, or worry about the order.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>labvanced_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(pkg_root, <span class="st">"data-raw"</span>, <span class="st">"labvanced"</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.csv$"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">recursive =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>labvanced_files</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "/Users/jasongeller/webgazeR/data-raw/labvanced/sub1/sessions.csv"  
+[2] "/Users/jasongeller/webgazeR/data-raw/labvanced/sub1/timeseries.csv"
+[3] "/Users/jasongeller/webgazeR/data-raw/labvanced/sub1/trials.csv"    
+[4] "/Users/jasongeller/webgazeR/data-raw/labvanced/sub2/timeseries.csv"
+[5] "/Users/jasongeller/webgazeR/data-raw/labvanced/sub2/trials.csv"    </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>edat_lab <span class="ot">&lt;-</span> <span class="fu">merge_webcam_files</span>(<span class="at">file_paths =</span> labvanced_files, <span class="at">kind =</span> <span class="st">"labvanced"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The result is a single long-format tibble with the same <code>subject</code>, <code>trial</code>, <code>time</code>, <code>x</code>, <code>y</code> columns you’d get from Gorilla or jsPsych, plus <code>confidence</code>, whatever trial-level metadata was in the trials export (condition, block, accuracy, etc.), and screen/window size where a sessions export was available:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 12%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 15%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">subject</th>
+<th style="text-align: left;">trial</th>
+<th style="text-align: right;">time</th>
+<th style="text-align: right;">x</th>
+<th style="text-align: right;">y</th>
+<th style="text-align: right;">confidence</th>
+<th style="text-align: left;">task_name</th>
+<th style="text-align: right;">condition_id</th>
+<th style="text-align: right;">screen_width_in_pixels</th>
+<th style="text-align: right;">screen_height_in_pixels</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">972098</td>
+<td style="text-align: left;">block_1_sentence_1</td>
+<td style="text-align: right;">0.00000000</td>
+<td style="text-align: right;">229.8041105</td>
+<td style="text-align: right;">215.9724019</td>
+<td style="text-align: right;">0.7671327219</td>
+<td style="text-align: left;">sentence</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">972098</td>
+<td style="text-align: left;">block_1_sentence_1</td>
+<td style="text-align: right;">32.00000000</td>
+<td style="text-align: right;">237.2050762</td>
+<td style="text-align: right;">235.0132663</td>
+<td style="text-align: right;">0.7443319452</td>
+<td style="text-align: left;">sentence</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">972098</td>
+<td style="text-align: left;">block_1_sentence_1</td>
+<td style="text-align: right;">64.19995117</td>
+<td style="text-align: right;">224.2113352</td>
+<td style="text-align: right;">216.7597242</td>
+<td style="text-align: right;">0.6928625231</td>
+<td style="text-align: left;">sentence</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">972098</td>
+<td style="text-align: left;">block_1_sentence_1</td>
+<td style="text-align: right;">112.30004883</td>
+<td style="text-align: right;">261.8036628</td>
+<td style="text-align: right;">217.5284788</td>
+<td style="text-align: right;">0.7696027604</td>
+<td style="text-align: left;">sentence</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">972098</td>
+<td style="text-align: left;">block_1_sentence_1</td>
+<td style="text-align: right;">144.00000000</td>
+<td style="text-align: right;">251.7666101</td>
+<td style="text-align: right;">205.0210364</td>
+<td style="text-align: right;">0.8158088375</td>
+<td style="text-align: left;">sentence</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">972098</td>
+<td style="text-align: left;">block_1_sentence_1</td>
+<td style="text-align: right;">176.09985352</td>
+<td style="text-align: right;">267.2854066</td>
+<td style="text-align: right;">229.3384362</td>
+<td style="text-align: right;">0.7541744210</td>
+<td style="text-align: left;">sentence</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(edat_lab)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 75958    31</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">n_distinct</span>(edat_lab<span class="sc">$</span>subject)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+</section>
+<section id="whats-happening-under-the-hood" class="level2">
+<h2 class="anchored" data-anchor-id="whats-happening-under-the-hood">What’s happening under the hood</h2>
+<p>A few things about Labvanced’s export format make it different enough from Gorilla/jsPsych/PsychoPy that they’re worth understanding, even though you don’t have to handle any of them yourself.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Gaze samples are packed into unnamed trailing columns
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Labvanced’s timeseries CSV only names columns through <code>value</code>, but a <code>gaze_data</code> row actually carries <strong>four</strong> values: pixel <code>x</code>, pixel <code>y</code>, a high-precision sample timestamp, and a confidence score – the last three arrive as unnamed columns tacked onto the end of the line. <code>merge_webcam_files</code> always parses these out into <code>x</code>, <code>y</code>, and <code>confidence</code>, and uses the high-precision timestamp (not the coarser logging <code>timestamp</code> column) to build <code>time</code>.</p>
+<p>Some <code>gaze_data</code> events are logged with no sample attached yet (e.g.&nbsp;right as tracking starts up for a trial) – those rows are dropped entirely rather than kept as <code>NA</code>, so every row in the output has real data.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span><code>time</code> starts at 0 at the first real sample
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Labvanced’s raw sample timestamp is an absolute Unix epoch value in milliseconds (confirmed in Labvanced’s own docs: it’s the raw camera-capture timestamp, not trial-relative on its own). <code>merge_webcam_files</code> re-expresses it as elapsed time from 0 at each trial’s first actual gaze sample, matching how Gorilla and jsPsych report <code>time</code>.</p>
+<p>This deliberately doesn’t anchor to the trials export’s <code>trial_start</code> instead. <code>Trial_Start</code> isn’t an official Labvanced system variable – it’s absent from Labvanced’s own system-variables documentation – so a <code>trial_start</code> column is whatever a given study’s own condition table happened to define it as, not something guaranteed to exist or mean the same thing from one Labvanced study to the next. Anchoring to the first gaze sample only ever needs the timeseries export itself, so it works the same way for every Labvanced study, with or without a trials file.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span><code>trial</code> combines the block, task, and trial number
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is the one genuinely tricky part of Labvanced’s format, so it’s worth spelling out. Labvanced experiments are organized into a <strong>session &gt; block &gt; task &gt; trial</strong> hierarchy: a session contains blocks, a block groups tasks together (and a task can be reused across more than one block), and each task has its <strong>own</strong> trial counter that starts back at 1. That means <code>Trial_Nr == 1</code> can refer to several completely unrelated trials if your experiment has multiple tasks (confirmed here: a <code>sentence</code> task and a later <code>sentence_DC</code> task each restart at <code>Trial_Nr = 1</code>) – and <code>Trial_Id</code>, which might look like a more specific identifier, turns out to be a per-task randomized item-order id rather than a stable trial identity, so it doesn’t solve this either.</p>
+<p>Rather than bet on exactly which level of that hierarchy resets the trial counter – which may differ across study designs – <code>merge_webcam_files</code> defaults <code>trial</code> to <code>"&lt;Block_Name&gt;_&lt;Task_Name&gt;_&lt;Trial_Nr&gt;"</code> (e.g.&nbsp;<code>"block_1_sentence_1"</code>), folding in every level that’s actually present in the file, and joins trial metadata on the recording session, block, task, and trial number together. That guarantees a <code>trial</code> value always refers to one specific trial, never an unrelated one from another block, task, recording session, or participant.</p>
+<p>If your analysis only cares about one task – often the case, since a task like <code>wait</code> may not even carry gaze data, and a downstream <code>sentence_DC</code> task may be a separate analysis entirely – pass <code>task</code> to sidestep the composite id and get a plain numeral trial instead:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>edat_sentence <span class="ot">&lt;-</span> <span class="fu">merge_webcam_files</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file_paths =</span> labvanced_files,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">kind =</span> <span class="st">"labvanced"</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"sentence"</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>edat_sentence <span class="sc">%&gt;%</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(trial) <span class="sc">%&gt;%</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">as.numeric</span>(trial)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">trial</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><code>merge_webcam_files</code> checks that <code>Trial_Nr</code> is actually unique within that task before doing this (i.e.&nbsp;that the task doesn’t span more than one block) – if it isn’t, you’ll get an informative error rather than silently duplicated trial ids.</p>
+<p>If your own trials export happens to include a variable that’s already a clean, session-wide running counter (in the data used for this vignette, a <code>trial_number</code> column happens to number <code>sentence</code> trials 1-60 and <code>sentence_DC</code> trials 61-100 continuously), it comes through untouched as ordinary retained metadata – <code>edat_lab$trial_number</code> – so you can sort or group by it yourself if you trust it for your study. It isn’t used to build <code>trial</code> by default, since it’s specific to how a given study’s condition table was set up rather than something guaranteed to exist in every Labvanced export.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Each participant’s files are combined before merging across participants
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you pass in every participant’s files at once, <code>merge_webcam_files</code> groups them by the folder they live in, fully processes one participant’s timeseries + trials together, and only then stacks the participants’ results. Trial metadata can never leak from one participant’s rows to another’s this way, even when multiple participants happen to share <code>Trial_Nr</code>/<code>Trial_Id</code> values (which, per above, they typically will).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Screen size comes from the sessions export, matched by session id
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Unlike the trials export, a sessions export is matched to participants by its <code>Rec_Session_Id</code> column rather than by folder – so it’s fine if it’s a single file covering the whole study, one file per participant sitting anywhere, or (as in the data used for this vignette) placed in a folder that isn’t even the participant’s own:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>edat_lab <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(subject, screen_width_in_pixels, screen_height_in_pixels) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">subject</th>
+<th style="text-align: right;">screen_width_in_pixels</th>
+<th style="text-align: right;">screen_height_in_pixels</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">972098</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">972123</td>
+<td style="text-align: right;">1920</td>
+<td style="text-align: right;">1080</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Only the screen/window size columns are pulled in from a sessions export, not the rest of the file (browser version, timing statistics, crowdsourcing ids, etc.), so it can’t reintroduce unrelated columns or collide with anything already in the output.</p>
+</div>
+</div>
+</section>
+<section id="a-quick-look-at-the-raw-gaze-data" class="level2">
+<h2 class="anchored" data-anchor-id="a-quick-look-at-the-raw-gaze-data">A quick look at the raw gaze data</h2>
+<p>Once merged, Labvanced data plugs into the rest of the <code>webgazeR</code> pipeline the same way Gorilla or jsPsych data would. From here on we’ll use <code>edat_sentence</code> (the single-task version) since its trial ids are the simple numerals we’ll want for filtering/sorting. Since Labvanced coordinates are raw pixel positions rather than normalized 0-1 coordinates like Gorilla’s, a simple trajectory plot is a useful sanity check before doing anything else (e.g.&nbsp;before assigning AOIs, which needs your own screen/zone coordinates):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>one_trial <span class="ot">&lt;-</span> edat_sentence <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(subject <span class="sc">==</span> subject[<span class="dv">1</span>], trial <span class="sc">==</span> <span class="st">"1"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(one_trial, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="sc">-</span>y, <span class="at">color =</span> time)) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>() <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Gaze trace:"</span>, one_trial<span class="sc">$</span>subject[<span class="dv">1</span>], <span class="st">"- trial"</span>, one_trial<span class="sc">$</span>trial[<span class="dv">1</span>]),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"x (px)"</span>, <span class="at">y =</span> <span class="st">"y (px)"</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-gaze-trace" class="quarto-float quarto-figure quarto-figure-center anchored" width="672">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gaze-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Labvanced_files/figure-html/fig-gaze-trace-1.png" id="fig-gaze-trace" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-gaze-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
+<p>From here, everything in the main <a href="webgazeR_vignette.qmd"><code>webgazeR</code> vignette</a> applies the same way it would to Gorilla data – AOI assignment (<code>assign_aoi()</code>), downsampling/upsampling (<code>downsample_gaze()</code>, <code>upsample_gaze()</code>), smoothing and interpolation (<code>smooth_gaze()</code>, <code>interpolate_gaze()</code>), and plotting (<code>plot_IA_proportions()</code>) are all platform-agnostic once your data is in this standardized <code>subject</code>/<code>trial</code>/<code>time</code>/<code>x</code>/<code>y</code> form. The one thing to keep in mind is that Labvanced’s <code>x</code>/<code>y</code> are raw pixel coordinates, not Gorilla’s normalized 0-1 coordinates, so any AOI boundaries you define need to be in the same pixel space – or normalize <code>x</code>/<code>y</code> yourself, e.g.&nbsp;<code>x / screen_width_in_pixels</code>, using the <code>screen_width_in_pixels</code>/<code>screen_height_in_pixels</code> columns from the sessions export (see above) if you supplied one.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
