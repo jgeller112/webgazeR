@@ -31,6 +31,12 @@ website:
         file: $ALTDOC_CITATION
 # Add custom repository registration
 webr:
+  # Must match the R version the WASM binaries are built for (see the
+  # rwasmbuild job in .github/workflows/altdoc.yaml, currently webr:main
+  # which builds against R 4.6.0 -> bin/emscripten/contrib/4.6). Without
+  # this pin the extension defaults to an old webR release whose R version
+  # doesn't match, so package installs 404 against the wrong contrib path.
+  version: "0.6.0"
   packages: ['$ALTDOC_PACKAGE_NAME']
   repos:
     - $ALTDOC_PACKAGE_URL
