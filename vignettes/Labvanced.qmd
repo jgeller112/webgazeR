@@ -15,7 +15,7 @@ execute:
 
 [Labvanced](https://www.labvanced.com/) is another platform (alongside Gorilla, jsPsych, and PsychoPy) that `webgazeR` can read webcam eye-tracking data from via `merge_webcam_files(kind = "labvanced")`. This vignette walks through what Labvanced's exports look like, how to point `merge_webcam_files` at them, and what it does under the hood so the output can be trusted.
 
-For a look at webcam-based eye tracking's validity for a genuinely demanding paradigm, see Serrano-Carot, Angele, Xu, & Vasilev (2025), [*Webcams can be used to study eye movements during reading*](https://martin-vasilev.github.io/papers/Webeye_manuscript_preprint.pdf) (<https://doi.org/10.31234/osf.io/bzt2h_v1>).
+For a look at webcam-based eye tracking's validity for reading single sentences, see Serrano-Carot, Angele, Xu, & Vasilev (2025), [*Webcams can be used to study eye movements during reading*](https://martin-vasilev.github.io/papers/Webeye_manuscript_preprint.pdf) (<https://doi.org/10.31234/osf.io/bzt2h_v1>).
 
 ## Packages
 
