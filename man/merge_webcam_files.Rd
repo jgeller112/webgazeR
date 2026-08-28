@@ -85,6 +85,8 @@ row grouping survive instead of being scrambled by a plain `unlist()`.
 Read, merge, and standardize webcam eye-tracking data from multiple platforms
 into a single **long-format** data frame with columns:
 `subject`, `trial`, `time`, `x`, `y` (+ any retained trial-level metadata).
+Prints a progress bar (via `purrr`) while files or participant folders are
+being read, so it's clear the function is still working on larger merges.
 }
 \details{
 The function supports:

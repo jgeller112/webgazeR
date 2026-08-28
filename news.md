@@ -1,3 +1,7 @@
+### Minor update: `merge_webcam_files()` shows a progress bar while reading files
+
+- Reading files (or, for `kind = "labvanced"`, processing each participant folder) now shows a `purrr`-based progress bar, so it's clear the function is still working rather than hung on a large merge.
+
 ### Bug fix: `merge_webcam_files()` converts PsychoPy's time to milliseconds
 
 - `kind = "psychopy"` now always converts `time` from seconds to milliseconds, since PsychoPy's clocks report elapsed time in seconds while every other `kind` (and the downstream sampling-rate/binning functions) assume milliseconds. Previously no conversion happened, so e.g. `analyze_sampling_rate()` returned values ~1000x too high (confirmed on real data: 34,906 Hz before the fix, 34.9 Hz after -- a physically plausible webcam eye-tracking rate).

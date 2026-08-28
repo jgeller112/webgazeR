@@ -3,6 +3,8 @@
 #' Read, merge, and standardize webcam eye-tracking data from multiple platforms
 #' into a single **long-format** data frame with columns:
 #' `subject`, `trial`, `time`, `x`, `y` (+ any retained trial-level metadata).
+#' Prints a progress bar (via `purrr`) while files or participant folders are
+#' being read, so it's clear the function is still working on larger merges.
 #'
 #' The function supports:
 #'
@@ -761,7 +763,8 @@ merge_webcam_files <- function(
 
     gaze <- purrr::map(
       all_dirs,
-      ~ process_one_participant(ts_by_dir[[.x]], trial_by_dir[[.x]])
+      ~ process_one_participant(ts_by_dir[[.x]], trial_by_dir[[.x]]),
+      .progress = "Processing participants"
     ) |> purrr::list_rbind()
 
     out <- gaze %>%
@@ -784,7 +787,8 @@ merge_webcam_files <- function(
       read_any,
       kind = kind,
       col_map = col_map,
-      webgazer_target_names = webgazer_target_names
+      webgazer_target_names = webgazer_target_names,
+      .progress = "Reading files"
     ) |> purrr::list_rbind() %>%
       janitor::clean_names()
 
