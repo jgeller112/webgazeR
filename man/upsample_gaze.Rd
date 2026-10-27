@@ -9,7 +9,8 @@ upsample_gaze(
   pupil_cols = c("Pupil_Diameter"),
   gaze_cols = c("x_pred_normalised", "y_pred_normalised"),
   target_hz = 1000,
-  upsample_pupil = TRUE
+  upsample_pupil = TRUE,
+  event_cols = c("message")
 )
 }
 \arguments{
@@ -22,11 +23,21 @@ upsample_gaze(
 \item{target_hz}{Target sampling frequency (default is 1000 Hz).}
 
 \item{upsample_pupil}{Logical; if `TRUE`, pupil data will also be upsampled.}
+
+\item{event_cols}{Character vector of event/message columns that should stay
+empty on inserted rows (default `"message"`). Columns not present are ignored.}
 }
 \value{
-A dataframe with up-sampled time points and an `up_sampled` column.
+A dataframe with up-sampled time points and an `up_sampled` column
+  (`TRUE` for inserted rows, `FALSE` for original ones).
 }
 \description{
 Increase the sampling frequency to `target_hz` Hz by inserting additional rows.
 Missing values in gaze and pupil data will be preserved for later interpolation.
+}
+\details{
+Original rows are returned unchanged. Each inserted row takes its other
+columns (e.g. condition, trial variables) from the original sample before
+it, except `pupil_cols`/`gaze_cols` (left `NA` for interpolation) and
+`event_cols` (left `NA`, so each event message still appears once).
 }
